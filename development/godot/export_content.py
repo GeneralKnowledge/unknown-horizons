@@ -12,6 +12,7 @@ from pathlib import Path
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+LEGACY_ROOT = REPO_ROOT / "legacy"
 GODOT_ROOT = REPO_ROOT / "godot"
 OUT_DIR = GODOT_ROOT / "resources" / "exported"
 
@@ -24,7 +25,7 @@ def prod_line_id(key: str | int) -> int:
 
 
 def parse_constants_py() -> dict[str, dict[str, int]]:
-	text = (REPO_ROOT / "horizons" / "constants.py").read_text(encoding="utf-8")
+	text = (LEGACY_ROOT / "horizons" / "constants.py").read_text(encoding="utf-8")
 	classes: dict[str, dict[str, int]] = {}
 	current: str | None = None
 	for line in text.splitlines():
@@ -229,7 +230,7 @@ def export_building(
 def export_dlc_packs(
 	res_map: dict[str, int], units_map: dict[str, int], buildings_map: dict[str, int]
 ) -> None:
-	dlc_root = REPO_ROOT / "content" / "dlc"
+	dlc_root = LEGACY_ROOT / "content" / "dlc"
 	if not dlc_root.is_dir():
 		return
 	dlc_buildings_const: dict[str, int] = {}
@@ -298,7 +299,7 @@ def main() -> int:
 
 	buildings = {}
 	production_line_ids: dict[str, int] = {}
-	buildings_dir = REPO_ROOT / "content" / "objects" / "buildings"
+	buildings_dir = LEGACY_ROOT / "content" / "objects" / "buildings"
 	res_map = classes["RES"]
 	units_map = classes.get("UNITS", {})
 	building_yaml_paths = sorted(buildings_dir.glob("*.yaml")) + sorted(
@@ -331,7 +332,7 @@ def main() -> int:
 	export_dlc_packs(res_map, units_map, classes["BUILDINGS"])
 
 	units: dict = {}
-	units_dir = REPO_ROOT / "content" / "objects" / "units"
+	units_dir = LEGACY_ROOT / "content" / "objects" / "units"
 	for path in sorted(units_dir.rglob("*.yaml")):
 		stem = path.stem
 		units[stem] = export_unit(path, res_map)

@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+LEGACY_ROOT = REPO_ROOT / "legacy"
 
 MATRIX: list[tuple[str, str | None, str]] = [
 	("tests/unittests/test_scheduler.py", "godot/tests/unit/test_scheduler.gd", "scheduler"),
@@ -99,7 +100,7 @@ def main() -> int:
 	total_py = 0
 	total_gut = 0
 	for py_rel, gut_rel, _label in MATRIX:
-		py_path = REPO_ROOT / py_rel
+		py_path = LEGACY_ROOT / py_rel
 		py_n = count_pytest_tests(py_path)
 		if _label == "buildings":
 			gut_n = count_buildings_gut()

@@ -11,8 +11,9 @@ import zlib
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+LEGACY_ROOT = REPO_ROOT / "legacy"
 GODOT_ROOT = REPO_ROOT / "godot"
-CONTENT_GFX = REPO_ROOT / "content" / "gfx" / "buildings"
+CONTENT_GFX = LEGACY_ROOT / "content" / "gfx" / "buildings"
 
 # building stem -> idle/working source PNG (135° view)
 LEGACY_BUILDING_GFX: dict[str, dict[str, str]] = {
@@ -62,10 +63,10 @@ def write_solid_png(path: Path, width: int, height: int, rgba: tuple[int, int, i
 
 def find_sqlite_with_atlas_table() -> Path | None:
 	candidates = [
-		REPO_ROOT / "content" / "atlas.sql",
+		LEGACY_ROOT / "content" / "atlas.sql",
 	]
 	for pattern in ("**/*.sqlite", "**/*.sqlite.bz2"):
-		for path in REPO_ROOT.glob(pattern):
+		for path in LEGACY_ROOT.glob(pattern):
 			if "node_modules" in path.parts:
 				continue
 			candidates.append(path)

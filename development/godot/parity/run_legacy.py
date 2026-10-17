@@ -9,10 +9,11 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
+LEGACY_ROOT = REPO_ROOT / "legacy"
 PARITY_DIR = Path(__file__).resolve().parent
 
-if str(REPO_ROOT) not in sys.path:
-	sys.path.insert(0, str(REPO_ROOT))
+if str(LEGACY_ROOT) not in sys.path:
+	sys.path.insert(0, str(LEGACY_ROOT))
 
 try:
 	import fife  # noqa: F401

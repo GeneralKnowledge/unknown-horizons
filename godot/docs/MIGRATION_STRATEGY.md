@@ -4,7 +4,7 @@ Unknown Horizons keeps the **Python + FIFE** game shippable while the **Godot 4*
 
 ## Dual-run (current phase)
 
-- **Source of truth for balance/content:** `content/` and `horizons/` (unchanged workflow for contributors).
+- **Source of truth for balance/content:** `legacy/content/` and `legacy/horizons/` (unchanged workflow for contributors editing YAML).
 - **Godot consumes content** via `development/godot/export_content.py` (constants, buildings JSON, production line id map).
 - **Correctness:** port pytest scenarios to GUT under `godot/tests/`; aim for behavioral parity on sim logic before replacing UI.
 - **Release:** no Godot binary in official downloads until a agreed milestone (e.g. settlement loop + save/load + core UI).

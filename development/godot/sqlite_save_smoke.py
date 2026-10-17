@@ -8,7 +8,8 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_FIXTURE = REPO_ROOT / "tests/game/fixtures/savegame-rev-76.sqlite"
+LEGACY_ROOT = REPO_ROOT / "legacy"
+DEFAULT_FIXTURE = LEGACY_ROOT / "tests/game/fixtures/savegame-rev-76.sqlite"
 
 
 def smoke(path: Path) -> None:

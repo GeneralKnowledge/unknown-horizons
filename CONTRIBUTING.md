@@ -1,6 +1,8 @@
 Contribute to Unknown Horizons!
 ===============================
 
+**This repository is Godot-first.** New gameplay and simulation work belongs under [`godot/`](godot/) (see [`godot/README.md`](godot/README.md)). The original Python/FIFE game and shared YAML content live under [`legacy/`](legacy/).
+
 We have lots of opportunities besides hacking code:
 Check our page on how to [Get Involved](http://www.unknown-horizons.org/get-involved/)!
 

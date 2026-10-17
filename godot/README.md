@@ -2,7 +2,7 @@
 
 A **Godot 4.3** reimplementation of the Unknown Horizons settlement simulation. The goal is a **browser-playable**, **data-driven** game that keeps the economic settlement loop of the original while allowing future rebranding (art, copy, content packs) without rewriting sim rules.
 
-The **legacy Python + FIFE game** in the repo root is unchanged; this directory is the active port.
+The **legacy Python + FIFE game** lives in [`../legacy/`](../legacy/); this directory is the active port.
 
 ## Design principle
 
@@ -68,7 +68,7 @@ Debug builds only: **+2 TREES** on the selected building.
 |------|------|
 | `scripts/sim/` | Simulation (no `Node2D` — GUT-friendly) |
 | `scripts/view/` | Map, HUD, input (`poc_main.gd`) |
-| `resources/content` | Symlink to repo `content/` |
+| `resources/content` | Symlink to `legacy/content/` |
 | `resources/exported/` | Generated JSON + constants |
 | `tests/` | GUT unit + integration tests |
 | `development/godot/` | Python exporters, parity harness, `sync.sh` |
@@ -96,7 +96,7 @@ Optional theme: copy `resources/exported/active_theme.northern_company.example.j
 
 ## Adding a ported test
 
-1. Find the Python test under `tests/unittests/` or `tests/game/`.
+1. Find the Python test under `legacy/tests/unittests/` or `legacy/tests/game/`.
 2. Add `tests/unit/` or `tests/integration/*.gd` extending `GutTest`.
 3. Use `GameSession` / commands, not FIFE mocks.
 4. Run `./godot/run_tests.sh`.
