@@ -55,6 +55,34 @@ func test_r2x2() -> void:
 	_assert_set_eq(r2x2, [])
 
 
+func test_vertical_row2() -> void:
+	_bc.add_area([Vector2i(1, 1)])
+	_assert_set_eq(_bc._row2, [Vector2i(0, 1), Vector2i(1, 1)])
+	_bc.add_area([Vector2i(2, 2)])
+	_bc.add_area([Vector2i(2, 3)])
+	_bc.remove_area([Vector2i(2, 3)])
+	_bc.remove_area([Vector2i(2, 2)])
+	_bc.remove_area([Vector2i(1, 1)])
+	_assert_set_eq(_bc._row2, [])
+
+
+func _get_coords_set(x: int, y: int, width: int, height: int) -> CoordSet:
+	var res := CoordSet.new()
+	for dx in range(width):
+		for dy in range(height):
+			res.add(Vector2i(x - dx, y - dy))
+	return res
+
+
+func test_convenience_get_coords_list() -> void:
+	_assert_set_eq(_get_coords_set(1, 1, 2, 1), [Vector2i(0, 1), Vector2i(1, 1)])
+	_assert_set_eq(_get_coords_set(1, 1, 1, 2), [Vector2i(1, 0), Vector2i(1, 1)])
+	_assert_set_eq(
+		_get_coords_set(1, 1, 2, 2),
+		[Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, 0), Vector2i(1, 1)]
+	)
+
+
 func test_r6x6() -> void:
 	var r6x6: CoordSet = _bc.cache[Vector2i(6, 6)]
 	_bc.add_area([Vector2i(7, 7)])

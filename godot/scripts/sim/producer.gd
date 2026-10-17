@@ -104,6 +104,16 @@ func toggle_active(production: Production = null) -> void:
 		set_active(production, not is_active(production))
 
 
+func set_all_active(active: bool) -> void:
+	for p in get_productions():
+		set_active(p, active)
+
+
+func finish_production_now() -> void:
+	for p in get_productions():
+		p.finish_production_now()
+
+
 func _get_current_state() -> int:
 	var current_state := ProductionStates.NONE
 	for production in get_productions():

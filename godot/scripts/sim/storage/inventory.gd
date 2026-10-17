@@ -41,3 +41,10 @@ func get_sum_of_stored_resources() -> int:
 
 func amount(res: int) -> int:
 	return int(_storage.get(res, 0))
+
+
+func get_stored_resources() -> Dictionary:
+	var out := {}
+	for res in _storage.keys():
+		out[int(res)] = int(_storage[res])
+	return out

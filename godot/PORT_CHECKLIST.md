@@ -542,23 +542,23 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | — | **0/7** |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** **64** tests passing (`./godot/run_tests.sh`).
+**Current GUT total:** **79** tests passing (`./godot/run_tests.sh`).
 
 ---
 
 ## Recommended next 10 tasks (ordered)
 
-1. Finish **timer GUT** (6 remaining `test_timer.py` cases + freeze protection).  
-2. Finish **`PartialBinaryCache` GUT** (vertical row2 + coords helper).  
-3. **`WorldObject` registry** + **`create_map` in Godot**.  
-4. **`BinaryCache`** + terrain buildability integration.  
-5. **`Build` command** with real buildability (warehouse + lumberjack on map).  
-6. **`new_settlement` / `settle` helpers** matching `tests/game/utils.py`.  
-7. **`test_buildings.py` Tier 1** (lumberjack, hunter, build/tear).  
-8. **Collectors** (sort tests → full pickup loop).  
-9. **Isometric map view** wired to grid clicks.  
-10. **Save/load** one production state (`test_load_inactive_production`).
+1. **Collector pickup loop** + `CollectingComponent` (gameplay, not sort-only).  
+2. **SettlementBuildabilityCache.modify_area** (proper ground map, not `_full_island_build`).  
+3. **`test_buildings.py` Tier 2** (fisher, chains).  
+4. **TerrainBuildabilityCache** full LAND/COAST types from island tiles.  
+5. **Command manager** queue on tick boundaries.  
+6. **Pathfinding** for collector movement.  
+7. **Save/load** full DB parity + `test_load_save.py` remainder.  
+8. **Isometric TileMap** art pipeline from `content/gfx`.  
+9. **GUI shell** (warehouse tab).  
+10. **MP / scenarios** (XL deferred).
 
 ---
 
-*Last updated: storage + buildability caches + GameClock batch (64 GUT tests).*
+*Last updated: world map, buildability, tier-1 building tests (79 GUT tests).*

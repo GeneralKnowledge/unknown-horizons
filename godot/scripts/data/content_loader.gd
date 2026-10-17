@@ -3,6 +3,31 @@ extends RefCounted
 
 const BUILDINGS_JSON := "res://resources/exported/buildings.json"
 
+static var _building_id_to_stem: Dictionary = {}
+static var _stem_loaded: bool = false
+
+
+static func _ensure_stem_index() -> void:
+	if _stem_loaded:
+		return
+	var all: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(BUILDINGS_JSON))
+	for stem in all.keys():
+		var export: Dictionary = all[stem]
+		var id_name: String = str(export.get("id_name", ""))
+		if id_name.begins_with("BUILDINGS."):
+			var const_name: String = id_name.substr(10)
+			if GameConstants.BUILDINGS.has(const_name):
+				_building_id_to_stem[int(GameConstants.BUILDINGS[const_name])] = stem
+	_stem_loaded = true
+
+
+static func stem_for_building_id(building_id: int) -> String:
+	_ensure_stem_index()
+	if _building_id_to_stem.has(building_id):
+		return str(_building_id_to_stem[building_id])
+	push_error("Unknown building id %s" % building_id)
+	return "lumberjackcamp"
+
 
 static func load_building_export(stem: String) -> Dictionary:
 	var text := FileAccess.get_file_as_string(BUILDINGS_JSON)
