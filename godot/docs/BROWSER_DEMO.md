@@ -6,7 +6,7 @@ What the **Web** export of `scenes/poc_main.tscn` is meant to demonstrate, and w
 
 | Feature | Notes |
 |---------|--------|
-| Start menu | New game, **Play showcase demo**, Continue (`user://poc_snapshot.json`), Import save |
+| Start menu | **Start settlement demo**, economy showcase, Continue JSON, Import JSON / legacy SQLite (desktop) |
 | Default map | `development` island from `resources/demo/demo_config.json` |
 | Camera | Middle-drag pan, mouse wheel zoom, fit-to-island on load |
 | Build palette | Tier tabs from exported `build_menu.json`; ghost valid/invalid tint |

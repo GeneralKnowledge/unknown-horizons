@@ -2,6 +2,9 @@
   "alvearies": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 150
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -37,6 +40,9 @@
   "ambient": {
     "baseclass": "nature.Ambient",
     "buildable_upon": true,
+    "buildingcosts": {
+      "1": 50
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -51,6 +57,11 @@
   "bakery": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 2,
+      "7": 3
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -98,6 +109,12 @@
   "barracks": {
     "baseclass": "unitproduction.Barracks",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 1000,
+      "4": 6,
+      "6": 4,
+      "7": 8
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -125,6 +142,10 @@
   "barrier": {
     "baseclass": "war.Barrier",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 10,
+      "4": 1
+    },
     "components": {
       "Health": {
         "maxhealth": 200
@@ -139,6 +160,12 @@
   "blender": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 3,
+      "6": 2,
+      "7": 3
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -186,6 +213,11 @@
   "boatbuilder": {
     "baseclass": "unitproduction.BoatBuilder",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 4,
+      "6": 3
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -216,6 +248,12 @@
   "brewery": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 250,
+      "4": 2,
+      "6": 2,
+      "7": 4
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -263,6 +301,11 @@
   "brickyard": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 6,
+      "6": 1
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -310,6 +353,11 @@
   "butchery": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "6": 3,
+      "7": 4
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -373,6 +421,12 @@
   "cannonfoundry": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 2,
+      "6": 2,
+      "7": 2
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -430,6 +484,10 @@
   "cattlerun": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 100,
+      "4": 1
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -466,6 +524,12 @@
   "charcoalburning": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 250,
+      "4": 2,
+      "6": 1,
+      "7": 3
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -513,6 +577,7 @@
   "claydeposit": {
     "baseclass": "nature.ResourceDeposit",
     "buildable_upon": false,
+    "buildingcosts": {},
     "components": {
       "Health": {
         "maxhealth": 10
@@ -535,6 +600,11 @@
   "claypit": {
     "baseclass": "production.Mine",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 10,
+      "6": 2
+    },
     "components": {
       "Health": {
         "maxhealth": 1000
@@ -577,6 +647,9 @@
   "cocoafield": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 150
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -612,6 +685,9 @@
   "cornfield": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 150
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -647,6 +723,12 @@
   "distillery": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 250,
+      "4": 2,
+      "6": 2,
+      "7": 4
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -694,6 +776,12 @@
   "doctor": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 3,
+      "6": 3,
+      "7": 3
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -740,6 +828,11 @@
   "farm": {
     "baseclass": "production.Farm",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 4,
+      "6": 2
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -978,6 +1071,12 @@
   "fireservice": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 750,
+      "4": 3,
+      "6": 2,
+      "7": 4
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -1017,6 +1116,7 @@
   "fishdeposit": {
     "baseclass": "nature.Fish",
     "buildable_upon": false,
+    "buildingcosts": {},
     "components": {
       "Health": {
         "maxhealth": 10
@@ -1053,6 +1153,11 @@
   "fishermanstent": {
     "baseclass": "production.Fisher",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 250,
+      "4": 3,
+      "6": 1
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -1100,6 +1205,9 @@
   "herbary": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 150
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -1135,6 +1243,9 @@
   "hopfield": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 150
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -1170,6 +1281,11 @@
   "hunterstent": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 250,
+      "4": 2,
+      "6": 1
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -1217,6 +1333,10 @@
   "lookout": {
     "baseclass": "building.DefaultBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 50,
+      "4": 2
+    },
     "components": {
       "Health": {
         "maxhealth": 1000
@@ -1231,6 +1351,10 @@
   "lumberjackcamp": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 250,
+      "6": 2
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -1282,6 +1406,10 @@
   "mainsquare": {
     "baseclass": "storages.MainSquare",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 1000,
+      "4": 5
+    },
     "components": {
       "Health": {
         "maxhealth": 1000
@@ -1302,6 +1430,11 @@
   "mine": {
     "baseclass": "production.Mine",
     "buildable_upon": true,
+    "buildingcosts": {
+      "1": 500,
+      "4": 10,
+      "6": 2
+    },
     "components": {
       "Health": {
         "maxhealth": 1000
@@ -1344,6 +1477,7 @@
   "mountain": {
     "baseclass": "nature.ResourceDeposit",
     "buildable_upon": true,
+    "buildingcosts": {},
     "components": {
       "Health": {
         "maxhealth": 10
@@ -1366,6 +1500,11 @@
   "pastryshop": {
     "baseclass": "production.PastryShop",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 2,
+      "7": 3
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -1459,6 +1598,10 @@
   "pasture": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 100,
+      "4": 1
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -1495,6 +1638,11 @@
   "pavilion": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 5,
+      "6": 2
+    },
     "components": {
       "Health": {
         "maxhealth": 1000
@@ -1530,6 +1678,10 @@
   "pigsty": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 200,
+      "4": 2
+    },
     "components": {
       "Health": {
         "maxhealth": 1000
@@ -1566,6 +1718,9 @@
   "potatofield": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 150
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -1601,6 +1756,11 @@
   "publicbath": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 350,
+      "4": 4,
+      "6": 2
+    },
     "components": {
       "Health": {
         "maxhealth": 1000
@@ -1636,6 +1796,7 @@
   "ruinedtent": {
     "baseclass": "settler.SettlerRuin",
     "buildable_upon": false,
+    "buildingcosts": {},
     "components": {
       "Health": {
         "maxhealth": 1000
@@ -1650,6 +1811,11 @@
   "saline": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 350,
+      "4": 4,
+      "6": 2
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -1702,6 +1868,11 @@
   "saltponds": {
     "baseclass": "production.CoastalProducer",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 350,
+      "4": 4,
+      "6": 2
+    },
     "components": {
       "Health": {
         "maxhealth": 1000
@@ -1737,6 +1908,10 @@
   "signalfire": {
     "baseclass": "building.DefaultBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 50,
+      "4": 5
+    },
     "components": {
       "Health": {
         "maxhealth": 1000
@@ -1751,6 +1926,12 @@
   "smeltery": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 1250,
+      "4": 8,
+      "6": 4,
+      "7": 6
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -1803,6 +1984,9 @@
   "spicefield": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 150
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -1838,6 +2022,7 @@
   "stonedeposit": {
     "baseclass": "nature.ResourceDeposit",
     "buildable_upon": false,
+    "buildingcosts": {},
     "components": {
       "Health": {
         "maxhealth": 10
@@ -1860,6 +2045,11 @@
   "stonemason": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 2,
+      "7": 3
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -1907,6 +2097,11 @@
   "stonepit": {
     "baseclass": "production.Mine",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 10,
+      "6": 2
+    },
     "components": {
       "Health": {
         "maxhealth": 1000
@@ -1949,6 +2144,11 @@
   "storagetent": {
     "baseclass": "storages.StorageTent",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 350,
+      "4": 4,
+      "6": 1
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -1974,6 +2174,9 @@
   "sugarfield": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 150
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -2009,6 +2212,11 @@
   "tavern": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 250,
+      "4": 4,
+      "7": 4
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -2056,6 +2264,10 @@
   "tent": {
     "baseclass": "settler.Settler",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 100,
+      "4": 2
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -2377,6 +2589,9 @@
   "tobaccofield": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 150
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -2412,6 +2627,12 @@
   "tobacconist": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 250,
+      "4": 1,
+      "6": 2,
+      "7": 4
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -2459,6 +2680,12 @@
   "toolmaker": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 2,
+      "6": 2,
+      "7": 2
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -2516,6 +2743,9 @@
   "trail": {
     "baseclass": "path.Road",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 5
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -2530,6 +2760,9 @@
   "tree": {
     "baseclass": "nature.Tree",
     "buildable_upon": true,
+    "buildingcosts": {
+      "1": 50
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -2576,6 +2809,11 @@
   "villageschool": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 4,
+      "7": 4
+    },
     "components": {
       "Health": {
         "maxhealth": 1000
@@ -2611,6 +2849,9 @@
   "vineyard": {
     "baseclass": "nature.Field",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 150
+    },
     "components": {
       "Health": {
         "maxhealth": 10
@@ -2646,6 +2887,10 @@
   "warehouse": {
     "baseclass": "storages.Warehouse",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 1000,
+      "4": 12
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -2683,6 +2928,12 @@
   "weaponsmith": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 2,
+      "6": 2,
+      "7": 2
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -2735,6 +2986,11 @@
   "weaverstent": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 250,
+      "4": 3,
+      "6": 2
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -2782,6 +3038,11 @@
   "windmill": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 400,
+      "4": 4,
+      "7": 5
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -2829,6 +3090,11 @@
   "winery": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 2,
+      "7": 3
+    },
     "components": {
       "Collecting": {
         "collectors": {
@@ -2876,6 +3142,12 @@
   "woodentower": {
     "baseclass": "war.Tower",
     "buildable_upon": false,
+    "buildingcosts": {
+      "1": 500,
+      "4": 12,
+      "40": 2,
+      "6": 3
+    },
     "components": {
       "Health": {
         "maxhealth": 1000

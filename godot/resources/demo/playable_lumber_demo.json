@@ -1,8 +1,28 @@
 {
   "map_id": "development",
-  "settlement": { "x": 34, "y": 34 },
-  "target_boards_in_warehouse": 8,
-  "min_trees": 2,
-  "starting_gold": 500,
-  "starting_tools": 20
+  "settlement": { "x": 30, "y": 30 },
+  "clay_deposit": {
+    "x": 33,
+    "y": 33,
+    "spawn_at_start": true,
+    "seed_raw_clay": 12
+  },
+  "steps": [
+    {
+      "id": "boards",
+      "resource": "BOARDS",
+      "warehouse_amount": 8,
+      "min_trees": 2,
+      "require_lumberjack": true
+    },
+    {
+      "id": "bricks",
+      "resource": "BRICKS",
+      "warehouse_amount": 4,
+      "require_buildings": ["CLAY_PIT", "BRICKYARD"]
+    }
+  ],
+  "starting_gold": 900,
+  "starting_tools": 30,
+  "starting_boards": 12
 }

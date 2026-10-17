@@ -70,11 +70,11 @@ func _execute_step(step: Dictionary) -> void:
 			pass
 		"build":
 			var bid := int(GameConstants.BUILDINGS[str(step["building"])])
-			_last_building = _gts.build(bid, int(step["x"]), int(step["y"]))
+			_last_building = _parity_build(bid, int(step["x"]), int(step["y"]), false)
 			assert(_last_building != null, "build failed: %s" % str(step))
 		"build_ownerless":
 			var bid2 := int(GameConstants.BUILDINGS[str(step["building"])])
-			_last_building = _gts.build_ownerless(bid2, int(step["x"]), int(step["y"]))
+			_last_building = _parity_build(bid2, int(step["x"]), int(step["y"]), true)
 			assert(_last_building != null, "build_ownerless failed: %s" % str(step))
 		"build_farm":
 			var fields: Array = []
@@ -119,6 +119,14 @@ func _execute_step(step: Dictionary) -> void:
 				producer.finish_production_now()
 		_:
 			push_error("Unknown parity op: %s" % op)
+
+
+func _parity_build(building_id: int, x: int, y: int, ownerless: bool) -> Building:
+	var cmd := BuildCommand.new(
+		building_id, x, y, _gts.session.island, _gts.session.settlement if not ownerless else null, ownerless
+	)
+	cmd.skip_cost = true
+	return cmd.execute(_gts.session) as Building
 
 
 func _find_building(building_key: String, x: int, y: int) -> Building:

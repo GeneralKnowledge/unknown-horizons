@@ -84,15 +84,18 @@ func _start_playable_settlement_demo() -> void:
 	_boot_map(_map_id)
 	GameTestHelpers.new_settlement(_session, PlayableDemoConfig.settlement_point())
 	PlayableDemoConfig.apply_starting_resources(_session.settlement)
+	_spawn_demo_clay_deposit()
 	_objective_tracker = DemoObjectiveTracker.new(_session)
 	_objective_tracker.reset_for_new_game()
 	if not _objective_tracker.objective_completed.is_connected(_on_objective_completed):
 		_objective_tracker.objective_completed.connect(_on_objective_completed)
+	if not _objective_tracker.step_advanced.is_connected(_on_objective_step_advanced):
+		_objective_tracker.step_advanced.connect(_on_objective_step_advanced)
 	_wire_gameplay()
 	_enable_playable_demo_ui()
 	_hide_start_menu()
 	_camera_ctrl.fit_island()
-	_hud.show_status("Settlement demo — deliver boards to the warehouse")
+	_hud.show_status("Settlement demo — lumber delivery, then brickyard chain")
 	if _success_panel != null:
 		_success_panel.hide_success()
 
@@ -249,6 +252,33 @@ func _ensure_success_overlay() -> void:
 	_success_panel.return_to_menu.connect(_on_success_menu)
 
 
+func _spawn_demo_clay_deposit() -> void:
+	var cfg := PlayableDemoConfig.clay_deposit_cfg()
+	if not bool(cfg.get("spawn_at_start", false)):
+		return
+	var at := PlayableDemoConfig.clay_deposit_point()
+	var deposit: Building = BuildCommand.new(
+		GameConstants.BUILDINGS["CLAY_DEPOSIT"],
+		at.x,
+		at.y,
+		_session.island,
+		null,
+		true
+	).execute(_session) as Building
+	if deposit == null:
+		push_warning("Demo clay deposit could not be placed at %s" % at)
+		return
+	if cfg.has("seed_raw_clay"):
+		deposit.get_storage().alter(
+			GameConstants.RES["RAW_CLAY"], int(cfg["seed_raw_clay"])
+		)
+
+
+func _on_objective_step_advanced(_step_index: int) -> void:
+	_hud.show_status("Objective updated — brickyard chain unlocked")
+	GameAudioService.play_exported_legacy_key("content/audio/sounds/lumberjack.ogg")
+
+
 func _on_objective_completed() -> void:
 	_ensure_success_overlay()
 	_success_panel.show_success()
@@ -305,6 +335,8 @@ func _apply_demo_from_snapshot(data: Dictionary) -> void:
 	_objective_tracker.apply_snapshot_demo_block(demo)
 	if not _objective_tracker.objective_completed.is_connected(_on_objective_completed):
 		_objective_tracker.objective_completed.connect(_on_objective_completed)
+	if not _objective_tracker.step_advanced.is_connected(_on_objective_step_advanced):
+		_objective_tracker.step_advanced.connect(_on_objective_step_advanced)
 	_enable_playable_demo_ui()
 	if _objective_tracker.completed:
 		_ensure_success_overlay()

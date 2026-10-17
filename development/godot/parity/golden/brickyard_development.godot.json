@@ -6,15 +6,33 @@
 			"storage": {
 
 			},
-			"x": 34,
-			"y": 34
+			"x": 30,
+			"y": 30
+		},
+		{
+			"producer_active": true,
+			"stem": "claydeposit",
+			"storage": {
+				"RAW_CLAY": 10
+			},
+			"x": 33,
+			"y": 33
+		},
+		{
+			"producer_active": true,
+			"stem": "claypit",
+			"storage": {
+
+			},
+			"x": 33,
+			"y": 33
 		},
 		{
 			"producer_active": true,
 			"stem": "brickyard",
 			"storage": {
-				"BRICKS": 1,
-				"CLAY": 2
+				"BRICKS": 2,
+				"CLAY": 4
 			},
 			"x": 33,
 			"y": 25

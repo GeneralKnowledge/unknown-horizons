@@ -1,6 +1,11 @@
 # Playable settlement demo
 
-Vertical slice objective: **deliver building materials (boards) to the settlement warehouse** on the `development` map.
+Two-step vertical slice on the `development` map (warehouse at **30,30** so clay at **33,33** does not overlap the 3×3 footprint):
+
+1. **Lumber** — lumberjack camp, trees, deliver **boards** to the warehouse.
+2. **Bricks** — clay pit on the bundled deposit, brickyard, deliver **bricks** to the warehouse.
+
+Buildings charge **YAML `buildingcosts`** from settlement stock (gold, boards, tools, …). Founding warehouse remains free.
 
 ## Launch
 
@@ -8,6 +13,17 @@ Vertical slice objective: **deliver building materials (boards) to the settlemen
 cd godot
 godot4 --path .   # or project export
 ```
+
+The project shows the **Godot boot splash** for at least 1.5s (`project.godot` → `config/boot_splash/*`) before the title menu.
+
+### Progress demo video (local / marketing)
+
+```bash
+chmod +x development/godot/record_progress_demo_video.sh
+DISPLAY=:0 ./development/godot/record_progress_demo_video.sh godot/build/progress_demo.mp4
+```
+
+Records: Godot splash → title menu → automated start of the settlement demo → sim running (requires `ffmpeg`, `xdotool`, and a visible `DISPLAY`).
 
 From the title screen choose **Start settlement demo**.
 
@@ -31,7 +47,11 @@ From the title screen choose **Start settlement demo**.
 3. Let the simulation run; collectors move **boards** into the settlement warehouse.
 4. When warehouse boards reach the target (see objective panel), the success overlay appears.
 
-Configuration: `resources/demo/playable_lumber_demo.json` (map, target boards, starting gold/tools).
+Configuration: `resources/demo/playable_lumber_demo.json` (steps, clay deposit spawn, starting stock).
+
+## Browser hosting
+
+CI can publish the WASM build to **GitHub Pages** via `.github/workflows/godot-pages.yml` (after enabling Pages for the repo). Local verify: `./godot/export_web.sh` then `development/godot/web_export_smoke.sh`.
 
 ## Saves
 

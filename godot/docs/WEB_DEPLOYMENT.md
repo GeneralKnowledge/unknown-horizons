@@ -36,6 +36,15 @@ python3 -m http.server 8080
 
 Open `http://127.0.0.1:8080/`.
 
+## GitHub Pages (optional)
+
+Workflow [`.github/workflows/godot-pages.yml`](../../.github/workflows/godot-pages.yml) exports the web build and deploys `godot/build/web/` to **GitHub Pages** on pushes to `master` (when `godot/**` changes).
+
+1. In the repo **Settings → Pages**, set source to **GitHub Actions**.
+2. After a successful workflow run, open the deployment URL from the Actions summary.
+
+Post-export checks: `./development/godot/web_export_smoke.sh` (also run in CI after `export_web.sh`).
+
 ## HTTPS / production
 
 Use any static host (S3, Cloudflare Pages, nginx, etc.). Upload the **contents** of `build/web/`.

@@ -2,7 +2,7 @@
   "development": {
     "settlement": {
       "legacy": [34, 34],
-      "godot": [34, 34]
+      "godot": [30, 30]
     },
     "starting_resources": {
       "GOLD": 5000,

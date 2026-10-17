@@ -8,6 +8,7 @@ var island: Island
 var settlement: Settlement
 var ownerless: bool = false
 var forced_worldid: int = -1
+var skip_cost: bool = false
 
 
 func _init(
@@ -37,6 +38,13 @@ func execute(session: GameSession) -> Variant:
 				return null
 		elif not island.can_place_building(building_id, export, origin, settlement):
 			return null
+	if not ownerless and not skip_cost and settlement != null:
+		var founding_warehouse := (
+			building_id == GameConstants.BUILDINGS["WAREHOUSE"] and settlement.buildings.is_empty()
+		)
+		if not founding_warehouse:
+			if not BuildingCosts.try_pay(settlement, building_id):
+				return null
 	var building := BuildingFactory.create_building(
 		session, building_id, origin, island, settlement, forced_worldid
 	)

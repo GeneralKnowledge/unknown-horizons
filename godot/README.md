@@ -14,7 +14,7 @@ Sim code lives under `scripts/sim/` as headless `RefCounted` types (commands, pr
 
 | Area | Status |
 |------|--------|
-| Headless sim (scheduler, storage, production, buildability) | Ported + **200** GUT tests |
+| Headless sim (scheduler, storage, production, buildability) | Ported + **204** GUT tests |
 | Building integration (legacy pytest matrix) | **28/28** building game tests in GUT |
 | JSON save/load (schema v3) | PoC HUD + integration tests |
 | Playable settlement demo (`scenes/poc_main.tscn`) | Title screen, guided **lumber → boards → warehouse** objective, pause, success flow, JSON saves with `demo` metadata — [PLAYABLE_DEMO.md](docs/PLAYABLE_DEMO.md) |

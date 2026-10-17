@@ -2,6 +2,7 @@
   "northern_mint": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {},
     "components": {
       "Producer": {
         "productionlines": {
@@ -43,6 +44,7 @@
   "northern_outpost": {
     "baseclass": "building.Building",
     "buildable_upon": false,
+    "buildingcosts": {},
     "components": {
       "Storage": {
         "config": {
@@ -64,6 +66,7 @@
   "northern_signal_tower": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {},
     "components": {
       "Producer": {
         "productionlines": {
@@ -98,6 +101,7 @@
   "northern_smokery": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
+    "buildingcosts": {},
     "components": {
       "Collecting": {
         "collectors": {
@@ -144,6 +148,7 @@
   "northern_warehouse": {
     "baseclass": "storages.Warehouse",
     "buildable_upon": false,
+    "buildingcosts": {},
     "components": {
       "Collecting": {
         "collectors": {

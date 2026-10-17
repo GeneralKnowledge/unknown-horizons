@@ -70,6 +70,7 @@ jobs:
         run: |
           python3 development/godot/export_content.py
           python3 development/godot/export_gfx.py --auto
+          python3 development/godot/export_maps.py
           mkdir -p godot/resources/parity
           cp development/godot/parity/scenarios/*.json godot/resources/parity/
           cp development/godot/parity/map_specs.json godot/resources/parity/
@@ -132,3 +133,8 @@ jobs:
 
       - name: Export web build
         run: ./godot/export_web.sh
+
+      - name: Web export smoke
+        run: |
+          chmod +x development/godot/web_export_smoke.sh
+          ./development/godot/web_export_smoke.sh

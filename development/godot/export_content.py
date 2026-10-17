@@ -171,6 +171,9 @@ def export_building(
 		bname = id_name[10:]
 		if bname in coast_ids:
 			terrain_requirement = 2  # TerrainRequirement.LAND_AND_COAST
+	buildingcosts: dict[str, int] = {}
+	for rk, rv in (data.get("buildingcosts") or {}).items():
+		buildingcosts[str(resolve_res_token(rk, res_map))] = int(rv)
 	out = {
 		"id_name": data.get("id"),
 		"baseclass": baseclass,
@@ -179,6 +182,7 @@ def export_building(
 		"size_x": data.get("size_x", 1),
 		"size_y": data.get("size_y", 1),
 		"radius": int(data.get("radius", 0)),
+		"buildingcosts": buildingcosts,
 		"components": {},
 	}
 	for comp in data.get("components", []):

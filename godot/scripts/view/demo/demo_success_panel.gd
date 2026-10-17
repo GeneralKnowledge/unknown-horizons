@@ -18,11 +18,11 @@ func _ready() -> void:
 	var v := VBoxContainer.new()
 	add_child(v)
 	var title := Label.new()
-	title.text = "Delivery complete!"
+	title.text = "Settlement milestone complete!"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(title)
 	var body := Label.new()
-	body.text = "Building materials are in the warehouse. You can keep expanding the settlement."
+	body.text = "Lumber and bricks are in the warehouse — the tier‑2 chain works. Keep building or save JSON to continue later."
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(body)
