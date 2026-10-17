@@ -56,6 +56,24 @@ From the title screen choose **Start settlement demo**.
 
 Configuration: `resources/demo/playable_lumber_demo.json` (steps, clay deposit spawn, starting stock).
 
+### Screenshots
+
+From repo root:
+
+```bash
+./development/godot/capture_playable_demo_screenshots.sh
+```
+
+Writes PNGs under `godot/docs/screenshots/` (title menu, boards step, clay marker, success overlay, shareable island).
+
+### Slice video (automated)
+
+```bash
+./development/godot/record_demo_slice_video.sh
+```
+
+Uses `scenes/playable_slice.tscn` with `--video-slice=settlement_demo` (no title menu or mouse input): lumber step → clay deposit marker → success overlay, with camera moves driven in `poc_main.gd`.
+
 ## Browser hosting
 
 CI can publish the WASM build to **GitHub Pages** via `.github/workflows/godot-pages.yml` (after enabling Pages for the repo). Local verify: `./godot/export_web.sh` then `development/godot/web_export_smoke.sh`.

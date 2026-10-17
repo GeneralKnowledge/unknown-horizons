@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Regenerate all Godot export artifacts (content, gfx, manifest). No GUT.
+# Python equivalent (shareable single entry point): extract_legacy_resources.py --all
 set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"

@@ -14,6 +14,34 @@ godot --path godot
 
 Entry point: `scenes/poc_main.tscn` (also `run/main_scene` in `project.godot`).
 
+## Screenshots
+
+Current 1280×720 captures (regenerate anytime):
+
+```bash
+chmod +x development/godot/capture_playable_demo_screenshots.sh
+./development/godot/capture_playable_demo_screenshots.sh
+```
+
+| File | What it shows |
+|------|----------------|
+| `docs/screenshots/demo_title_menu.png` | Title / start menu |
+| `docs/screenshots/demo_boards_step.png` | Step 1 — lumber camp, trees, objective HUD |
+| `docs/screenshots/demo_clay_deposit_marker.png` | Step 2 — clay deposit world marker |
+| `docs/screenshots/demo_success_overlay.png` | Completion overlay |
+| `docs/screenshots/shareable_island.png` | Compact marketing island |
+
+### Demo slice video (no manual clicks)
+
+Loads `scenes/playable_slice.tscn` straight into a staged settlement demo with an automated camera timeline (~28s):
+
+```bash
+chmod +x development/godot/record_demo_slice_video.sh
+./development/godot/record_demo_slice_video.sh   # → godot/docs/videos/settlement_demo_slice.mp4
+```
+
+Requires Godot 4.3+, ffmpeg, and xvfb on Linux.
+
 ## What you do in the demo
 
 1. **Title screen** → **Start settlement demo**
