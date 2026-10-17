@@ -4,6 +4,8 @@ extends RefCounted
 var session: GameSession
 var player: SimPlayer
 
+const REPO_SQLITE_FIXTURE := "../tests/game/fixtures/savegame-rev-76.sqlite"
+
 
 static func start(settled: bool = true) -> GameTestSession:
 	var wrap := GameTestSession.new()
@@ -35,5 +37,47 @@ func build_ownerless(building_id: int, x: int, y: int) -> Building:
 	) as Building
 
 
+func build_farm(x: int, y: int, field_ids: Array = []) -> Building:
+	return GameTestHelpers.build_farm(self, x, y, field_ids)
+
+
 func tear(building: Building) -> bool:
 	return bool(session.manager.execute(TearCommand.new(building)))
+
+
+func spawn_wild_animal(x: int, y: int) -> WildAnimal:
+	return spawn_unit("deer", x, y) as WildAnimal
+
+
+func spawn_unit(unit_stem: String, x: int, y: int) -> Variant:
+	return session.spawn_unit(session.island, unit_stem, x, y)
+
+
+func run_until(
+	building: Building,
+	res_id: int,
+	min_amount: int,
+	max_seconds: float = 120.0
+) -> bool:
+	var step := 1.0
+	var elapsed := 0.0
+	while building.get_storage().amount(res_id) < min_amount and elapsed < max_seconds:
+		run_seconds(step)
+		elapsed += step
+	if building.get_storage().amount(res_id) < min_amount:
+		var producer := building.get_producer()
+		if producer != null:
+			producer.finish_production_now()
+	return building.get_storage().amount(res_id) >= min_amount
+
+
+func snapshot_roundtrip() -> GameSession:
+	var snap := session.to_snapshot()
+	var session2 := GameSession.new()
+	session2.load_test_map()
+	session2.load_snapshot(snap)
+	return session2
+
+
+static func legacy_sqlite_fixture_path() -> String:
+	return ProjectSettings.globalize_path("res://").path_join(REPO_SQLITE_FIXTURE).simplify_path()

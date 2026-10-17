@@ -1,0 +1,24 @@
+pack_id: northern_company
+display_name: Northern Company
+description: Post-parity DLC slice — alternate visuals and a small building set.
+building_id_min: 200
+building_id_max: 249
+gfx_root: godot/resources/dlc/northern_company/gfx
+player_accent_color: "#4a7c9e"
+
+buildings:
+  - stem: northern_warehouse
+    godot_name: NORTHERN_WAREHOUSE
+    building_id: 200
+  - stem: northern_smokery
+    godot_name: NORTHERN_SMOKERY
+    building_id: 201
+  - stem: northern_signal_tower
+    godot_name: NORTHERN_SIGNAL_TOWER
+    building_id: 202
+  - stem: northern_mint
+    godot_name: NORTHERN_MINT
+    building_id: 203
+  - stem: northern_outpost
+    godot_name: NORTHERN_OUTPOST
+    building_id: 204

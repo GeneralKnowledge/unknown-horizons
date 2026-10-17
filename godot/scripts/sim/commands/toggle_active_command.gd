@@ -8,11 +8,10 @@ func _init(p_building: Building) -> void:
 	building = p_building
 
 
-func execute(session: GameSession) -> Variant:
-	if building == null:
-		return false
+func execute(_session: GameSession) -> Variant:
 	var producer := building.get_producer()
 	if producer == null:
 		return false
 	producer.toggle_active()
+	MessageBus.settlement_updated.emit()
 	return true

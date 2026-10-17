@@ -1,0 +1,249 @@
+{
+  "animalcollector": {
+    "baseclass": "collectors.AnimalCollector",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "12": 8,
+            "13": 8
+          }
+        },
+        "type": "PositiveSizedSlotStorage"
+      }
+    },
+    "id_name": "UNITS.ANIMAL_COLLECTOR",
+    "radius": 5
+  },
+  "buildingcollector": {
+    "baseclass": "collectors.BuildingCollector",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "12": 8,
+            "13": 8
+          }
+        },
+        "type": "PositiveSizedSlotStorage"
+      }
+    },
+    "id_name": "UNITS.BUILDING_COLLECTOR",
+    "radius": 5
+  },
+  "deer": {
+    "baseclass": "animal.WildAnimal",
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "16": {
+            "consumes": [
+              [
+                12,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                13,
+                1
+              ]
+            ],
+            "time": 45
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "12": 8,
+            "13": 8
+          }
+        },
+        "type": "PositiveSizedSlotStorage"
+      }
+    },
+    "id_name": "UNITS.WILD_ANIMAL",
+    "radius": 5
+  },
+  "disasterpreventioncollector": {
+    "baseclass": "collectors.DisasterRecoveryCollector",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "12": 8,
+            "13": 8
+          }
+        },
+        "type": "PositiveSizedSlotStorage"
+      }
+    },
+    "id_name": "UNITS.DISASTER_RECOVERY_COLLECTOR",
+    "radius": 5
+  },
+  "fieldcollector": {
+    "baseclass": "collectors.FieldCollector",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "12": 8,
+            "13": 8
+          }
+        },
+        "type": "PositiveSizedSlotStorage"
+      }
+    },
+    "id_name": "UNITS.FIELD_COLLECTOR",
+    "radius": 5
+  },
+  "fisher": {
+    "baseclass": "ship.FisherShip",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {}
+        },
+        "type": "PositiveTotalNumSlotsStorage"
+      }
+    },
+    "id_name": "UNITS.FISHER_BOAT",
+    "radius": 5
+  },
+  "frigate": {
+    "baseclass": "fightingship.FightingShip",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {}
+        },
+        "type": "PositiveTotalNumSlotsStorage"
+      }
+    },
+    "id_name": "UNITS.FRIGATE",
+    "radius": 5
+  },
+  "huker": {
+    "baseclass": "ship.Ship",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {}
+        },
+        "type": "PositiveTotalNumSlotsStorage"
+      }
+    },
+    "id_name": "UNITS.HUKER_SHIP",
+    "radius": 5
+  },
+  "hunter": {
+    "baseclass": "collectors.HunterCollector",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "12": 8,
+            "13": 8
+          }
+        },
+        "type": "PositiveSizedSlotStorage"
+      }
+    },
+    "id_name": "UNITS.HUNTER_COLLECTOR",
+    "radius": 5
+  },
+  "lumberjackcollector": {
+    "baseclass": "collectors.FieldCollector",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "12": 8,
+            "13": 8
+          }
+        },
+        "type": "PositiveSizedSlotStorage"
+      }
+    },
+    "id_name": "UNITS.LUMBERJACK_COLLECTOR",
+    "radius": 5
+  },
+  "pirate": {
+    "baseclass": "pirateship.PirateShip",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {}
+        },
+        "type": "PositiveTotalNumSlotsStorage"
+      }
+    },
+    "id_name": "UNITS.PIRATE_SHIP",
+    "radius": 5
+  },
+  "settlercollector": {
+    "baseclass": "collectors.SettlerCollector",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "12": 8,
+            "13": 8
+          }
+        },
+        "type": "PositiveSizedSlotStorage"
+      }
+    },
+    "id_name": "UNITS.SETTLER_COLLECTOR",
+    "radius": 5
+  },
+  "storagecollector": {
+    "baseclass": "collectors.StorageCollector",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "12": 8,
+            "13": 8
+          }
+        },
+        "type": "PositiveSizedSlotStorage"
+      }
+    },
+    "id_name": "UNITS.STORAGE_COLLECTOR",
+    "radius": 5
+  },
+  "swordsman": {
+    "baseclass": "groundunit.GroundUnit",
+    "components": {},
+    "id_name": "UNITS.SWORDSMAN",
+    "radius": 1
+  },
+  "trader": {
+    "baseclass": "ship.TradeShip",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {}
+        },
+        "type": "PositiveTotalNumSlotsStorage"
+      }
+    },
+    "id_name": "UNITS.TRADER_SHIP",
+    "radius": 8
+  },
+  "usablefisher": {
+    "baseclass": "ship.Ship",
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {}
+        },
+        "type": "PositiveTotalNumSlotsStorage"
+      }
+    },
+    "id_name": "UNITS.USABLE_FISHER_BOAT",
+    "radius": 5
+  }
+}

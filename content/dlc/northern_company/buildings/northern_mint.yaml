@@ -1,0 +1,22 @@
+id: BUILDINGS.NORTHERN_MINT
+name: _ Northern Mint
+baseclass: production.ProductionBuilding
+radius: 6
+size_x: 2
+size_y: 2
+tier: TIER.SAILORS
+components:
+- ProducerComponent:
+    productionlines:
+      MINT_GOLD:
+        produces:
+        - [RES.GOLD, 5]
+        consumes:
+        - [RES.BOARDS, -2]
+        time: 20
+- StorageComponent:
+      SlotsStorage:
+        slot_sizes: {RES.BOARDS: 6, RES.GOLD: 20}
+actionsets:
+  TIER.SAILORS:
+    as_toolmaker0:

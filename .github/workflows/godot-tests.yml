@@ -28,5 +28,11 @@ jobs:
       - name: Export game content for Godot
         run: python3 development/godot/export_content.py
 
+      - name: Export gfx manifests
+        run: python3 development/godot/export_gfx.py
+
+      - name: Legacy SQLite save smoke
+        run: python3 development/godot/sqlite_save_smoke.py
+
       - name: Run GUT (headless)
         run: ./godot/run_tests.sh

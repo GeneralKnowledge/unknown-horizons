@@ -16,6 +16,8 @@ var tick_func_test: Array[Callable] = []
 var tick_func_call: Array[Callable] = []
 
 var _time_source: Callable = Time.get_unix_time_from_system
+var _pump_hooks: Array[Callable] = []
+var _active: bool = false
 
 
 func _init(
@@ -39,6 +41,23 @@ func _now() -> float:
 
 func add_test(callable: Callable) -> void:
 	tick_func_test.append(callable)
+
+
+func activate() -> void:
+	_active = true
+	var hook := Callable(self, "check_tick")
+	if not _pump_hooks.has(hook):
+		_pump_hooks.append(hook)
+
+
+func end() -> void:
+	_active = false
+	var hook := Callable(self, "check_tick")
+	_pump_hooks.erase(hook)
+
+
+func is_registered_with_pump() -> bool:
+	return _pump_hooks.has(Callable(self, "check_tick"))
 
 
 func add_call(callable: Callable) -> void:

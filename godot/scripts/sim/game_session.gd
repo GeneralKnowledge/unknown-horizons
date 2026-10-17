@@ -11,6 +11,7 @@ var registry: EntityRegistry
 var manager: CommandManager
 var _next_worldid: int = 1
 var _buildings: Dictionary = {}
+var _wild_animals: Dictionary = {}
 
 
 func _init() -> void:
@@ -61,6 +62,39 @@ func get_buildings_on_island(p_island: Island) -> Array:
 	return out
 
 
+func register_wild_animal(animal: WildAnimal) -> void:
+	_wild_animals[animal.worldid] = animal
+	registry.register(animal)
+
+
+func get_wild_animals_on_island(p_island: Island) -> Array:
+	var out: Array = []
+	for a in _wild_animals.values():
+		if a is WildAnimal and a.island == p_island:
+			out.append(a)
+	return out
+
+
+func spawn_wild_animal(p_island: Island, x: int, y: int) -> WildAnimal:
+	var unit = spawn_unit(p_island, "deer", x, y)
+	return unit as WildAnimal
+
+
+func spawn_unit(p_island: Island, unit_stem: String, x: int, y: int) -> Variant:
+	var export := ContentLoader.load_unit_export(unit_stem)
+	var baseclass: String = str(export.get("baseclass", ""))
+	if baseclass.contains("WildAnimal"):
+		var inventory := ContentLoader.create_storage_from_unit_export(export)
+		var lines := ContentLoader.create_producer_lines_from_unit(export)
+		var animal := WildAnimal.new(
+			allocate_worldid(), p_island, Vector2i(x, y), self, inventory, lines
+		)
+		register_wild_animal(animal)
+		return animal
+	push_warning("spawn_unit not implemented for baseclass %s" % baseclass)
+	return null
+
+
 func run_ticks(ticks: int = 1) -> void:
 	while ticks > 0:
 		scheduler.tick(scheduler.cur_tick + 1)
@@ -97,8 +131,12 @@ func to_snapshot() -> Dictionary:
 func load_snapshot(data: Dictionary) -> void:
 	for b in _buildings.values():
 		island.release_tiles(b)
+		registry.unregister(b.worldid)
+	for a in _wild_animals.values():
+		registry.unregister(a.worldid)
 	_next_worldid = int(data.get("next_worldid", 1))
 	_buildings.clear()
+	_wild_animals.clear()
 	settlement.buildings.clear()
 	island.occupied_tiles.clear()
 	settlement.init_buildability()

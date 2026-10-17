@@ -1,0 +1,180 @@
+{
+  "northern_mint": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "749050186": {
+            "consumes": [
+              [
+                4,
+                -2
+              ]
+            ],
+            "produces": [
+              [
+                1,
+                5
+              ]
+            ],
+            "time": 20
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "1": 20,
+            "4": 6
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "dlc_building_id": 203,
+    "dlc_pack": "northern_company",
+    "id_name": "BUILDINGS.NORTHERN_MINT",
+    "radius": 6,
+    "size_x": 2,
+    "size_y": 2,
+    "terrain_requirement": 1
+  },
+  "northern_outpost": {
+    "baseclass": "building.Building",
+    "buildable_upon": false,
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "6": 4
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "dlc_building_id": 204,
+    "dlc_pack": "northern_company",
+    "id_name": "BUILDINGS.NORTHERN_OUTPOST",
+    "radius": 0,
+    "size_x": 2,
+    "size_y": 2,
+    "terrain_requirement": 1
+  },
+  "northern_signal_tower": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1056282634": {
+            "produces": [
+              [
+                11,
+                1
+              ]
+            ],
+            "time": 4
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "11": 10
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "dlc_building_id": 202,
+    "dlc_pack": "northern_company",
+    "id_name": "BUILDINGS.NORTHERN_SIGNAL_TOWER",
+    "radius": 0,
+    "size_x": 2,
+    "size_y": 2,
+    "terrain_requirement": 1
+  },
+  "northern_smokery": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
+    "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
+      "Producer": {
+        "productionlines": {
+          "1204414814": {
+            "consumes": [
+              [
+                28,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                5,
+                2
+              ]
+            ],
+            "time": 12
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "28": 8,
+            "5": 8
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "dlc_building_id": 201,
+    "dlc_pack": "northern_company",
+    "id_name": "BUILDINGS.NORTHERN_SMOKERY",
+    "radius": 8,
+    "size_x": 2,
+    "size_y": 2,
+    "terrain_requirement": 1
+  },
+  "northern_warehouse": {
+    "baseclass": "storages.Warehouse",
+    "buildable_upon": false,
+    "components": {
+      "Collecting": {
+        "collectors": {
+          "1000008": 3
+        }
+      },
+      "Producer": {
+        "productionlines": {
+          "31": {
+            "produces": [
+              [
+                19,
+                10
+              ]
+            ]
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {}
+        },
+        "type": "SettlementStorage"
+      }
+    },
+    "dlc_building_id": 200,
+    "dlc_pack": "northern_company",
+    "id_name": "BUILDINGS.NORTHERN_WAREHOUSE",
+    "radius": 24,
+    "size_x": 3,
+    "size_y": 3,
+    "terrain_requirement": 1
+  }
+}

@@ -25,6 +25,14 @@ func _on_tick(tick_id: int) -> void:
 	_last_tick = tick_id
 
 
+func test_activate_register_end_unregister_from_pump() -> void:
+	assert_false(_timer.is_registered_with_pump())
+	_timer.activate()
+	assert_true(_timer.is_registered_with_pump())
+	_timer.end()
+	assert_false(_timer.is_registered_with_pump())
+
+
 func test_first_pump_then_one_tick() -> void:
 	_timer.check_tick()
 	assert_eq(1, _callback_count)
