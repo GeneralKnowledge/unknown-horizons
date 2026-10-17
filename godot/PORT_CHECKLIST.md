@@ -542,7 +542,7 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | — | **0/7** |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** **64** tests passing (`./godot/run_tests.sh`).
+**Current GUT total:** **79** tests passing (`./godot/run_tests.sh`).
 
 ---
 
@@ -561,4 +561,4 @@ Tick items: `[ ]` → `[x]`.
 
 ---
 
-*Last updated: storage + buildability caches + GameClock batch (64 GUT tests).*
+*Last updated: world map, buildability, tier-1 building tests (79 GUT tests).*
