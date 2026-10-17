@@ -538,8 +538,8 @@ Tick items: `[ ]` → `[x]`.
 | `tests/unittests/world/component/test_healthcomponent.py` (5) | — | **0/5** |
 | `tests/unittests/world/component/test_namedcomponent.py` (6) | — | **0/6** |
 | `tests/unittests/world/component/test_tradepostcomponent.py` (2) | — | **0/2** |
-| `tests/game/test_buildings.py` (28) | `tests/integration/test_buildings_wave_f*.gd`, tier-1 | **16/28** |
-| `tests/game/test_load_save.py` (7) | `test_session_save.gd` | **4/7** |
+| `tests/game/test_buildings.py` (28) | `tests/integration/test_buildings_wave_f*.gd`, tier-1 | **24/28** |
+| `tests/game/test_load_save.py` (7) | `test_session_save.gd` | **6/7** |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
 **Current GUT total:** **110** tests passing (`./godot/run_tests.sh`, includes DLC scaffolding tests).

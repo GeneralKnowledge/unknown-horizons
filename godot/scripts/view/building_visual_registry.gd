@@ -2,21 +2,27 @@ extends Node
 
 ## Maps building stems / IDs to SpriteFrames (idle + working).
 
-const LUMBERJACK_MANIFEST := "res://resources/gfx/lumberjackcamp/sprite_manifest.json"
+const GFX_ROOT := "res://resources/gfx/"
 
 var _frames_by_stem: Dictionary = {}
+var _manifest_stems: Array[String] = [
+	"lumberjackcamp",
+	"hunterstent",
+	"fishermanstent",
+	"brickyard",
+	"warehouse",
+]
 
 
 func _ready() -> void:
-	_load_lumberjack_manifest()
+	for stem in _manifest_stems:
+		_load_manifest_for_stem(stem)
 
 
 func get_sprite_frames_for_building(building_id: int) -> SpriteFrames:
 	var stem := ContentLoader.stem_for_building_id(building_id)
 	if _frames_by_stem.has(stem):
 		return _frames_by_stem[stem] as SpriteFrames
-	if stem == "lumberjackcamp" or building_id == GameConstants.BUILDINGS["LUMBERJACK"]:
-		return _frames_by_stem.get("lumberjackcamp") as SpriteFrames
 	return _make_placeholder_frames(Color(0.55, 0.55, 0.55), Color(0.75, 0.55, 0.35))
 
 
@@ -42,14 +48,15 @@ func animation_for_building(building: Building) -> StringName:
 	return &"idle"
 
 
-func _load_lumberjack_manifest() -> void:
-	if not FileAccess.file_exists(LUMBERJACK_MANIFEST):
-		_frames_by_stem["lumberjackcamp"] = _make_placeholder_frames(
+func _load_manifest_for_stem(stem: String) -> void:
+	var manifest_path := "%s%s/sprite_manifest.json" % [GFX_ROOT, stem]
+	if not FileAccess.file_exists(manifest_path):
+		_frames_by_stem[stem] = _make_placeholder_frames(
 			Color(0.55, 0.4, 0.25), Color(0.7, 0.5, 0.2)
 		)
 		return
-	var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(LUMBERJACK_MANIFEST))
-	var base := LUMBERJACK_MANIFEST.get_base_dir()
+	var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
+	var base := manifest_path.get_base_dir()
 	var anims: Dictionary = manifest.get("animations", {})
 	var idle_tex := _load_texture(base + "/" + str(anims.get("idle", {}).get("texture", "idle.png")))
 	var work_tex := _load_texture(base + "/" + str(anims.get("working", {}).get("texture", "working.png")))
@@ -60,7 +67,7 @@ func _load_lumberjack_manifest() -> void:
 	sf.add_animation(&"working")
 	sf.set_animation_speed(&"working", float(anims.get("working", {}).get("fps", 4.0)))
 	sf.add_frame(&"working", work_tex)
-	_frames_by_stem["lumberjackcamp"] = sf
+	_frames_by_stem[stem] = sf
 
 
 func _load_texture(path: String) -> Texture2D:

@@ -19,7 +19,7 @@ func _ready() -> void:
 	_build_tool = BuildTool.new(_session)
 	_build_tool.building_placed.connect(_on_building_placed)
 	_map_view.bind(_session.island)
-	_hud.bind(_session)
+	_hud.bind(_session, _build_tool)
 	_hud.refresh()
 	_update_ghost()
 	if not MessageBus.building_placed.is_connected(_on_bus_building_placed):
@@ -43,11 +43,17 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		_hover_grid = _map_view.screen_to_grid(event.position)
 		_update_ghost()
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+	if event is InputEventMouseButton and event.pressed:
 		var grid := _map_view.screen_to_grid(event.position)
-		var placed := _build_tool.try_place(grid)
-		if placed != null:
-			_hud.set_selected(placed)
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			var placed := _build_tool.try_place(grid)
+			if placed != null:
+				_hud.set_selected(placed)
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
+			var picked := _pick_building_at(grid)
+			if picked != null:
+				MessageBus.building_selected.emit(picked)
+				_hud.set_selected(picked)
 	if event.is_action_pressed("ui_select"):
 		_build_tool.active = not _build_tool.active
 	if event is InputEventKey and event.pressed:
@@ -76,6 +82,19 @@ func _attach_view(building: Building) -> void:
 	_building_layer.add_child(view)
 	view.bind(building, _map_view)
 	_views[building.worldid] = view
+
+
+func _pick_building_at(grid: Vector2i) -> Building:
+	for b in _session.get_buildings_on_island(_session.island):
+		var export := ContentLoader.load_building_export(
+			ContentLoader.stem_for_building_id(b.building_id)
+		)
+		for tile in BuildFootprint.origin_tiles(
+			b.position, int(export.get("size_x", 1)), int(export.get("size_y", 1))
+		):
+			if tile == grid:
+				return b
+	return null
 
 
 func _update_ghost() -> void:

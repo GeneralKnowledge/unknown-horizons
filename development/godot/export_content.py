@@ -83,6 +83,53 @@ def resolve_res_token(token, res_map: dict[str, int]):
 	raise ValueError(f"Unknown resource token: {token!r}")
 
 
+def export_unit(yaml_path: Path, res_map: dict[str, int]) -> dict:
+	data = yaml.safe_load(yaml_path.read_text(encoding="utf-8"))
+
+	def fix_res_list(entries):
+		out = []
+		for entry in entries or []:
+			out.append([resolve_res_token(entry[0], res_map), entry[1]])
+		return out
+
+	out = {
+		"id_name": data.get("id"),
+		"baseclass": data.get("baseclass", ""),
+		"radius": int(data.get("radius", 0)),
+		"components": {},
+	}
+	for comp in data.get("components", []):
+		if not isinstance(comp, dict):
+			continue
+		for key, value in comp.items():
+			if key == "ProducerComponent":
+				lines = {}
+				for lk, lv in value.get("productionlines", {}).items():
+					fixed = dict(lv)
+					if "produces" in fixed:
+						fixed["produces"] = fix_res_list(fixed["produces"])
+					if "consumes" in fixed:
+						fixed["consumes"] = fix_res_list(fixed["consumes"])
+					lines[str(prod_line_id(lk))] = fixed
+				out["components"]["Producer"] = {"productionlines": lines}
+			elif key == "StorageComponent":
+				for storage_type, cfg in value.items():
+					slot_sizes = {}
+					if storage_type == "PositiveSizedSlotStorage":
+						limit = int(cfg.get("limit", 8))
+						for res_name in ("DEER_MEAT", "WILDANIMALFOOD"):
+							if res_name in res_map:
+								slot_sizes[str(res_map[res_name])] = limit
+					else:
+						for rk, rv in cfg.get("slot_sizes", {}).items():
+							slot_sizes[str(resolve_res_token(rk, res_map))] = rv
+					out["components"]["Storage"] = {
+						"type": storage_type,
+						"config": {"slot_sizes": slot_sizes},
+					}
+	return out
+
+
 def export_building(yaml_path: Path, res_map: dict[str, int], units_map: dict[str, int]) -> dict:
 	data = yaml.safe_load(yaml_path.read_text(encoding="utf-8"))
 
@@ -229,7 +276,18 @@ def main() -> int:
 		json.dumps(classes, indent=2, sort_keys=True), encoding="utf-8"
 	)
 	export_dlc_packs(res_map, units_map)
+
+	units: dict = {}
+	units_dir = REPO_ROOT / "content" / "objects" / "units"
+	for path in sorted(units_dir.rglob("*.yaml")):
+		stem = path.stem
+		units[stem] = export_unit(path, res_map)
+	(OUT_DIR / "units.json").write_text(
+		json.dumps(units, indent=2, sort_keys=True), encoding="utf-8"
+	)
+
 	print(f"Exported {len(buildings)} buildings to {OUT_DIR}")
+	print(f"Exported {len(units)} units to {OUT_DIR / 'units.json'}")
 	return 0
 
 

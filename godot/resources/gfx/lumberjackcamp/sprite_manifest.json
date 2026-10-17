@@ -1,6 +1,8 @@
 {
   "building_stem": "lumberjackcamp",
   "building_id": 8,
+  "source": "legacy_png",
+  "atlas_sqlite": null,
   "animations": {
     "idle": {
       "texture": "idle.png",

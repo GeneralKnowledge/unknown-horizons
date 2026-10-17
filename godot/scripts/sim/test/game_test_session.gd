@@ -37,3 +37,7 @@ func build_ownerless(building_id: int, x: int, y: int) -> Building:
 
 func tear(building: Building) -> bool:
 	return bool(session.manager.execute(TearCommand.new(building)))
+
+
+func spawn_wild_animal(x: int, y: int) -> WildAnimal:
+	return session.spawn_wild_animal(session.island, x, y)

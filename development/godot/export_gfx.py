@@ -1,15 +1,42 @@
 #!/usr/bin/env python3
-"""Export placeholder building gfx manifests for the Godot port (DLC vertical slice)."""
+"""Export building gfx manifests for the Godot port (legacy PNG + optional SQLite atlas probe)."""
 
 from __future__ import annotations
 
 import json
+import shutil
+import sqlite3
 import struct
 import zlib
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 GODOT_ROOT = REPO_ROOT / "godot"
+CONTENT_GFX = REPO_ROOT / "content" / "gfx" / "buildings"
+
+# building stem -> idle/working source PNG (135° view)
+LEGACY_BUILDING_GFX: dict[str, dict[str, str]] = {
+	"lumberjackcamp": {
+		"idle": "sailors/lumberjack/as_lumberjack0/idle/135/0.png",
+		"working": "sailors/lumberjack/as_lumberjack0/logs_1/135/0.png",
+	},
+	"hunterstent": {
+		"idle": "sailors/hunter/as_hunter0/idle/135/0.png",
+		"working": "sailors/hunter/as_hunter0/idle/135/0.png",
+	},
+	"fishermanstent": {
+		"idle": "sailors/fisherman/as_fisherman0/idle/135/0.png",
+		"working": "sailors/fisherman/as_fisherman0/idle/135/0.png",
+	},
+	"brickyard": {
+		"idle": "pioneers/brickyard/as_brickyard0/idle/135/000.png",
+		"working": "pioneers/brickyard/as_brickyard0/bricks_01/135/000.png",
+	},
+	"warehouse": {
+		"idle": "sailors/warehouse/as_warehouse0/idle/135/0.png",
+		"working": "sailors/warehouse/as_warehouse0/idle/135/0.png",
+	},
+}
 
 
 def _png_chunk(tag: bytes, data: bytes) -> bytes:
@@ -17,10 +44,9 @@ def _png_chunk(tag: bytes, data: bytes) -> bytes:
 
 
 def write_solid_png(path: Path, width: int, height: int, rgba: tuple[int, int, int, int]) -> None:
-	"""Minimal RGBA PNG writer (stdlib only)."""
 	raw_rows = []
 	for _y in range(height):
-		row = bytes([0])  # filter type 0
+		row = bytes([0])
 		for _x in range(width):
 			row += bytes(rgba)
 		raw_rows.append(row)
@@ -34,26 +60,69 @@ def write_solid_png(path: Path, width: int, height: int, rgba: tuple[int, int, i
 	path.write_bytes(png)
 
 
-def export_lumberjack_slice() -> None:
-	out_dir = GODOT_ROOT / "resources" / "gfx" / "lumberjackcamp"
-	write_solid_png(out_dir / "idle.png", 64, 64, (140, 100, 60, 255))
-	write_solid_png(out_dir / "working.png", 64, 64, (180, 120, 40, 255))
+def find_sqlite_with_atlas_table() -> Path | None:
+	candidates = [
+		REPO_ROOT / "content" / "atlas.sql",
+	]
+	for pattern in ("**/*.sqlite", "**/*.sqlite.bz2"):
+		for path in REPO_ROOT.glob(pattern):
+			if "node_modules" in path.parts:
+				continue
+			candidates.append(path)
+	for path in candidates:
+		if not path.is_file() or path.suffix == ".bz2":
+			continue
+		try:
+			con = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+			tables = {row[0] for row in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+			con.close()
+			if "atlas" in tables:
+				return path
+		except sqlite3.Error:
+			continue
+	return None
+
+
+def export_building_slice(stem: str, paths: dict[str, str]) -> None:
+	constants = json.loads((GODOT_ROOT / "resources" / "exported" / "constants.json").read_text())
+	buildings = json.loads((GODOT_ROOT / "resources" / "exported" / "buildings.json").read_text())
+	building_id = None
+	if stem in buildings:
+		id_name = str(buildings[stem].get("id_name", ""))
+		if id_name.startswith("BUILDINGS."):
+			key = id_name.split(".", 1)[1]
+			building_id = constants.get("BUILDINGS", {}).get(key)
+
+	out_dir = GODOT_ROOT / "resources" / "gfx" / stem
+	out_dir.mkdir(parents=True, exist_ok=True)
+	source_mode = "placeholder"
+	for anim in ("idle", "working"):
+		rel = paths.get(anim, paths.get("idle", ""))
+		src = CONTENT_GFX / rel if rel else None
+		dst = out_dir / f"{anim}.png"
+		if src and src.is_file():
+			shutil.copy2(src, dst)
+			source_mode = "legacy_png"
+		else:
+			write_solid_png(dst, 64, 64, (120, 120, 120, 255) if anim == "idle" else (160, 140, 90, 255))
+
+	atlas_db = find_sqlite_with_atlas_table()
 	manifest = {
-		"building_stem": "lumberjackcamp",
-		"building_id": int(
-			json.loads((GODOT_ROOT / "resources" / "exported" / "constants.json").read_text())[
-				"BUILDINGS"
-			]["LUMBERJACK"]
-		),
+		"building_stem": stem,
+		"building_id": building_id,
+		"source": source_mode,
+		"atlas_sqlite": str(atlas_db) if atlas_db else None,
 		"animations": {
 			"idle": {"texture": "idle.png", "fps": 1.0},
 			"working": {"texture": "working.png", "fps": 4.0},
 		},
 	}
-	(out_dir / "sprite_manifest.json").write_text(
-		json.dumps(manifest, indent=2), encoding="utf-8"
-	)
-	print(f"Wrote lumberjack gfx manifest to {out_dir}")
+	(out_dir / "sprite_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+	print(f"Wrote gfx slice for {stem} ({source_mode})")
+
+
+def export_lumberjack_slice() -> None:
+	export_building_slice("lumberjackcamp", LEGACY_BUILDING_GFX["lumberjackcamp"])
 
 
 def export_dlc_gfx() -> None:
@@ -71,7 +140,8 @@ def export_dlc_gfx() -> None:
 
 
 def main() -> int:
-	export_lumberjack_slice()
+	for stem, paths in LEGACY_BUILDING_GFX.items():
+		export_building_slice(stem, paths)
 	export_dlc_gfx()
 	return 0
 

@@ -4,5 +4,6 @@ extends Node
 
 signal building_placed(building: Building)
 signal building_removed(building: Building)
+signal building_selected(building: Building)
 signal settlement_updated
 signal inventory_changed(inventory: Inventory)

@@ -2,9 +2,11 @@ class_name ContentLoader
 extends RefCounted
 
 const BUILDINGS_JSON := "res://resources/exported/buildings.json"
+const UNITS_JSON := "res://resources/exported/units.json"
 const DLC_MANIFEST := "res://resources/dlc/northern_company/manifest.json"
 
 static var _building_id_to_stem: Dictionary = {}
+static var _unit_id_to_stem: Dictionary = {}
 static var _stem_to_json_path: Dictionary = {}
 static var _stem_loaded: bool = false
 
@@ -26,10 +28,24 @@ static func _index_buildings_file(json_path: String) -> void:
 				_building_id_to_stem[int(GameConstants.BUILDINGS[const_name])] = stem
 
 
+static func _index_units_file() -> void:
+	if not FileAccess.file_exists(UNITS_JSON):
+		return
+	var all: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(UNITS_JSON))
+	for stem in all.keys():
+		var export: Dictionary = all[stem]
+		var id_name: String = str(export.get("id_name", ""))
+		if id_name.begins_with("UNITS."):
+			var const_name: String = id_name.substr(6)
+			if GameConstants.UNITS.has(const_name):
+				_unit_id_to_stem[int(GameConstants.UNITS[const_name])] = stem
+
+
 static func _ensure_stem_index() -> void:
 	if _stem_loaded:
 		return
 	_index_buildings_file(BUILDINGS_JSON)
+	_index_units_file()
 	for pack_id in ["northern_company"]:
 		_index_buildings_file("res://resources/dlc/%s/buildings.json" % pack_id)
 	_stem_loaded = true
@@ -89,6 +105,21 @@ static func create_collecting_from_export(export: Dictionary) -> Dictionary:
 	for unit_id in raw.keys():
 		normalized[int(unit_id)] = int(raw[unit_id])
 	return normalized
+
+
+static func load_unit_export(stem: String) -> Dictionary:
+	assert(FileAccess.file_exists(UNITS_JSON), "Missing units export — run export_content.py")
+	var all: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(UNITS_JSON))
+	assert(all.has(stem), "Missing unit export: %s" % stem)
+	return all[stem]
+
+
+static func create_storage_from_unit_export(export: Dictionary) -> Inventory:
+	return create_storage_from_export(export)
+
+
+static func create_producer_lines_from_unit(export: Dictionary) -> Dictionary:
+	return create_producer_lines(export)
 
 
 static func create_producer_lines(export: Dictionary) -> Dictionary:
