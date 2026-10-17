@@ -9,7 +9,7 @@ This repository is **Godot-first**: day-to-day development, CI, and releases tar
 **Requirements:** Godot 4.3+, Python 3 + PyYAML (content export).
 
 ```bash
-# Export content, validate, run 154 GUT tests (same as CI)
+# Export content, validate, run 191 GUT tests (same as CI)
 ./development/godot/sync.sh
 
 # Play the PoC (build, produce, save/load)
@@ -38,7 +38,7 @@ Game data (buildings, resources, maps) is authored under **`legacy/content/`** a
 
 ## Status (summary)
 
-- **154** headless GUT tests; dual-run parity scenarios vs golden traces
+- **191** headless GUT tests; **6** parity scenarios vs golden traces (CI `parity-golden` job)
 - Playable slice: lumberjack / tree / production / JSON save-load
 - Reproducible **web export** (`./godot/export_web.sh`)
 - **Legacy game:** run from `legacy/` — see [`legacy/README.md`](legacy/README.md)
