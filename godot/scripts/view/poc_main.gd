@@ -17,6 +17,11 @@ var _camera_ctrl: MapCameraController
 var _start_menu: StartMenuPanel
 var _game_active := false
 var _audio_primed := false
+var _playable_demo := false
+var _sim_paused := false
+var _objective_tracker: DemoObjectiveTracker
+var _success_panel: DemoSuccessPanel
+var _success_layer: CanvasLayer
 
 
 func _ready() -> void:
@@ -68,13 +73,28 @@ func _hide_start_menu() -> void:
 
 
 func _begin_new_game() -> void:
+	_start_playable_settlement_demo()
+
+
+func _start_playable_settlement_demo() -> void:
+	_playable_demo = true
+	_sim_paused = false
+	_map_id = PlayableDemoConfig.map_id()
 	_session = GameSession.new()
 	_boot_map(_map_id)
-	GameTestHelpers.new_settlement(_session, DemoConfig.default_settlement_point())
+	GameTestHelpers.new_settlement(_session, PlayableDemoConfig.settlement_point())
+	PlayableDemoConfig.apply_starting_resources(_session.settlement)
+	_objective_tracker = DemoObjectiveTracker.new(_session)
+	_objective_tracker.reset_for_new_game()
+	if not _objective_tracker.objective_completed.is_connected(_on_objective_completed):
+		_objective_tracker.objective_completed.connect(_on_objective_completed)
 	_wire_gameplay()
+	_enable_playable_demo_ui()
 	_hide_start_menu()
 	_camera_ctrl.fit_island()
-	_hud.show_status("New game on map %s" % _map_id)
+	_hud.show_status("Settlement demo — deliver boards to the warehouse")
+	if _success_panel != null:
+		_success_panel.hide_success()
 
 
 func _wire_gameplay() -> void:
@@ -131,12 +151,15 @@ func _on_start_continue() -> void:
 func _process(delta: float) -> void:
 	if not _game_active or _session == null:
 		return
-	_sim_clock.accumulate_and_run(_session, delta, func():
-		MessageBus.settlement_updated.emit()
-		for view in _views.values():
-			if view is BuildingView:
-				(view as BuildingView).refresh_from_sim()
-	)
+	if not _sim_paused:
+		_sim_clock.accumulate_and_run(_session, delta, func():
+			MessageBus.settlement_updated.emit()
+			for view in _views.values():
+				if view is BuildingView:
+					(view as BuildingView).refresh_from_sim()
+		)
+	if _playable_demo and _objective_tracker != null:
+		_objective_tracker.tick_after_sim()
 	_update_ghost()
 
 
@@ -188,11 +211,111 @@ func _attach_view(building: Building) -> void:
 	_views[building.worldid] = view
 
 
+func toggle_sim_pause() -> void:
+	_sim_paused = not _sim_paused
+	var panel := _hud.get_objective_panel()
+	if panel != null:
+		panel.set_paused(_sim_paused)
+	_hud.show_status("Simulation paused" if _sim_paused else "Simulation running")
+
+
+func _enable_playable_demo_ui() -> void:
+	_hud.set_playable_demo_active(_playable_demo)
+	if _playable_demo:
+		_hud.set_snapshot_extra_fields(_merge_demo_into_snapshot)
+	else:
+		_hud.set_snapshot_extra_fields(Callable())
+	if _playable_demo and _objective_tracker != null:
+		_hud.bind_objective_tracker(_objective_tracker)
+		var panel := _hud.get_objective_panel()
+		if panel != null and not panel.pause_toggled.is_connected(toggle_sim_pause):
+			panel.pause_toggled.connect(toggle_sim_pause)
+		_ensure_success_overlay()
+
+
+func _ensure_success_overlay() -> void:
+	if _success_layer != null:
+		return
+	_success_layer = CanvasLayer.new()
+	_success_layer.layer = 12
+	add_child(_success_layer)
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_success_layer.add_child(center)
+	_success_panel = DemoSuccessPanel.new()
+	center.add_child(_success_panel)
+	_success_panel.continue_playing.connect(_on_success_continue)
+	_success_panel.restart_demo.connect(_on_success_restart)
+	_success_panel.return_to_menu.connect(_on_success_menu)
+
+
+func _on_objective_completed() -> void:
+	_ensure_success_overlay()
+	_success_panel.show_success()
+	GameAudioService.play_exported_legacy_key("content/audio/sounds/lumberjack.ogg")
+	_hud.show_status("Objective complete — materials delivered!")
+
+
+func _on_success_continue() -> void:
+	if _success_panel != null:
+		_success_panel.hide_success()
+
+
+func _on_success_restart() -> void:
+	if _success_panel != null:
+		_success_panel.hide_success()
+	_start_playable_settlement_demo()
+
+
+func _on_success_menu() -> void:
+	if _success_panel != null:
+		_success_panel.hide_success()
+	_teardown_session_to_menu()
+
+
+func _teardown_session_to_menu() -> void:
+	_playable_demo = false
+	_sim_paused = false
+	_objective_tracker = null
+	_session = null
+	_build_tool = null
+	_hud.set_playable_demo_active(false)
+	for child in _building_layer.get_children():
+		child.queue_free()
+	_views.clear()
+	_show_start_menu()
+
+
+func _merge_demo_into_snapshot(snap: Dictionary) -> Dictionary:
+	if _playable_demo and _objective_tracker != null:
+		snap["demo"] = _objective_tracker.to_snapshot_demo_block()
+	return snap
+
+
+func _apply_demo_from_snapshot(data: Dictionary) -> void:
+	if not data.has("demo"):
+		return
+	var demo: Variant = data["demo"]
+	if typeof(demo) != TYPE_DICTIONARY:
+		return
+	_playable_demo = true
+	if _objective_tracker == null:
+		_objective_tracker = DemoObjectiveTracker.new(_session)
+	_objective_tracker.bind_session(_session)
+	_objective_tracker.apply_snapshot_demo_block(demo)
+	if not _objective_tracker.objective_completed.is_connected(_on_objective_completed):
+		_objective_tracker.objective_completed.connect(_on_objective_completed)
+	_enable_playable_demo_ui()
+	if _objective_tracker.completed:
+		_ensure_success_overlay()
+		_success_panel.show_success()
+
+
 func _on_save_requested() -> void:
 	if _session == null:
 		return
 	var path := SaveLoadPanel.DEFAULT_SAVE_PATH
-	var snap := _session.to_snapshot()
+	var snap := _merge_demo_into_snapshot(_session.to_snapshot())
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
 		_hud.show_status("Save failed: could not write user://", true)
@@ -252,6 +375,11 @@ func _on_import_sqlite(path: String) -> void:
 
 
 func _on_showcase_requested() -> void:
+	_playable_demo = false
+	_objective_tracker = null
+	_hud.set_playable_demo_active(false)
+	if _success_panel != null:
+		_success_panel.hide_success()
 	var scenario_path := DemoConfig.showcase_scenario_path()
 	var scenario := DemoScenarioRunner.load_dict(scenario_path)
 	if scenario.is_empty():
@@ -280,6 +408,10 @@ func _load_snapshot_text(json_text: String) -> bool:
 		_session = GameSession.new()
 		_boot_map(_map_id)
 		_wire_gameplay()
+	_playable_demo = false
+	_objective_tracker = null
+	if _success_panel != null:
+		_success_panel.hide_success()
 	var before := _session.get_buildings_on_island(_session.island).size()
 	var result := _session.try_load_snapshot(data)
 	if not result["ok"]:
@@ -288,6 +420,9 @@ func _load_snapshot_text(json_text: String) -> bool:
 			push_error("Session mutated after failed load")
 		return false
 	_apply_session(_session)
+	_apply_demo_from_snapshot(data)
+	if not _playable_demo:
+		_hud.set_playable_demo_active(false)
 	_hud.show_status("Save loaded")
 	return true
 
@@ -321,6 +456,7 @@ func _apply_session(new_session: GameSession) -> void:
 		_hud.show_status("Load failed: empty session", true)
 		return
 	_session = new_session
+	_game_active = true
 	_sim_clock.reset()
 	_build_tool = BuildTool.new(_session)
 	_build_tool.building_placed.connect(_on_building_placed)

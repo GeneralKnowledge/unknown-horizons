@@ -1,0 +1,8 @@
+{
+  "map_id": "development",
+  "settlement": { "x": 34, "y": 34 },
+  "target_boards_in_warehouse": 8,
+  "min_trees": 2,
+  "starting_gold": 500,
+  "starting_tools": 20
+}

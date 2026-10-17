@@ -27,8 +27,8 @@ func _ready() -> void:
 		sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		v.add_child(sub)
-	v.add_child(_btn("Play showcase demo", func(): showcase_requested.emit()))
-	v.add_child(_btn("New game", func(): new_game_requested.emit()))
+	v.add_child(_btn("Start settlement demo", func(): new_game_requested.emit()))
+	v.add_child(_btn("Economy showcase (pre-built)", func(): showcase_requested.emit()))
 	var continue_btn := _btn("Continue", func(): continue_requested.emit())
 	continue_btn.disabled = not FileAccess.file_exists(SaveLoadPanel.DEFAULT_SAVE_PATH)
 	v.add_child(continue_btn)

@@ -29,10 +29,15 @@ signal build_mode_selected(mode: StringName)
 @onready var _status: Label = $VBox/StatusLine
 
 var _status_timer: float = 0.0
+var _objective_panel: ObjectiveHudPanel
+var _playable_demo_active := false
+var _snapshot_extra: Callable = Callable()
 
 
 func _ready() -> void:
 	_apply_pack_theme()
+	if not MessageBus.build_feedback.is_connected(_on_build_feedback):
+		MessageBus.build_feedback.connect(_on_build_feedback)
 
 
 func _apply_pack_theme() -> void:
@@ -46,6 +51,34 @@ func _process(delta: float) -> void:
 		_status_timer -= delta
 		if _status_timer <= 0.0 and _status != null:
 			_status.text = ""
+
+
+func set_playable_demo_active(active: bool) -> void:
+	_playable_demo_active = active
+	if _objective_panel != null:
+		_objective_panel.visible = active
+	if _hint != null and active:
+		_hint.text = "Select (S) · Build (B) · pan with middle mouse · zoom with wheel"
+
+
+func set_snapshot_extra_fields(extra: Callable) -> void:
+	_snapshot_extra = extra
+
+
+func bind_objective_tracker(tracker: DemoObjectiveTracker) -> void:
+	if _objective_panel == null:
+		_objective_panel = ObjectiveHudPanel.new()
+		$VBox.add_child(_objective_panel)
+		$VBox.move_child(_objective_panel, 1)
+	_objective_panel.bind_tracker(tracker)
+
+
+func get_objective_panel() -> ObjectiveHudPanel:
+	return _objective_panel
+
+
+func _on_build_feedback(message: String, is_error: bool) -> void:
+	show_status(message, is_error)
 
 
 func show_status(message: String, is_error: bool = false) -> void:
@@ -150,7 +183,10 @@ func export_snapshot_text(json_text: String) -> void:
 func _snapshot_text_for_export() -> String:
 	if session == null:
 		return ""
-	return JSON.stringify(session.to_snapshot(), "\t")
+	var snap: Dictionary = session.to_snapshot()
+	if _snapshot_extra.is_valid():
+		snap = _snapshot_extra.call(snap)
+	return JSON.stringify(snap, "\t")
 
 
 func refresh() -> void:
@@ -174,7 +210,7 @@ func refresh() -> void:
 		_header.modulate = ContentTheme.hud_accent_color()
 	else:
 		_header.modulate = Color.WHITE
-	if _hint != null:
+	if _hint != null and not _playable_demo_active:
 		_hint.text = "Pan: middle-drag | Zoom: wheel | Build palette tabs below"
 	_settlement_panel.show_inventory("Settlement warehouse", settlement.inventory)
 	if selected != null:
