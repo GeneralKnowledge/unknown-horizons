@@ -1,7 +1,7 @@
 class_name GameSession
 extends RefCounted
 
-const SNAPSHOT_VERSION := 2
+const SNAPSHOT_VERSION := 3
 
 var timer: GameTimer
 var scheduler: GameScheduler
@@ -20,9 +20,13 @@ func _init() -> void:
 	manager = CommandManager.new(self)
 	island = Island.new(allocate_worldid(), self)
 	registry.register(island)
-	var settlement_storage := PositiveSizedSpecializedInventory.new({
-		GameConstants.RES["GOLD"]: 999999,
-	})
+	var slot_sizes: Dictionary = {}
+	slot_sizes[GameConstants.RES["GOLD"]] = 999999
+	for res_name in [
+		"BOARDS", "TOOLS", "BRICKS", "FOOD", "CLAY", "IRON_INGOTS", "CHARCOAL", "TEXTILE",
+	]:
+		slot_sizes[GameConstants.RES[res_name]] = 999999
+	var settlement_storage := PositiveSizedSpecializedInventory.new(slot_sizes)
 	settlement = Settlement.new(allocate_worldid(), island, settlement_storage)
 	island.settlements.append(settlement)
 	registry.register(settlement)
@@ -85,6 +89,7 @@ func to_snapshot() -> Dictionary:
 	return {
 		"schema_version": SNAPSHOT_VERSION,
 		"next_worldid": _next_worldid,
+		"settlement_inventory": settlement.inventory.get_stored_resources(),
 		"buildings": buildings,
 	}
 
@@ -97,6 +102,12 @@ func load_snapshot(data: Dictionary) -> void:
 	settlement.buildings.clear()
 	island.occupied_tiles.clear()
 	settlement.init_buildability()
+	settlement.inventory.reset_all()
+	if data.has("settlement_inventory"):
+		var inv_data: Dictionary = data.get("settlement_inventory", {})
+		for res_key in inv_data.keys():
+			var res_id := int(str(res_key))
+			settlement.inventory.alter(res_id, int(inv_data[res_key]))
 	var snaps: Array = data.get("buildings", [])
 	snaps.sort_custom(func(a, b):
 		if int(a["building_id"]) == GameConstants.BUILDINGS["WAREHOUSE"]:

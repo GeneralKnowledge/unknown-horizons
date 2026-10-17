@@ -531,8 +531,8 @@ Tick items: `[ ]` → `[x]`.
 | `tests/unittests/world/production/test_productionline.py` (3) | `tests/unit/test_production_line.gd` | **3/3** ✓ |
 | `tests/game/test_production.py` (1) | `tests/integration/test_wood_production.gd` | **1/1** ✓ |
 | `tests/unittests/world/buildability/test_connectedareacache.py` | `tests/unit/test_connected_area_cache.gd` | **1/1** ✓ |
-| `tests/unittests/world/buildability/test_partialbinarycache.py` (5) | `tests/unit/test_partial_binary_cache.gd` | **3/5** |
-| `tests/unittests/world/units/collectors/test_collector.py` (4) | `tests/unit/test_collector_job_list.gd` | **2/4** |
+| `tests/unittests/world/buildability/test_partialbinarycache.py` (5) | `tests/unit/test_partial_binary_cache.gd` | **5/5** ✓ |
+| `tests/unittests/world/units/collectors/test_collector.py` (4) | `tests/unit/test_collector_job_list.gd` | **4/4** ✓ |
 | `tests/unittests/util/test_shapes.py` (3) | `tests/unit/test_shapes.gd` | **3/3** ✓ |
 | `tests/unittests/util/test_tile_orientation.py` (9 param) | `tests/unit/test_tile_orientation.gd` | **9/9** ✓ |
 | `tests/unittests/world/component/test_healthcomponent.py` (5) | — | **0/5** |

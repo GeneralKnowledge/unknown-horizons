@@ -7,6 +7,16 @@ var selected: Building
 
 func bind(p_session: GameSession) -> void:
 	session = p_session
+	if not MessageBus.settlement_updated.is_connected(refresh):
+		MessageBus.settlement_updated.connect(refresh)
+	if not MessageBus.building_placed.is_connected(_on_building_placed):
+		MessageBus.building_placed.connect(_on_building_placed)
+	if not MessageBus.building_removed.is_connected(refresh):
+		MessageBus.building_removed.connect(refresh)
+
+
+func _on_building_placed(building: Building) -> void:
+	set_selected(building)
 
 
 func set_selected(building: Building) -> void:

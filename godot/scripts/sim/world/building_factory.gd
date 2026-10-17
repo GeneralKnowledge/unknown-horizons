@@ -25,9 +25,7 @@ static func create_building(
 	)
 	if not lines.is_empty():
 		building.producer = Producer.new(building, session.scheduler, lines)
-	# Warehouse storage collectors need dedicated logic; skip until ported.
-	if building_id != GameConstants.BUILDINGS["WAREHOUSE"]:
-		var collecting := ContentLoader.create_collecting_from_export(export)
-		if not collecting.is_empty():
-			building.collecting = CollectingComponent.new(building, session, collecting)
+	var collecting := ContentLoader.create_collecting_from_export(export)
+	if not collecting.is_empty():
+		building.collecting = CollectingComponent.new(building, session, collecting)
 	return building

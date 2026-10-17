@@ -51,4 +51,7 @@ func execute(session: GameSession) -> Variant:
 			int(export.get("size_y", 1))
 		)
 		settlement.register_warehouse(origin, tiles, int(export.get("radius", 24)))
+	if building != null:
+		MessageBus.building_placed.emit(building)
+		MessageBus.settlement_updated.emit()
 	return building

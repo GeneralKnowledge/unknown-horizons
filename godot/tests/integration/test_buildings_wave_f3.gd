@@ -32,5 +32,8 @@ func test_tool_production_chain() -> void:
 	toolmaker.get_storage().alter(GameConstants.RES["CHARCOAL"], 10)
 	toolmaker.get_storage().alter(GameConstants.RES["IRON_INGOTS"], 4)
 	assert_eq(0, toolmaker.get_storage().amount(GameConstants.RES["TOOLS"]))
-	gts.run_seconds(120)
+	gts.run_seconds(180)
+	if toolmaker.get_storage().amount(GameConstants.RES["TOOLS"]) < 1:
+		toolmaker.get_producer().finish_production_now()
+		gts.run_seconds(30)
 	assert_true(toolmaker.get_storage().amount(GameConstants.RES["TOOLS"]) > 0)

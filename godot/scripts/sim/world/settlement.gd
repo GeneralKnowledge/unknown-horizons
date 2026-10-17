@@ -39,7 +39,7 @@ func register_warehouse(origin: Vector2i, footprint_tiles: Array, warehouse_radi
 	var land_tiles: Array = []
 	for pair in circle.get_coordinates():
 		var coords := Vector2i(int(pair[0]), int(pair[1]))
-		if island.is_land(coords):
+		if island.terrain_cache.land_or_coast.has(coords):
 			land_tiles.append(coords)
 			if not ground_map.has(coords):
 				ground_map[coords] = null

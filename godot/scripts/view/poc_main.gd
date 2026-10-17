@@ -30,7 +30,7 @@ func _process(delta: float) -> void:
 	while _tick_accum >= step:
 		_session.run_ticks(1)
 		_tick_accum -= step
-	_hud.refresh()
+		MessageBus.settlement_updated.emit()
 	_update_ghost()
 
 
@@ -45,6 +45,16 @@ func _unhandled_input(event: InputEvent) -> void:
 			_hud.set_selected(placed)
 	if event.is_action_pressed("ui_select"):
 		_build_tool.active = not _build_tool.active
+	if event is InputEventKey and event.pressed:
+		match event.keycode:
+			KEY_1:
+				_build_tool.set_palette_lumberjack()
+			KEY_2:
+				_build_tool.set_palette_tree()
+			KEY_3:
+				_build_tool.set_palette_tear()
+			KEY_T:
+				_build_tool.set_palette_tear()
 
 
 func _on_building_placed(building: Building) -> void:

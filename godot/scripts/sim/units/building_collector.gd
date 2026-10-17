@@ -2,6 +2,8 @@ class_name BuildingCollector
 extends RefCounted
 
 const WORK_DURATION_TICKS := 16
+const USE_PATHFINDING_E2 := true
+const TICKS_PER_PATH_STEP := 2
 
 var home_building: Building
 var session: GameSession
@@ -22,7 +24,7 @@ func _on_work_tick() -> void:
 
 
 func search_job() -> void:
-	if _state == "working":
+	if _state == "working" or _state == "moving":
 		return
 	var export := ContentLoader.load_building_export(
 		ContentLoader.stem_for_building_id(home_building.building_id)
@@ -34,9 +36,29 @@ func search_job() -> void:
 		return
 	job_list.sort_jobs()
 	var job: CollectorJob = job_list.jobs[0]
-	_state = "working"
 	_active_job = job
+	var travel_ticks := _travel_ticks_to_job(job)
+	if travel_ticks > 0:
+		_state = "moving"
+		session.scheduler.add_new_object(_begin_work_after_travel, self, travel_ticks)
+	else:
+		_state = "working"
+		session.scheduler.add_new_object(_finish_active_job, self, WORK_DURATION_TICKS)
+
+
+func _begin_work_after_travel() -> void:
+	_state = "working"
 	session.scheduler.add_new_object(_finish_active_job, self, WORK_DURATION_TICKS)
+
+
+func _travel_ticks_to_job(job: CollectorJob) -> int:
+	if not USE_PATHFINDING_E2:
+		return 0
+	var target: Vector2i = job.target.position
+	var path := IslandPathfinder.find_path(home_building.island, home_building.position, target)
+	if path.is_empty():
+		return 0
+	return maxi(0, (path.size() - 1) * TICKS_PER_PATH_STEP)
 
 
 func _resources_to_collect() -> Array:
@@ -97,15 +119,16 @@ func _finish_job(job: CollectorJob) -> void:
 	var amount := mini(job.available, job.target.get_storage().amount(res_id))
 	if amount > 0:
 		job.target.get_storage().alter(res_id, -amount)
-		home_building.get_storage().alter(res_id, amount)
+		get_home_inventory().alter(res_id, amount)
 	_state = "idle"
 
 
 func _distance_rect_to_point(origin: Vector2i, size: Vector2i, point: Vector2i) -> float:
-	var left := origin.x
-	var top := origin.y
-	var right := origin.x + size.x - 1
-	var bottom := origin.y + size.y - 1
+	# Origin is top-right (see BuildFootprint.origin_tiles).
+	var left := origin.x - (size.x - 1)
+	var top := origin.y - (size.y - 1)
+	var right := origin.x
+	var bottom := origin.y
 	var dx := 0
 	var t := left - point.x
 	if t > dx:

@@ -42,3 +42,27 @@ func test_load_producing_lumberjack() -> void:
 	assert_not_null(loaded)
 	assert_false(loaded.get_producer().is_active())
 	assert_eq(3, loaded.get_storage().amount(GameConstants.RES["BOARDS"]))
+
+
+func test_settlement_inventory_round_trip() -> void:
+	var gts := GameTestSession.start(true)
+	gts.session.settlement.inventory.reset_all()
+	gts.session.settlement.inventory.alter(GameConstants.RES["BOARDS"], 12)
+	gts.session.settlement.inventory.alter(GameConstants.RES["GOLD"], 100)
+	var snap := gts.session.to_snapshot()
+	var session2 := GameSession.new()
+	session2.load_test_map()
+	session2.load_snapshot(snap)
+	assert_eq(12, session2.settlement.inventory.amount(GameConstants.RES["BOARDS"]))
+	assert_eq(100, session2.settlement.inventory.amount(GameConstants.RES["GOLD"]))
+
+
+func test_boards_in_settlement_after_load() -> void:
+	var gts := GameTestSession.start(true)
+	gts.session.settlement.inventory.reset_all()
+	gts.session.settlement.inventory.alter(GameConstants.RES["BOARDS"], 7)
+	var snap := gts.session.to_snapshot()
+	var session2 := GameSession.new()
+	session2.load_test_map()
+	session2.load_snapshot(snap)
+	assert_eq(7, session2.settlement.inventory.amount(GameConstants.RES["BOARDS"]))

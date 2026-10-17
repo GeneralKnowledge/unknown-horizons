@@ -21,4 +21,6 @@ func execute(session: GameSession) -> Variant:
 	session._buildings.erase(building.worldid)
 	building.producer = null
 	building.collecting = null
+	MessageBus.building_removed.emit(building)
+	MessageBus.settlement_updated.emit()
 	return true
