@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-# docker build -f development/docker/Dockerfile -t unknown-horizons .
+# docker build -f legacy/development/docker/Dockerfile -t unknown-horizons .
 
 RUN apt-get update && \
     apt-get install -y build-essential \
@@ -49,7 +49,7 @@ RUN git clone https://github.com/fifengine/fifengine.git && \
 
 RUN mkdir -p /code
 ADD . /code
-WORKDIR /code
+WORKDIR /code/legacy
 RUN python3 setup.py build_i18n && \
     adduser --disabled-password --gecos "" horizonuser
 RUN usermod -a -G video horizonuser
@@ -62,4 +62,4 @@ USER root
 RUN mkdir -p ~/.config/unknown-horizons/ && \
     cp content/settings-template.xml ~/.config/unknown-horizons/settings.xml
 
-ENTRYPOINT ["python3", "/code/run_uh.py"]
+ENTRYPOINT ["python3", "/code/legacy/run_uh.py"]

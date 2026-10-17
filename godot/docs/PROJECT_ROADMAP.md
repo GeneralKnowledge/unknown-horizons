@@ -47,7 +47,7 @@ Yes — GUT and `parity_runner.tscn` run without the main visual scene.
 
 ### Content reuse
 
-YAML under repo `content/` → `development/godot/export_content.py` → `resources/exported/` + `game_constants.gd`. Gfx via `export_gfx.py` and `BuildingVisualRegistry`. Optional DLC pack `resources/dlc/northern_company/`.
+YAML under `legacy/content/` → `development/godot/export_content.py` → `resources/exported/` + `game_constants.gd`. Gfx via `export_gfx.py` and `BuildingVisualRegistry`. Optional DLC pack `resources/dlc/northern_company/`.
 
 ### Web export
 

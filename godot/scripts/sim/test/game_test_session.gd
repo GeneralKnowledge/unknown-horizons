@@ -4,7 +4,7 @@ extends RefCounted
 var session: GameSession
 var player: SimPlayer
 
-const REPO_SQLITE_FIXTURE := "../tests/game/fixtures/savegame-rev-76.sqlite"
+const REPO_SQLITE_FIXTURE := "../legacy/tests/game/fixtures/savegame-rev-76.sqlite"
 
 
 static func start(settled: bool = true) -> GameTestSession:

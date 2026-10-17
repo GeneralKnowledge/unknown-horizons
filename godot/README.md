@@ -68,7 +68,7 @@ Debug builds only: **+2 TREES** on the selected building.
 |------|------|
 | `scripts/sim/` | Simulation (no `Node2D` — GUT-friendly) |
 | `scripts/view/` | Map, HUD, input (`poc_main.gd`) |
-| `resources/content` | Symlink to repo `content/` |
+| `resources/content` | Symlink to `legacy/content/` |
 | `resources/exported/` | Generated JSON + constants |
 | `tests/` | GUT unit + integration tests |
 | `development/godot/` | Python exporters, parity harness, `sync.sh` |
@@ -96,7 +96,7 @@ Optional theme: copy `resources/exported/active_theme.northern_company.example.j
 
 ## Adding a ported test
 
-1. Find the Python test under `tests/unittests/` or `tests/game/`.
+1. Find the Python test under `legacy/tests/unittests/` or `legacy/tests/game/`.
 2. Add `tests/unit/` or `tests/integration/*.gd` extending `GutTest`.
 3. Use `GameSession` / commands, not FIFE mocks.
 4. Run `./godot/run_tests.sh`.
