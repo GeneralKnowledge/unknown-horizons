@@ -96,19 +96,27 @@ func can_place_ownerless(building_id: int, export: Dictionary, origin: Vector2i)
 func can_place_building(
 	building_id: int, export: Dictionary, origin: Vector2i, settlement: Settlement
 ) -> bool:
+	return explain_placement_failure(building_id, export, origin, settlement).is_empty()
+
+
+func explain_placement_failure(
+	building_id: int, export: Dictionary, origin: Vector2i, settlement: Settlement
+) -> String:
 	var sx := int(export.get("size_x", 1))
 	var sy := int(export.get("size_y", 1))
 	var size := Vector2i(sx, sy)
 	var terrain_req := BuildingRules.terrain_requirement(building_id)
+	if terrain_cache == null:
+		return "Map not ready"
 	if not terrain_cache.can_place_for_requirement(terrain_req, origin, size):
-		return false
+		return "Wrong terrain for this building"
 	for tile in BuildFootprint.origin_tiles(origin, sx, sy):
 		var occupant: Building = occupied_tiles.get(tile)
 		if occupant != null and not _occupant_allows_build(occupant, building_id):
-			return false
+			return "Tile already occupied"
 	if settlement != null:
 		if settlement.buildings.is_empty():
-			return true
+			return ""
 		if not settlement.can_place_building(origin, size):
-			return false
-	return true
+			return "Outside settlement build area"
+	return ""

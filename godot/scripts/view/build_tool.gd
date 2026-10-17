@@ -14,10 +14,18 @@ func _init(p_session: GameSession) -> void:
 
 
 func can_place_at(origin: Vector2i) -> bool:
+	return placement_failure_reason(origin).is_empty()
+
+
+func placement_failure_reason(origin: Vector2i) -> String:
+	if session == null:
+		return "No active session"
 	var export := ContentLoader.load_building_export(
 		ContentLoader.stem_for_building_id(building_id)
 	)
-	return session.island.can_place_building(building_id, export, origin, session.settlement)
+	return session.island.explain_placement_failure(
+		building_id, export, origin, session.settlement
+	)
 
 
 func try_place(origin: Vector2i) -> Building:

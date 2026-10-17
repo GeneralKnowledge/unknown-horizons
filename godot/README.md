@@ -14,10 +14,10 @@ Sim code lives under `scripts/sim/` as headless `RefCounted` types (commands, pr
 
 | Area | Status |
 |------|--------|
-| Headless sim (scheduler, storage, production, buildability) | Ported + **196** GUT tests |
+| Headless sim (scheduler, storage, production, buildability) | Ported + **200** GUT tests |
 | Building integration (legacy pytest matrix) | **28/28** building game tests in GUT |
 | JSON save/load (schema v3) | PoC HUD + integration tests |
-| Playable PoC (`scenes/poc_main.tscn`) | Start menu, **development** map, pan/zoom, tier build palette, lumberjack + tree loop, JSON saves |
+| Playable settlement demo (`scenes/poc_main.tscn`) | Title screen, guided **lumber → boards → warehouse** objective, pause, success flow, JSON saves with `demo` metadata — [PLAYABLE_DEMO.md](docs/PLAYABLE_DEMO.md) |
 | Content pipeline | YAML → `export_content.py` → `resources/exported/` + validation |
 | Dual-run parity harness | **10** scenarios vs golden traces (`wood`, warehouse, farm, snapshot, stonemason, tier1_starter) |
 | Web export | `./export_web.sh` → static WASM build (see [WEB_DEPLOYMENT.md](docs/WEB_DEPLOYMENT.md)) |
@@ -52,7 +52,7 @@ cd godot/build/web && python3 -m http.server 8080
 
 ### PoC controls
 
-- **Start menu** — New game, Continue (`user://` save), Import save (see [BROWSER_DEMO.md](docs/BROWSER_DEMO.md))
+- **Start menu** — **Start settlement demo** (primary), economy showcase, Continue (`user://` save), Import save (see [PLAYABLE_DEMO.md](docs/PLAYABLE_DEMO.md), [BROWSER_DEMO.md](docs/BROWSER_DEMO.md))
 - **Pan / zoom** — middle-drag and mouse wheel on the map
 - **Build palette** — tier tabs; or keys **B** / **S** / **T** (build / select / tear)
 - **Left click** — place (build mode) or pick building
