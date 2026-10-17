@@ -57,10 +57,6 @@ godot --path godot scenes/poc_main.tscn
 3. Instantiate `GameSession` / plain sim classes instead of FIFE session mocks.
 4. Run `./run_tests.sh`.
 
-## Post-PoC backlog
+## Port roadmap
 
-- Buildability caches (`tests/unittests/world/buildability/`)
-- Collectors and pathfinding
-- Full YAML/entity loading without JSON export
-- PyChan-equivalent UI, multiplayer lockstep, savegames
-- Isometric tilemap + real lumberjack sprites from `content/gfx/`
+See **[PORT_CHECKLIST.md](PORT_CHECKLIST.md)** for a tickable task list with difficulty estimates and suggested approaches (mapped to Python tests and modules).
