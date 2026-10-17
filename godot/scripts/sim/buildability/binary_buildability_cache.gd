@@ -89,18 +89,28 @@ func remove_area(removed_coords_list: Array) -> void:
 		var c: Vector2i = coords if coords is Vector2i else Vector2i(coords[0], coords[1])
 		assert(coords_set.has(c))
 		coords_set.discard(c)
-	var removed := CoordSet.new()
-	for coords in removed_coords_list:
-		var c: Vector2i = coords if coords is Vector2i else Vector2i(coords[0], coords[1])
-		removed.add(c)
-	var removed_row2 := _reduce_set(_row2, removed, 1, 0)
-	var removed_r2x2 := _reduce_set(cache[Vector2i(2, 2)], removed_row2, 0, 1)
-	var removed_r2x3 := _reduce_set(cache[Vector2i(2, 3)], removed_r2x2, 0, 1)
-	var removed_r2x4 := _reduce_set(cache[Vector2i(2, 4)], removed_r2x3, 0, 1)
-	var removed_r3x2 := _reduce_set(cache[Vector2i(3, 2)], removed_r2x2, 1, 0)
-	var removed_r4x2 := _reduce_set(cache[Vector2i(4, 2)], removed_r3x2, 1, 0)
-	_reduce_set(cache[Vector2i(3, 3)], removed_r3x2, 0, 1)
-	_reset_lazy_sets()
+	# Incremental _reduce_set can drop valid rectangle origins; rebuild from coords_set.
+	_rebuild_rectangle_caches()
+
+
+## Recompute row2 and fixed-size rectangle origin sets from coords_set (after removals).
+func _rebuild_rectangle_caches() -> void:
+	var remaining: Array = []
+	for c in coords_set.keys():
+		remaining.append(c)
+	coords_set.clear()
+	_row2.clear()
+	for size in TerrainBuildabilitySizes.SIZES:
+		if size == Vector2i(1, 1):
+			continue
+		var entry = cache[size]
+		if entry is LazyBinaryCacheElement:
+			continue
+		(entry as CoordSet).clear()
+	if remaining.is_empty():
+		_reset_lazy_sets()
+		return
+	add_area(remaining)
 
 
 func cache_set_for_size(size: Vector2i) -> CoordSet:

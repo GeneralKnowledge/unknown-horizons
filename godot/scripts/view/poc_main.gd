@@ -1,33 +1,27 @@
 extends Node2D
 
-@onready var _hud: Label = $CanvasLayer/HUD
+@onready var _map_view: MapView = $MapView
+@onready var _hud: GameHud = $CanvasLayer/HUD
 @onready var _building_sprite: Sprite2D = $BuildingSprite
-
-const TILE_W := 32
-const TILE_H := 16
-const MAP_ORIGIN := Vector2(320, 180)
+@onready var _ghost: Sprite2D = $GhostSprite
 
 var _session: GameSession
+var _build_tool: BuildTool
 var _buildings: Array[Building] = []
 var _tick_accum := 0.0
-var _place_mode := true
+var _hover_grid := Vector2i.ZERO
 
 
 func _ready() -> void:
 	_session = GameSession.new()
 	_session.load_test_map()
-	var settled := GameTestHelpers.new_settlement(_session, TestMapFactory.default_settlement_point())
-	_buildings.append(
-		BuildCommand.new(
-			GameConstants.BUILDINGS["LUMBERJACK"],
-			30,
-			30,
-			_session.island,
-			settled.settlement
-		).execute(_session)
-	)
-	_sync_sprites()
-	_update_hud()
+	GameTestHelpers.new_settlement(_session, TestMapFactory.default_settlement_point())
+	_build_tool = BuildTool.new(_session)
+	_build_tool.building_placed.connect(_on_building_placed)
+	_map_view.bind(_session.island)
+	_hud.bind(_session)
+	_hud.refresh()
+	_update_ghost()
 
 
 func _process(delta: float) -> void:
@@ -36,60 +30,42 @@ func _process(delta: float) -> void:
 	while _tick_accum >= step:
 		_session.run_ticks(1)
 		_tick_accum -= step
-	_update_hud()
+		MessageBus.settlement_updated.emit()
+	_update_ghost()
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		_hover_grid = _map_view.screen_to_grid(event.position)
+		_update_ghost()
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		var grid := _screen_to_grid(event.position)
-		if _place_mode:
-			var b := BuildCommand.new(
-				GameConstants.BUILDINGS["LUMBERJACK"],
-				grid.x,
-				grid.y,
-				_session.island,
-				_session.settlement
-			).execute(_session)
-			if b != null:
-				_buildings.append(b)
-				_sync_sprites()
-	if event.is_action_pressed("ui_accept"):
-		if not _buildings.is_empty():
-			_buildings[0].get_storage().alter(GameConstants.RES["TREES"], 2)
+		var grid := _map_view.screen_to_grid(event.position)
+		var placed := _build_tool.try_place(grid)
+		if placed != null:
+			_hud.set_selected(placed)
 	if event.is_action_pressed("ui_select"):
-		_place_mode = not _place_mode
+		_build_tool.active = not _build_tool.active
+	if event is InputEventKey and event.pressed:
+		match event.keycode:
+			KEY_1:
+				_build_tool.set_palette_lumberjack()
+			KEY_2:
+				_build_tool.set_palette_tree()
+			KEY_3:
+				_build_tool.set_palette_tear()
+			KEY_T:
+				_build_tool.set_palette_tear()
 
 
-func _screen_to_grid(screen_pos: Vector2) -> Vector2i:
-	var local := screen_pos - MAP_ORIGIN
-	var gx := int(round(local.x / float(TILE_W) + local.y / float(TILE_H)))
-	var gy := int(round(local.y / float(TILE_H) - local.x / float(TILE_W)))
-	return Vector2i(gx, gy)
+func _on_building_placed(building: Building) -> void:
+	_buildings.append(building)
+	_building_sprite.position = _map_view.grid_to_screen(building.position)
 
 
-func _grid_to_screen(grid: Vector2i) -> Vector2:
-	return MAP_ORIGIN + Vector2(
-		(grid.x - grid.y) * (TILE_W / 2.0),
-		(grid.x + grid.y) * (TILE_H / 2.0)
-	)
-
-
-func _sync_sprites() -> void:
-	if _buildings.is_empty():
-		return
-	var latest := _buildings[_buildings.size() - 1]
-	_building_sprite.position = _grid_to_screen(latest.position)
-
-
-func _update_hud() -> void:
-	if _buildings.is_empty():
-		_hud.text = "Click to place lumberjack (buildability checked)"
-		return
-	var lj := _buildings[0]
-	var inv := lj.get_storage()
-	_hud.text = "Unknown Horizons Godot PoC\nClick: place lumberjack | Space: +2 trees | Select: toggle build mode\nTrees: %d  Boards: %d  State: %s  Buildings: %d" % [
-		inv.amount(GameConstants.RES["TREES"]),
-		inv.amount(GameConstants.RES["BOARDS"]),
-		ProductionStates.name_for(lj.get_producer()._get_current_state()),
-		_buildings.size(),
-	]
+func _update_ghost() -> void:
+	_ghost.position = _map_view.grid_to_screen(_hover_grid)
+	if _build_tool.can_place_at(_hover_grid):
+		_ghost.modulate = Color(0.3, 0.9, 0.3, 0.55)
+	else:
+		_ghost.modulate = Color(0.9, 0.2, 0.2, 0.55)
+	_ghost.visible = _build_tool.active

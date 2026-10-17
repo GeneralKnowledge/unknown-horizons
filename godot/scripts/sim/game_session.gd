@@ -1,11 +1,14 @@
 class_name GameSession
 extends RefCounted
 
+const SNAPSHOT_VERSION := 3
+
 var timer: GameTimer
 var scheduler: GameScheduler
 var island: Island
 var settlement: Settlement
 var registry: EntityRegistry
+var manager: CommandManager
 var _next_worldid: int = 1
 var _buildings: Dictionary = {}
 
@@ -14,11 +17,16 @@ func _init() -> void:
 	timer = GameTimer.new()
 	scheduler = GameScheduler.new(timer)
 	registry = EntityRegistry.new()
+	manager = CommandManager.new(self)
 	island = Island.new(allocate_worldid(), self)
 	registry.register(island)
-	var settlement_storage := PositiveSizedSpecializedInventory.new({
-		GameConstants.RES["GOLD"]: 999999,
-	})
+	var slot_sizes: Dictionary = {}
+	slot_sizes[GameConstants.RES["GOLD"]] = 999999
+	for res_name in [
+		"BOARDS", "TOOLS", "BRICKS", "FOOD", "CLAY", "IRON_INGOTS", "CHARCOAL", "TEXTILE",
+	]:
+		slot_sizes[GameConstants.RES[res_name]] = 999999
+	var settlement_storage := PositiveSizedSpecializedInventory.new(slot_sizes)
 	settlement = Settlement.new(allocate_worldid(), island, settlement_storage)
 	island.settlements.append(settlement)
 	registry.register(settlement)
@@ -45,9 +53,18 @@ func get_building(worldid: int) -> Building:
 	return _buildings.get(worldid)
 
 
+func get_buildings_on_island(p_island: Island) -> Array:
+	var out: Array = []
+	for b in _buildings.values():
+		if b is Building and b.island == p_island:
+			out.append(b)
+	return out
+
+
 func run_ticks(ticks: int = 1) -> void:
 	while ticks > 0:
 		scheduler.tick(scheduler.cur_tick + 1)
+		manager.flush()
 		ticks -= 1
 
 
@@ -58,15 +75,23 @@ func run_seconds(seconds: float) -> void:
 func to_snapshot() -> Dictionary:
 	var buildings: Array = []
 	for b in _buildings.values():
-		buildings.append({
+		var entry := {
 			"worldid": b.worldid,
 			"building_id": b.building_id,
 			"x": b.position.x,
 			"y": b.position.y,
 			"storage": b.get_storage().get_stored_resources(),
-			"producer_active": b.get_producer().is_active(),
-		})
-	return {"next_worldid": _next_worldid, "buildings": buildings}
+		}
+		var producer: Producer = b.get_producer()
+		if producer != null:
+			entry["producer_active"] = producer.is_active()
+		buildings.append(entry)
+	return {
+		"schema_version": SNAPSHOT_VERSION,
+		"next_worldid": _next_worldid,
+		"settlement_inventory": settlement.inventory.get_stored_resources(),
+		"buildings": buildings,
+	}
 
 
 func load_snapshot(data: Dictionary) -> void:
@@ -77,6 +102,12 @@ func load_snapshot(data: Dictionary) -> void:
 	settlement.buildings.clear()
 	island.occupied_tiles.clear()
 	settlement.init_buildability()
+	settlement.inventory.reset_all()
+	if data.has("settlement_inventory"):
+		var inv_data: Dictionary = data.get("settlement_inventory", {})
+		for res_key in inv_data.keys():
+			var res_id := int(str(res_key))
+			settlement.inventory.alter(res_id, int(inv_data[res_key]))
 	var snaps: Array = data.get("buildings", [])
 	snaps.sort_custom(func(a, b):
 		if int(a["building_id"]) == GameConstants.BUILDINGS["WAREHOUSE"]:
@@ -86,20 +117,25 @@ func load_snapshot(data: Dictionary) -> void:
 		return int(a["worldid"]) < int(b["worldid"])
 	)
 	for snap in snaps:
-		var building := BuildCommand.new(
+		var cmd := BuildCommand.new(
 			int(snap["building_id"]),
 			int(snap["x"]),
 			int(snap["y"]),
 			island,
 			settlement
-		).execute(self, int(snap["worldid"]))
+		)
+		cmd.forced_worldid = int(snap["worldid"])
+		var building: Building = cmd.execute(self)
 		if building == null:
 			continue
-		for res_key in snap.get("storage", {}).keys():
-			building.get_storage().reset(int(res_key))
-			building.get_storage().alter(int(res_key), int(snap["storage"][res_key]))
-		if not bool(snap.get("producer_active", true)):
-			building.get_producer().set_all_active(false)
+		var storage_data: Dictionary = snap.get("storage", {})
+		for res_key in storage_data.keys():
+			var res_id := int(str(res_key))
+			building.get_storage().reset(res_id)
+			building.get_storage().alter(res_id, int(storage_data[res_key]))
+		var producer: Producer = building.get_producer()
+		if producer != null and not bool(snap.get("producer_active", true)):
+			producer.set_all_active(false)
 
 
 static func settle() -> Dictionary:

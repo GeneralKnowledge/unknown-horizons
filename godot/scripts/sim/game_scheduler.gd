@@ -141,7 +141,7 @@ func rem_call(instance: Variant, callback: Callable) -> int:
 		var lst: Array = schedule[key]
 		for i in range(lst.size() - 1, -1, -1):
 			var cb: SchedulerCallback = lst[i]
-			if cb.class_instance == instance and cb.callback == callback and not cb.invalid:
+			if _same_scheduler_instance(cb.class_instance, instance) and cb.callback == callback and not cb.invalid:
 				lst.remove_at(i)
 				removed += 1
 	if removed > 0 and calls_by_instance.has(instance):
@@ -152,7 +152,7 @@ func rem_call(instance: Variant, callback: Callable) -> int:
 			calls_by_instance.erase(instance)
 	for i in range(additional_cur_tick_schedule.size() - 1, -1, -1):
 		var cb2: SchedulerCallback = additional_cur_tick_schedule[i]
-		if cb2.class_instance == instance and cb2.callback == callback and not cb2.invalid:
+		if _same_scheduler_instance(cb2.class_instance, instance) and cb2.callback == callback and not cb2.invalid:
 			additional_cur_tick_schedule.remove_at(i)
 			removed += 1
 	return removed
@@ -183,6 +183,12 @@ func get_ticks(seconds: float) -> int:
 
 func get_ticks_of_month() -> int:
 	return timer.get_ticks(GameTimer.INGAME_TICK_INTERVAL_SECONDS)
+
+
+static func _same_scheduler_instance(a: Variant, b: Variant) -> bool:
+	if a is Dictionary or b is Dictionary:
+		return false
+	return a == b
 
 
 class SchedulerCallback extends RefCounted:

@@ -8,6 +8,7 @@ var island: Island
 var settlement: Settlement
 var inventory: Inventory
 var producer: Producer
+var collecting: CollectingComponent
 
 
 func _init(

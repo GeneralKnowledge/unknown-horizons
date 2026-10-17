@@ -2,11 +2,17 @@
   "ambient": {
     "components": {},
     "id_name": "BUILDINGS.AMBIENT",
+    "radius": 0,
     "size_x": 1,
     "size_y": 1
   },
   "bakery": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "0": {
@@ -37,11 +43,17 @@
       }
     },
     "id_name": "BUILDINGS.BAKERY",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
   "barracks": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Storage": {
         "config": {
           "slot_sizes": {
@@ -52,17 +64,24 @@
       }
     },
     "id_name": "BUILDINGS.BARRACKS",
+    "radius": 6,
     "size_x": 3,
     "size_y": 3
   },
   "barrier": {
     "components": {},
     "id_name": "BUILDINGS.BARRIER",
+    "radius": 0,
     "size_x": 1,
     "size_y": 1
   },
   "blender": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "0": {
@@ -93,11 +112,17 @@
       }
     },
     "id_name": "BUILDINGS.BLENDER",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
   "boatbuilder": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Storage": {
         "config": {
           "slot_sizes": {
@@ -111,11 +136,17 @@
       }
     },
     "id_name": "BUILDINGS.BOAT_BUILDER",
+    "radius": 10,
     "size_x": 3,
     "size_y": 3
   },
   "brewery": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "2105680898": {
@@ -146,11 +177,17 @@
       }
     },
     "id_name": "BUILDINGS.BREWERY",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
   "brickyard": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "33": {
@@ -181,11 +218,17 @@
       }
     },
     "id_name": "BUILDINGS.BRICKYARD",
+    "radius": 8,
     "size_x": 2,
     "size_y": 4
   },
   "butchery": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "55": {
@@ -232,11 +275,17 @@
       }
     },
     "id_name": "BUILDINGS.BUTCHERY",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
   "cannonfoundry": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "1572026952": {
@@ -277,11 +326,17 @@
       }
     },
     "id_name": "BUILDINGS.CANNON_FOUNDRY",
+    "radius": 8,
     "size_x": 3,
     "size_y": 3
   },
   "charcoalburning": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "39": {
@@ -312,6 +367,7 @@
       }
     },
     "id_name": "BUILDINGS.CHARCOAL_BURNER",
+    "radius": 6,
     "size_x": 2,
     "size_y": 3
   },
@@ -327,6 +383,7 @@
       }
     },
     "id_name": "BUILDINGS.CLAY_DEPOSIT",
+    "radius": 0,
     "size_x": 3,
     "size_y": 3
   },
@@ -362,11 +419,17 @@
       }
     },
     "id_name": "BUILDINGS.CLAY_PIT",
+    "radius": 0,
     "size_x": 3,
     "size_y": 3
   },
   "distillery": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "1842760585": {
@@ -397,11 +460,18 @@
       }
     },
     "id_name": "BUILDINGS.DISTILLERY",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
   "doctor": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1,
+          "1000022": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "227255506": {
@@ -430,11 +500,17 @@
       }
     },
     "id_name": "BUILDINGS.DOCTOR",
+    "radius": 10,
     "size_x": 2,
     "size_y": 2
   },
   "farm": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000009": 2
+        }
+      },
       "Producer": {
         "productionlines": {
           "1236502256": {
@@ -656,11 +732,17 @@
       }
     },
     "id_name": "BUILDINGS.FARM",
+    "radius": 3,
     "size_x": 3,
     "size_y": 3
   },
   "fireservice": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000022": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "1907712664": {
@@ -683,6 +765,7 @@
       }
     },
     "id_name": "BUILDINGS.FIRE_STATION",
+    "radius": 13,
     "size_x": 2,
     "size_y": 2
   },
@@ -712,11 +795,17 @@
       }
     },
     "id_name": "BUILDINGS.FISH_DEPOSIT",
+    "radius": 0,
     "size_x": 2,
     "size_y": 2
   },
   "fishermanstent": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000004": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "923331670": {
@@ -747,11 +836,17 @@
       }
     },
     "id_name": "BUILDINGS.FISHER",
+    "radius": 16,
     "size_x": 2,
     "size_y": 2
   },
   "hunterstent": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000014": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "1335785398": {
@@ -782,17 +877,24 @@
       }
     },
     "id_name": "BUILDINGS.HUNTER",
+    "radius": 10,
     "size_x": 2,
     "size_y": 2
   },
   "lookout": {
     "components": {},
     "id_name": "BUILDINGS.LOOKOUT",
+    "radius": 12,
     "size_x": 1,
     "size_y": 1
   },
   "lumberjackcamp": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000010": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "256812226": {
@@ -823,6 +925,7 @@
       }
     },
     "id_name": "BUILDINGS.LUMBERJACK",
+    "radius": 3,
     "size_x": 2,
     "size_y": 2
   },
@@ -836,6 +939,7 @@
       }
     },
     "id_name": "BUILDINGS.MAIN_SQUARE",
+    "radius": 0,
     "size_x": 6,
     "size_y": 6
   },
@@ -871,6 +975,7 @@
       }
     },
     "id_name": "BUILDINGS.MINE",
+    "radius": 0,
     "size_x": 5,
     "size_y": 5
   },
@@ -886,11 +991,17 @@
       }
     },
     "id_name": "BUILDINGS.MOUNTAIN",
+    "radius": 0,
     "size_x": 5,
     "size_y": 5
   },
   "pastryshop": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "570450416": {
@@ -967,6 +1078,7 @@
       }
     },
     "id_name": "BUILDINGS.PASTRY_SHOP",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
@@ -995,6 +1107,7 @@
       }
     },
     "id_name": "BUILDINGS.PAVILION",
+    "radius": 0,
     "size_x": 2,
     "size_y": 2
   },
@@ -1023,17 +1136,24 @@
       }
     },
     "id_name": "BUILDINGS.PUBLIC_BATH",
+    "radius": 0,
     "size_x": 2,
     "size_y": 2
   },
   "ruinedtent": {
     "components": {},
     "id_name": "BUILDINGS.SETTLER_RUIN",
+    "radius": 0,
     "size_x": 2,
     "size_y": 2
   },
   "saline": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "854772720": {
@@ -1069,6 +1189,7 @@
       }
     },
     "id_name": "BUILDINGS.SALINE",
+    "radius": 0,
     "size_x": 2,
     "size_y": 2
   },
@@ -1097,17 +1218,24 @@
       }
     },
     "id_name": "BUILDINGS.SALT_PONDS",
+    "radius": 0,
     "size_x": 3,
     "size_y": 3
   },
   "signalfire": {
     "components": {},
     "id_name": "BUILDINGS.SIGNAL_FIRE",
+    "radius": 13,
     "size_x": 1,
     "size_y": 1
   },
   "smeltery": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 2
+        }
+      },
       "Producer": {
         "productionlines": {
           "1698523401": {
@@ -1143,6 +1271,7 @@
       }
     },
     "id_name": "BUILDINGS.SMELTERY",
+    "radius": 10,
     "size_x": 4,
     "size_y": 4
   },
@@ -1158,11 +1287,17 @@
       }
     },
     "id_name": "BUILDINGS.STONE_DEPOSIT",
+    "radius": 0,
     "size_x": 3,
     "size_y": 3
   },
   "stonemason": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "1971678669": {
@@ -1193,6 +1328,7 @@
       }
     },
     "id_name": "BUILDINGS.STONEMASON",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
@@ -1228,11 +1364,17 @@
       }
     },
     "id_name": "BUILDINGS.STONE_PIT",
+    "radius": 0,
     "size_x": 3,
     "size_y": 3
   },
   "storagetent": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000008": 2
+        }
+      },
       "Storage": {
         "config": {
           "slot_sizes": {}
@@ -1241,11 +1383,17 @@
       }
     },
     "id_name": "BUILDINGS.STORAGE",
+    "radius": 17,
     "size_x": 2,
     "size_y": 2
   },
   "tavern": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "40": {
@@ -1276,11 +1424,17 @@
       }
     },
     "id_name": "BUILDINGS.TAVERN",
+    "radius": 6,
     "size_x": 2,
     "size_y": 2
   },
   "tent": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000011": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "1205784915": {
@@ -1585,11 +1739,17 @@
       }
     },
     "id_name": "BUILDINGS.RESIDENTIAL",
+    "radius": 12,
     "size_x": 2,
     "size_y": 2
   },
   "tobacconist": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "48": {
@@ -1620,11 +1780,17 @@
       }
     },
     "id_name": "BUILDINGS.TOBACCONIST",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
   "toolmaker": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "38": {
@@ -1665,12 +1831,14 @@
       }
     },
     "id_name": "BUILDINGS.TOOLMAKER",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
   "trail": {
     "components": {},
     "id_name": "BUILDINGS.TRAIL",
+    "radius": 0,
     "size_x": 1,
     "size_y": 1
   },
@@ -1710,6 +1878,7 @@
       }
     },
     "id_name": "BUILDINGS.TREE",
+    "radius": 0,
     "size_x": 1,
     "size_y": 1
   },
@@ -1738,11 +1907,17 @@
       }
     },
     "id_name": "BUILDINGS.VILLAGE_SCHOOL",
+    "radius": 0,
     "size_x": 2,
     "size_y": 2
   },
   "warehouse": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000008": 3
+        }
+      },
       "Producer": {
         "productionlines": {
           "31": {
@@ -1763,11 +1938,17 @@
       }
     },
     "id_name": "BUILDINGS.WAREHOUSE",
+    "radius": 24,
     "size_x": 3,
     "size_y": 3
   },
   "weaponsmith": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "1306133389": {
@@ -1803,11 +1984,17 @@
       }
     },
     "id_name": "BUILDINGS.WEAPONSMITH",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
   "weaverstent": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "9": {
@@ -1838,11 +2025,17 @@
       }
     },
     "id_name": "BUILDINGS.WEAVER",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
   "windmill": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "0": {
@@ -1873,11 +2066,17 @@
       }
     },
     "id_name": "BUILDINGS.WINDMILL",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
   "winery": {
     "components": {
+      "Collecting": {
+        "collectors": {
+          "1000002": 1
+        }
+      },
       "Producer": {
         "productionlines": {
           "0": {
@@ -1908,12 +2107,14 @@
       }
     },
     "id_name": "BUILDINGS.WINERY",
+    "radius": 8,
     "size_x": 2,
     "size_y": 2
   },
   "woodentower": {
     "components": {},
     "id_name": "BUILDINGS.WOODEN_TOWER",
+    "radius": 9,
     "size_x": 2,
     "size_y": 2
   }

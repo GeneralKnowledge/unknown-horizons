@@ -9,17 +9,17 @@ func test_basic_wood_production() -> void:
 	var settlement: Settlement = settled.settlement
 	var island: Island = settled.island
 
-	var lj := BuildCommand.new(
+	var lj: Building = BuildCommand.new(
 		GameConstants.BUILDINGS["LUMBERJACK"],
 		30,
 		30,
 		island,
 		settlement
-	).execute(session)
+	).execute(session) as Building
 	assert_eq(GameConstants.BUILDINGS["LUMBERJACK"], lj.building_id)
 
-	var storage := lj.get_storage()
-	var producer := lj.get_producer()
+	var storage: Inventory = lj.get_storage()
+	var producer: Producer = lj.get_producer()
 	assert_true(producer.has_production_line(PRODUCTIONLINES_TREES))
 	var production: Production = producer._get_production(PRODUCTIONLINES_TREES)
 
