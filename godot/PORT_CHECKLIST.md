@@ -538,27 +538,27 @@ Tick items: `[ ]` → `[x]`.
 | `tests/unittests/world/component/test_healthcomponent.py` (5) | — | **0/5** |
 | `tests/unittests/world/component/test_namedcomponent.py` (6) | — | **0/6** |
 | `tests/unittests/world/component/test_tradepostcomponent.py` (2) | — | **0/2** |
-| `tests/game/test_buildings.py` (28) | `tests/integration/test_buildings_wave_f*.gd`, tier-1 | **8/28** |
-| `tests/game/test_load_save.py` (7) | `test_session_save.gd` | **2/7** |
+| `tests/game/test_buildings.py` (28) | `tests/integration/test_buildings_wave_f*.gd`, tier-1 | **16/28** |
+| `tests/game/test_load_save.py` (7) | `test_session_save.gd` | **4/7** |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** **94** tests passing (`./godot/run_tests.sh`).
+**Current GUT total:** **106** tests passing (`./godot/run_tests.sh`).
 
 ---
 
 ## Recommended next 10 tasks (ordered)
 
-1. **SettlementBuildabilityCache.modify_area** (ground map parity with Python).  
-2. **`test_buildings.py` Tier 2** (fisher, chains).  
-3. **Warehouse `CollectingComponent`** + storage collector job rules.  
-4. **TerrainBuildabilityCache** full LAND/COAST types from island tiles.  
-5. **MapView / BuildTool** wired to `CommandManager`.  
-6. **Pathfinding** for collector movement.  
-7. **Save/load** full DB parity + `test_load_save.py` remainder.  
-8. **Isometric TileMap** art pipeline from `content/gfx`.  
-9. **GUI shell** (warehouse tab).  
+1. **`test_buildings.py` Tier 3** (distillery, farm animals, late chains).  
+2. **`test_load_save.py` remainder** (3 cases) + legacy SQLite reader.  
+3. **Game clock** GUT **7→13** (`test_timer.py` parity).  
+4. **Collector pathfinding E3** (walk home / roads; E2 distance MVP done).  
+5. **Export `buildable_upon` / terrain** from YAML in `export_content.py`.  
+6. **GUI warehouse tab** (`PORT_CHECKLIST_GUI.md`).  
+7. **Isometric TileMap** + gfx pipeline (Phase 3).  
+8. **Units YAML export** (hunter/animal collectors).  
+9. **Health / trade / provider** components (Phase 2.5).  
 10. **MP / scenarios** (XL deferred).
 
 ---
 
-*Last updated: Settlement Loop Alpha — CommandManager, GameTestSession, collectors, settlement radius (83 GUT tests).*
+*Last updated: Next-10 batch — ground map `modify_area`, LAND/COAST terrain, warehouse storage collectors, pathfinder E2, snapshot v3, MessageBus, wave F4 GUT (106 tests).*
