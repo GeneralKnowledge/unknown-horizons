@@ -30,6 +30,16 @@ signal build_mode_selected(mode: StringName)
 var _status_timer: float = 0.0
 
 
+func _ready() -> void:
+	_apply_pack_theme()
+
+
+func _apply_pack_theme() -> void:
+	var pack_theme := ContentTheme.get_ui_theme()
+	if pack_theme != null:
+		theme = pack_theme
+
+
 func _process(delta: float) -> void:
 	if _status_timer > 0.0:
 		_status_timer -= delta
@@ -41,7 +51,7 @@ func show_status(message: String, is_error: bool = false) -> void:
 	if _status == null:
 		return
 	_status.text = message
-	_status.modulate = Color(1, 0.35, 0.35) if is_error else Color(0.85, 1, 0.85)
+	_status.modulate = ContentTheme.hud_status_error() if is_error else ContentTheme.hud_status_ok()
 	_status_timer = 5.0
 
 
@@ -158,6 +168,10 @@ func refresh() -> void:
 			theme_suffix,
 		]
 	)
+	if ContentTheme.pack_id != "":
+		_header.modulate = ContentTheme.hud_accent_color()
+	else:
+		_header.modulate = Color.WHITE
 	if _hint != null:
 		_hint.text = "Pan: middle-drag | Zoom: wheel | Build palette tabs below"
 	_settlement_panel.show_inventory("Settlement warehouse", settlement.inventory)

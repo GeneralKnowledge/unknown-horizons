@@ -1,3 +1,8 @@
 {
-  "pack_id": "northern_company"
+  "pack_id": "northern_company",
+  "hud": {
+    "accent_color": "#4a7c9e",
+    "status_ok_color": "#d8f0e8",
+    "status_error_color": "#ff6666"
+  }
 }

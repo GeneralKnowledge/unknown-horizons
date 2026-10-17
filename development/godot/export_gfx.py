@@ -191,18 +191,48 @@ def export_lumberjack_slice() -> None:
 	export_building_slice("lumberjackcamp", LEGACY_BUILDING_GFX["lumberjackcamp"])
 
 
-def export_dlc_gfx() -> None:
-	pack = GODOT_ROOT / "resources" / "dlc" / "northern_company" / "gfx"
-	write_solid_png(pack / "faction_accent.png", 32, 32, (74, 124, 158, 255))
-	manifest = {
-		"pack_id": "northern_company",
-		"building_tints": {
+def _copy_gfx_stem_tree(src_dir: Path, dst_dir: Path) -> None:
+	if not src_dir.is_dir():
+		return
+	if dst_dir.exists():
+		shutil.rmtree(dst_dir)
+	shutil.copytree(
+		src_dir,
+		dst_dir,
+		ignore=shutil.ignore_patterns("*.import"),
+	)
+
+
+def export_dlc_pack_gfx(pack_id: str) -> None:
+	manifest_path = GODOT_ROOT / "resources" / "dlc" / pack_id / "manifest.json"
+	if not manifest_path.is_file():
+		return
+	manifest: dict = json.loads(manifest_path.read_text(encoding="utf-8"))
+	pack = GODOT_ROOT / "resources" / "dlc" / pack_id / "gfx"
+	pack.mkdir(parents=True, exist_ok=True)
+	base_gfx = GODOT_ROOT / "resources" / "gfx"
+	for stem in manifest.get("gfx_stem_overrides", []):
+		_copy_gfx_stem_tree(base_gfx / str(stem), pack / str(stem))
+	for dst_stem, src_stem in manifest.get("gfx_stem_aliases", {}).items():
+		_copy_gfx_stem_tree(base_gfx / str(src_stem), pack / str(dst_stem))
+	tints = manifest.get(
+		"building_tints",
+		{
 			"northern_warehouse": [0.55, 0.75, 0.95, 1.0],
 			"northern_smokery": [0.5, 0.65, 0.85, 1.0],
 		},
-	}
-	(pack / "sprite_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-	print(f"Wrote DLC gfx manifest to {pack}")
+	)
+	(pack / "sprite_manifest.json").write_text(
+		json.dumps({"pack_id": pack_id, "building_tints": tints}, indent=2),
+		encoding="utf-8",
+	)
+	print(f"Wrote DLC pack gfx overrides for {pack_id} under {pack}")
+
+
+def export_dlc_gfx() -> None:
+	pack = GODOT_ROOT / "resources" / "dlc" / "northern_company" / "gfx"
+	write_solid_png(pack / "faction_accent.png", 32, 32, (74, 124, 158, 255))
+	export_dlc_pack_gfx("northern_company")
 
 
 def write_ground_atlas(out_dir: Path) -> None:

@@ -38,3 +38,8 @@ Edit `resources/demo/demo_config.json`:
 - `default_map_id` — bundled ground id (default `development`)
 - `show_start_menu` — set `false` for instant new game (useful for automated runs)
 - `default_settlement_x` / `default_settlement_y` — starting warehouse anchor
+
+Bundled scenario JSON (manual QA / future scripted demos):
+
+- `resources/demo/starter_island_scenario.json` — tier-2 clay → brickyard on the development map
+- `resources/demo/starter_tier1_scenario.json` — tier-1 lumberjack, hunter, and fisher on the test island; **place lumberjack before hunter/fisher** (warehouse collector). Covered by `test_starter_tier1_scenario.gd` and parity scenario `tier1_starter`.

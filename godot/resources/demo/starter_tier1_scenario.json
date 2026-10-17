@@ -1,0 +1,15 @@
+{
+  "description": "Tier-1 lumberjack, hunter, and fisher on the test island — lumberjack before hunter/fisher for warehouse collector flow.",
+  "map_id": "test_island_20x20",
+  "settlement": { "x": 30, "y": 23 },
+  "chain": {
+    "lumberjack": { "x": 30, "y": 30 },
+    "hunter": { "x": 32, "y": 30 },
+    "fish_deposits": [
+      { "x": 35, "y": 20 },
+      { "x": 37, "y": 20 },
+      { "x": 39, "y": 20 }
+    ],
+    "fisher": { "x": 33, "y": 21 }
+  }
+}
