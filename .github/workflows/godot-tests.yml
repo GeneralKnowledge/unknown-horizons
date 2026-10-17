@@ -59,6 +59,9 @@ jobs:
           cp development/godot/parity/scenarios/*.json godot/resources/parity/
           cp development/godot/parity/map_specs.json godot/resources/parity/
 
+      - name: Import Godot project (global class cache for autoloads)
+        run: godot --headless --path godot --import --quit
+
       - name: Compare Godot traces to golden
         run: ./development/godot/parity/run_all.sh
 
