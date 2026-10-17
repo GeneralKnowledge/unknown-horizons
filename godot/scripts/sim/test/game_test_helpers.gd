@@ -3,13 +3,15 @@ extends RefCounted
 
 
 static func new_settlement(session: GameSession, pos: Vector2i = TestMapFactory.default_settlement_point()) -> Dictionary:
-	var warehouse := BuildCommand.new(
-		GameConstants.BUILDINGS["WAREHOUSE"],
-		pos.x,
-		pos.y,
-		session.island,
-		session.settlement
-	).execute(session)
+	var warehouse: Building = session.manager.execute(
+		BuildCommand.new(
+			GameConstants.BUILDINGS["WAREHOUSE"],
+			pos.x,
+			pos.y,
+			session.island,
+			session.settlement
+		)
+	) as Building
 	if warehouse == null:
 		push_error("Could not build warehouse at %s" % pos)
 		return {"settlement": session.settlement, "island": session.island}

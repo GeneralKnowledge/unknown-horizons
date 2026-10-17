@@ -57,6 +57,14 @@ static func create_storage_from_export(export: Dictionary) -> Inventory:
 	return PositiveSizedSpecializedInventory.new(slot_sizes)
 
 
+static func create_collecting_from_export(export: Dictionary) -> Dictionary:
+	var raw: Dictionary = export.get("components", {}).get("Collecting", {}).get("collectors", {})
+	var normalized := {}
+	for unit_id in raw.keys():
+		normalized[int(unit_id)] = int(raw[unit_id])
+	return normalized
+
+
 static func create_producer_lines(export: Dictionary) -> Dictionary:
 	var raw: Dictionary = export.get("components", {}).get("Producer", {}).get("productionlines", {})
 	var normalized := {}

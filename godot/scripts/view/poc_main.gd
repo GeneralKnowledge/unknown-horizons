@@ -24,7 +24,7 @@ func _ready() -> void:
 			30,
 			_session.island,
 			settled.settlement
-		).execute(_session)
+		).execute(_session) as Building
 	)
 	_sync_sprites()
 	_update_hud()
@@ -43,13 +43,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var grid := _screen_to_grid(event.position)
 		if _place_mode:
-			var b := BuildCommand.new(
+			var b: Building = BuildCommand.new(
 				GameConstants.BUILDINGS["LUMBERJACK"],
 				grid.x,
 				grid.y,
 				_session.island,
 				_session.settlement
-			).execute(_session)
+			).execute(_session) as Building
 			if b != null:
 				_buildings.append(b)
 				_sync_sprites()

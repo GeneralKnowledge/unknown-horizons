@@ -249,9 +249,9 @@ Tick items: `[ ]` → `[x]`.
 - [ ] **`Island` ground map** — ★★★★☆ (L)  
   - **Python:** `horizons/world/island.py`, `ground.py`  
   - **Blocked by:** map load  
-- [ ] **`Settlement` + warehouse seed** — ★★★☆☆ (M)  
-  - **Python:** `horizons/world/settlement.py`  
-  - **Test:** `tests/game/utils.py` `new_settlement`, `settle`  
+- [x] **`Settlement` + warehouse seed (PoC)** — ★★★☆☆ (M)  
+  - **Godot:** `settlement.gd` + `SettlementBuildabilityCache` warehouse radius (no `_full_island_build`)  
+  - **Test:** `GameTestSession`, `test_settlement_buildability.gd`, tier-1 integration  
 - [ ] **`Entities` / `IngameType` loading** — ★★★★★ (XL)  
   - **Python:** `horizons/entities.py`, `horizons/world/ingametype.py`, `componentholder.py`  
   - **Approach:** Incremental: hardcode class map for one building → full export-driven factory.  
@@ -289,7 +289,7 @@ Tick items: `[ ]` → `[x]`.
 
 - [ ] **`BinaryCache`** — ★★★☆☆ (M)  
 - [ ] **`TerrainCache`** — ★★★☆☆ (M)  
-- [ ] **`SettlementCache`** — ★★★★☆ (L)  
+- [ ] **`SettlementCache`** — ★★★★☆ (L) **PoC:** radius seed + footprint; **TODO:** `modify_area` + ground map  
 - [ ] **`FreeIslandCache`** — ★★★☆☆ (M)  
 - [ ] **`SimpleCollectorAreaCache`** — ★★★☆☆ (M)  
 - [ ] **`PotentialRoadConnectivityCache`** — ★★★☆☆ (M)  
@@ -310,10 +310,10 @@ Tick items: `[ ]` → `[x]`.
   - **Test:** 4 tests in `tests/unittests/world/units/collectors/test_collector.py`  
 - [ ] **`BuildingCollector` / `AnimalCollector` / …** — ★★★★☆ (L)  
   - **Python:** `horizons/world/units/collectors/`  
-- [ ] **`CollectingComponent` on buildings** — ★★★☆☆ (M)  
-  - **Python:** `horizons/component/collectingcomponent.py`  
-  - **YAML:** e.g. lumberjack `UNITS.LUMBERJACK_COLLECTOR`  
-  - **Blocked by:** pathfinding, unit spawn, storage  
+- [x] **`CollectingComponent` on buildings (MVP)** — ★★★☆☆ (M)  
+  - **Godot:** `collecting_component.gd`, `building_collector.gd` (radius pickup, no pathfinding)  
+  - **Export:** `Collecting` + `radius` in `buildings.json`  
+  - **TODO:** warehouse collectors, pathfinding, unit visuals  
 
 ### 2.4 Units and movement
 
@@ -542,17 +542,17 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | — | **0/7** |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** **79** tests passing (`./godot/run_tests.sh`).
+**Current GUT total:** **83** tests passing (`./godot/run_tests.sh`).
 
 ---
 
 ## Recommended next 10 tasks (ordered)
 
-1. **Collector pickup loop** + `CollectingComponent` (gameplay, not sort-only).  
-2. **SettlementBuildabilityCache.modify_area** (proper ground map, not `_full_island_build`).  
-3. **`test_buildings.py` Tier 2** (fisher, chains).  
+1. **SettlementBuildabilityCache.modify_area** (ground map parity with Python).  
+2. **`test_buildings.py` Tier 2** (fisher, chains).  
+3. **Warehouse `CollectingComponent`** + storage collector job rules.  
 4. **TerrainBuildabilityCache** full LAND/COAST types from island tiles.  
-5. **Command manager** queue on tick boundaries.  
+5. **MapView / BuildTool** wired to `CommandManager`.  
 6. **Pathfinding** for collector movement.  
 7. **Save/load** full DB parity + `test_load_save.py` remainder.  
 8. **Isometric TileMap** art pipeline from `content/gfx`.  
@@ -561,4 +561,4 @@ Tick items: `[ ]` → `[x]`.
 
 ---
 
-*Last updated: world map, buildability, tier-1 building tests (79 GUT tests).*
+*Last updated: Settlement Loop Alpha — CommandManager, GameTestSession, collectors, settlement radius (83 GUT tests).*

@@ -83,7 +83,7 @@ def resolve_res_token(token, res_map: dict[str, int]):
 	raise ValueError(f"Unknown resource token: {token!r}")
 
 
-def export_building(yaml_path: Path, res_map: dict[str, int]) -> dict:
+def export_building(yaml_path: Path, res_map: dict[str, int], units_map: dict[str, int]) -> dict:
 	data = yaml.safe_load(yaml_path.read_text(encoding="utf-8"))
 
 	def fix_res_list(entries):
@@ -95,6 +95,7 @@ def export_building(yaml_path: Path, res_map: dict[str, int]) -> dict:
 		"id_name": data.get("id"),
 		"size_x": data.get("size_x", 1),
 		"size_y": data.get("size_y", 1),
+		"radius": int(data.get("radius", 0)),
 		"components": {},
 	}
 	for comp in data.get("components", []):
@@ -119,6 +120,14 @@ def export_building(yaml_path: Path, res_map: dict[str, int]) -> dict:
 					fixed_cfg = dict(cfg)
 					fixed_cfg["slot_sizes"] = slot_sizes
 					out["components"]["Storage"] = {"type": storage_type, "config": fixed_cfg}
+			elif key == "CollectingComponent":
+				collectors: dict[str, int] = {}
+				for unit_key, count in value.get("collectors", {}).items():
+					if isinstance(unit_key, str) and unit_key.startswith("UNITS."):
+						unit_name = unit_key[6:]
+						if unit_name in units_map:
+							collectors[str(units_map[unit_name])] = int(count)
+				out["components"]["Collecting"] = {"collectors": collectors}
 	return out
 
 
@@ -131,8 +140,9 @@ def main() -> int:
 	production_line_ids: dict[str, int] = {}
 	buildings_dir = REPO_ROOT / "content" / "objects" / "buildings"
 	res_map = classes["RES"]
+	units_map = classes.get("UNITS", {})
 	for path in sorted(buildings_dir.glob("*.yaml")):
-		buildings[path.stem] = export_building(path, res_map)
+		buildings[path.stem] = export_building(path, res_map, units_map)
 		data = yaml.safe_load(path.read_text(encoding="utf-8"))
 		for comp in data.get("components", []):
 			if not isinstance(comp, dict):

@@ -7,14 +7,15 @@ func test_load_inactive_production() -> void:
 	var settlement: Settlement = settled.settlement
 	var island: Island = settled.island
 
-	var lj := BuildCommand.new(
+	var lj: Building = BuildCommand.new(
 		GameConstants.BUILDINGS["LUMBERJACK"], 30, 30, island, settlement
-	).execute(session)
+	).execute(session) as Building
 	lj.get_producer().set_all_active(false)
-	var wid := lj.worldid
+	var wid: int = lj.worldid
 	session.run_seconds(1)
 
 	var snap := session.to_snapshot()
+	assert_eq(GameSession.SNAPSHOT_VERSION, int(snap.get("schema_version", 0)))
 	var session2 := GameSession.new()
 	session2.load_test_map()
 	session2.load_snapshot(snap)
