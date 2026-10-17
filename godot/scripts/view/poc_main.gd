@@ -24,6 +24,10 @@ func _ready() -> void:
 	_update_ghost()
 	if not MessageBus.building_placed.is_connected(_on_bus_building_placed):
 		MessageBus.building_placed.connect(_on_bus_building_placed)
+	if not _hud.save_requested.is_connected(_on_save_requested):
+		_hud.save_requested.connect(_on_save_requested)
+	if not _hud.load_requested.is_connected(_on_load_requested):
+		_hud.load_requested.connect(_on_load_requested)
 
 
 func _process(delta: float) -> void:
@@ -95,6 +99,41 @@ func _pick_building_at(grid: Vector2i) -> Building:
 			if tile == grid:
 				return b
 	return null
+
+
+func _on_save_requested() -> void:
+	var path := SaveLoadPanel.DEFAULT_SAVE_PATH
+	var snap := _session.to_snapshot()
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		push_error("Could not write save to %s" % path)
+		return
+	file.store_string(JSON.stringify(snap, "\t"))
+	file.close()
+
+
+func _on_load_requested() -> void:
+	var path := SaveLoadPanel.DEFAULT_SAVE_PATH
+	if not FileAccess.file_exists(path):
+		push_warning("No save at %s" % path)
+		return
+	var loaded := JsonSnapshotLoader.load_from_file(path)
+	_apply_session(loaded)
+
+
+func _apply_session(new_session: GameSession) -> void:
+	_session = new_session
+	_build_tool = BuildTool.new(_session)
+	_build_tool.building_placed.connect(_on_building_placed)
+	_map_view.bind(_session.island)
+	_hud.bind(_session, _build_tool)
+	for child in _building_layer.get_children():
+		child.queue_free()
+	_views.clear()
+	for b in _session.get_buildings_on_island(_session.island):
+		_attach_view(b)
+	_hud.refresh()
+	_update_ghost()
 
 
 func _update_ghost() -> void:

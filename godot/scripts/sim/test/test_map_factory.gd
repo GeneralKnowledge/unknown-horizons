@@ -18,5 +18,6 @@ static func create_ground_map() -> Dictionary:
 
 
 static func default_settlement_point() -> Vector2i:
-	# Interior land tile on the test island (local 10, 10).
-	return TestMapFactory.ISLAND_ORIGIN + Vector2i(8, 8)
+	# Match tests/game/utils.py new_settlement(Point(30, 20)) — warehouse footprint must not
+	# overlap common 3×3 build sites such as farm/barracks at (30, 30).
+	return TestMapFactory.ISLAND_ORIGIN + Vector2i(10, 3)

@@ -33,32 +33,58 @@ func _rebuild() -> void:
 			child.queue_free()
 	if _build_tool == null:
 		return
-	var modes := [
-		["Lumberjack", "lumberjack"],
-		["Tree", "tree"],
-		["Tear", "tear"],
-	]
-	for entry in modes:
+	var stems: Array = _load_menu_stems()
+	for stem in stems:
 		var btn := Button.new()
-		btn.text = entry[0]
-		var mode: StringName = StringName(entry[1])
+		btn.text = str(stem)
+		var captured: String = str(stem)
 		btn.pressed.connect(func():
-			_apply_mode(mode)
+			_apply_stem(captured)
 		)
 		add_child(btn)
+	var tear_btn := Button.new()
+	tear_btn.text = "Tear"
+	tear_btn.pressed.connect(func(): _apply_mode(&"tear"))
+	add_child(tear_btn)
 	_refresh_status()
+
+
+func _load_menu_stems() -> Array:
+	const MENU_PATH := "res://resources/exported/poc_build_menu.json"
+	if not FileAccess.file_exists(MENU_PATH):
+		return ["lumberjackcamp", "tree"]
+	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(MENU_PATH))
+	if typeof(data) != TYPE_DICTIONARY:
+		return ["lumberjackcamp", "tree"]
+	return data.get("stems", ["lumberjackcamp", "tree"])
+
+
+func _apply_stem(stem: String) -> void:
+	if _build_tool == null:
+		return
+	_build_tool.tear_mode = false
+	_build_tool.building_id = _building_id_for_stem(stem)
+	mode_selected.emit(StringName(stem))
+	_refresh_status()
+
+
+func _building_id_for_stem(stem: String) -> int:
+	for key in GameConstants.BUILDINGS.keys():
+		var id: int = int(GameConstants.BUILDINGS[key])
+		if ContentLoader.stem_for_building_id(id) == stem:
+			return id
+	push_warning("Unknown build menu stem %s" % stem)
+	return GameConstants.BUILDINGS["LUMBERJACK"]
 
 
 func _apply_mode(mode: StringName) -> void:
 	if _build_tool == null:
 		return
 	match mode:
-		&"lumberjack":
-			_build_tool.set_palette_lumberjack()
-		&"tree":
-			_build_tool.set_palette_tree()
 		&"tear":
 			_build_tool.set_palette_tear()
+		_:
+			_apply_stem(str(mode))
 	mode_selected.emit(mode)
 	_refresh_status()
 

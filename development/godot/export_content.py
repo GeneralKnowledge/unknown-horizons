@@ -291,7 +291,10 @@ def main() -> int:
 	buildings_dir = REPO_ROOT / "content" / "objects" / "buildings"
 	res_map = classes["RES"]
 	units_map = classes.get("UNITS", {})
-	for path in sorted(buildings_dir.glob("*.yaml")):
+	building_yaml_paths = sorted(buildings_dir.glob("*.yaml")) + sorted(
+		buildings_dir.glob("fields/*.yaml")
+	)
+	for path in building_yaml_paths:
 		buildings[path.stem] = export_building(path, res_map, units_map, classes["BUILDINGS"])
 		data = yaml.safe_load(path.read_text(encoding="utf-8"))
 		for comp in data.get("components", []):
@@ -324,6 +327,20 @@ def main() -> int:
 		units[stem] = export_unit(path, res_map)
 	(OUT_DIR / "units.json").write_text(
 		json.dumps(units, indent=2, sort_keys=True), encoding="utf-8"
+	)
+
+	poc_menu = {
+		"stems": [
+			"lumberjackcamp",
+			"hunterstent",
+			"fishermanstent",
+			"brickyard",
+			"farm",
+			"tree",
+		]
+	}
+	(OUT_DIR / "poc_build_menu.json").write_text(
+		json.dumps(poc_menu, indent=2, sort_keys=True), encoding="utf-8"
 	)
 
 	print(f"Exported {len(buildings)} buildings to {OUT_DIR}")

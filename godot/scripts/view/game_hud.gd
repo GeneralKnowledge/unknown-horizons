@@ -11,6 +11,11 @@ var selected: Building
 @onready var _palette: BuildPalettePanel = $VBox/BuildPalette
 @onready var _warehouse: WarehouseTab = $VBox/WarehouseTab
 
+var _save_load: SaveLoadPanel
+
+signal save_requested
+signal load_requested
+
 
 func bind(p_session: GameSession, build_tool: BuildTool = null) -> void:
 	session = p_session
@@ -25,6 +30,11 @@ func bind(p_session: GameSession, build_tool: BuildTool = null) -> void:
 		MessageBus.building_removed.connect(refresh)
 	if not MessageBus.building_selected.is_connected(_on_building_selected):
 		MessageBus.building_selected.connect(_on_building_selected)
+	if _save_load == null:
+		_save_load = SaveLoadPanel.new()
+		$VBox.add_child(_save_load)
+		_save_load.save_requested.connect(func(): save_requested.emit())
+		_save_load.load_requested.connect(func(): load_requested.emit())
 
 
 func _on_building_placed(building: Building) -> void:
