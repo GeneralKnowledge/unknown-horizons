@@ -174,7 +174,7 @@ sequenceDiagram
 
 The official [unknown-horizons/godot-port](https://github.com/unknown-horizons/godot-port) project targets full game presentation (UI, maps, building scenes). We cherry-pick **assets and view patterns** only; sim rules stay here.
 
-See [EXTERNAL_GODOT_PORT.md](EXTERNAL_GODOT_PORT.md) for allowlist, parity gates, and pinned icon imports.
+See [EXTERNAL_GODOT_PORT.md](EXTERNAL_GODOT_PORT.md) for **import tiers A/B/C**, allowlist, parity gates, and pinned icon imports.
 
 ## Related docs
 

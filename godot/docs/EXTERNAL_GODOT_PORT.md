@@ -14,14 +14,54 @@ This repo **cherry-picks presentation** only. Simulation stays in [`scripts/sim/
 
 Refresh inventory: `python3 development/godot/inventory_godot_port.py`
 
-## Import allowlist
+## Import tiers (A / B / C)
+
+Use this when deciding what to copy from [godot-port `Assets/`](https://github.com/unknown-horizons/godot-port/tree/develop/Assets). **Parity and saves always use our sim** (`GameConstants`, export JSON, GUT); upstream is for look, layout, and velocity—not a second rules engine.
+
+| Tier | What to import | Where it lands | Parity / CI |
+|------|----------------|----------------|-------------|
+| **A — Assets (preferred)** | PNGs, `SpriteFrames` (`.tres`), UI `Theme.tres` + style `.tres`, fonts (check license), audio if not already in `legacy/content/` | `resources/upstream/godot-port/` (copy + pin commit in `ATTRIBUTION.md`) | View-only PR: `./development/godot/sync.sh --skip-tests` + PoC smoke + `export_web.sh` if autoloads/resources change. **No GUT required** unless sim touched. |
+| **B — Layout (rewire)** | Tab / menu `.tscn` shells, inventory slot scenes, shader cosmetics | `scenes/hud/` or `resources/ui/` with **our** scripts | Same as A; scripts must read `Building` / `Inventory` / `CommandManager`, never `Building2D` or `ResourceConfig` as authority. |
+| **C — Forbidden (do not ship)** | Full `Buildings2/*.tscn`, `ProductionLineComponent`, storage/collector component scenes, `WorldDev2D*.tscn` as gameplay map, `BuildingConfig` / `ResourceConfig` IDs, whole `project.godot` | — | Would fork sim truth or require Godot 4.7-only project merge; breaks parity gates. |
+
+### Tier A — detail (high value)
+
+Typical upstream paths (names vary by stem, e.g. `lumberjack` vs export stem `lumberjackcamp`):
+
+- **Building visuals:** `Assets/World/Buildings2/<stem>/` — copy `*.png` + `*.tres` only; wire [`BuildingVisualRegistry`](../scripts/view/building_visual_registry.gd) or a stem alias table. Do **not** copy the sibling `.tscn` if it references production/storage components.
+- **UI chrome:** `Assets/UI/Theme/Theme.tres`, `MenuTheme.tres`, icon trees under `Assets/UI/Icons/`.
+- **Maps:** adopt **`maps_manifest.json` shape** only; ground truth stays our [`MapLoader`](../scripts/sim/map/map_loader.gd) + legacy/exported ground JSON—not their `WorldDev2D.tscn` sim worlds.
+
+**Long-term art pipeline:** Tier A from godot-port is fastest for demos; [`export_gfx.py`](../../development/godot/export_gfx.py) from `legacy/content/gfx` remains the maintainable source when YAML/actionsets change. Re-sync upstream pin or regenerate from legacy to avoid double maintenance.
+
+### Tier B — detail
+
+- **Reference:** `Assets/UI/TabWidgets/` (`InventoryTab`, `ProductionOverviewTab`, building menu tabs).
+- **Pattern:** instance or duplicate node tree; bind to [`InventoryPanel`](../scripts/view/inventory_panel.gd), [`production_overview_panel.gd`](../scripts/view/production_overview_panel.gd), [`TransferToSettlementCommand`](../scripts/sim/commands/) etc.
+- **Reject:** any upstream script that calls `get_storage_items()`, `ProductionLineComponent`, or mutates storage on the node.
+
+### Tier C — detail
+
+Examples that look tempting but must stay out of merge:
+
+- `Assets/World/Buildings2/lumberjack/lumberjack.tscn` (embeds `ProductionLineComponent`, `SlotStorageComponent`, collectors).
+- `Assets/World/Components/ProductionLine/ProductionLineComponent.gd`
+- Using `Assets/World/WorldDev2D.tscn` as the PoC map without converting ground into our `Island` format.
+
+If you need behavior from Tier C, port the **rule** into `scripts/sim/` with a GUT or parity scenario first, then add Tier A/B presentation.
+
+## Import allowlist (summary)
+
+Same as **Tier A + B** above:
 
 - UI icons, theme references (view only)
 - Interaction **patterns** (context stack → our `ViewContextManager`)
 - Map manifest **JSON shape** (`maps_manifest.json`, `user://maps`)
-- Building **sprites/scenes** in `scripts/view/` only
+- Building **sprites** (not sim-attached prefabs) under `resources/` + `scripts/view/`
 
-## Import denylist
+## Import denylist (summary)
+
+Same as **Tier C** above:
 
 - `ProductionLineComponent`, storage/collection components on nodes
 - `BuildingConfig` / `Global.ResourceType` as authoritative IDs (use `GameConstants` + export JSON)
