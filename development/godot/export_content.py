@@ -130,7 +130,13 @@ def export_unit(yaml_path: Path, res_map: dict[str, int]) -> dict:
 	return out
 
 
-def export_building(yaml_path: Path, res_map: dict[str, int], units_map: dict[str, int]) -> dict:
+def export_building(
+	yaml_path: Path,
+	res_map: dict[str, int],
+	units_map: dict[str, int],
+	buildings_map: dict[str, int] | None = None,
+) -> dict:
+	buildings_map = buildings_map or {}
 	data = yaml.safe_load(yaml_path.read_text(encoding="utf-8"))
 
 	def fix_res_list(entries):
@@ -175,10 +181,25 @@ def export_building(yaml_path: Path, res_map: dict[str, int], units_map: dict[st
 						if unit_name in units_map:
 							collectors[str(units_map[unit_name])] = int(count)
 				out["components"]["Collecting"] = {"collectors": collectors}
+			elif key == "HealthComponent":
+				out["components"]["Health"] = dict(value)
+			elif key == "FieldBuilder":
+				field_token = value.get("field")
+				field_id = None
+				if isinstance(field_token, str) and field_token.startswith("BUILDINGS."):
+					bname = field_token[10:]
+					if bname in buildings_map:
+						field_id = buildings_map[bname]
+				out["components"]["FieldBuilder"] = {
+					"field_building_id": field_id,
+					"raw_field": field_token,
+				}
 	return out
 
 
-def export_dlc_packs(res_map: dict[str, int], units_map: dict[str, int]) -> None:
+def export_dlc_packs(
+	res_map: dict[str, int], units_map: dict[str, int], buildings_map: dict[str, int]
+) -> None:
 	dlc_root = REPO_ROOT / "content" / "dlc"
 	if not dlc_root.is_dir():
 		return
@@ -195,7 +216,7 @@ def export_dlc_packs(res_map: dict[str, int], units_map: dict[str, int]) -> None
 			yaml_path = manifest_path.parent / "buildings" / f"{stem}.yaml"
 			if not yaml_path.is_file():
 				raise FileNotFoundError(yaml_path)
-			export = export_building(yaml_path, res_map, units_map)
+			export = export_building(yaml_path, res_map, units_map, buildings_map)
 			export["id_name"] = f"BUILDINGS.{godot_name}"
 			export["dlc_pack"] = pack_id
 			export["dlc_building_id"] = building_id
@@ -252,7 +273,7 @@ def main() -> int:
 	res_map = classes["RES"]
 	units_map = classes.get("UNITS", {})
 	for path in sorted(buildings_dir.glob("*.yaml")):
-		buildings[path.stem] = export_building(path, res_map, units_map)
+		buildings[path.stem] = export_building(path, res_map, units_map, classes["BUILDINGS"])
 		data = yaml.safe_load(path.read_text(encoding="utf-8"))
 		for comp in data.get("components", []):
 			if not isinstance(comp, dict):
@@ -275,7 +296,7 @@ def main() -> int:
 	(OUT_DIR / "constants.json").write_text(
 		json.dumps(classes, indent=2, sort_keys=True), encoding="utf-8"
 	)
-	export_dlc_packs(res_map, units_map)
+	export_dlc_packs(res_map, units_map, classes["BUILDINGS"])
 
 	units: dict = {}
 	units_dir = REPO_ROOT / "content" / "objects" / "units"

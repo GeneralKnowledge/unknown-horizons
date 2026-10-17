@@ -9,6 +9,8 @@ var settlement: Settlement
 var inventory: Inventory
 var producer: Producer
 var collecting: CollectingComponent
+var health: HealthComponent
+var field_builder: FieldBuilderComponent
 
 
 func _init(

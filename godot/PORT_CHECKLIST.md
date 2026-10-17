@@ -476,7 +476,9 @@ Tick items: `[ ]` → `[x]`.
 
 ## Phase 6 — Quality & migration
 
-- [ ] **Maintain Appendix C matrix after each PR** — ★☆☆☆☆ (S)  
+- [x] **Scaffolding guide + sync script** — ★☆☆☆☆ (S)  
+  - **Doc:** [`docs/SCAFFOLDING.md`](docs/SCAFFOLDING.md) · **`development/godot/sync.sh`**, `report_matrix.py`, `SaveLoader`  
+- [ ] **Maintain Appendix C matrix after each PR** — ★☆☆☆☆ (S) *(run `report_matrix.py`)*  
 - [ ] **Pin Godot 4.3 + GUT 9.3 in CI and README** — ★☆☆☆☆ (S)  
 - [ ] **Headless benchmark: N ticks on 256×256 map** — ★★★☆☆ (M)  
 - [x] **Document dual-run vs cutover strategy** — ★☆☆☆☆ (S)  
@@ -542,7 +544,7 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | `test_session_save.gd` | **6/7** |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** **110** tests passing (`./godot/run_tests.sh`, includes DLC scaffolding tests).
+**Current GUT total:** **122** tests passing (`./godot/run_tests.sh`, includes DLC + units + GUI shell).
 
 **DLC scaffolding (pre-parity):** see [`DLC_VISION.md`](DLC_VISION.md) and [`PORT_CHECKLIST_DLC.md`](PORT_CHECKLIST_DLC.md).
 

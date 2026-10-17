@@ -60,6 +60,14 @@ static func is_dlc_building_id(building_id: int) -> bool:
 	return path.find("/dlc/") >= 0
 
 
+static func stem_for_unit_id(unit_id: int) -> String:
+	_ensure_stem_index()
+	if _unit_id_to_stem.has(unit_id):
+		return str(_unit_id_to_stem[unit_id])
+	push_error("Unknown unit id %s" % unit_id)
+	return "deer"
+
+
 static func stem_for_building_id(building_id: int) -> String:
 	_ensure_stem_index()
 	if _building_id_to_stem.has(building_id):

@@ -76,14 +76,23 @@ func get_wild_animals_on_island(p_island: Island) -> Array:
 
 
 func spawn_wild_animal(p_island: Island, x: int, y: int) -> WildAnimal:
-	var export := ContentLoader.load_unit_export("deer")
-	var inventory := ContentLoader.create_storage_from_unit_export(export)
-	var lines := ContentLoader.create_producer_lines_from_unit(export)
-	var animal := WildAnimal.new(
-		allocate_worldid(), p_island, Vector2i(x, y), self, inventory, lines
-	)
-	register_wild_animal(animal)
-	return animal
+	var unit = spawn_unit(p_island, "deer", x, y)
+	return unit as WildAnimal
+
+
+func spawn_unit(p_island: Island, unit_stem: String, x: int, y: int) -> Variant:
+	var export := ContentLoader.load_unit_export(unit_stem)
+	var baseclass: String = str(export.get("baseclass", ""))
+	if baseclass.contains("WildAnimal"):
+		var inventory := ContentLoader.create_storage_from_unit_export(export)
+		var lines := ContentLoader.create_producer_lines_from_unit(export)
+		var animal := WildAnimal.new(
+			allocate_worldid(), p_island, Vector2i(x, y), self, inventory, lines
+		)
+		register_wild_animal(animal)
+		return animal
+	push_warning("spawn_unit not implemented for baseclass %s" % baseclass)
+	return null
 
 
 func run_ticks(ticks: int = 1) -> void:
