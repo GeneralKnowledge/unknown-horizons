@@ -1,6 +1,6 @@
 # Unknown Horizons Godot Port — Project Roadmap
 
-Last verified: **2026-10-17** — `./godot/run_tests.sh` **191/191** GUT pass; parity golden **6/6** (includes `tier1_starter` lumberjack → hunter/fisher + warehouse collector); browser demo Phase 1 on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
+Last verified: **2026-10-17** — `./godot/run_tests.sh` **192/192** GUT pass; parity golden **7/7** (tier-1 `tier1_starter`, tier-2 **`brickyard`** clay→bricks, `stonemason`, `farm_crop`, …); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
 
 ## Vision
 
@@ -55,7 +55,7 @@ Reproducible via `./godot/export_web.sh` → `build/web/`. See [WEB_DEPLOYMENT.m
 
 ### Parity confidence
 
-191 GUT tests; 6 parity scenarios vs golden traces (legacy Python optional when `fife` is installed). Tier-1 starter slice: `resources/demo/starter_tier1_scenario.json` + `development/godot/parity/scenarios/tier1_starter.json`.
+192 GUT tests; 7 parity scenarios vs golden traces (legacy Python optional when `fife` is installed). Tier-1 starter slice: `resources/demo/starter_tier1_scenario.json` + `development/godot/parity/scenarios/tier1_starter.json`.
 
 ### Architectural risks
 

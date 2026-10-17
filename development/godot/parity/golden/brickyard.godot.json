@@ -1,0 +1,50 @@
+{
+	"buildings": [
+		{
+			"producer_active": true,
+			"stem": "warehouse",
+			"storage": {
+
+			},
+			"x": 30,
+			"y": 23
+		},
+		{
+			"producer_active": true,
+			"stem": "claydeposit",
+			"storage": {
+				"RAW_CLAY": 10
+			},
+			"x": 33,
+			"y": 33
+		},
+		{
+			"producer_active": true,
+			"stem": "claypit",
+			"storage": {
+
+			},
+			"x": 33,
+			"y": 33
+		},
+		{
+			"producer_active": true,
+			"stem": "brickyard",
+			"storage": {
+				"BRICKS": 2,
+				"CLAY": 4
+			},
+			"x": 33,
+			"y": 25
+		}
+	],
+	"engine": "godot",
+	"scenario_id": "brickyard",
+	"settlement_storage": {
+		"BOARDS": 50,
+		"BRICKS": 50,
+		"GOLD": 5000,
+		"TOOLS": 50
+	},
+	"tick": 1279
+}
