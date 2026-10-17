@@ -1,6 +1,7 @@
 [
   "legacy/tests/game/fixtures/blackdeath.sqlite",
   "legacy/tests/game/fixtures/fire.sqlite",
+  "legacy/tests/game/fixtures/large.sqlite.bz2",
   "legacy/tests/game/fixtures/savegame-rev-76.sqlite",
   "legacy/tests/game/fixtures/settlement-range.sqlite",
   "legacy/tests/game/fixtures/traderoute.sqlite",

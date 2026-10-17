@@ -21,6 +21,12 @@
       "name": "Development",
       "loader": "ground_json",
       "ground": "res://resources/maps/ground/development.json"
+    },
+    {
+      "id": "quattro",
+      "name": "Quattro",
+      "loader": "ground_json",
+      "ground": "res://resources/maps/ground/quattro.json"
     }
   ]
 }

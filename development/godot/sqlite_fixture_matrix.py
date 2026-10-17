@@ -158,13 +158,7 @@ def main() -> int:
 	print(f"Wrote {REPORT_PATH} ({report['ok_count']}/{report['fixture_count']} ok)")
 
 	# Godot GUT helper list (repo-relative paths for desktop load tests)
-	list_paths = [
-		r["path"]
-		for r in rows
-		if r.get("ok")
-		and r["path"].endswith(".sqlite")
-		and not r["path"].endswith(".sqlite.bz2")
-	]
+	list_paths = [r["path"] for r in rows if r.get("ok")]
 	FIXTURE_LIST.parent.mkdir(parents=True, exist_ok=True)
 	FIXTURE_LIST.write_text(json.dumps(list_paths, indent=2) + "\n", encoding="utf-8")
 	print(f"Wrote {FIXTURE_LIST} ({len(list_paths)} paths)")

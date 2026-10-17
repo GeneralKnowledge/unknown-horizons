@@ -23,5 +23,8 @@ func test_each_listed_fixture_loads_without_null_session() -> void:
 			continue
 		var session := SqliteSaveLoader.load(abs_path)
 		assert_not_null(session, "fixture load failed: %s" % rel)
+		var placed := session.get_buildings_on_island(session.island).size()
+		if rel.ends_with("boatbuilder.sqlite") or rel.ends_with("fire.sqlite"):
+			assert_gte(placed, 1, "expected buildings on map for %s" % rel)
 		loaded += 1
 	assert_gte(loaded, 1, "Expected at least one fixture to load")

@@ -29,6 +29,7 @@ LEGACY_GROUND_TO_KIND = {
 DEFAULT_EXPORT_MAPS = (
 	"test-map-tiny.sqlite",
 	"development.sqlite",
+	"quattro.sqlite",
 )
 
 

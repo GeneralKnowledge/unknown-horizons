@@ -38,7 +38,8 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 
 - Buildings via [`sqlite_extract_buildings.py`](../../development/godot/sqlite_extract_buildings.py)
 - Storage via [`sqlite_extract_storage.py`](../../development/godot/sqlite_extract_storage.py)
-- Map remains test stub unless extended (M7)
+- Ground from save `metadata.map_name` when a bundled [`export_maps.py`](../../development/godot/export_maps.py) map exists (`development`, `test_map_tiny`, `quattro`); otherwise test stub
+- `.sqlite.bz2` saves decompressed via [`sqlite_prepare_save.py`](../../development/godot/sqlite_prepare_save.py) (desktop)
 - No `SavegameUpgrader` — rev **76** fixture tests upgrade path in **legacy** pytest only
 
 Web builds: JSON snapshots only ([`SAVE_FORMAT.md`](SAVE_FORMAT.md)).
