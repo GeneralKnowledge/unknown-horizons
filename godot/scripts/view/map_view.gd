@@ -6,6 +6,13 @@ const TILE_H := 16
 
 var island: Island
 var map_origin := Vector2(320, 180)
+var _land_color := Color(0.22, 0.48, 0.22)
+var _coast_color := Color(0.18, 0.38, 0.62)
+var _water_color := Color(0.12, 0.28, 0.55)
+
+
+func _ready() -> void:
+	_load_gfx_index_colors()
 
 
 func bind(p_island: Island) -> void:
@@ -32,11 +39,11 @@ func _draw() -> void:
 		return
 	for coords in island.ground_map.keys():
 		var kind: int = int(island.ground_map[coords])
-		var color := Color(0.12, 0.28, 0.55)
+		var color := _water_color
 		if kind == SimGround.Kind.LAND:
-			color = Color(0.22, 0.48, 0.22)
+			color = _land_color
 		elif kind == SimGround.Kind.SHALLOW_WATER:
-			color = Color(0.18, 0.38, 0.62)
+			color = _coast_color
 		var c: Vector2i = coords if coords is Vector2i else Vector2i(coords[0], coords[1])
 		var center := grid_to_screen(c)
 		var half_w := Vector2(TILE_W / 2.0, TILE_H / 2.0)
@@ -47,3 +54,22 @@ func _draw() -> void:
 			center + Vector2(-half_w.x, 0),
 		])
 		draw_colored_polygon(diamond, color)
+
+
+func _load_gfx_index_colors() -> void:
+	const INDEX_PATH := "res://resources/gfx/index.json"
+	if not FileAccess.file_exists(INDEX_PATH):
+		return
+	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(INDEX_PATH))
+	if typeof(data) != TYPE_DICTIONARY:
+		return
+	var ground: Dictionary = data.get("ground", {})
+	if ground.has("land_rgba"):
+		var rgba: Array = ground["land_rgba"]
+		_land_color = Color(rgba[0] / 255.0, rgba[1] / 255.0, rgba[2] / 255.0, rgba[3] / 255.0)
+	if ground.has("coast_rgba"):
+		var rgba2: Array = ground["coast_rgba"]
+		_coast_color = Color(rgba2[0] / 255.0, rgba2[1] / 255.0, rgba2[2] / 255.0, rgba2[3] / 255.0)
+	if ground.has("water_rgba"):
+		var rgba3: Array = ground["water_rgba"]
+		_water_color = Color(rgba3[0] / 255.0, rgba3[1] / 255.0, rgba3[2] / 255.0, rgba3[3] / 255.0)

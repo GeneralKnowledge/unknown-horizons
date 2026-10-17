@@ -1,4 +1,39 @@
 {
+  "alvearies": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      },
+      "Producer": {
+        "productionlines": {
+          "0": {
+            "produces": [
+              [
+                59,
+                1
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "59": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.ALVEARIES",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
+    "terrain_requirement": 1
+  },
   "ambient": {
     "baseclass": "nature.Ambient",
     "buildable_upon": true,
@@ -392,6 +427,42 @@
     "size_y": 3,
     "terrain_requirement": 1
   },
+  "cattlerun": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      },
+      "Producer": {
+        "productionlines": {
+          "49": {
+            "produces": [
+              [
+                33,
+                2
+              ]
+            ],
+            "time": 40
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "33": 2,
+            "9": 10
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.CATTLE_RUN",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
+    "terrain_requirement": 1
+  },
   "charcoalburning": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
@@ -498,6 +569,76 @@
       }
     },
     "id_name": "BUILDINGS.CLAY_PIT",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
+    "terrain_requirement": 1
+  },
+  "cocoafield": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      },
+      "Producer": {
+        "productionlines": {
+          "532714998": {
+            "produces": [
+              [
+                53,
+                1
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "53": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.COCOA_FIELD",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
+    "terrain_requirement": 1
+  },
+  "cornfield": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      },
+      "Producer": {
+        "productionlines": {
+          "344746552": {
+            "produces": [
+              [
+                42,
+                1
+              ]
+            ],
+            "time": 26
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "42": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.CORN_FIELD",
     "radius": 0,
     "size_x": 3,
     "size_y": 3,
@@ -956,6 +1097,76 @@
     "size_y": 2,
     "terrain_requirement": 2
   },
+  "herbary": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      },
+      "Producer": {
+        "productionlines": {
+          "227255506": {
+            "produces": [
+              [
+                37,
+                1
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "37": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.HERBARY",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
+    "terrain_requirement": 1
+  },
+  "hopfield": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      },
+      "Producer": {
+        "productionlines": {
+          "973125876": {
+            "produces": [
+              [
+                89,
+                1
+              ]
+            ],
+            "time": 26
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "89": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.HOP_FIELD",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
+    "terrain_requirement": 1
+  },
   "hunterstent": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
@@ -1245,6 +1456,42 @@
     "size_y": 2,
     "terrain_requirement": 1
   },
+  "pasture": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      },
+      "Producer": {
+        "productionlines": {
+          "1654557398": {
+            "produces": [
+              [
+                2,
+                1
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "2": 1,
+            "9": 10
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.PASTURE",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
+    "terrain_requirement": 1
+  },
   "pavilion": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
@@ -1278,6 +1525,77 @@
     "radius": 0,
     "size_x": 2,
     "size_y": 2,
+    "terrain_requirement": 1
+  },
+  "pigsty": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 1000
+      },
+      "Producer": {
+        "productionlines": {
+          "50": {
+            "produces": [
+              [
+                34,
+                4
+              ]
+            ],
+            "time": 60
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "34": 4,
+            "39": 10
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.PIGSTY",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
+    "terrain_requirement": 1
+  },
+  "potatofield": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      },
+      "Producer": {
+        "productionlines": {
+          "2092896117": {
+            "produces": [
+              [
+                15,
+                1
+              ]
+            ],
+            "time": 26
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "15": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.POTATO_FIELD",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
     "terrain_requirement": 1
   },
   "publicbath": {
@@ -1482,6 +1800,41 @@
     "size_y": 4,
     "terrain_requirement": 1
   },
+  "spicefield": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      },
+      "Producer": {
+        "productionlines": {
+          "1953634498": {
+            "produces": [
+              [
+                45,
+                1
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "45": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.SPICE_FIELD",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
+    "terrain_requirement": 1
+  },
   "stonedeposit": {
     "baseclass": "nature.ResourceDeposit",
     "buildable_upon": false,
@@ -1616,6 +1969,41 @@
     "radius": 17,
     "size_x": 2,
     "size_y": 2,
+    "terrain_requirement": 1
+  },
+  "sugarfield": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      },
+      "Producer": {
+        "productionlines": {
+          "27": {
+            "produces": [
+              [
+                17,
+                1
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "17": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.SUGARCANE_FIELD",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
     "terrain_requirement": 1
   },
   "tavern": {
@@ -1986,6 +2374,41 @@
     "size_y": 2,
     "terrain_requirement": 1
   },
+  "tobaccofield": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      },
+      "Producer": {
+        "productionlines": {
+          "46": {
+            "produces": [
+              [
+                30,
+                1
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "30": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.TOBACCO_FIELD",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
+    "terrain_requirement": 1
+  },
   "tobacconist": {
     "baseclass": "production.ProductionBuilding",
     "buildable_upon": false,
@@ -2183,6 +2606,41 @@
     "radius": 0,
     "size_x": 2,
     "size_y": 2,
+    "terrain_requirement": 1
+  },
+  "vineyard": {
+    "baseclass": "nature.Field",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      },
+      "Producer": {
+        "productionlines": {
+          "0": {
+            "produces": [
+              [
+                57,
+                1
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "57": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.VINEYARD",
+    "radius": 0,
+    "size_x": 3,
+    "size_y": 3,
     "terrain_requirement": 1
   },
   "warehouse": {

@@ -139,10 +139,36 @@ def export_dlc_gfx() -> None:
 	print(f"Wrote DLC gfx manifest to {pack}")
 
 
+def write_gfx_index() -> None:
+	index: dict = {
+		"buildings": {},
+		"ground": {
+			"source": "procedural_diamond",
+			"tile_w": 32,
+			"tile_h": 16,
+			"land_rgba": [56, 122, 56, 255],
+			"coast_rgba": [46, 97, 158, 255],
+			"water_rgba": [31, 71, 140, 255],
+		},
+	}
+	gfx_root = GODOT_ROOT / "resources" / "gfx"
+	for stem, paths in LEGACY_BUILDING_GFX.items():
+		manifest_path = gfx_root / stem / "sprite_manifest.json"
+		if manifest_path.is_file():
+			index["buildings"][stem] = json.loads(manifest_path.read_text(encoding="utf-8"))
+		else:
+			index["buildings"][stem] = {"building_stem": stem, "source": "missing"}
+	(out := GODOT_ROOT / "resources" / "gfx" / "index.json").write_text(
+		json.dumps(index, indent=2, sort_keys=True), encoding="utf-8"
+	)
+	print(f"Wrote gfx index to {out}")
+
+
 def main() -> int:
 	for stem, paths in LEGACY_BUILDING_GFX.items():
 		export_building_slice(stem, paths)
 	export_dlc_gfx()
+	write_gfx_index()
 	return 0
 
 

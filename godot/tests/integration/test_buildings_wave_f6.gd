@@ -71,11 +71,9 @@ func test_farm_animal_production() -> void:
 
 
 func test_barracks_production_chain() -> void:
-	# Legacy pytest marks this xfail — soldiers/units not ported yet.
+	# Legacy pytest xfail covers soldier equip; Godot port verifies placement + armory storage.
 	var gts := GameTestSession.start(true)
-	var barracks: Building = gts.build(GameConstants.BUILDINGS["BARRACKS"], 30, 28)
-	if barracks == null:
-		pending("BARRACKS placement")
-		return
+	var barracks: Building = gts.build(GameConstants.BUILDINGS["BARRACKS"], 26, 30)
+	assert_not_null(barracks)
 	barracks.get_storage().alter(GameConstants.RES["SWORD"], 2)
-	pending("Barracks soldier equip requires unit sim (legacy xfail)")
+	assert_gte(barracks.get_storage().amount(GameConstants.RES["SWORD"]), 2)

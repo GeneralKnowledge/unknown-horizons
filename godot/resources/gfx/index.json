@@ -1,0 +1,107 @@
+{
+  "buildings": {
+    "brickyard": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 24,
+      "building_stem": "brickyard",
+      "source": "legacy_png"
+    },
+    "fishermanstent": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 11,
+      "building_stem": "fishermanstent",
+      "source": "legacy_png"
+    },
+    "hunterstent": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 9,
+      "building_stem": "hunterstent",
+      "source": "legacy_png"
+    },
+    "lumberjackcamp": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 8,
+      "building_stem": "lumberjackcamp",
+      "source": "legacy_png"
+    },
+    "warehouse": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 1,
+      "building_stem": "warehouse",
+      "source": "legacy_png"
+    }
+  },
+  "ground": {
+    "coast_rgba": [
+      46,
+      97,
+      158,
+      255
+    ],
+    "land_rgba": [
+      56,
+      122,
+      56,
+      255
+    ],
+    "source": "procedural_diamond",
+    "tile_h": 16,
+    "tile_w": 32,
+    "water_rgba": [
+      31,
+      71,
+      140,
+      255
+    ]
+  }
+}
