@@ -5,6 +5,7 @@ func test_init() -> void:
 	var data := {
 		"enabled_by_default": false,
 		"time": 90,
+		"level": [0, 1, 2],
 		"changes_animation": false,
 		"produces": [[14, 1]],
 		"consumes": [[19, -1]],
