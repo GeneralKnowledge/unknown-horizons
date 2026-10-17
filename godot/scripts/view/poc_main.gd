@@ -20,6 +20,7 @@ var _audio_primed := false
 var _playable_demo := false
 var _sim_paused := false
 var _objective_tracker: DemoObjectiveTracker
+var _demo_world_hints: DemoWorldHints
 var _success_panel: DemoSuccessPanel
 var _success_layer: CanvasLayer
 var _selected_worldid: int = -1
@@ -94,6 +95,7 @@ func _start_playable_settlement_demo() -> void:
 		_objective_tracker.step_advanced.connect(_on_objective_step_advanced)
 	_wire_gameplay()
 	_enable_playable_demo_ui()
+	_refresh_demo_world_hints()
 	_hide_start_menu()
 	_camera_ctrl.fit_island()
 	_hud.show_status("Settlement demo — lumber delivery, then brickyard chain")
@@ -251,6 +253,20 @@ func _enable_playable_demo_ui() -> void:
 		_ensure_success_overlay()
 
 
+func _refresh_demo_world_hints() -> void:
+	if not _playable_demo or _objective_tracker == null:
+		if _demo_world_hints != null:
+			_demo_world_hints.visible = false
+		return
+	if _demo_world_hints == null:
+		_demo_world_hints = DemoWorldHints.new()
+		_demo_world_hints.name = "DemoWorldHints"
+		add_child(_demo_world_hints)
+		_demo_world_hints.setup(_map_view)
+	_demo_world_hints.visible = true
+	_demo_world_hints.bind_tracker(_objective_tracker)
+
+
 func _ensure_success_overlay() -> void:
 	if _success_layer != null:
 		return
@@ -289,8 +305,14 @@ func _spawn_demo_clay_deposit() -> void:
 		)
 
 
-func _on_objective_step_advanced(_step_index: int) -> void:
-	_hud.show_status("Objective updated — brickyard chain unlocked")
+func _on_objective_step_advanced(step_index: int) -> void:
+	if step_index == 1:
+		_hud.show_status("Clay deposit marked on the island — build pit, then brickyard")
+		_refresh_demo_world_hints()
+		if _demo_world_hints != null:
+			_camera_ctrl.focus_world_point(_demo_world_hints.clay_marker_center())
+	else:
+		_hud.show_status("Objective updated")
 	GameAudioService.play_exported_legacy_key("content/audio/sounds/lumberjack.ogg")
 
 
@@ -322,6 +344,9 @@ func _teardown_session_to_menu() -> void:
 	_playable_demo = false
 	_sim_paused = false
 	_objective_tracker = null
+	if _demo_world_hints != null:
+		_demo_world_hints.queue_free()
+		_demo_world_hints = null
 	_session = null
 	_build_tool = null
 	_hud.set_playable_demo_active(false)
@@ -353,6 +378,7 @@ func _apply_demo_from_snapshot(data: Dictionary) -> void:
 	if not _objective_tracker.step_advanced.is_connected(_on_objective_step_advanced):
 		_objective_tracker.step_advanced.connect(_on_objective_step_advanced)
 	_enable_playable_demo_ui()
+	_refresh_demo_world_hints()
 	if _objective_tracker.completed:
 		_ensure_success_overlay()
 		_success_panel.show_success()

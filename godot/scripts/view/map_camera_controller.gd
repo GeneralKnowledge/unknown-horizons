@@ -37,6 +37,24 @@ func fit_island() -> void:
 	_camera.zoom = Vector2(z, z)
 
 
+func focus_world_point(
+	world_pos: Vector2,
+	duration: float = 0.85,
+	zoom_in_factor: float = 1.18
+) -> void:
+	if _camera == null:
+		return
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(_camera, "position", world_pos, duration).set_trans(
+		Tween.TRANS_CUBIC
+	).set_ease(Tween.EASE_OUT)
+	var z := clampf(_camera.zoom.x * zoom_in_factor, min_zoom, max_zoom)
+	tween.tween_property(_camera, "zoom", Vector2(z, z), duration).set_trans(
+		Tween.TRANS_CUBIC
+	).set_ease(Tween.EASE_OUT)
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if _camera == null:
 		return
