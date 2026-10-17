@@ -53,8 +53,23 @@ func _process(delta: float) -> void:
 			_status.text = ""
 
 
+func prepare_for_screenshot() -> void:
+	if _map_picker != null:
+		_map_picker.visible = false
+	if _dev_debug != null:
+		_dev_debug.visible = false
+	if _save_load != null:
+		_save_load.visible = false
+	if _production != null:
+		_production.visible = false
+	if _hint != null:
+		_hint.visible = false
+
+
 func set_playable_demo_active(active: bool) -> void:
 	_playable_demo_active = active
+	if _map_picker != null:
+		_map_picker.visible = not active and OS.is_debug_build()
 	if _objective_panel != null:
 		_objective_panel.visible = active
 	if _hint != null and active:

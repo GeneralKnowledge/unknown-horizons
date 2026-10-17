@@ -24,6 +24,11 @@ var _demo_world_hints: DemoWorldHints
 var _success_panel: DemoSuccessPanel
 var _success_layer: CanvasLayer
 var _selected_worldid: int = -1
+var _screenshot_out := ""
+var _screenshot_preset := ""
+var _screenshot_frames := 0
+
+const SCREENSHOT_WARMUP_FRAMES := 14
 
 
 func _ready() -> void:
@@ -32,7 +37,11 @@ func _ready() -> void:
 	add_child(_camera_ctrl)
 	_camera_ctrl.setup(_camera, _map_view)
 	_camera_ctrl.set_ui_blocker(_is_pointer_over_hud)
+	_parse_screenshot_cmdline()
 	_setup_start_menu()
+	if not _screenshot_preset.is_empty():
+		_bootstrap_screenshot_preset()
+		return
 	if DemoConfig.show_start_menu():
 		_show_start_menu()
 	else:
@@ -140,6 +149,8 @@ func _wire_gameplay() -> void:
 	for child in _building_layer.get_children():
 		child.queue_free()
 	_views.clear()
+	for b in _session.get_buildings_on_island(_session.island):
+		_attach_view(b)
 
 
 func _on_start_new_game() -> void:
@@ -157,6 +168,11 @@ func _on_start_continue() -> void:
 
 
 func _process(delta: float) -> void:
+	if not _screenshot_out.is_empty():
+		_screenshot_frames += 1
+		if _screenshot_frames >= SCREENSHOT_WARMUP_FRAMES:
+			_write_screenshot_and_quit()
+		return
 	if not _game_active or _session == null:
 		return
 	if not _sim_paused:
@@ -506,6 +522,8 @@ func _boot_map(map_id: String) -> void:
 
 
 func _on_map_selected(map_id: String) -> void:
+	if _playable_demo:
+		return
 	_boot_map(map_id)
 	_map_view.bind(_session.island)
 	_camera_ctrl.fit_island()
@@ -554,7 +572,7 @@ func _update_ghost() -> void:
 	var tint := Color(0.35, 1.0, 0.35, 0.65) if valid else Color(1.0, 0.25, 0.25, 0.65)
 	var frames := BuildingVisualRegistry.get_sprite_frames_for_building(_build_tool.building_id)
 	if frames != null and frames.get_animation_names().size() > 0:
-		var anim: StringName = frames.get_animation_name(0)
+		var anim: StringName = frames.get_animation_names()[0]
 		if frames.get_frame_count(anim) > 0:
 			_ghost.texture = frames.get_frame_texture(anim, 0)
 			var stem := ContentLoader.stem_for_building_id(_build_tool.building_id)
@@ -565,3 +583,119 @@ func _update_ghost() -> void:
 	if _context_manager != null:
 		ctx = _context_manager.get_context_name()
 	_ghost.visible = ctx != &"select" and _build_tool.active
+
+
+func _parse_screenshot_cmdline() -> void:
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--screenshot-out="):
+			_screenshot_out = arg.trim_prefix("--screenshot-out=")
+		elif arg.begins_with("--screenshot-preset="):
+			_screenshot_preset = arg.trim_prefix("--screenshot-preset=").strip_edges()
+
+
+func _bootstrap_screenshot_preset() -> void:
+	match _screenshot_preset:
+		"title":
+			_show_start_menu()
+			$CanvasLayer.visible = false
+		"boards":
+			_start_playable_settlement_demo()
+			_seed_screenshot_boards_step()
+			_compose_screenshot_frame()
+		"clay_hint":
+			_start_playable_settlement_demo()
+			_seed_screenshot_clay_hint_step()
+			_compose_screenshot_frame()
+		"success":
+			_start_playable_settlement_demo()
+			_seed_screenshot_success_state()
+			_compose_screenshot_frame()
+		_:
+			push_error("Unknown screenshot preset: %s" % _screenshot_preset)
+			get_tree().quit(1)
+
+
+func _seed_screenshot_boards_step() -> void:
+	var island := _session.island
+	var settlement := _session.settlement
+	BuildCommand.new(
+		GameConstants.BUILDINGS["LUMBERJACK"], 32, 32, island, settlement
+	).execute(_session)
+	for tree_xy in [Vector2i(32, 30), Vector2i(34, 30)]:
+		BuildCommand.new(
+			GameConstants.BUILDINGS["TREE"], tree_xy.x, tree_xy.y, island, settlement
+		).execute(_session)
+	var boards_res := int(GameConstants.RES["BOARDS"])
+	var have_boards := settlement.inventory.amount(boards_res)
+	settlement.inventory.alter(boards_res, 5 - have_boards)
+	_sync_building_views()
+	_objective_tracker.state_changed.emit()
+	_hud.refresh()
+	_camera_ctrl.fit_island()
+
+
+func _seed_screenshot_clay_hint_step() -> void:
+	var island := _session.island
+	var settlement := _session.settlement
+	BuildCommand.new(
+		GameConstants.BUILDINGS["LUMBERJACK"], 32, 32, island, settlement
+	).execute(_session)
+	for tree_xy in [Vector2i(32, 30), Vector2i(34, 30)]:
+		BuildCommand.new(
+			GameConstants.BUILDINGS["TREE"], tree_xy.x, tree_xy.y, island, settlement
+		).execute(_session)
+	if _objective_tracker != null:
+		_objective_tracker.current_step_index = 1
+		_objective_tracker.state_changed.emit()
+	_refresh_demo_world_hints()
+	_sync_building_views()
+	_objective_tracker.state_changed.emit()
+	_hud.refresh()
+	if _demo_world_hints != null:
+		_camera_ctrl.focus_world_point(_demo_world_hints.clay_marker_center(), 0.01, 1.35)
+	else:
+		_camera_ctrl.fit_island()
+
+
+func _seed_screenshot_success_state() -> void:
+	if _objective_tracker != null:
+		_objective_tracker.current_step_index = 2
+		_objective_tracker.completed = true
+		_objective_tracker.state_changed.emit()
+	_ensure_success_overlay()
+	_success_panel.show_success()
+	_camera_ctrl.fit_island()
+
+
+func _compose_screenshot_frame() -> void:
+	_map_view.set_polygon_ground_only(true)
+	if _context_manager != null:
+		_context_manager.set_context(&"select")
+	if _hud != null:
+		_hud.prepare_for_screenshot()
+	_update_ghost()
+
+
+func _sync_building_views() -> void:
+	if _session == null:
+		return
+	for b in _session.get_buildings_on_island(_session.island):
+		if not _views.has(b.worldid):
+			_attach_view(b)
+	if _hud != null:
+		_hud.refresh()
+
+
+func _write_screenshot_and_quit() -> void:
+	var img := get_viewport().get_texture().get_image()
+	if img == null or img.is_empty():
+		push_error("Screenshot: empty framebuffer")
+		get_tree().quit(1)
+		return
+	var err := img.save_png(_screenshot_out)
+	if err != OK:
+		push_error("Screenshot: save_png failed (%s)" % error_string(err))
+		get_tree().quit(1)
+		return
+	print("PocMain: wrote screenshot %s (preset=%s)" % [_screenshot_out, _screenshot_preset])
+	get_tree().quit()
