@@ -9,11 +9,17 @@ import sqlite3
 import struct
 import zlib
 from pathlib import Path
+import sys
+
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+	sys.path.insert(0, str(_SCRIPT_DIR))
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LEGACY_ROOT = REPO_ROOT / "legacy"
 GODOT_ROOT = REPO_ROOT / "godot"
-CONTENT_GFX = LEGACY_ROOT / "content" / "gfx" / "buildings"
+CONTENT_GFX_BUILDINGS = LEGACY_ROOT / "content" / "gfx" / "buildings"
+CONTENT_GFX_ROOT = LEGACY_ROOT / "content" / "gfx"
 
 # building stem -> idle/working source PNG (135° view)
 LEGACY_BUILDING_GFX: dict[str, dict[str, str]] = {
@@ -36,6 +42,14 @@ LEGACY_BUILDING_GFX: dict[str, dict[str, str]] = {
 	"warehouse": {
 		"idle": "sailors/warehouse/as_warehouse0/idle/135/0.png",
 		"working": "sailors/warehouse/as_warehouse0/idle/135/0.png",
+	},
+	"farm": {
+		"idle": "pioneers/farm/as_farm0/idle/135/0.png",
+		"working": "pioneers/farm/as_farm0/idle/135/0.png",
+	},
+	"stonemason": {
+		"idle": "citizens/as_stonemason0/idle/135/0.png",
+		"working": "citizens/as_stonemason0/idle/135/0.png",
 	},
 }
 
@@ -84,7 +98,48 @@ def find_sqlite_with_atlas_table() -> Path | None:
 	return None
 
 
-def export_building_slice(stem: str, paths: dict[str, str]) -> None:
+def _resolve_gfx_source(rel: str) -> Path | None:
+	"""Support paths relative to content/gfx (auto) or legacy buildings/ subtree (manual)."""
+	rel = rel.replace("\\", "/")
+	if rel.startswith("buildings/") or rel.startswith("terrain/"):
+		path = CONTENT_GFX_ROOT / rel
+	else:
+		path = CONTENT_GFX_BUILDINGS / rel
+	return path if path.is_file() else None
+
+
+def _exported_building_stems() -> list[str]:
+	buildings = json.loads((GODOT_ROOT / "resources" / "exported" / "buildings.json").read_text())
+	return sorted(buildings.keys())
+
+
+def _merge_gfx_maps(manual: dict[str, dict[str, str]], auto: dict[str, dict[str, str]]) -> dict[str, dict[str, str]]:
+	merged = dict(auto)
+	for stem, paths in manual.items():
+		merged[stem] = paths
+	return merged
+
+
+def _copy_action_frames(
+	out_dir: Path,
+	src_action_dir: Path,
+	prefix: str,
+	max_frames: int = 16,
+) -> list[str]:
+	rot = src_action_dir / "135"
+	if not rot.is_dir():
+		return []
+	out_names: list[str] = []
+	for i, png in enumerate(sorted(rot.glob("*.png"))):
+		if i >= max_frames:
+			break
+		name = f"{prefix}_{i:03d}.png"
+		shutil.copy2(png, out_dir / name)
+		out_names.append(name)
+	return out_names
+
+
+def export_building_slice(stem: str, paths: dict[str, str], multi_frame: bool = False) -> None:
 	constants = json.loads((GODOT_ROOT / "resources" / "exported" / "constants.json").read_text())
 	buildings = json.loads((GODOT_ROOT / "resources" / "exported" / "buildings.json").read_text())
 	building_id = None
@@ -97,13 +152,22 @@ def export_building_slice(stem: str, paths: dict[str, str]) -> None:
 	out_dir = GODOT_ROOT / "resources" / "gfx" / stem
 	out_dir.mkdir(parents=True, exist_ok=True)
 	source_mode = "placeholder"
+	idle_anim: dict = {"texture": "idle.png", "fps": 1.0}
+	work_anim: dict = {"texture": "working.png", "fps": 4.0}
 	for anim in ("idle", "working"):
 		rel = paths.get(anim, paths.get("idle", ""))
-		src = CONTENT_GFX / rel if rel else None
+		src = _resolve_gfx_source(rel) if rel else None
 		dst = out_dir / f"{anim}.png"
 		if src and src.is_file():
 			shutil.copy2(src, dst)
 			source_mode = "legacy_png"
+			if multi_frame and src.parent.name == "135":
+				frame_names = _copy_action_frames(out_dir, src.parent.parent, anim)
+				if len(frame_names) > 1:
+					target = idle_anim if anim == "idle" else work_anim
+					target["frames"] = frame_names
+					target["fps"] = 4.0 if anim == "working" else 1.0
+					target.erase("texture")
 		else:
 			write_solid_png(dst, 64, 64, (120, 120, 120, 255) if anim == "idle" else (160, 140, 90, 255))
 
@@ -112,10 +176,11 @@ def export_building_slice(stem: str, paths: dict[str, str]) -> None:
 		"building_stem": stem,
 		"building_id": building_id,
 		"source": source_mode,
+		"manifest_version": 2 if multi_frame else 1,
 		"atlas_sqlite": str(atlas_db) if atlas_db else None,
 		"animations": {
-			"idle": {"texture": "idle.png", "fps": 1.0},
-			"working": {"texture": "working.png", "fps": 4.0},
+			"idle": idle_anim,
+			"working": work_anim,
 		},
 	}
 	(out_dir / "sprite_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
@@ -167,12 +232,11 @@ def write_gfx_index() -> None:
 		},
 	}
 	gfx_root = GODOT_ROOT / "resources" / "gfx"
-	for stem, paths in LEGACY_BUILDING_GFX.items():
-		manifest_path = gfx_root / stem / "sprite_manifest.json"
-		if manifest_path.is_file():
-			index["buildings"][stem] = json.loads(manifest_path.read_text(encoding="utf-8"))
-		else:
-			index["buildings"][stem] = {"building_stem": stem, "source": "missing"}
+	for manifest_path in sorted(gfx_root.glob("*/sprite_manifest.json")):
+		stem = manifest_path.parent.name
+		if stem == "ground":
+			continue
+		index["buildings"][stem] = json.loads(manifest_path.read_text(encoding="utf-8"))
 	(out := GODOT_ROOT / "resources" / "gfx" / "index.json").write_text(
 		json.dumps(index, indent=2, sort_keys=True), encoding="utf-8"
 	)
@@ -180,8 +244,59 @@ def write_gfx_index() -> None:
 
 
 def main() -> int:
-	for stem, paths in LEGACY_BUILDING_GFX.items():
-		export_building_slice(stem, paths)
+	import argparse
+
+	from gfx_discovery import discover_all_building_stems
+
+	parser = argparse.ArgumentParser(description="Export Godot building gfx slices from legacy content.")
+	parser.add_argument(
+		"--auto",
+		action="store_true",
+		help="Discover gfx from building YAML + content/gfx actionsets (all exported stems).",
+	)
+	parser.add_argument(
+		"--stems",
+		type=str,
+		default="",
+		help="Comma-separated building stems to export (with --auto: subset; else manual map only).",
+	)
+	parser.add_argument(
+		"--multi-frame",
+		action="store_true",
+		help="Export all 135deg PNG frames for idle/working (manifest v2 frames list).",
+	)
+	parser.add_argument(
+		"--report",
+		type=Path,
+		default=GODOT_ROOT / "resources" / "gfx" / "export_report.json",
+		help="Write discovery report JSON (with --auto).",
+	)
+	args = parser.parse_args()
+
+	gfx_map: dict[str, dict[str, str]] = dict(LEGACY_BUILDING_GFX)
+	report_rows: list[dict] = []
+
+	if args.auto:
+		stems = _exported_building_stems()
+		if args.stems.strip():
+			want = {s.strip() for s in args.stems.split(",") if s.strip()}
+			stems = [s for s in stems if s in want]
+		auto_map, report_rows = discover_all_building_stems(stems)
+		gfx_map = _merge_gfx_maps(LEGACY_BUILDING_GFX, auto_map)
+		args.report.parent.mkdir(parents=True, exist_ok=True)
+		args.report.write_text(
+			json.dumps({"stems_requested": len(stems), "rows": report_rows}, indent=2),
+			encoding="utf-8",
+		)
+		ok = sum(1 for r in report_rows if r.get("ok"))
+		print(f"gfx discovery: {ok}/{len(report_rows)} stems with idle frame")
+	elif args.stems.strip():
+		for stem in [s.strip() for s in args.stems.split(",") if s.strip()]:
+			if stem in LEGACY_BUILDING_GFX:
+				gfx_map[stem] = LEGACY_BUILDING_GFX[stem]
+
+	for stem, paths in sorted(gfx_map.items()):
+		export_building_slice(stem, paths, multi_frame=args.multi_frame)
 	export_dlc_gfx()
 	gfx_root = GODOT_ROOT / "resources" / "gfx"
 	write_ground_atlas(gfx_root)

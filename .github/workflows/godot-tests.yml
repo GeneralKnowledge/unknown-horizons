@@ -1,6 +1,7 @@
 name: Godot PoC tests
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'godot/**'
@@ -29,13 +30,21 @@ jobs:
         run: python3 development/godot/export_content.py
 
       - name: Export gfx manifests
-        run: python3 development/godot/export_gfx.py
+        run: python3 development/godot/export_gfx.py --auto
+
+      - name: Export maps and unit gfx
+        run: |
+          python3 development/godot/export_maps.py
+          python3 development/godot/export_unit_gfx.py
 
       - name: Validate exported content
         run: python3 development/godot/validate_content.py
 
       - name: Legacy SQLite save smoke
         run: python3 development/godot/sqlite_save_smoke.py
+
+      - name: SQLite fixture matrix
+        run: python3 development/godot/sqlite_fixture_matrix.py
 
       - name: Run GUT (headless)
         run: ./godot/run_tests.sh
@@ -54,7 +63,7 @@ jobs:
       - name: Export content for parity
         run: |
           python3 development/godot/export_content.py
-          python3 development/godot/export_gfx.py
+          python3 development/godot/export_gfx.py --auto
           mkdir -p godot/resources/parity
           cp development/godot/parity/scenarios/*.json godot/resources/parity/
           cp development/godot/parity/map_specs.json godot/resources/parity/
@@ -64,6 +73,18 @@ jobs:
 
       - name: Compare Godot traces to golden
         run: ./development/godot/parity/run_all.sh
+
+  upstream-godot-port-inventory:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Inventory godot-port develop (shallow)
+        run: python3 development/godot/inventory_godot_port.py
+
+      - name: Verify SOURCE_COMMIT pin file exists
+        run: test -f godot/resources/upstream/godot-port/SOURCE_COMMIT.txt
 
   web-export:
     runs-on: ubuntu-latest

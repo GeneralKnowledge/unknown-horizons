@@ -1,0 +1,20 @@
+{
+  "units": [
+    "animalcollector",
+    "buildingcollector",
+    "deer",
+    "disasterpreventioncollector",
+    "fieldcollector",
+    "fisher",
+    "frigate",
+    "huker",
+    "hunter",
+    "lumberjackcollector",
+    "pirate",
+    "settlercollector",
+    "storagecollector",
+    "swordsman",
+    "trader",
+    "usablefisher"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "unit_stem": "settlercollector",
+  "actionset": "as_male",
+  "source": "legacy_png",
+  "animations": {
+    "idle": {
+      "texture": "idle.png",
+      "fps": 1.0
+    }
+  }
+}

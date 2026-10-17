@@ -7,19 +7,29 @@ extends Node2D
 
 var _session: GameSession
 var _build_tool: BuildTool
+var _context_manager: ViewContextManager
 var _views: Dictionary = {} # worldid -> BuildingView
 var _sim_clock := SimClock.new()
 var _hover_grid := Vector2i.ZERO
+var _map_id: String = MapLoader.default_map_id()
 
 
 func _ready() -> void:
 	_session = GameSession.new()
-	_session.load_test_map()
+	_boot_map(_map_id)
 	GameTestHelpers.new_settlement(_session, TestMapFactory.default_settlement_point())
 	_build_tool = BuildTool.new(_session)
 	_build_tool.building_placed.connect(_on_building_placed)
+	_context_manager = ViewContextManager.new()
+	add_child(_context_manager)
+	_context_manager.setup(_session, _build_tool, _map_view)
+	_context_manager.context_changed.connect(_on_context_changed)
 	_map_view.bind(_session.island)
 	_hud.bind(_session, _build_tool)
+	_hud.bind_context(_context_manager)
+	_hud.map_selected.connect(_on_map_selected)
+	_hud.context_selected.connect(_context_manager.set_context)
+	_hud.build_mode_selected.connect(_on_build_palette_mode)
 	_hud.refresh()
 	_update_ghost()
 	if not MessageBus.building_placed.is_connected(_on_bus_building_placed):
@@ -46,29 +56,22 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		_hover_grid = _map_view.screen_to_grid(event.position)
 		_update_ghost()
-	if event is InputEventMouseButton and event.pressed:
-		var grid := _map_view.screen_to_grid(event.position)
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			var placed := _build_tool.try_place(grid)
-			if placed != null:
-				_hud.set_selected(placed)
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			var picked := _pick_building_at(grid)
-			if picked != null:
-				MessageBus.building_selected.emit(picked)
-				_hud.set_selected(picked)
-	if event.is_action_pressed("ui_select"):
-		_build_tool.active = not _build_tool.active
+	if _context_manager != null:
+		_context_manager.process_input(event)
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
 			KEY_1:
+				_context_manager.set_context(&"build")
 				_build_tool.set_palette_lumberjack()
 			KEY_2:
+				_context_manager.set_context(&"build")
 				_build_tool.set_palette_tree()
-			KEY_3:
-				_build_tool.set_palette_tear()
-			KEY_T:
-				_build_tool.set_palette_tear()
+			KEY_3, KEY_T:
+				_context_manager.set_context(&"tear")
+			KEY_S:
+				_context_manager.set_context(&"select")
+			KEY_B:
+				_context_manager.set_context(&"build")
 
 
 func _on_building_placed(building: Building) -> void:
@@ -85,19 +88,6 @@ func _attach_view(building: Building) -> void:
 	_building_layer.add_child(view)
 	view.bind(building, _map_view)
 	_views[building.worldid] = view
-
-
-func _pick_building_at(grid: Vector2i) -> Building:
-	for b in _session.get_buildings_on_island(_session.island):
-		var export := ContentLoader.load_building_export(
-			ContentLoader.stem_for_building_id(b.building_id)
-		)
-		for tile in BuildFootprint.origin_tiles(
-			b.position, int(export.get("size_x", 1)), int(export.get("size_y", 1))
-		):
-			if tile == grid:
-				return b
-	return null
 
 
 func _on_save_requested() -> void:
@@ -128,11 +118,35 @@ func _on_import_snapshot(json_text: String) -> void:
 	_apply_session(JsonSnapshotLoader.load_from_dict(data))
 
 
+func _boot_map(map_id: String) -> void:
+	_map_id = map_id
+	MapLoader.apply_map_to_session(_session, map_id)
+
+
+func _on_map_selected(map_id: String) -> void:
+	_boot_map(map_id)
+	_map_view.bind(_session.island)
+	_update_ghost()
+
+
+func _on_context_changed(context_name: StringName) -> void:
+	_hud.set_context_name(context_name)
+	_update_ghost()
+
+
+func _on_build_palette_mode(mode: StringName) -> void:
+	if mode == &"tear":
+		_context_manager.set_context(&"tear")
+	else:
+		_context_manager.set_context(&"build")
+
+
 func _apply_session(new_session: GameSession) -> void:
 	_session = new_session
 	_sim_clock.reset()
 	_build_tool = BuildTool.new(_session)
 	_build_tool.building_placed.connect(_on_building_placed)
+	_context_manager.setup(_session, _build_tool, _map_view)
 	_map_view.bind(_session.island)
 	_hud.bind(_session, _build_tool)
 	for child in _building_layer.get_children():
@@ -150,4 +164,7 @@ func _update_ghost() -> void:
 		_ghost.modulate = Color(0.3, 0.9, 0.3, 0.55)
 	else:
 		_ghost.modulate = Color(0.9, 0.2, 0.2, 0.55)
-	_ghost.visible = _build_tool.active
+	var ctx := &"build"
+	if _context_manager != null:
+		ctx = _context_manager.get_context_name()
+	_ghost.visible = ctx != &"select" and _build_tool.active

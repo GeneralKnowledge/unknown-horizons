@@ -170,8 +170,15 @@ sequenceDiagram
 - Persistent worlds and multi-client observe later; **no** auth/DB/MP in current milestones.
 - First browser build stays **single-player**, static hosting.
 
+## Related work (upstream Godot port)
+
+The official [unknown-horizons/godot-port](https://github.com/unknown-horizons/godot-port) project targets full game presentation (UI, maps, building scenes). We cherry-pick **assets and view patterns** only; sim rules stay here.
+
+See [EXTERNAL_GODOT_PORT.md](EXTERNAL_GODOT_PORT.md) for **import tiers A/B/C**, allowlist, parity gates, and pinned icon imports.
+
 ## Related docs
 
+- [EXTERNAL_GODOT_PORT.md](EXTERNAL_GODOT_PORT.md)
 - [WEB_DEPLOYMENT.md](WEB_DEPLOYMENT.md)
 - [SAVE_FORMAT.md](SAVE_FORMAT.md)
 - [SCAFFOLDING.md](SCAFFOLDING.md)

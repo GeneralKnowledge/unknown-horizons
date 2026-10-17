@@ -1,0 +1,11 @@
+{
+  "unit_stem": "storagecollector",
+  "actionset": "as_carrier0",
+  "source": "legacy_png",
+  "animations": {
+    "idle": {
+      "texture": "idle.png",
+      "fps": 1.0
+    }
+  }
+}

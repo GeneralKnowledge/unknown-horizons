@@ -1,0 +1,11 @@
+{
+  "unit_stem": "fieldcollector",
+  "actionset": "as_farmer0",
+  "source": "legacy_png",
+  "animations": {
+    "idle": {
+      "texture": "idle.png",
+      "fps": 1.0
+    }
+  }
+}

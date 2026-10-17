@@ -1,0 +1,11 @@
+{
+  "unit_stem": "deer",
+  "actionset": "as_fallowdeer0",
+  "source": "legacy_png",
+  "animations": {
+    "idle": {
+      "texture": "idle.png",
+      "fps": 1.0
+    }
+  }
+}
