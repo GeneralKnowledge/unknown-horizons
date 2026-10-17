@@ -39,21 +39,44 @@ func search_job() -> void:
 	session.scheduler.add_new_object(_finish_active_job, self, WORK_DURATION_TICKS)
 
 
+func _resources_to_collect() -> Array:
+	var needed: Dictionary = {}
+	var producer := home_building.get_producer()
+	if producer == null:
+		return []
+	for production in producer.get_productions():
+		for res_key in production._prod_line.consumed_res.keys():
+			var res_id := int(res_key)
+			if int(production._prod_line.consumed_res[res_key]) >= 0:
+				continue
+			if home_building.get_storage().get_free_space_for(res_id) > 0:
+				needed[res_id] = true
+	var out: Array = []
+	for res_id in needed.keys():
+		out.append(int(res_id))
+	return out
+
+
+func _source_buildings() -> Array:
+	return session.get_buildings_on_island(home_building.island)
+
+
 func _build_job_list(radius: int, home_size: Vector2i) -> CollectorJobList:
 	var job_list := CollectorJobList.new(self, CollectorJobList.OrderBy.FEWEST_AVAILABLE_AND_DISTANCE)
-	for building in home_building.settlement.buildings:
+	var collect_res: Array = _resources_to_collect()
+	if collect_res.is_empty():
+		return job_list
+	for building in _source_buildings():
 		if building == home_building:
 			continue
-		if building.building_id != GameConstants.BUILDINGS["TREE"]:
-			continue
-		var dist := _distance_rect_to_point(home_building.position, home_size, building.position)
-		if dist > float(radius):
-			continue
-		var trees := building.get_storage().amount(GameConstants.RES["TREES"])
-		if trees <= 0:
-			continue
-		var resources: Array = [GameConstants.RES["TREES"]]
-		job_list.append_job(CollectorJob.new(building, resources, trees))
+		for res_id in collect_res:
+			var available: int = building.get_storage().amount(int(res_id))
+			if available <= 0:
+				continue
+			var dist := _distance_rect_to_point(home_building.position, home_size, building.position)
+			if dist > float(radius):
+				continue
+			job_list.append_job(CollectorJob.new(building, [int(res_id)], available))
 	return job_list
 
 
@@ -67,10 +90,14 @@ func _finish_active_job() -> void:
 
 
 func _finish_job(job: CollectorJob) -> void:
-	var amount := mini(job.available, job.target.get_storage().amount(GameConstants.RES["TREES"]))
+	if job.resources.is_empty():
+		_state = "idle"
+		return
+	var res_id := int(job.resources[0])
+	var amount := mini(job.available, job.target.get_storage().amount(res_id))
 	if amount > 0:
-		job.target.get_storage().alter(GameConstants.RES["TREES"], -amount)
-		home_building.get_storage().alter(GameConstants.RES["TREES"], amount)
+		job.target.get_storage().alter(res_id, -amount)
+		home_building.get_storage().alter(res_id, amount)
 	_state = "idle"
 
 

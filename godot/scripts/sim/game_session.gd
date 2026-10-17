@@ -49,6 +49,14 @@ func get_building(worldid: int) -> Building:
 	return _buildings.get(worldid)
 
 
+func get_buildings_on_island(p_island: Island) -> Array:
+	var out: Array = []
+	for b in _buildings.values():
+		if b is Building and b.island == p_island:
+			out.append(b)
+	return out
+
+
 func run_ticks(ticks: int = 1) -> void:
 	while ticks > 0:
 		scheduler.tick(scheduler.cur_tick + 1)
@@ -109,9 +117,11 @@ func load_snapshot(data: Dictionary) -> void:
 		var building: Building = cmd.execute(self)
 		if building == null:
 			continue
-		for res_key in snap.get("storage", {}).keys():
-			building.get_storage().reset(int(res_key))
-			building.get_storage().alter(int(res_key), int(snap["storage"][res_key]))
+		var storage_data: Dictionary = snap.get("storage", {})
+		for res_key in storage_data.keys():
+			var res_id := int(str(res_key))
+			building.get_storage().reset(res_id)
+			building.get_storage().alter(res_id, int(storage_data[res_key]))
 		var producer: Producer = building.get_producer()
 		if producer != null and not bool(snap.get("producer_active", true)):
 			producer.set_all_active(false)

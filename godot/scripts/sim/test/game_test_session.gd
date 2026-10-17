@@ -29,5 +29,11 @@ func build(building_id: int, x: int, y: int) -> Building:
 	) as Building
 
 
+func build_ownerless(building_id: int, x: int, y: int) -> Building:
+	return session.manager.execute(
+		BuildCommand.new(building_id, x, y, session.island, null, true)
+	) as Building
+
+
 func tear(building: Building) -> bool:
 	return bool(session.manager.execute(TearCommand.new(building)))

@@ -33,11 +33,9 @@ func execute(session: GameSession) -> Variant:
 	var origin := Vector2i(x, y)
 	if island.terrain_cache != null:
 		if ownerless:
-			if not island.terrain_cache.can_place_land(
-				origin, Vector2i(int(export.get("size_x", 1)), int(export.get("size_y", 1)))
-			):
+			if not island.can_place_ownerless(building_id, export, origin):
 				return null
-		elif not island.can_place_building(export, origin, settlement):
+		elif not island.can_place_building(building_id, export, origin, settlement):
 			return null
 	var building := BuildingFactory.create_building(
 		session, building_id, origin, island, settlement, forced_worldid

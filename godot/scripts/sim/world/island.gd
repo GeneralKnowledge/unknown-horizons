@@ -54,14 +54,48 @@ func release_tiles(building: Building) -> void:
 			occupied_tiles.erase(tile)
 
 
-func can_place_building(export: Dictionary, origin: Vector2i, settlement: Settlement) -> bool:
+func _occupant_allows_build(existing: Building, building_id: int) -> bool:
+	if existing == null:
+		return true
+	if building_id == GameConstants.BUILDINGS["MINE"]:
+		return existing.building_id == GameConstants.BUILDINGS["MOUNTAIN"]
+	if building_id == GameConstants.BUILDINGS["CLAY_PIT"]:
+		return existing.building_id == GameConstants.BUILDINGS["CLAY_DEPOSIT"]
+	return false
+
+
+func can_place_ownerless(building_id: int, export: Dictionary, origin: Vector2i) -> bool:
+	var sx := int(export.get("size_x", 1))
+	var sy := int(export.get("size_y", 1))
+	for tile in BuildFootprint.origin_tiles(origin, sx, sy):
+		var occupant: Building = occupied_tiles.get(tile)
+		if occupant != null and not _occupant_allows_build(occupant, building_id):
+			return false
+		var ground := get_ground(tile)
+		if building_id == GameConstants.BUILDINGS["FISH_DEPOSIT"]:
+			continue
+		elif not is_land(tile):
+			return false
+	if building_id == GameConstants.BUILDINGS["FISH_DEPOSIT"]:
+		for tile in BuildFootprint.origin_tiles(origin, sx, sy):
+			var ground := get_ground(tile)
+			if ground == SimGround.Kind.SHALLOW_WATER or ground == SimGround.Kind.DEEP_WATER:
+				return true
+		return false
+	return true
+
+
+func can_place_building(
+	building_id: int, export: Dictionary, origin: Vector2i, settlement: Settlement
+) -> bool:
 	var sx := int(export.get("size_x", 1))
 	var sy := int(export.get("size_y", 1))
 	var size := Vector2i(sx, sy)
 	if not terrain_cache.can_place_land(origin, size):
 		return false
 	for tile in BuildFootprint.origin_tiles(origin, sx, sy):
-		if occupied_tiles.has(tile):
+		var occupant: Building = occupied_tiles.get(tile)
+		if occupant != null and not _occupant_allows_build(occupant, building_id):
 			return false
 	if settlement != null:
 		if settlement.buildings.is_empty():
