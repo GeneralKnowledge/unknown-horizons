@@ -59,3 +59,28 @@ func test_sort_fewest_available() -> void:
 	assert_eq(3, job_list.jobs[0].object.id)
 	assert_eq(1, job_list.jobs[1].object.id)
 	assert_eq(2, job_list.jobs[2].object.id)
+
+
+func test_sort_fewest_available_and_distance() -> void:
+	var collector := DummyCollector.new(0, 0)
+	var job_list := CollectorJobList.new(collector, CollectorJobList.OrderBy.FEWEST_AVAILABLE_AND_DISTANCE)
+	job_list.append_job(DummyJob.new(DummyObject.new(1, 3, 3), [{"res": 2}]))
+	job_list.append_job(DummyJob.new(DummyObject.new(2, 1, 1), [{"res": 1}]))
+	job_list.append_job(DummyJob.new(DummyObject.new(3, 2, 2), [{"res": 2}]))
+	job_list.sort_jobs()
+	assert_eq(2, job_list.jobs[0].object.id)
+	assert_eq(3, job_list.jobs[1].object.id)
+	assert_eq(1, job_list.jobs[2].object.id)
+
+
+func test_sort_for_storage_collector() -> void:
+	var collector := DummyCollector.new(0, 0)
+	var job_list := CollectorJobList.new(collector, CollectorJobList.OrderBy.FOR_STORAGE_COLLECTOR)
+	job_list.append_job(DummyJob.new(DummyObject.new(1, 3, 3), [{"res": 2}]))
+	job_list.append_job(DummyJob.new(DummyObject.new(2, 1, 1), [{"res": 1}]))
+	job_list.append_job(DummyJob.new(DummyObject.new(3, 2, 2), [{"res": 2}]))
+	var full_job := DummyJob.new(DummyObject.new(4, 9, 0), [{"res": 4}])
+	full_job.target_inventory_full_num = 1
+	job_list.append_job(full_job)
+	job_list.sort_jobs()
+	assert_eq(4, job_list.jobs[0].object.id)

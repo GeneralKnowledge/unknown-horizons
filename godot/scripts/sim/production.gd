@@ -153,3 +153,11 @@ func _check_for_space_for_produced_res() -> bool:
 		if inventory.get_free_space_for(int(res)) < int(_prod_line.produced_res[res]):
 			return false
 	return true
+
+
+func finish_production_now() -> void:
+	_remove_listeners()
+	_give_produced_res()
+	on_production_finished()
+	_state = ProductionStates.WAITING_FOR_RES
+	_add_listeners(true)
