@@ -1,6 +1,6 @@
 # Unknown Horizons Godot Port — Project Roadmap
 
-Last verified: **2026-10-17** — `./godot/run_tests.sh` **154/154** GUT pass; parity golden **4/4** (`wood`, `warehouse_collector`, `farm_crop`, `snapshot_roundtrip`).
+Last verified: **2026-10-17** — `./godot/run_tests.sh` **181/181** GUT pass; parity golden **4/4** (`wood`, `warehouse_collector`, `farm_crop`, `snapshot_roundtrip`); browser demo Phase 1 on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
 
 ## Vision
 

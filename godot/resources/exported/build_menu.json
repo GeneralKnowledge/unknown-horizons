@@ -3,27 +3,163 @@
     {
       "icon": "icons/tabwidget/buildmenu/tier/tier1",
       "id": "tab1",
-      "sections": []
+      "sections": [
+        {
+          "label": "Residents and infrastructure",
+          "stems": [
+            "tent",
+            "storagetent",
+            "trail",
+            "lookout"
+          ]
+        },
+        {
+          "label": "Services",
+          "stems": [
+            "mainsquare",
+            "pavilion",
+            "signalfire"
+          ]
+        },
+        {
+          "label": "Companies",
+          "stems": [
+            "lumberjackcamp",
+            "hunterstent",
+            "fishermanstent"
+          ]
+        },
+        {
+          "label": "Military",
+          "stems": []
+        }
+      ]
     },
     {
       "icon": "icons/tabwidget/buildmenu/tier/tier2",
       "id": "tab2",
-      "sections": []
+      "sections": [
+        {
+          "label": "Companies",
+          "stems": [
+            "claypit",
+            "brickyard",
+            "weaverstent",
+            "distillery"
+          ]
+        },
+        {
+          "label": "Fields",
+          "stems": [
+            "farm",
+            "potatofield",
+            "pasture",
+            "sugarfield"
+          ]
+        },
+        {
+          "label": "Services",
+          "stems": [
+            "villageschool",
+            "fireservice",
+            "boatbuilder"
+          ]
+        }
+      ]
     },
     {
       "icon": "icons/tabwidget/buildmenu/tier/tier3",
       "id": "tab3",
-      "sections": []
+      "sections": [
+        {
+          "label": "Mining",
+          "stems": [
+            "mine",
+            "smeltery",
+            "toolmaker",
+            "charcoalburning"
+          ]
+        },
+        {
+          "label": "Companies",
+          "stems": [
+            "saltponds",
+            "butchery",
+            "tobacconist",
+            "blender"
+          ]
+        },
+        {
+          "label": "Fields",
+          "stems": [
+            "tobaccofield",
+            "cattlerun",
+            "herbary",
+            "spicefield"
+          ]
+        },
+        {
+          "label": "Services",
+          "stems": [
+            "tavern",
+            "doctor",
+            "brewery"
+          ]
+        }
+      ]
     },
     {
       "icon": "icons/tabwidget/buildmenu/tier/tier4",
       "id": "tab4",
-      "sections": []
+      "sections": [
+        {
+          "label": "Companies",
+          "stems": [
+            "windmill",
+            "bakery",
+            "winery",
+            "pastryshop"
+          ]
+        },
+        {
+          "label": "Fields",
+          "stems": [
+            "cornfield",
+            "cocoafield",
+            "vineyard",
+            "alvearies"
+          ]
+        },
+        {
+          "label": "Fields",
+          "stems": [
+            "hopfield",
+            "stonepit",
+            "stonemason",
+            "pigsty"
+          ]
+        },
+        {
+          "label": "Military",
+          "stems": []
+        }
+      ]
     },
     {
       "icon": "icons/tabwidget/buildmenu/tier/tier5",
       "id": "tab5",
-      "sections": []
+      "sections": [
+        {
+          "label": "Companies",
+          "stems": []
+        },
+        {
+          "label": "Services",
+          "stems": [
+            "publicbath"
+          ]
+        }
+      ]
     }
   ]
 }

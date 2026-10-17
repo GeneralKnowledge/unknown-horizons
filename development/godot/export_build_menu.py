@@ -35,6 +35,19 @@ def _id_to_stem(buildings: dict, constants: dict, token: str) -> str | None:
 	return None
 
 
+def _flatten_strings(node) -> list[str]:
+	out: list[str] = []
+	if isinstance(node, str):
+		out.append(node)
+	elif isinstance(node, list):
+		for child in node:
+			out.extend(_flatten_strings(child))
+	elif isinstance(node, dict):
+		for val in node.values():
+			out.extend(_flatten_strings(val))
+	return out
+
+
 def _parse_tier_file(path: Path, buildings: dict, constants: dict) -> dict:
 	data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
 	tabs: list = []
@@ -44,16 +57,16 @@ def _parse_tier_file(path: Path, buildings: dict, constants: dict) -> dict:
 		icon = ""
 		sections: list = []
 		current_section: dict | None = None
-		for item in tab_val:
-			if isinstance(item, dict) and "icon" in item:
-				icon = str(item["icon"])
+		for item in _flatten_strings(tab_val):
+			if item.startswith("icons/"):
+				icon = item
 				continue
-			if isinstance(item, str) and item.startswith("_"):
+			if item.startswith("_"):
 				if current_section:
 					sections.append(current_section)
 				current_section = {"label": item[1:].strip(), "stems": []}
 				continue
-			if isinstance(item, str) and item.startswith("BUILDINGS."):
+			if item.startswith("BUILDINGS."):
 				stem = _id_to_stem(buildings, constants, item)
 				if stem and current_section is not None:
 					current_section["stems"].append(stem)

@@ -30,8 +30,8 @@ position = Vector2(640, 360)
 [node name="HUD" type="MarginContainer" parent="CanvasLayer"]
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 420.0
-offset_bottom = 420.0
+offset_right = 480.0
+offset_bottom = 520.0
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
@@ -50,7 +50,12 @@ layout_mode = 2
 autowrap_mode = 3
 text = ""
 
-[node name="BuildPalette" type="HBoxContainer" parent="CanvasLayer/HUD/VBox"]
+[node name="StatusLine" type="Label" parent="CanvasLayer/HUD/VBox"]
+layout_mode = 2
+autowrap_mode = 3
+text = ""
+
+[node name="BuildPalette" type="VBoxContainer" parent="CanvasLayer/HUD/VBox"]
 layout_mode = 2
 script = ExtResource("5")
 

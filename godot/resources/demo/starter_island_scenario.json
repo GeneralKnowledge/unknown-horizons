@@ -1,0 +1,10 @@
+{
+  "description": "Tier-2 clay → brickyard slice on the development map (parity with legacy F3 brick chain).",
+  "map_id": "development",
+  "settlement": { "x": 34, "y": 34 },
+  "chain": {
+    "clay_deposit": { "x": 33, "y": 33 },
+    "clay_pit": { "x": 33, "y": 33 },
+    "brickyard": { "x": 33, "y": 25 }
+  }
+}
