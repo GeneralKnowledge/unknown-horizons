@@ -37,7 +37,11 @@ func run_file(scenario_path: String) -> Dictionary:
 func _boot_session() -> void:
 	_gts = GameTestSession.new()
 	_gts.session = GameSession.new()
-	_gts.session.load_test_map()
+	var map_id := str(_scenario.get("map", "test_island_20x20"))
+	if map_id == "test_island_20x20" or map_id == "test_island_20x20_simple":
+		_gts.session.load_test_map()
+	else:
+		MapLoader.apply_map_to_session(_gts.session, map_id)
 	var spec := _map_spec()
 	var settle_xy: Array = spec["settlement"]["godot"]
 	var settled := GameTestHelpers.new_settlement(
@@ -67,9 +71,11 @@ func _execute_step(step: Dictionary) -> void:
 		"build":
 			var bid := int(GameConstants.BUILDINGS[str(step["building"])])
 			_last_building = _gts.build(bid, int(step["x"]), int(step["y"]))
+			assert(_last_building != null, "build failed: %s" % str(step))
 		"build_ownerless":
 			var bid2 := int(GameConstants.BUILDINGS[str(step["building"])])
 			_last_building = _gts.build_ownerless(bid2, int(step["x"]), int(step["y"]))
+			assert(_last_building != null, "build_ownerless failed: %s" % str(step))
 		"build_farm":
 			var fields: Array = []
 			for f in step.get("fields", []):
@@ -83,6 +89,13 @@ func _execute_step(step: Dictionary) -> void:
 			else:
 				assert(_last_building != null)
 				_last_building.get_storage().alter(res_id, amount)
+		"alter_storage_at":
+			var at_building := _find_building(
+				str(step["building"]), int(step["x"]), int(step["y"])
+			)
+			assert(at_building != null, "alter_storage_at: building not found %s" % str(step))
+			var res_at := int(GameConstants.RES[str(step["resource"])])
+			at_building.get_storage().alter(res_at, int(step["amount"]))
 		"run_ticks":
 			_gts.run_ticks(int(step["ticks"]))
 		"run_seconds":
@@ -99,3 +112,11 @@ func _execute_step(step: Dictionary) -> void:
 			_gts.session = _gts.snapshot_roundtrip()
 		_:
 			push_error("Unknown parity op: %s" % op)
+
+
+func _find_building(building_key: String, x: int, y: int) -> Building:
+	var bid := int(GameConstants.BUILDINGS[building_key])
+	for b in _gts.session.get_buildings_on_island(_gts.session.island):
+		if b.building_id == bid and b.position == Vector2i(x, y):
+			return b
+	return null

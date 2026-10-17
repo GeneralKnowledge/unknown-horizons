@@ -2,6 +2,15 @@
 
 Runs the same **scenario JSON** on legacy Horizons (Python sim) and the Godot port, then compares normalized traces.
 
+## Parity roadmap (stages)
+
+| Stage | Focus | Scenarios |
+|-------|--------|-----------|
+| **1** | Core loop | `wood`, `warehouse_collector`, `snapshot_roundtrip` |
+| **2** | Tier-1 + tier-2 economy | `tier1_starter`, `stonemason`, **`brickyard`**, `farm_crop` |
+
+Next targets: `toolmaker` chain, JSON save mid-production restore, optional **`development`** map scenarios (see `map_specs.json`).
+
 ## Quick start
 
 ```bash

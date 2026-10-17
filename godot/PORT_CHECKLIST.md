@@ -582,6 +582,7 @@ Tick items: `[ ]` → `[x]`.
 | `snapshot_roundtrip.json` | same | ✓ |
 | `stonemason.json` | same | ✓ |
 | `tier1_starter.json` | same | ✓ |
+| `brickyard.json` | same | ✓ |
 
 Docs: [`development/godot/parity/README.md`](../development/godot/parity/README.md). CI: workflow job **`parity-golden`**. Optional local: `./development/godot/sync.sh --parity`.
 

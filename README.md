@@ -38,7 +38,7 @@ Game data (buildings, resources, maps) is authored under **`legacy/content/`** a
 
 ## Status (summary)
 
-- **192** headless GUT tests; **6** parity scenarios vs golden traces (CI `parity-golden` job)
+- **195** headless GUT tests; **10** parity scenarios vs golden traces (CI `parity-golden` job)
 - Playable slice: lumberjack / tree / production / JSON save-load
 - Reproducible **web export** (`./godot/export_web.sh`)
 - **Legacy game:** run from `legacy/` — see [`legacy/README.md`](legacy/README.md)
