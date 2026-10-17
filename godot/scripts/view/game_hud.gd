@@ -41,7 +41,7 @@ func show_status(message: String, is_error: bool = false) -> void:
 	if _status == null:
 		return
 	_status.text = message
-	_status.modulate = Color(1, 0.35, 0.35) if is_error else Color(0.85, 1, 0.85)
+	_status.modulate = ContentTheme.hud_status_error() if is_error else ContentTheme.hud_status_ok()
 	_status_timer = 5.0
 
 
@@ -158,6 +158,10 @@ func refresh() -> void:
 			theme_suffix,
 		]
 	)
+	if ContentTheme.pack_id != "":
+		_header.modulate = ContentTheme.hud_accent_color()
+	else:
+		_header.modulate = Color.WHITE
 	if _hint != null:
 		_hint.text = "Pan: middle-drag | Zoom: wheel | Build palette tabs below"
 	_settlement_panel.show_inventory("Settlement warehouse", settlement.inventory)

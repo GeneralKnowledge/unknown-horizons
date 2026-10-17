@@ -11,27 +11,43 @@ func get_sprite_frames_for_building(building_id: int) -> SpriteFrames:
 	var stem := ContentLoader.stem_for_building_id(building_id)
 	if _frames_by_stem.has(stem):
 		return _frames_by_stem[stem] as SpriteFrames
-	if _manifest_exists(stem):
-		_load_manifest_for_stem(stem)
-		if _frames_by_stem.has(stem):
-			return _frames_by_stem[stem] as SpriteFrames
+	for manifest_path in manifest_paths_for_stem(stem):
+		if FileAccess.file_exists(manifest_path):
+			_load_manifest_for_stem(stem, manifest_path)
+			if _frames_by_stem.has(stem):
+				return _frames_by_stem[stem] as SpriteFrames
 	return _make_placeholder_frames(Color(0.55, 0.55, 0.55), Color(0.75, 0.55, 0.35))
 
 
-func _manifest_exists(stem: String) -> bool:
-	return FileAccess.file_exists("%s%s/sprite_manifest.json" % [GFX_ROOT, stem])
+func manifest_paths_for_stem(stem: String) -> Array[String]:
+	var paths: Array[String] = []
+	var pack_root := ContentTheme.gfx_root.strip_edges()
+	if not pack_root.is_empty():
+		paths.append("%s/%s/sprite_manifest.json" % [pack_root, stem])
+	paths.append("%s%s/sprite_manifest.json" % [GFX_ROOT, stem])
+	return paths
 
 
 func get_dlc_tint(stem: String) -> Color:
-	var path := "res://resources/dlc/northern_company/gfx/sprite_manifest.json"
-	if not FileAccess.file_exists(path):
+	var pack_manifest := _pack_sprite_manifest_path()
+	if pack_manifest.is_empty():
 		return Color.WHITE
-	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(pack_manifest))
 	var tints: Dictionary = data.get("building_tints", {})
 	if tints.has(stem):
 		var c: Array = tints[stem]
 		return Color(float(c[0]), float(c[1]), float(c[2]), float(c[3]))
 	return Color.WHITE
+
+
+func _pack_sprite_manifest_path() -> String:
+	var pack_root := ContentTheme.gfx_root.strip_edges()
+	if pack_root.is_empty():
+		return ""
+	var path := "%s/sprite_manifest.json" % pack_root
+	if FileAccess.file_exists(path):
+		return path
+	return ""
 
 
 func animation_for_building(building: Building) -> StringName:
@@ -44,8 +60,7 @@ func animation_for_building(building: Building) -> StringName:
 	return &"idle"
 
 
-func _load_manifest_for_stem(stem: String) -> void:
-	var manifest_path := "%s%s/sprite_manifest.json" % [GFX_ROOT, stem]
+func _load_manifest_for_stem(stem: String, manifest_path: String) -> void:
 	if not FileAccess.file_exists(manifest_path):
 		_frames_by_stem[stem] = _make_placeholder_frames(
 			Color(0.55, 0.4, 0.25), Color(0.7, 0.5, 0.2)
