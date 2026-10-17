@@ -1,6 +1,6 @@
 # Playable settlement demo
 
-Two-step vertical slice on the `development` map:
+Two-step vertical slice on the `development` map (warehouse at **30,30** so clay at **33,33** does not overlap the 3×3 footprint):
 
 1. **Lumber** — lumberjack camp, trees, deliver **boards** to the warehouse.
 2. **Bricks** — clay pit on the bundled deposit, brickyard, deliver **bricks** to the warehouse.

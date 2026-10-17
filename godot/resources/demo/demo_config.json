@@ -1,7 +1,7 @@
 {
   "default_map_id": "development",
-  "default_settlement_x": 34,
-  "default_settlement_y": 34,
+  "default_settlement_x": 30,
+  "default_settlement_y": 30,
   "show_start_menu": true,
   "title": "Unknown Horizons",
   "subtitle": "Lumber → boards, then clay → bricks (YAML build costs)",

@@ -10,7 +10,7 @@ func test_demo_config_loads_development_map() -> void:
 
 func test_demo_settlement_point() -> void:
 	var p := DemoConfig.default_settlement_point()
-	assert_eq(Vector2i(34, 34), p)
+	assert_eq(Vector2i(30, 30), p)
 
 
 func test_show_start_menu_default_true() -> void:

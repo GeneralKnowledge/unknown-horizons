@@ -23,10 +23,8 @@ grep -q "index" "$WEB_DIR/index.html" || {
 echo "OK: web export smoke (artifacts present)"
 
 if command -v godot >/dev/null 2>&1; then
-	echo "==> Headless playable demo config smoke"
-	godot --headless --path "$ROOT/godot" -s addons/gut/gut_cmdln.gd \
-		-gdir=res://tests/integration \
-		-gfile=test_playable_lumber_delivery.gd \
-		-gexit \
-		-ginclude_subdirs=false
+	echo "==> Headless playable demo integration smoke"
+	(cd "$ROOT/godot" && godot --headless --import --path . >/dev/null)
+	(cd "$ROOT/godot" && godot --headless --path . -s addons/gut/gut_cmdln.gd \
+		-gconfig=.gutconfig.json -gexit -gselect=test_playable_lumber_delivery)
 fi

@@ -64,7 +64,7 @@ static func apply_starting_resources(settlement: Settlement) -> void:
 static func _defaults() -> Dictionary:
 	return {
 		"map_id": "development",
-		"settlement": {"x": 34, "y": 34},
+		"settlement": {"x": 30, "y": 30},
 		"clay_deposit": {"x": 33, "y": 33, "spawn_at_start": true, "seed_raw_clay": 12},
 		"steps": [
 			{
