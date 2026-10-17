@@ -5,6 +5,8 @@ building_id_min: 200
 building_id_max: 249
 gfx_root: godot/resources/dlc/northern_company/gfx
 player_accent_color: "#4a7c9e"
+sounds_manifest: sounds.json
+ui_theme: northern_company_default
 
 buildings:
   - stem: northern_warehouse
