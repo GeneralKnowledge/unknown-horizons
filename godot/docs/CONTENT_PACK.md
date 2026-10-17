@@ -21,7 +21,9 @@ resources/dlc/<pack_id>/
 | `gfx_root` | no | Repo-relative or `res://` path to pack gfx |
 | `player_accent_color` | no | Hex color for future HUD theming |
 | `sounds_manifest` | no | Filename under pack dir (default `sounds.json`) |
-| `ui_theme` | no | Future Godot `Theme` resource id |
+| `ui_theme` | no | Godot `Theme` at `themes/{id}.tres` under the pack |
+| `gfx_stem_overrides` | no | Copy base `resources/gfx/{stem}/` into pack gfx root |
+| `gfx_stem_aliases` | no | Map pack stem → base stem for copied gfx trees |
 | `buildings` | DLC only | Id range + stem list for DLC loaders |
 
 Activate a pack in `resources/exported/active_theme.json`:

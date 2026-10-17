@@ -7,6 +7,19 @@ gfx_root: godot/resources/dlc/northern_company/gfx
 player_accent_color: "#4a7c9e"
 sounds_manifest: sounds.json
 ui_theme: northern_company_default
+gfx_stem_overrides:
+  - lumberjackcamp
+  - hunterstent
+  - fishermanstent
+  - warehouse
+  - brickyard
+  - farm
+gfx_stem_aliases:
+  northern_warehouse: warehouse
+  northern_smokery: warehouse
+  northern_signal_tower: warehouse
+  northern_mint: warehouse
+  northern_outpost: warehouse
 
 buildings:
   - stem: northern_warehouse

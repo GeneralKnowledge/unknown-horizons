@@ -30,6 +30,16 @@ signal build_mode_selected(mode: StringName)
 var _status_timer: float = 0.0
 
 
+func _ready() -> void:
+	_apply_pack_theme()
+
+
+func _apply_pack_theme() -> void:
+	var pack_theme := ContentTheme.get_ui_theme()
+	if pack_theme != null:
+		theme = pack_theme
+
+
 func _process(delta: float) -> void:
 	if _status_timer > 0.0:
 		_status_timer -= delta

@@ -10,6 +10,9 @@ var _import_dialog: FileDialog
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(320, 220)
+	var pack_theme := ContentTheme.get_ui_theme()
+	if pack_theme != null:
+		theme = pack_theme
 	var v := VBoxContainer.new()
 	add_child(v)
 	var title := Label.new()

@@ -17,6 +17,7 @@ var hud_status_error_color: String = ""
 
 var _legacy_sound_overrides: Dictionary = {}
 var _label_overrides: Dictionary = {}
+var _ui_theme: Theme
 
 
 func _ready() -> void:
@@ -33,6 +34,7 @@ func _reload() -> void:
 	hud_status_error_color = ""
 	_legacy_sound_overrides = {}
 	_label_overrides = {}
+	_ui_theme = null
 	if not FileAccess.file_exists(ACTIVE_THEME_PATH):
 		return
 	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(ACTIVE_THEME_PATH))
@@ -120,6 +122,19 @@ func legacy_audio_res_for_key(manifest_key: String) -> String:
 	if _legacy_sound_overrides.has(manifest_key):
 		return str(_legacy_sound_overrides[manifest_key])
 	return ""
+
+
+func get_ui_theme() -> Theme:
+	if _ui_theme != null:
+		return _ui_theme
+	if pack_id.is_empty() or ui_theme_id.is_empty():
+		return null
+	var path := "%s%s/themes/%s.tres" % [PACK_ROOT, pack_id, ui_theme_id]
+	if ResourceLoader.exists(path):
+		var loaded: Variant = load(path)
+		if loaded is Theme:
+			_ui_theme = loaded
+	return _ui_theme
 
 
 func hud_accent_color() -> Color:
