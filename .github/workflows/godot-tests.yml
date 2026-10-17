@@ -1,0 +1,32 @@
+name: Godot PoC tests
+
+on:
+  push:
+    paths:
+      - 'godot/**'
+      - 'development/godot/**'
+      - '.github/workflows/godot-tests.yml'
+  pull_request:
+    paths:
+      - 'godot/**'
+      - 'development/godot/**'
+      - '.github/workflows/godot-tests.yml'
+
+jobs:
+  gut:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Godot 4.3
+        run: |
+          curl -sL "https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip" -o /tmp/godot.zip
+          unzip -q /tmp/godot.zip -d /tmp
+          sudo mv /tmp/Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
+          godot --version
+
+      - name: Export game content for Godot
+        run: python3 development/godot/export_content.py
+
+      - name: Run GUT (headless)
+        run: ./godot/run_tests.sh

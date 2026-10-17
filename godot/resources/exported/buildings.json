@@ -1,0 +1,1920 @@
+{
+  "ambient": {
+    "components": {},
+    "id_name": "BUILDINGS.AMBIENT",
+    "size_x": 1,
+    "size_y": 1
+  },
+  "bakery": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "0": {
+            "consumes": [
+              [
+                44,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                5,
+                1
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "44": 8,
+            "5": 8
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.BAKERY",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "barracks": {
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "41": 5
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.BARRACKS",
+    "size_x": 3,
+    "size_y": 3
+  },
+  "barrier": {
+    "components": {},
+    "id_name": "BUILDINGS.BARRIER",
+    "size_x": 1,
+    "size_y": 1
+  },
+  "blender": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "0": {
+            "consumes": [
+              [
+                46,
+                -2
+              ]
+            ],
+            "produces": [
+              [
+                47,
+                1
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "46": 6,
+            "47": 6
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.BLENDER",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "boatbuilder": {
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "3": 12,
+            "4": 12,
+            "40": 12,
+            "6": 12
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.BOAT_BUILDER",
+    "size_x": 3,
+    "size_y": 3
+  },
+  "brewery": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "2105680898": {
+            "consumes": [
+              [
+                90,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                91,
+                1
+              ]
+            ],
+            "time": 12
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "90": 6,
+            "91": 6
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.BREWERY",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "brickyard": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "33": {
+            "consumes": [
+              [
+                21,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                7,
+                1
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "21": 4,
+            "7": 10
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.BRICKYARD",
+    "size_x": 2,
+    "size_y": 4
+  },
+  "butchery": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "55": {
+            "consumes": [
+              [
+                35,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                5,
+                2
+              ]
+            ],
+            "time": 15
+          },
+          "56": {
+            "consumes": [
+              [
+                36,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                5,
+                2
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "35": 4,
+            "36": 6,
+            "5": 12
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.BUTCHERY",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "cannonfoundry": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1572026952": {
+            "consumes": [
+              [
+                4,
+                -1
+              ],
+              [
+                23,
+                -1
+              ],
+              [
+                26,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                40,
+                2
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "23": 4,
+            "26": 4,
+            "4": 4,
+            "40": 8
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.CANNON_FOUNDRY",
+    "size_x": 3,
+    "size_y": 3
+  },
+  "charcoalburning": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "39": {
+            "consumes": [
+              [
+                4,
+                -3
+              ]
+            ],
+            "produces": [
+              [
+                23,
+                2
+              ]
+            ],
+            "time": 20
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "23": 4,
+            "4": 6
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.CHARCOAL_BURNER",
+    "size_x": 2,
+    "size_y": 3
+  },
+  "claydeposit": {
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "20": 1000000
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.CLAY_DEPOSIT",
+    "size_x": 3,
+    "size_y": 3
+  },
+  "claypit": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "32": {
+            "consumes": [
+              [
+                20,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                21,
+                1
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "20": 1000000,
+            "21": 10
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.CLAY_PIT",
+    "size_x": 3,
+    "size_y": 3
+  },
+  "distillery": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1842760585": {
+            "consumes": [
+              [
+                18,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                22,
+                1
+              ]
+            ],
+            "time": 12
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "18": 6,
+            "22": 6
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.DISTILLERY",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "doctor": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "227255506": {
+            "consumes": [
+              [
+                38,
+                -2
+              ],
+              [
+                98,
+                -1
+              ]
+            ],
+            "time": 60
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "38": 8,
+            "98": 4
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.DOCTOR",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "farm": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1236502256": {
+            "consumes": [
+              [
+                30,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                31,
+                1
+              ]
+            ]
+          },
+          "1253640427": {
+            "consumes": [
+              [
+                33,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                35,
+                1
+              ]
+            ]
+          },
+          "1265004933": {
+            "consumes": [
+              [
+                53,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                54,
+                1
+              ]
+            ]
+          },
+          "1654557398": {
+            "consumes": [
+              [
+                2,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                10,
+                1
+              ]
+            ]
+          },
+          "1849560830": {
+            "consumes": [
+              [
+                57,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                58,
+                1
+              ]
+            ]
+          },
+          "1953634498": {
+            "consumes": [
+              [
+                45,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                46,
+                1
+              ]
+            ]
+          },
+          "2053891886": {
+            "consumes": [
+              [
+                17,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                18,
+                1
+              ]
+            ]
+          },
+          "2078307024": {
+            "consumes": [
+              [
+                34,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                36,
+                1
+              ]
+            ]
+          },
+          "208610842": {
+            "consumes": [
+              [
+                42,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                43,
+                1
+              ]
+            ]
+          },
+          "2092896117": {
+            "consumes": [
+              [
+                15,
+                -2
+              ]
+            ],
+            "produces": [
+              [
+                5,
+                1
+              ]
+            ]
+          },
+          "21429697": {
+            "consumes": [
+              [
+                37,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                38,
+                1
+              ]
+            ]
+          },
+          "244149289": {
+            "consumes": [
+              [
+                89,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                90,
+                1
+              ]
+            ]
+          },
+          "70113509": {
+            "consumes": [
+              [
+                59,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                60,
+                1
+              ]
+            ]
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "10": 6,
+            "15": 6,
+            "17": 6,
+            "18": 6,
+            "2": 6,
+            "30": 6,
+            "31": 6,
+            "33": 6,
+            "34": 6,
+            "35": 6,
+            "36": 6,
+            "37": 6,
+            "38": 6,
+            "42": 6,
+            "43": 6,
+            "45": 6,
+            "46": 6,
+            "5": 6,
+            "53": 6,
+            "54": 6,
+            "57": 6,
+            "58": 6,
+            "59": 6,
+            "60": 6,
+            "89": 6,
+            "90": 6
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.FARM",
+    "size_x": 3,
+    "size_y": 3
+  },
+  "fireservice": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1907712664": {
+            "consumes": [
+              [
+                99,
+                -1
+              ]
+            ]
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "99": 10
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.FIRE_STATION",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "fishdeposit": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "923331670": {
+            "changes_animation": false,
+            "produces": [
+              [
+                28,
+                1
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "28": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.FISH_DEPOSIT",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "fishermanstent": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "923331670": {
+            "consumes": [
+              [
+                28,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                5,
+                1
+              ]
+            ],
+            "time": 10
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "28": 8,
+            "5": 8
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.FISHER",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "hunterstent": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1335785398": {
+            "consumes": [
+              [
+                13,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                5,
+                2
+              ]
+            ],
+            "time": 10
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "13": 4,
+            "5": 6
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.HUNTER",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "lookout": {
+    "components": {},
+    "id_name": "BUILDINGS.LOOKOUT",
+    "size_x": 1,
+    "size_y": 1
+  },
+  "lumberjackcamp": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "256812226": {
+            "consumes": [
+              [
+                8,
+                -2
+              ]
+            ],
+            "produces": [
+              [
+                4,
+                1
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "4": 10,
+            "8": 10
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.LUMBERJACK",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "mainsquare": {
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {}
+        },
+        "type": "SettlementStorage"
+      }
+    },
+    "id_name": "BUILDINGS.MAIN_SQUARE",
+    "size_x": 6,
+    "size_y": 6
+  },
+  "mine": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1510556113": {
+            "consumes": [
+              [
+                24,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                25,
+                1
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "24": 1000000,
+            "25": 10
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.MINE",
+    "size_x": 5,
+    "size_y": 5
+  },
+  "mountain": {
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "24": 1000000
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.MOUNTAIN",
+    "size_x": 5,
+    "size_y": 5
+  },
+  "pastryshop": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "570450416": {
+            "consumes": [
+              [
+                18,
+                -1
+              ],
+              [
+                58,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                55,
+                1
+              ]
+            ],
+            "time": 30
+          },
+          "70113509": {
+            "consumes": [
+              [
+                60,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                18,
+                2
+              ],
+              [
+                56,
+                1
+              ]
+            ],
+            "time": 15
+          },
+          "87034972": {
+            "consumes": [
+              [
+                18,
+                -1
+              ],
+              [
+                54,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                55,
+                1
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "18": 8,
+            "54": 6,
+            "55": 6,
+            "56": 6,
+            "58": 6,
+            "60": 6
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.PASTRY_SHOP",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "pavilion": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1056282634": {
+            "produces": [
+              [
+                11,
+                1
+              ]
+            ],
+            "time": 4
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "11": 10
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.PAVILION",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "publicbath": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1205784915": {
+            "produces": [
+              [
+                96,
+                1
+              ]
+            ],
+            "time": 4
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "96": 10
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.PUBLIC_BATH",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "ruinedtent": {
+    "components": {},
+    "id_name": "BUILDINGS.SETTLER_RUIN",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "saline": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "854772720": {
+            "consumes": [
+              [
+                "RES.BRINE",
+                -2
+              ],
+              [
+                23,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                29,
+                2
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "23": 6,
+            "29": 6,
+            "RES.BRINE": 6
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.SALINE",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "saltponds": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "854772720": {
+            "produces": [
+              [
+                29,
+                2
+              ]
+            ],
+            "time": 45
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "29": 8
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.SALT_PONDS",
+    "size_x": 3,
+    "size_y": 3
+  },
+  "signalfire": {
+    "components": {},
+    "id_name": "BUILDINGS.SIGNAL_FIRE",
+    "size_x": 1,
+    "size_y": 1
+  },
+  "smeltery": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1698523401": {
+            "consumes": [
+              [
+                25,
+                -2
+              ],
+              [
+                23,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                26,
+                3
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "23": 6,
+            "25": 6,
+            "26": 9
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.SMELTERY",
+    "size_x": 4,
+    "size_y": 4
+  },
+  "stonedeposit": {
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "51": 1000000
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.STONE_DEPOSIT",
+    "size_x": 3,
+    "size_y": 3
+  },
+  "stonemason": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1971678669": {
+            "consumes": [
+              [
+                52,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                7,
+                1
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "52": 4,
+            "7": 8
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.STONEMASON",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "stonepit": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1971678669": {
+            "consumes": [
+              [
+                51,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                52,
+                1
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "51": 1000000,
+            "52": 8
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.STONE_PIT",
+    "size_x": 3,
+    "size_y": 3
+  },
+  "storagetent": {
+    "components": {
+      "Storage": {
+        "config": {
+          "slot_sizes": {}
+        },
+        "type": "SettlementStorage"
+      }
+    },
+    "id_name": "BUILDINGS.STORAGE",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "tavern": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "40": {
+            "consumes": [
+              [
+                22,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                27,
+                2
+              ]
+            ],
+            "time": 8
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "22": 4,
+            "27": 12
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.TAVERN",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "tent": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1205784915": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                96,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.MERCHANTS"
+            ],
+            "produces": [
+              [
+                14,
+                5
+              ]
+            ],
+            "time": 90
+          },
+          "19": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                5,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.PIONEERS"
+            ],
+            "produces": [
+              [
+                14,
+                13
+              ]
+            ],
+            "time": 60
+          },
+          "20": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                3,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.PIONEERS",
+              "TIER.SETTLERS",
+              "TIER.CITIZENS",
+              "TIER.MERCHANTS"
+            ],
+            "produces": [
+              [
+                14,
+                5
+              ]
+            ],
+            "time": 180
+          },
+          "21": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                11,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.PIONEERS",
+              "TIER.SETTLERS",
+              "TIER.CITIZENS",
+              "TIER.MERCHANTS"
+            ],
+            "produces": [
+              [
+                14,
+                3
+              ]
+            ],
+            "time": 90
+          },
+          "26": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                16,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.PIONEERS"
+            ],
+            "produces": [
+              [
+                14,
+                3
+              ]
+            ],
+            "time": 90
+          },
+          "30": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                19,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.SAILORS",
+              "TIER.PIONEERS",
+              "TIER.SETTLERS",
+              "TIER.CITIZENS"
+            ],
+            "produces": [
+              [
+                14,
+                1
+              ]
+            ],
+            "time": 90
+          },
+          "41": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                27,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.SETTLERS",
+              "TIER.CITIZENS",
+              "TIER.MERCHANTS"
+            ],
+            "produces": [
+              [
+                14,
+                4
+              ]
+            ],
+            "time": 90
+          },
+          "43": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                5,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.SETTLERS",
+              "TIER.CITIZENS",
+              "TIER.MERCHANTS"
+            ],
+            "produces": [
+              [
+                14,
+                12
+              ]
+            ],
+            "time": 75
+          },
+          "44": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                16,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.SETTLERS",
+              "TIER.CITIZENS",
+              "TIER.MERCHANTS"
+            ],
+            "produces": [
+              [
+                14,
+                5
+              ]
+            ],
+            "time": 90
+          },
+          "69": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                29,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.SETTLERS",
+              "TIER.CITIZENS",
+              "TIER.MERCHANTS"
+            ],
+            "produces": [
+              [
+                14,
+                4
+              ]
+            ],
+            "time": 90
+          },
+          "70": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                32,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.SETTLERS",
+              "TIER.CITIZENS",
+              "TIER.MERCHANTS"
+            ],
+            "produces": [
+              [
+                14,
+                5
+              ]
+            ],
+            "time": 180
+          },
+          "71": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                5,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.SAILORS"
+            ],
+            "produces": [
+              [
+                14,
+                15
+              ]
+            ],
+            "time": 60
+          },
+          "72": {
+            "changes_animation": false,
+            "consumes": [
+              [
+                11,
+                -1
+              ]
+            ],
+            "enabled_by_default": false,
+            "level": [
+              "TIER.SAILORS"
+            ],
+            "produces": [
+              [
+                14,
+                5
+              ]
+            ],
+            "time": 90
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "11": 1,
+            "14": 100,
+            "16": 1,
+            "19": 1,
+            "27": 1,
+            "29": 1,
+            "3": 1,
+            "32": 1,
+            "5": 1,
+            "96": 1,
+            "98": 1,
+            "99": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.RESIDENTIAL",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "tobacconist": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "48": {
+            "consumes": [
+              [
+                31,
+                -2
+              ]
+            ],
+            "produces": [
+              [
+                32,
+                1
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "31": 6,
+            "32": 4
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.TOBACCONIST",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "toolmaker": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "38": {
+            "consumes": [
+              [
+                4,
+                -1
+              ],
+              [
+                23,
+                -1
+              ],
+              [
+                26,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                6,
+                2
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "23": 4,
+            "26": 4,
+            "4": 4,
+            "6": 8
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.TOOLMAKER",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "trail": {
+    "components": {},
+    "id_name": "BUILDINGS.TRAIL",
+    "size_x": 1,
+    "size_y": 1
+  },
+  "tree": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1": {
+            "produces": [
+              [
+                8,
+                1
+              ]
+            ],
+            "time": 120
+          },
+          "17": {
+            "changes_animation": false,
+            "produces": [
+              [
+                12,
+                1
+              ]
+            ],
+            "time": 25
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "12": 1,
+            "8": 1
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.TREE",
+    "size_x": 1,
+    "size_y": 1
+  },
+  "villageschool": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "25": {
+            "produces": [
+              [
+                16,
+                1
+              ]
+            ],
+            "time": 4
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "16": 10
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.VILLAGE_SCHOOL",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "warehouse": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "31": {
+            "produces": [
+              [
+                19,
+                10
+              ]
+            ]
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {}
+        },
+        "type": "SettlementStorage"
+      }
+    },
+    "id_name": "BUILDINGS.WAREHOUSE",
+    "size_x": 3,
+    "size_y": 3
+  },
+  "weaponsmith": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "1306133389": {
+            "consumes": [
+              [
+                23,
+                -2
+              ],
+              [
+                26,
+                -2
+              ]
+            ],
+            "produces": [
+              [
+                41,
+                1
+              ]
+            ],
+            "time": 30
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "23": 6,
+            "26": 6,
+            "41": 8
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.WEAPONSMITH",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "weaverstent": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "9": {
+            "consumes": [
+              [
+                10,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                3,
+                1
+              ]
+            ],
+            "time": 12
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "10": 8,
+            "3": 8
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.WEAVER",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "windmill": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "0": {
+            "consumes": [
+              [
+                43,
+                -1
+              ]
+            ],
+            "produces": [
+              [
+                44,
+                1
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "43": 8,
+            "44": 8
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.WINDMILL",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "winery": {
+    "components": {
+      "Producer": {
+        "productionlines": {
+          "0": {
+            "consumes": [
+              [
+                58,
+                -2
+              ]
+            ],
+            "produces": [
+              [
+                22,
+                1
+              ]
+            ],
+            "time": 15
+          }
+        }
+      },
+      "Storage": {
+        "config": {
+          "slot_sizes": {
+            "22": 6,
+            "58": 8
+          }
+        },
+        "type": "SlotsStorage"
+      }
+    },
+    "id_name": "BUILDINGS.WINERY",
+    "size_x": 2,
+    "size_y": 2
+  },
+  "woodentower": {
+    "components": {},
+    "id_name": "BUILDINGS.WOODEN_TOWER",
+    "size_x": 2,
+    "size_y": 2
+  }
+}
