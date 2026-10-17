@@ -31,6 +31,17 @@ chmod +x development/godot/capture_playable_demo_screenshots.sh
 | `docs/screenshots/demo_success_overlay.png` | Completion overlay |
 | `docs/screenshots/shareable_island.png` | Compact marketing island |
 
+### Demo slice video (no manual clicks)
+
+Loads `scenes/playable_slice.tscn` straight into a staged settlement demo with an automated camera timeline (~28s):
+
+```bash
+chmod +x development/godot/record_demo_slice_video.sh
+./development/godot/record_demo_slice_video.sh   # → godot/docs/videos/settlement_demo_slice.mp4
+```
+
+Requires Godot 4.3+, ffmpeg, and xvfb on Linux.
+
 ## What you do in the demo
 
 1. **Title screen** → **Start settlement demo**

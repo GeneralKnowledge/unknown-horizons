@@ -27,6 +27,10 @@ var _selected_worldid: int = -1
 var _screenshot_out := ""
 var _screenshot_preset := ""
 var _screenshot_frames := 0
+var _video_slice := ""
+var _video_duration := 28.0
+var _video_time := 0.0
+var _video_flags: Dictionary = {}
 
 const SCREENSHOT_WARMUP_FRAMES := 14
 
@@ -37,10 +41,13 @@ func _ready() -> void:
 	add_child(_camera_ctrl)
 	_camera_ctrl.setup(_camera, _map_view)
 	_camera_ctrl.set_ui_blocker(_is_pointer_over_hud)
-	_parse_screenshot_cmdline()
+	_parse_capture_cmdline()
 	_setup_start_menu()
 	if not _screenshot_preset.is_empty():
 		_bootstrap_screenshot_preset()
+		return
+	if not _video_slice.is_empty():
+		_bootstrap_video_slice()
 		return
 	if DemoConfig.show_start_menu():
 		_show_start_menu()
@@ -184,6 +191,9 @@ func _process(delta: float) -> void:
 		)
 	if _playable_demo and _objective_tracker != null:
 		_objective_tracker.tick_after_sim()
+	if not _video_slice.is_empty():
+		_video_time += delta
+		_run_video_timeline()
 	_update_ghost()
 
 
@@ -585,12 +595,63 @@ func _update_ghost() -> void:
 	_ghost.visible = ctx != &"select" and _build_tool.active
 
 
-func _parse_screenshot_cmdline() -> void:
+func _parse_capture_cmdline() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--screenshot-out="):
 			_screenshot_out = arg.trim_prefix("--screenshot-out=")
 		elif arg.begins_with("--screenshot-preset="):
 			_screenshot_preset = arg.trim_prefix("--screenshot-preset=").strip_edges()
+		elif arg.begins_with("--video-slice="):
+			_video_slice = arg.trim_prefix("--video-slice=").strip_edges()
+		elif arg.begins_with("--video-duration="):
+			_video_duration = float(arg.trim_prefix("--video-duration="))
+
+
+func _bootstrap_video_slice() -> void:
+	match _video_slice:
+		"settlement_demo":
+			_start_playable_settlement_demo()
+			_seed_screenshot_boards_step()
+			_compose_screenshot_frame()
+			_video_time = 0.0
+			_video_flags.clear()
+			_hud.show_status("Settlement demo — lumber, then clay deposit for brickyard")
+		_:
+			push_error("Unknown video slice: %s" % _video_slice)
+			get_tree().quit(1)
+
+
+func _run_video_timeline() -> void:
+	if _video_time >= _video_duration:
+		get_tree().quit()
+		return
+	if _video_time >= 2.0 and not bool(_video_flags.get("focus_camp")):
+		_video_flags["focus_camp"] = true
+		_camera_ctrl.focus_world_point(_map_view.grid_to_screen(Vector2i(32, 32)), 1.4, 1.22)
+	if _video_time >= 9.0 and not bool(_video_flags.get("step2")):
+		_video_flags["step2"] = true
+		var boards_res := int(GameConstants.RES["BOARDS"])
+		var need := 8
+		var have := _session.settlement.inventory.amount(boards_res)
+		if have < need:
+			_session.settlement.inventory.alter(boards_res, need - have)
+		if _objective_tracker != null:
+			_objective_tracker.current_step_index = 1
+			_objective_tracker.state_changed.emit()
+		_refresh_demo_world_hints()
+		_hud.show_status("Clay deposit marked — build pit, then brickyard")
+		_on_objective_step_advanced(1)
+	if _video_time >= 10.0 and not bool(_video_flags.get("focus_clay")):
+		_video_flags["focus_clay"] = true
+		if _demo_world_hints != null:
+			_camera_ctrl.focus_world_point(_demo_world_hints.clay_marker_center(), 1.6, 1.32)
+	if _video_time >= 19.0 and not bool(_video_flags.get("success")):
+		_video_flags["success"] = true
+		_seed_screenshot_success_state()
+		_hud.show_status("Objective complete — materials delivered!")
+	if _video_time >= 23.0 and not bool(_video_flags.get("fit_end")):
+		_video_flags["fit_end"] = true
+		_camera_ctrl.focus_world_point(_map_view.grid_to_screen(Vector2i(30, 30)), 1.2, 1.05)
 
 
 func _bootstrap_screenshot_preset() -> void:
