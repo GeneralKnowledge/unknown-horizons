@@ -1,0 +1,36 @@
+{
+  "building_id_max": 249,
+  "building_id_min": 200,
+  "buildings": [
+    {
+      "building_id": 200,
+      "godot_name": "NORTHERN_WAREHOUSE",
+      "stem": "northern_warehouse"
+    },
+    {
+      "building_id": 201,
+      "godot_name": "NORTHERN_SMOKERY",
+      "stem": "northern_smokery"
+    },
+    {
+      "building_id": 202,
+      "godot_name": "NORTHERN_SIGNAL_TOWER",
+      "stem": "northern_signal_tower"
+    },
+    {
+      "building_id": 203,
+      "godot_name": "NORTHERN_MINT",
+      "stem": "northern_mint"
+    },
+    {
+      "building_id": 204,
+      "godot_name": "NORTHERN_OUTPOST",
+      "stem": "northern_outpost"
+    }
+  ],
+  "description": "Post-parity DLC slice \u2014 alternate visuals and a small building set.",
+  "display_name": "Northern Company",
+  "gfx_root": "godot/resources/dlc/northern_company/gfx",
+  "pack_id": "northern_company",
+  "player_accent_color": "#4a7c9e"
+}

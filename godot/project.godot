@@ -12,7 +12,9 @@ config/features=PackedStringArray("4.3", "Forward Plus")
 [autoload]
 
 GameConstants="*res://scripts/autoload/game_constants.gd"
+DlcConstants="*res://scripts/autoload/dlc_constants.gd"
 MessageBus="*res://scripts/sim/message_bus.gd"
+BuildingVisualRegistry="*res://scripts/view/building_visual_registry.gd"
 
 
 [filesystem]

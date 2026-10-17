@@ -1,0 +1,14 @@
+{
+  "building_stem": "lumberjackcamp",
+  "building_id": 8,
+  "animations": {
+    "idle": {
+      "texture": "idle.png",
+      "fps": 1.0
+    },
+    "working": {
+      "texture": "working.png",
+      "fps": 4.0
+    }
+  }
+}

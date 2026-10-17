@@ -1,0 +1,14 @@
+id: BUILDINGS.NORTHERN_OUTPOST
+name: _ Northern Outpost
+baseclass: building.Building
+radius: 0
+size_x: 2
+size_y: 2
+tier: TIER.SAILORS
+components:
+- StorageComponent:
+      SlotsStorage:
+        slot_sizes: {RES.TOOLS: 4}
+actionsets:
+  TIER.SAILORS:
+    as_woodentower0:

@@ -2,12 +2,12 @@ extends Node2D
 
 @onready var _map_view: MapView = $MapView
 @onready var _hud: GameHud = $CanvasLayer/HUD
-@onready var _building_sprite: Sprite2D = $BuildingSprite
+@onready var _building_layer: Node2D = $BuildingLayer
 @onready var _ghost: Sprite2D = $GhostSprite
 
 var _session: GameSession
 var _build_tool: BuildTool
-var _buildings: Array[Building] = []
+var _views: Dictionary = {} # worldid -> BuildingView
 var _tick_accum := 0.0
 var _hover_grid := Vector2i.ZERO
 
@@ -22,6 +22,8 @@ func _ready() -> void:
 	_hud.bind(_session)
 	_hud.refresh()
 	_update_ghost()
+	if not MessageBus.building_placed.is_connected(_on_bus_building_placed):
+		MessageBus.building_placed.connect(_on_bus_building_placed)
 
 
 func _process(delta: float) -> void:
@@ -31,6 +33,9 @@ func _process(delta: float) -> void:
 		_session.run_ticks(1)
 		_tick_accum -= step
 		MessageBus.settlement_updated.emit()
+		for view in _views.values():
+			if view is BuildingView:
+				(view as BuildingView).refresh_from_sim()
 	_update_ghost()
 
 
@@ -58,8 +63,19 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_building_placed(building: Building) -> void:
-	_buildings.append(building)
-	_building_sprite.position = _map_view.grid_to_screen(building.position)
+	_attach_view(building)
+
+
+func _on_bus_building_placed(building: Building) -> void:
+	if not _views.has(building.worldid):
+		_attach_view(building)
+
+
+func _attach_view(building: Building) -> void:
+	var view := BuildingView.new()
+	_building_layer.add_child(view)
+	view.bind(building, _map_view)
+	_views[building.worldid] = view
 
 
 func _update_ghost() -> void:

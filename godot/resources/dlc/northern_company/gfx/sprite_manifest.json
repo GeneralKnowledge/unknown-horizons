@@ -1,0 +1,17 @@
+{
+  "pack_id": "northern_company",
+  "building_tints": {
+    "northern_warehouse": [
+      0.55,
+      0.75,
+      0.95,
+      1.0
+    ],
+    "northern_smokery": [
+      0.5,
+      0.65,
+      0.85,
+      1.0
+    ]
+  }
+}

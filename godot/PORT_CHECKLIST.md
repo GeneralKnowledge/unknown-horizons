@@ -542,7 +542,9 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | `test_session_save.gd` | **4/7** |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** **106** tests passing (`./godot/run_tests.sh`).
+**Current GUT total:** **110** tests passing (`./godot/run_tests.sh`, includes DLC scaffolding tests).
+
+**DLC scaffolding (pre-parity):** see [`DLC_VISION.md`](DLC_VISION.md) and [`PORT_CHECKLIST_DLC.md`](PORT_CHECKLIST_DLC.md).
 
 ---
 
