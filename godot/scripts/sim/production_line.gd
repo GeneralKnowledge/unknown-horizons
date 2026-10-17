@@ -46,3 +46,11 @@ func _parse() -> void:
 
 func alter_production_time(modifier: float) -> void:
 	time = float(_raw_data.get("time", 1)) * modifier
+
+
+func change_amount(res: int, amount: int) -> void:
+	production[res] = amount
+	if consumed_res.has(res):
+		consumed_res[res] = amount
+	if produced_res.has(res):
+		produced_res[res] = amount

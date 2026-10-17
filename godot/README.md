@@ -59,4 +59,4 @@ godot --path godot scenes/poc_main.tscn
 
 ## Port roadmap
 
-See **[PORT_CHECKLIST.md](PORT_CHECKLIST.md)** for a tickable task list with difficulty estimates and suggested approaches (mapped to Python tests and modules).
+See **[PORT_CHECKLIST.md](PORT_CHECKLIST.md)** for sim/world tasks and **[PORT_CHECKLIST_GUI.md](PORT_CHECKLIST_GUI.md)** for per-GUI-test breakdown (widgets, blockers, Godot approach).

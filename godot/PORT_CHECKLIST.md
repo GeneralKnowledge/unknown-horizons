@@ -1,210 +1,564 @@
-# Godot port — task checklist
+# Godot port — detailed task checklist
 
-Tick items by changing `[ ]` to `[x]` in this file (works in GitHub, editors, and many markdown viewers).
+Tick items: `[ ]` → `[x]`.
 
-## Difficulty legend
+**Table of contents:** [Legend](#legend) · [Phase 0 (PoC)](#phase-0--poc-done) · [Phase 1 Sim](#phase-1--simulation-core) · [Phase 2 World](#phase-2--world-buildability-units) · [Phase 3 View](#phase-3--presentation--content) · [Phase 4 Meta](#phase-4--meta-systems) · [Phase 5 UI](#phase-5--ui) · [Phase 6 Quality](#phase-6--quality--migration) · [Components](#appendix-a--component-port-list) · [Commands](#appendix-b--command-port-list) · [Coverage matrix](#appendix-c--pytest--gut-coverage-matrix) · **[GUI detail (per test)](PORT_CHECKLIST_GUI.md)**
+
+---
+
+## Legend
+
+### Difficulty (letter)
 
 | Label | Meaning |
 |-------|---------|
-| **S** | Small — clear Python reference + existing pytest; mostly straight translation |
-| **M** | Medium — several classes or non-obvious edge cases |
-| **L** | Large — subsystem with many touchpoints or weak test coverage |
-| **XL** | Extra large — engine/UI/MP rewrite; plan carefully before coding |
+| **S** | Small — single class or test; straightforward port |
+| **M** | Medium — multiple types or subtle behavior |
+| **L** | Large — subsystem; many callers |
+| **XL** | Extra large — cross-cutting; weak tests or heavy FIFE coupling |
 
-**How to use “Approach”:** Prefer port **sim first, view second**. For each row, add a GUT test copied from the linked Python test before or right after the port.
+### Effort (stars)
+
+| Stars | Typical scope |
+|-------|----------------|
+| ★☆☆☆☆ | Minutes–hours; one function or test case |
+| ★★☆☆☆ | Hours; one class |
+| ★★★☆☆ | Days; small module + tests |
+| ★★★★☆ | Days–weeks; module graph |
+| ★★★★★ | Weeks+; platform or full UI/MP |
+
+### Task fields
+
+- **Python** — source of truth in this repo  
+- **Godot** — target script (create if missing)  
+- **Test** — pytest to port; **GUT** = target file under `godot/tests/`  
+- **Blocked by** — do not start until those items are done  
+- **Approach** — how to implement without re-coupling to FIFE
+
+**Rule:** Port sim logic as plain GDScript (`RefCounted`); view layer only observes sim state and sends commands.
 
 ---
 
 ## Phase 0 — PoC (done)
 
-- [x] **Godot 4 project scaffold** (S) — `project.godot`, sim/view folders, content symlink.  
-  *Approach:* Keep all gameplay logic in `RefCounted` / plain classes under `scripts/sim/`.
+- [x] **Project scaffold** — ★★☆☆☆ (S)  
+  - **Godot:** `project.godot`, `scripts/sim/`, `scripts/view/`, `resources/content` → `../../content`  
+  - **Approach:** No gameplay rules in scenes; autoload only for constants.
 
-- [x] **GUT + headless CI** (S) — `addons/gut`, `.gutconfig.json`, `run_tests.sh`, GitHub workflow.  
-  *Approach:* Run `./godot/run_tests.sh` locally before every PR; mirror pytest names where possible.
+- [x] **GUT + CI** — ★★☆☆☆ (S)  
+  - **Godot:** `addons/gut/`, `.gutconfig.json`, `run_tests.sh`, `.github/workflows/godot-tests.yml`  
+  - **Approach:** CLI only (`gut_cmdln.gd`); editor plugin optional.
 
-- [x] **Content export bridge** (M) — `development/godot/export_content.py` → `game_constants.gd`, `buildings.json`.  
-  *Approach:* Extend export script when adding new YAML-driven types; avoid hand-editing generated files.
+- [x] **Export script (buildings + constants)** — ★★★☆☆ (M)  
+  - **Python:** `development/godot/export_content.py`, `horizons/constants.py`, `content/objects/buildings/*.yaml`  
+  - **Godot:** `scripts/autoload/game_constants.gd`, `resources/exported/buildings.json`  
+  - **Approach:** Re-run export after YAML changes; resolve `RES.*` tokens to numeric IDs in export.
 
-- [x] **Scheduler port** (M) — `scripts/sim/game_scheduler.gd` ← `horizons/scheduler.py`.  
-  *Approach:* `tests/unittests/test_scheduler.py` → `tests/unit/test_scheduler.gd` (subset done; add remaining cases).
+- [x] **Scheduler (core)** — ★★★☆☆ (M)  
+  - **Python:** `horizons/scheduler.py`  
+  - **Godot:** `scripts/sim/game_scheduler.gd` (inner `SchedulerCallback`)  
+  - **Test:** `tests/unittests/test_scheduler.py` → `tests/unit/test_scheduler.gd` *(partial)*  
+  - **Approach:** Match tick ordering (`popleft`, same-tick `run_in=0` queue).
 
-- [x] **Storage + production line port** (M) — inventory types, `ProductionLine`.  
-  *Approach:* `tests/unittests/world/test_storage.py`, `test_productionline.py` → expand GUT coverage beyond PoC subset.
+- [x] **Storage (subset) + production line** — ★★★☆☆ (M)  
+  - **Python:** `horizons/world/storage.py`, `horizons/world/production/productionline.py`  
+  - **Godot:** `scripts/sim/storage/*`, `scripts/sim/production_line.gd`  
+  - **Test:** partial `test_storage.py`, `test_productionline.py` → unit GUT  
+  - **Approach:** Use `amount(res)` not `get()` — clashes with `Object.get`.
 
-- [x] **Production + producer (lumberjack)** (L) — `Production`, `Producer`, pause/active state.  
-  *Approach:* Match `horizons/world/production/production.py` listener/pause semantics; integration test is the guardrail.
+- [x] **Production + Producer** — ★★★★☆ (L)  
+  - **Python:** `horizons/world/production/production.py`, `producer.py`  
+  - **Godot:** `scripts/sim/production.gd`, `producer.gd`  
+  - **Approach:** Inventory change listeners drive state; scheduler for produce duration.
 
-- [x] **GameSession + Build (minimal)** (M) — settle + place lumberjack only.  
-  *Approach:* `tests/game/test_production.py` → `tests/integration/test_wood_production.gd`.
+- [x] **GameSession + minimal Build** — ★★★☆☆ (M)  
+  - **Python:** `tests/game/__init__.py` (`SPTestSession`), `command/building.py` *(partial)*  
+  - **Godot:** `scripts/sim/game_session.gd`, `scripts/sim/commands/build_command.gd`  
+  - **Test:** `tests/game/test_production.py` → `tests/integration/test_wood_production.gd` ✓  
+  - **Blocked by:** export for lumberjack YAML (production line id = SHA1 of `"BOARDS"` → `256812226`).
 
-- [x] **Minimal playable scene** (S) — `scenes/poc_main.tscn`, debug HUD.  
-  *Approach:* Scene only calls sim APIs (`BuildCommand`, `run_ticks`); no rules in the view layer.
-
----
-
-## Phase 1 — Simulation core (test-driven)
-
-### Time and commands
-
-- [ ] **Timer / real-time tick driver** (M) — wall clock → ticks like `horizons/timer.py`.  
-  *Approach:* Optional autoload that accumulates `delta` and calls `GameScheduler.tick`; port `tests/unittests/test_timer.py`.
-
-- [ ] **Command manager (SP)** (M) — execute `Build`, `Tear`, transfers like `horizons/manager.py` / `command/`.  
-  *Approach:* Single queue executed on tick boundaries; each command is a `Callable` or small class with `execute(session, player)`.
-
-- [ ] **Full scheduler test parity** (S) — all cases in `tests/unittests/test_scheduler.py`.  
-  *Approach:* Copy remaining tests one-by-one; fix scheduler until green.
-
-- [ ] **Full storage test parity** (M) — `PositiveTotalStorage`, slots, settlement storage, etc.  
-  *Approach:* Port remaining classes from `horizons/world/storage.py`; one GUT file per Python test class.
-
-### World graph
-
-- [ ] **WorldObject registry** (M) — IDs, lookup, delete ← `horizons/util/worldobject.py`.  
-  *Approach:* Central `EntityRegistry` autoload or session-owned dict; used by commands and save/load later.
-
-- [ ] **World / island / settlement (real maps)** (L) — load tile grid, not empty session ← `horizons/world/`.  
-  *Approach:* Start from `tests/game/utils.py` `create_map()` logic; SQLite map DB or exported tile JSON for Godot tests.
-
-- [ ] **Component holder + YAML entity types** (L) — ← `componentholder.py`, `ingametype.py`, `entities.py`.  
-  *Approach:* Either runtime YAML parse in GDScript or extend `export_content.py` to emit component graphs; map component names to GDScript classes (as PoC does for Storage/Producer).
-
-- [ ] **Build command (full rules)** (L) — buildability, settlement, ship distance ← `command/building.py`.  
-  *Approach:* Depends on buildability caches + `Entities`; port `tests/game/test_buildings.py` incrementally.
-
-- [ ] **Settlement range** (M) — warehouse/lookout expansion ← settlement/buildability.  
-  *Approach:* `tests/game/test_settlement_range.py` after basic `Build` works on a real map.
-
-### Production economy (beyond lumberjack)
-
-- [ ] **Producer utilization + status hooks** (M) — `FieldUtilization`, productivity icons (sim-only flags first).  
-  *Approach:* Port `utilization.py`; defer FIFE icons until view layer; use bool flags on building for tests.
-
-- [ ] **Multiple production lines / queue producer** (M) — boat builder, settlers ← `QueueProducer`, `SingleUseProduction`.  
-  *Approach:* Subclass or strategy on `Production`; add one building per test file from `tests/game/`.
-
-- [ ] **Resource providers / trade routes** (L) — `providerhandler`, `traderoute.py`.  
-  *Approach:* `tests/game/test_traderoute.py`; collectors must exist first.
+- [x] **PoC scene** — ★★☆☆☆ (S)  
+  - **Godot:** `scenes/poc_main.tscn`, `scripts/view/poc_main.gd`  
+  - **Approach:** Fixed tick rate `1/16 s`; Space/Enter cheat inputs into storage.
 
 ---
 
-## Phase 2 — Buildability and units (large, well-tested in Python)
+## Phase 1 — Simulation core
 
-### Buildability caches
+### 1.1 Content pipeline (extend export)
 
-- [ ] **Connected area cache** (M) — `world/buildability/connectedareacache.py`.  
-  *Approach:* `tests/unittests/world/buildability/test_connectedareacache.py` first; pure grid math, no rendering.
+- [ ] **Export units + grounds YAML** — ★★★☆☆ (M)  
+  - **Python:** `content/objects/units/`, `content/objects/grounds/`  
+  - **Godot:** extend `buildings.json` → `entities.json` or separate files  
+  - **Blocked by:** none  
+  - **Approach:** Same component normalization as buildings; map `ProducerComponent` → `Producer`.
 
-- [ ] **Partial binary / terrain / settlement caches** (L) — remaining `world/buildability/*`.  
-  *Approach:* One cache class + one GUT file per Python test module; share a tiny grid fixture helper.
+- [x] **Export production line name → id map** — ★☆☆☆☆ (S)  
+  - **Output:** `resources/exported/production_line_ids.json` (from YAML keys via SHA1 % 2³¹).
 
-- [ ] **Tile / road orientation** (S) — `util/tile_orientation.py`.  
-  *Approach:* `tests/unittests/util/test_tile_orientation.py` → `tests/unit/test_tile_orientation.gd`.
+- [ ] **Export `game.sql` tables used at runtime** — ★★★★☆ (L)  
+  - **Python:** `content/game.sql`, `horizons/util/dbreader.py`  
+  - **Godot:** JSON blobs or Godot SQLite read-only  
+  - **Approach:** Start with tables needed for `Entities.load` (buildings/units metadata), not full DB.
 
-### Pathfinding and collectors
+- [x] **Symlink / path docs for CI** — ★☆☆☆☆ (S)  
+  - **Docs:** `README.md`; workflow runs `export_content.py` before GUT.
 
-- [ ] **Pathfinding** (L) — `util/pathfinding/*`.  
-  *Approach:* Port `pathnodes` + `pathfinder` with grid fixtures; no FIFE.
+### 1.2 Timer and tick driver
 
-- [ ] **Collector units** (L) — lumberjack collector loop ← `units/collectors/`.  
-  *Approach:* `tests/unittests/world/units/collectors/test_collector.py`; integrate with building `CollectingComponent` from YAML.
+- [x] **Port wall-clock tick driver (`GameClock`)** — ★★★☆☆ (M)  
+  - **Godot:** `scripts/sim/game_clock.gd` (injectable time source; no FIFE pump).
 
-- [ ] **Ships + movement** (L) — `movingobject`, `ship.py`.  
-  *Approach:* Scheduler `_move_tick` callbacks; view sync later.
+- [ ] **GUT: `test_activate_register_end_unregister_from_pump`** — ★★☆☆☆ (S) *(FIFE-specific; N/A)*  
+
+- [x] **GUT: `test_first_pump_then_one_tick`** — ★★☆☆☆ (S) → `tests/unit/test_game_clock.gd`  
+- [x] **GUT: `test_two_pump_same_time_only_one_tick`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_two_pump_with_delay_then_two_ticks`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_two_pump_close_in_time_then_only_one_tick`** — ★★☆☆☆ (S)  
+- [ ] **GUT: `test_fast_pumping_only_tick_alternately`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_slow_pump_multiple_ticks`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_paused_pump_then_no_ticks`** — ★★☆☆☆ (S)  
+- [ ] **GUT: `test_pause_pump_unpack_pump`** — ★★★☆☆ (M)  
+- [ ] **GUT: `test_pause_on_callback`** — ★★★☆☆ (M)  
+- [ ] **GUT: `test_freeze_protection`** — ★★★☆☆ (M) *(optional for SP-only Godot)*  
+- [x] **GUT: `test_pump_test_func_skip`** — ★★★☆☆ (M)  
+- [ ] **GUT: `test_pump_test_func_pass`** — ★★★☆☆ (M) *(MP-related)*  
+
+### 1.3 Scheduler — full pytest parity
+
+*Godot:* `scripts/sim/game_scheduler.gd` · *GUT:* `tests/unit/test_scheduler.gd` · **`can_tick()`** for invalid-tick checks
+
+- [x] **GUT: `test_create_then_register_with_timer`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_end_then_unregister_from_timer`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_multiple_sequential_ticks`** — ★☆☆☆☆ (S)  
+- [x] **GUT: `test_fail_when_missing_start_tick`** — ★☆☆☆☆ (S)  
+- [x] **GUT: `test_fail_when_same_tick_twice`** — ★☆☆☆☆ (S)  
+- [x] **GUT: `test_add_callback_before_first_tick`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_add_callback_run_in_1_on_first_tick`** — ★☆☆☆☆ (S)  
+- [x] **GUT: `test_add_callback_only_triggered_once`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_started_ticking_then_add_callback_for_next_tick`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_started_ticking_then_add_callback_for_future`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_within_callback_add_new_callback_for_same_tick`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_within_callback_add_new_callback_for_future_tick`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_add_periodic_callback_called_every_tick_3_times`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_add_periodic_callback_run_every_other_tick_3_times`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_remove_call_from_instance`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_list_and_manually_remove_all_classinstance_callbacks`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_remove_all_classinst_calls`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_get_remaining_ticks`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_get_remaining_tick_periodic_callback`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_get_ticks_of_month`** — ★☆☆☆☆ (S)  
+- [ ] **Port `rem_object` parity with Python** — ★★★☆☆ (M)  
+
+- [x] **Port `Scheduler.get_ticks_of_month`** — ★☆☆☆☆ (S)  
+  - **Godot:** `GameScheduler.get_ticks_of_month()` + `GameTimer.INGAME_TICK_INTERVAL_SECONDS`.
+
+### 1.4 Storage — classes and tests
+
+*Python:* `horizons/world/storage.py` · *Godot:* `scripts/sim/storage/`
+
+| Class (Python) | Godot class | Done |
+|----------------|-------------|------|
+| `GenericStorage` | `Inventory` | partial |
+| `SpecializedStorage` | `SpecializedInventory` | partial |
+| `SizedSpecializedStorage` | `SizedSpecializedInventory` | partial |
+| `PositiveStorage` | `PositiveInventory` | partial |
+| `PositiveSizedSpecializedStorage` | `PositiveSizedSpecializedInventory` | partial |
+| `GlobalLimitStorage` | `GlobalLimitInventory` | yes |
+| `TotalStorage` | `TotalInventory` | yes |
+| `PositiveTotalStorage` | `PositiveTotalInventory` | yes |
+| `PositiveSizedSlotStorage` | `PositiveSizedSlotInventory` | yes |
+| `PositiveSizedNumSlotStorage` | `PositiveSizedNumSlotInventory` | yes |
+| `SettlementStorage` | flag / shared ref | no |
+
+**GUT parity** (`tests/unittests/world/test_storage.py` → `tests/unit/test_storage.gd`):
+
+- [x] **GUT: `test_alter` (generic)** — ★☆☆☆☆ (S)  
+- [x] **GUT: `test_reset` / `test_reset_all` / `test_limit` / `test_sum_of_stored_resources` / `test_get_item`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_positive_sized_specialized` (partial)** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_specialized` / `test_sized_specialized` (full)** — ★★★☆☆ (M)  
+- [x] **GUT: `test_adjust_limit` (`GlobalLimitStorage`)** — ★★★☆☆ (M)  
+- [x] **GUT: `test_total` (`TotalStorage`)** — ★★★☆☆ (M)  
+- [x] **GUT: `test_positive` / `test_positive_total`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_sized_slotted` / `test_positive_sized_num_slot`** — ★★★☆☆ (M)  
+- [ ] **`StorageComponent` wrapper** — ★★★☆☆ (M)  
+  - **Python:** `horizons/component/storagecomponent.py`  
+  - **Approach:** Settlement shared inventory; `something_changed` → production listeners.
+
+### 1.5 Production line and production variants
+
+- [x] **GUT: `test_init`** — ★☆☆☆☆ (S)  
+- [x] **GUT: `test_alter_production_time`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_change_amount`** — ★★☆☆☆ (S)  
+- [ ] **Production state history / utilization window** — ★★★★☆ (L)  
+  - **Python:** `_state_history`, `get_state_history_times`, `PRODUCTION.STATISTICAL_WINDOW`  
+  - **Blocked by:** scheduler tick parity  
+- [ ] **`ChangingProduction` / save hooks on prod line** — ★★★★☆ (L)  
+- [ ] **`SettlerProduction`** — ★★★★☆ (L)  
+  - **Test:** `tests/game/test_settler.py`  
+- [ ] **`SingleUseProduction` / `QueueProducer`** — ★★★★☆ (L)  
+  - **Python:** `producer.py` (`QueueProducer`, boat builder)  
+  - **Test:** `tests/gui/ingame/test_boatbuilder.py` *(later)*  
+- [ ] **Unit production (`UnitProduction`)** — ★★★★☆ (L)  
+  - **Python:** `horizons/world/production/unitproduction.py`  
+- [ ] **Gold / `uses_gold` owner inventory** — ★★★☆☆ (M)  
+- [ ] **Mine producer / `MineEmpty` path** — ★★★☆☆ (M)  
+
+### 1.6 Producer utilization and status (sim flags)
+
+- [ ] **`Utilization` / `FullUtilization` / `FieldUtilization`** — ★★★☆☆ (M)  
+  - **Python:** `horizons/world/production/utilization.py`  
+- [ ] **Capacity utilization scheduler tick on producer** — ★★★☆☆ (M)  
+  - **Approach:** Skip icons initially; expose `productivity_low: bool` for tests.  
+- [ ] **Integration: status icon semantics (sim)** — ★★★★☆ (L)  
+  - **Test:** `tests/game/test_status_icons.py` (5 tests)  
+  - **Blocked by:** message bus or direct building flags  
+
+### 1.7 Commands and session manager
+
+- [ ] **`Command` base + serialization shape** — ★★★☆☆ (M)  
+  - **Python:** `horizons/command/__init__.py`  
+- [ ] **`SPManager` execute-now** — ★★★☆☆ (M)  
+  - **Python:** `horizons/manager.py`, `horizons/spsession.py`  
+  - **Godot:** `scripts/sim/command_manager.gd`  
+- [ ] **`Build` full implementation** — ★★★★☆ (L)  
+  - **Python:** `horizons/command/building.py`  
+  - **Blocked by:** buildability, `Entities`, world registry, tearset  
+- [ ] **`Tear` / `Build` tearset** — ★★★☆☆ (M)  
+  - **Test:** `tests/game/test_buildings.py::test_build_tear`, `test_remove_buildings.py`  
+- [ ] **`CreateUnit` / `RemoveUnit`** — ★★★☆☆ (M)  
+  - **Python:** `horizons/command/unit.py`  
+  - **Blocked by:** unit entity types, ship on map  
+- [ ] **`TransferResource` / uoptions** — ★★★☆☆ (M)  
+  - **Python:** `horizons/command/uioptions.py`  
+- [ ] **Production commands** — ★★★☆☆ (M)  
+  - **Python:** `horizons/command/production.py`  
+- [ ] **Diplomacy commands** — ★★★☆☆ (M)  
+  - **Python:** `horizons/command/diplomacy.py` · **Test:** combat/diplo tests  
+
+### 1.8 World object model
+
+- [ ] **`WorldObject` registry** — ★★★☆☆ (M)  
+  - **Python:** `horizons/util/worldobject.py`  
+  - **Godot:** `scripts/sim/world/entity_registry.gd`  
+- [ ] **`ConcreteObject` position / rotation (sim only)** — ★★★☆☆ (M)  
+  - **Python:** `horizons/world/concreteobject.py` *(strip FIFE `_instance`)*  
+- [ ] **`World` + players** — ★★★★☆ (L)  
+  - **Python:** `horizons/world/__init__.py`, `player.py`, `diplomacy.py`  
+  - **Test:** `tests/unittests/world/test_world.py`  
+- [ ] **`Island` ground map** — ★★★★☆ (L)  
+  - **Python:** `horizons/world/island.py`, `ground.py`  
+  - **Blocked by:** map load  
+- [ ] **`Settlement` + warehouse seed** — ★★★☆☆ (M)  
+  - **Python:** `horizons/world/settlement.py`  
+  - **Test:** `tests/game/utils.py` `new_settlement`, `settle`  
+- [ ] **`Entities` / `IngameType` loading** — ★★★★★ (XL)  
+  - **Python:** `horizons/entities.py`, `horizons/world/ingametype.py`, `componentholder.py`  
+  - **Approach:** Incremental: hardcode class map for one building → full export-driven factory.  
+
+### 1.9 Shapes and coordinates
+
+- [x] **Port `Point`, `Rect`, `Circle` (core)** — ★★☆☆☆ (S)  
+  - **Godot:** `scripts/sim/shapes/sim_*.gd` · **GUT:** `tests/unit/test_shapes.gd` (3/3)  
+- [x] **Port `tile_orientation` / road keys** — ★★☆☆☆ (S)  
+  - **Godot:** `scripts/sim/tile_orientation.gd` · **GUT:** 5 cases (subset of 9 parametrized pytest cases)  
+
+### 1.10 Messaging (decouple sim from UI)
+
+- [ ] **Message bus (local signals)** — ★★★☆☆ (M)  
+  - **Python:** `horizons/messaging/`  
+  - **Godot:** `scripts/sim/message_bus.gd` autoload  
+  - **Test:** `tests/unittests/test_messages.py`  
+  - **Approach:** Replace FIFE broadcasts with Godot signals; same event names where useful.
 
 ---
 
-## Phase 3 — Presentation and content pipeline
+## Phase 2 — World, buildability, units
 
-- [ ] **Isometric map view** (L) — `TileMapLayer` or custom mesh; camera ← `horizons/view.py` behavior only.  
-  *Approach:* Hard-code tile size to match FIFE; load one dev map; click → grid coord → `BuildCommand`.
+### 2.1 Buildability caches
 
-- [ ] **Building sprites / animation** (XL) — replace FIFE action sets ← `content/gfx/`, SQLite atlases.  
-  *Approach:* PoC path: `AnimatedSprite2D` + folder of PNGs for one action set; long-term: batch script `content/gfx` → Godot `SpriteFrames` (skip `sqliteatlasloader` in engine).
+*Python dir:* `horizons/world/buildability/`
 
-- [ ] **Runtime YAML loading (optional)** (M) — reduce reliance on JSON export.  
-  *Approach:* Embed lightweight YAML parser addon or pre-import all objects at export time; keep `game_constants.gd` generated.
+- [x] **`ConnectedAreaCache` + GUT** — ★★★☆☆ (M)  
+  - **Godot:** `scripts/sim/buildability/connected_area_cache.gd` · **GUT:** `tests/unit/test_connected_area_cache.gd`  
+  - **Godot:** `scripts/sim/buildability/connected_area_cache.gd`  
 
-- [ ] **Map load from UH SQLite** (L) — `content/maps/`, `map-template.sql`.  
-  *Approach:* Godot SQLite plugin read-only in tool script, or Python export maps to JSON for Godot builds.
+- [ ] **`PartialBinaryCache` + all 5 GUT cases** — ★★★★☆ (L) **3/5**  
+  - **Godot:** `scripts/sim/buildability/partial_binary_buildability_cache.gd` · **GUT:** `tests/unit/test_partial_binary_cache.gd`  
+  - **Done:** `test_horizontal_row2`, `test_r2x2`, `test_r6x6` · **TODO:** `test_vertical_row2`, `test_convenience_get_coords_list`  
 
-- [ ] **Audio** (M) — ← `horizons/engine/sound.py`, `content/audio/`.  
-  *Approach:* Godot `AudioStreamPlayer`; trigger from sim events via signals.
+- [ ] **`BinaryCache`** — ★★★☆☆ (M)  
+- [ ] **`TerrainCache`** — ★★★☆☆ (M)  
+- [ ] **`SettlementCache`** — ★★★★☆ (L)  
+- [ ] **`FreeIslandCache`** — ★★★☆☆ (M)  
+- [ ] **`SimpleCollectorAreaCache`** — ★★★☆☆ (M)  
+- [ ] **`PotentialRoadConnectivityCache`** — ★★★☆☆ (M)  
+- [ ] **Wire caches into `Buildable*` checks** — ★★★★★ (XL)  
+  - **Python:** `horizons/world/building/buildable.py`  
+  - **Test:** `tests/game/test_buildings.py` (placement failures), `test_settlement_range.py`  
+
+### 2.2 Pathfinding
+
+- [ ] **`pathnodes` + grid representation** — ★★★☆☆ (M)  
+- [ ] **`pathfinder` / `pather`** — ★★★★☆ (L)  
+  - **Python:** `horizons/util/pathfinding/`  
+  - **Approach:** Unit tests with tiny grids; no FIFE walkability — use island ground ids.  
+
+### 2.3 Collectors and resource pickup
+
+- [ ] **Collector sort helpers** — ★★★☆☆ (M)  
+  - **Test:** 4 tests in `tests/unittests/world/units/collectors/test_collector.py`  
+- [ ] **`BuildingCollector` / `AnimalCollector` / …** — ★★★★☆ (L)  
+  - **Python:** `horizons/world/units/collectors/`  
+- [ ] **`CollectingComponent` on buildings** — ★★★☆☆ (M)  
+  - **Python:** `horizons/component/collectingcomponent.py`  
+  - **YAML:** e.g. lumberjack `UNITS.LUMBERJACK_COLLECTOR`  
+  - **Blocked by:** pathfinding, unit spawn, storage  
+
+### 2.4 Units and movement
+
+- [ ] **`Unit` / `MovingObject` base** — ★★★★☆ (L)  
+- [ ] **`Ship` / player ship** — ★★★★☆ (L)  
+  - **Test:** settlement setup uses `CreateUnit` in `tests/game/utils.py`  
+- [ ] **`GroundUnit` / combat units** — ★★★★☆ (L)  
+- [ ] **Scheduler `_move_tick` loops** — ★★★☆☆ (M)  
+- [ ] **Weapons / `Fightingship`** — ★★★★☆ (L)  
+  - **Test:** `tests/game/test_combat.py`  
+
+### 2.5 Resource flow
+
+- [ ] **`ResourceHandler` / building providers** — ★★★★☆ (L)  
+  - **Python:** `horizons/world/resourcehandler.py`, `buildingresourcehandler.py`  
+- [ ] **`ProviderHandler` / reach** — ★★★☆☆ (M)  
+- [ ] **Trade routes** — ★★★★☆ (L)  
+  - **Test:** `tests/game/test_traderoute.py::test_traderoute_basic`  
+
+### 2.6 Game tests — building production chains
+
+*Source:* `tests/game/test_buildings.py` — port as integration GUT once `Build` + map + chains work.
+
+**Tier 1 (early economy)** — ★★★☆☆ (M) each  
+- [ ] `test_lumberjack`  
+- [ ] `test_hunter`  
+- [ ] `test_fisherman`  
+- [ ] `test_tree_wood_production`  
+- [ ] `test_build_tear`  
+
+**Tier 2 (chains)** — ★★★★☆ (L) each  
+- [ ] `test_brick_production_chain`  
+- [ ] `test_tool_production_chain`  
+- [ ] `test_weaver_production_chain`  
+- [ ] `test_pavilion_production`  
+- [ ] `test_farm_crop_production` / `test_farm_animal_production`  
+- [ ] `test_school_production`  
+- [ ] `test_saltpond_production`  
+
+**Tier 3 (late game)** — ★★★★☆ (L) each  
+- [ ] `test_distillery_production_chain` … through `test_barracks_production_chain` *(remaining 15 tests in file)*  
+
+---
+
+## Phase 3 — Presentation & content
+
+### 3.1 Map and camera
+
+- [ ] **Load map fixture (20×20 island)** — ★★★☆☆ (M)  
+  - **Python:** `tests/game/utils.py::create_map`  
+  - **Approach:** Export map to JSON once; or embed SQLite reader.  
+
+- [ ] **Ground tile rendering (placeholder)** — ★★★☆☆ (M)  
+- [ ] **Isometric projection constants** — ★★★☆☆ (M)  
+  - **Python:** FIFE tile sizes in `constants.py` / engine  
+- [ ] **Camera pan/zoom (match `View`)** — ★★★☆☆ (M)  
+  - **Python:** `horizons/view.py` *(behavior only)*  
+
+### 3.2 Buildings and gfx
+
+- [ ] **Lumberjack sprite from `content/gfx/buildings/.../as_lumberjack0`** — ★★★☆☆ (M)  
+- [ ] **Idle / work action swap from producer state** — ★★★☆☆ (M)  
+- [ ] **Batch gfx → `SpriteFrames` tool** — ★★★★★ (XL)  
+  - **Python:** `sqliteatlasloader.py`, `actionsetloader.py`  
+- [ ] **`InventoryOverlayComponent` visuals** — ★★★★☆ (L)  
+
+### 3.3 Audio
+
+- [ ] **Ambient / effect bus** — ★★★☆☆ (M)  
+  - **Python:** `horizons/engine/sound.py`, `ambientsoundcomponent.py`  
 
 ---
 
 ## Phase 4 — Meta systems
 
-- [ ] **Save / load (subset)** (XL) — `savegamemanager.py`, DB schema.  
-  *Approach:* Start with `tests/game/test_load_save.py` minimal case; versioned schema; sim-only save without GUI.
+### 4.1 Save / load
 
-- [ ] **Scenario / conditions** (L) — `horizons/scenario/`.  
-  *Approach:* Data-driven triggers on scheduler ticks; port tutorial YAML actions one at a time.
+- [ ] **Savegame DB schema subset** — ★★★★★ (XL)  
+- [ ] **GUT: `test_load_inactive_production`** — ★★★★☆ (L)  
+- [ ] **GUT: `test_load_producing_production_fast/slow`** — ★★★★☆ (L)  
+- [ ] **GUT: `test_hunter_save_load` / settler save tests** — ★★★★★ (XL)  
+- [ ] **GUT: `test_savegame_upgrade`** — ★★★★☆ (L)  
+- [ ] **Long: `tests/game/long/test_load_save_long.py`** — ★★★★★ (XL)  
 
-- [ ] **Disasters** (M) — fire, black death ← `world/disaster/`.  
-  *Approach:* `tests/game/test_fire.py`, `test_blackdeath.py`.
+### 4.2 Scenarios
 
-- [ ] **Combat** (L) — units, weapons ← `tests/game/test_combat.py`.  
-  *Approach:* Sim combat resolution first; animation later.
+- [ ] **Condition / action registry** — ★★★★☆ (L)  
+  - **Python:** `horizons/scenario/conditions.py`, `actions.py`  
+- [ ] **Tutorial YAML (`content/scenarios/tutorial_lt.yaml`)** — ★★★★★ (XL)  
+  - **Test:** `tests/gui/scenarios/test_tutorial.py` *(re-spec)*  
 
-- [ ] **Settlers / happiness** (L) — `tests/game/test_settler.py`, settler production classes.  
-  *Approach:* `SettlerProduction` behavior in GDScript after base `Production` stable.
+### 4.3 Disasters
 
-- [ ] **AI player** (XL) — `horizons/ai/`.  
-  *Approach:* Defer until commands + economy stable; reuse long Python tests as acceptance targets.
+- [ ] **Fire disaster** — ★★★☆☆ (M) · **Test:** `test_fire_destroy`, `test_fire_station`, `test_upgrade_disallowed_with_fire`  
+- [ ] **Black death** — ★★★☆☆ (M) · **Test:** `test_blackdeath_destroy`  
 
-- [ ] **Multiplayer lockstep** (XL) — `network/`, tick-synced commands ← `mpsession.py`.  
-  *Approach:* Same command objects serialized per tick; Godot multiplayer or external server; port `tests/unittests/mp/*` last.
+### 4.4 Combat and diplomacy
 
----
+- [ ] **All `tests/game/test_combat.py` cases (7)** — ★★★★☆ (L) each  
 
-## Phase 5 — UI and product parity
+### 4.5 Settlers
 
-- [ ] **In-game HUD shell** (XL) — replace PyChan ← `horizons/gui/ingamegui.py`.  
-  *Approach:* Godot Control tree; one tab at a time (warehouse, production); do not port XML literally—match behavior.
+- [ ] **`tests/game/test_settler.py` (2 tests)** — ★★★★☆ (L)  
 
-- [ ] **Main menu + singleplayer flow** (L) — `gui/modules/singleplayermenu.py`.  
-  *Approach:* Scene flow: menu → map select → `GameSession.load_map`.
+### 4.6 AI
 
-- [ ] **Mouse tools** (L) — build, select, tear ← `gui/mousetools/`.  
-  *Approach:* State machine on input; calls same commands as tests.
+- [ ] **AI quick/long/very long** — ★★★★★ (XL)  
+  - **Test:** `tests/game/long/test_ai_*.py`  
 
-- [ ] **GUI automated tests** (XL) — `tests/gui/*` (FIFE-specific).  
-  *Approach:* Re-spec as GUT scene tests or Godot `SceneTree` input simulation; lowest priority.
+### 4.7 Multiplayer
 
-- [ ] **i18n** (M) — gettext / `po/` ← `horizons/i18n/`.  
-  *Approach:* Godot translation CSV or gettext import; reuse `po/` files.
-
-- [ ] **Editor** (XL) — `horizons/editor/`.  
-  *Approach:* Optional; separate tool project or disabled until game playable.
+- [ ] **Network packet layout (read-only port)** — ★★★★☆ (L)  
+- [ ] **`MPManager` tick-delayed commands** — ★★★★★ (XL)  
+  - **Test:** `tests/unittests/mp/test_run_server.py`, `test_server_statistics.py`  
 
 ---
 
-## Phase 6 — Quality and migration
+## Phase 5 — UI
 
-- [ ] **Expand GUT coverage tracker** (S) — table mapping pytest → GUT files.  
-  *Approach:* Add a column to this doc or `tests/README.md` in `godot/tests/`.
+**Detailed per-file GUI checklist:** [PORT_CHECKLIST_GUI.md](PORT_CHECKLIST_GUI.md) (every `tests/gui/ingame/*.py` test listed with widgets + Godot approach).
 
-- [ ] **Fix GUT / Godot version pin in CI** (S) — document 4.3 vs 4.4 + GUT compatibility.  
-  *Approach:* Match local `run_tests.sh` and workflow; avoid enabling broken editor plugin on CLI-only runs.
+### 5.1 Shell and menus
 
-- [ ] **Performance baseline** (M) — tick cost on large maps.  
-  *Approach:* Headless benchmark scene; compare tick time vs Python SP session on same map export.
+- [ ] **Main menu scene** — ★★★☆☆ (M) · **Python:** `gui/modules/singleplayermenu.py`  
+- [ ] **Load/save game UI** — ★★★☆☆ (M)  
+- [ ] **Settings / hotkeys** — ★★★★☆ (L) · **Python:** `gui/modules/settings.py`, `hotkeys_settings.py`  
+- [ ] **Ingame GUI root** — ★★★★★ (XL) · **Python:** `gui/ingamegui.py`  
 
-- [ ] **Decide monolith vs dual-run** (S) — shipping strategy.  
-  *Approach:* Document whether Godot replaces FIFE entirely or runs parallel until feature parity.
+### 5.2 Mouse tools (one checkbox each)
+
+- [ ] `navigationtool.py` — ★★★☆☆ (M)  
+- [ ] `selectiontool.py` — ★★★☆☆ (M)  
+- [ ] `buildingtool.py` — ★★★★☆ (L)  
+- [ ] `tearingtool.py` — ★★★☆☆ (M)  
+- [ ] `tilelayingtool.py` — ★★★☆☆ (M)  
+- [ ] `pipettetool.py` — ★★★☆☆ (M)  
+- [ ] `attackingtool.py` — ★★★☆☆ (M)  
+- [ ] `cursortool.py` — ★★☆☆☆ (S)  
+
+### 5.3 Tabs / widgets (incremental)
+
+- [ ] **Warehouse / inventory widgets** — ★★★★☆ (L) · **Test:** `tests/gui/ingame/test_warehouse.py`  
+- [ ] **Production overview** — ★★★☆☆ (M)  
+- [ ] **Build tabs** — ★★★★☆ (L) · **Test:** `tests/gui/ingame/test_build.py`  
+- [ ] **Minimap** — ★★★★☆ (L)  
+- [ ] **Logbook / messages** — ★★★☆☆ (M)  
+- [ ] **Trade / route UI** — ★★★★☆ (L) · **Test:** `tests/gui/ingame/test_traderoute.py`  
+- [ ] **Remaining `tests/gui/ingame/*` (15 files)** — ★★★★★ (XL) *(re-spec, not line port)*  
+
+### 5.4 i18n
+
+- [ ] **Import `po/` into Godot translations** — ★★★☆☆ (M)  
+  - **Test:** `tests/unittests/test_i18n.py`, `tests/gui/test_unicode.py`  
+
+### 5.5 Editor
+
+- [ ] **Map editor (optional)** — ★★★★★ (XL) · **Python:** `horizons/editor/`  
 
 ---
 
-## Suggested order (if unsure what to pick next)
+## Phase 6 — Quality & migration
 
-1. Full **scheduler** + **storage** test parity (cheap confidence).  
-2. **Buildability caches** + **Build** on real map (`test_buildings`, `test_settlement_range`).  
-3. **Collectors** + **pathfinding** (gameplay loop).  
-4. **Isometric view** wired to commands.  
-5. Save/load subset → scenarios → UI shell.
+- [ ] **Maintain Appendix C matrix after each PR** — ★☆☆☆☆ (S)  
+- [ ] **Pin Godot 4.3 + GUT 9.3 in CI and README** — ★☆☆☆☆ (S)  
+- [ ] **Headless benchmark: N ticks on 256×256 map** — ★★★☆☆ (M)  
+- [x] **Document dual-run vs cutover strategy** — ★☆☆☆☆ (S)  
+  - **Doc:** [docs/MIGRATION_STRATEGY.md](docs/MIGRATION_STRATEGY.md)  
+- [ ] **Reduce ObjectDB leaks in GUT teardown** — ★★☆☆☆ (S) *(optional cleanup)*  
 
 ---
 
-*Last updated: PoC merge baseline (lumberjack + 8 GUT tests).*
+## Appendix A — Component port list
+
+| Component | Python | Priority | Difficulty | Test |
+|-----------|--------|----------|------------|------|
+| StorageComponent | `storagecomponent.py` | P0 | ★★★☆☆ (M) | via storage tests |
+| Producer (as component) | `producer.py` | P0 | ★★★★☆ (L) | `test_production` ✓ |
+| HealthComponent | `healthcomponent.py` | P1 | ★★☆☆☆ (S) | `test_healthcomponent.py` |
+| NamedComponent | `namedcomponent.py` | P1 | ★★☆☆☆ (S) | `test_namedcomponent.py` |
+| CollectingComponent | `collectingcomponent.py` | P1 | ★★★☆☆ (M) | collector tests |
+| SelectableComponent | `selectablecomponent.py` | P2 | ★★☆☆☆ (S) | GUI later |
+| TradePostComponent | `tradepostcomponent.py` | P2 | ★★★☆☆ (M) | `test_tradepostcomponent.py` |
+| FieldBuilder | `fieldbuilder.py` | P2 | ★★★☆☆ (M) | farm tests |
+| DepositComponent | `depositcomponent.py` | P2 | ★★★☆☆ (M) | mine tests |
+| InventoryOverlayComponent | `inventoryoverlaycomponent.py` | P3 | ★★★☆☆ (M) | view |
+| ColorOverlayComponent | `coloroverlaycomponent.py` | P3 | ★★☆☆☆ (S) | selection |
+| AmbientSoundComponent | `ambientsoundcomponent.py` | P3 | ★★☆☆☆ (S) | audio |
+| CommandableComponent | `commandablecomponent.py` | P2 | ★★★☆☆ (M) | combat |
+| StanceComponent | `stancecomponent.py` | P2 | ★★★☆☆ (M) | combat |
+| RestrictedPickup | `restrictedpickup.py` | P3 | ★★☆☆☆ (S) | — |
+
+---
+
+## Appendix B — Command port list
+
+| Command area | File | Difficulty | Typical game test |
+|--------------|------|------------|-------------------|
+| Build / Tear | `command/building.py` | ★★★★☆ (L) | `test_buildings`, `test_remove_buildings` |
+| Units | `command/unit.py` | ★★★☆☆ (M) | settlement setup |
+| Production | `command/production.py` | ★★★☆☆ (M) | production chains |
+| UI / transfer | `command/uioptions.py` | ★★★☆☆ (M) | warehouse GUI |
+| Diplomacy | `command/diplomacy.py` | ★★★☆☆ (M) | `test_combat` |
+| Game / misc | `command/game.py`, `misc.py` | ★★☆☆☆ (S) | varies |
+| Sounds | `command/sounds.py` | ★★☆☆☆ (S) | optional |
+
+---
+
+## Appendix C — pytest → GUT coverage matrix
+
+| Python test file | GUT file | Status |
+|------------------|----------|--------|
+| `tests/unittests/test_scheduler.py` (18 tests) | `tests/unit/test_scheduler.gd` | **18/18** ✓ |
+| `tests/unittests/test_timer.py` (13 tests) | `tests/unit/test_game_clock.gd` | **7/13** |
+| `tests/unittests/world/test_storage.py` (14 tests) | `tests/unit/test_storage.gd` | **14/14** ✓ |
+| `tests/unittests/world/production/test_productionline.py` (3) | `tests/unit/test_production_line.gd` | **3/3** ✓ |
+| `tests/game/test_production.py` (1) | `tests/integration/test_wood_production.gd` | **1/1** ✓ |
+| `tests/unittests/world/buildability/test_connectedareacache.py` | `tests/unit/test_connected_area_cache.gd` | **1/1** ✓ |
+| `tests/unittests/world/buildability/test_partialbinarycache.py` (5) | `tests/unit/test_partial_binary_cache.gd` | **3/5** |
+| `tests/unittests/world/units/collectors/test_collector.py` (4) | `tests/unit/test_collector_job_list.gd` | **2/4** |
+| `tests/unittests/util/test_shapes.py` (3) | `tests/unit/test_shapes.gd` | **3/3** ✓ |
+| `tests/unittests/util/test_tile_orientation.py` (9 param) | `tests/unit/test_tile_orientation.gd` | **9/9** ✓ |
+| `tests/unittests/world/component/test_healthcomponent.py` (5) | — | **0/5** |
+| `tests/unittests/world/component/test_namedcomponent.py` (6) | — | **0/6** |
+| `tests/unittests/world/component/test_tradepostcomponent.py` (2) | — | **0/2** |
+| `tests/game/test_buildings.py` (28) | — | **0/28** |
+| `tests/game/test_load_save.py` (7) | — | **0/7** |
+| `tests/gui/**` (~30 modules) | — | **deferred** |
+
+**Current GUT total:** **64** tests passing (`./godot/run_tests.sh`).
+
+---
+
+## Recommended next 10 tasks (ordered)
+
+1. Finish **timer GUT** (6 remaining `test_timer.py` cases + freeze protection).  
+2. Finish **`PartialBinaryCache` GUT** (vertical row2 + coords helper).  
+3. **`WorldObject` registry** + **`create_map` in Godot**.  
+4. **`BinaryCache`** + terrain buildability integration.  
+5. **`Build` command** with real buildability (warehouse + lumberjack on map).  
+6. **`new_settlement` / `settle` helpers** matching `tests/game/utils.py`.  
+7. **`test_buildings.py` Tier 1** (lumberjack, hunter, build/tear).  
+8. **Collectors** (sort tests → full pickup loop).  
+9. **Isometric map view** wired to grid clicks.  
+10. **Save/load** one production state (`test_load_inactive_production`).
+
+---
+
+*Last updated: storage + buildability caches + GameClock batch (64 GUT tests).*

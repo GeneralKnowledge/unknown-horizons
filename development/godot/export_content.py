@@ -128,11 +128,27 @@ def main() -> int:
 	emit_game_constants(classes)
 
 	buildings = {}
+	production_line_ids: dict[str, int] = {}
 	buildings_dir = REPO_ROOT / "content" / "objects" / "buildings"
 	res_map = classes["RES"]
 	for path in sorted(buildings_dir.glob("*.yaml")):
 		buildings[path.stem] = export_building(path, res_map)
+		data = yaml.safe_load(path.read_text(encoding="utf-8"))
+		for comp in data.get("components", []):
+			if not isinstance(comp, dict):
+				continue
+			prod = comp.get("ProducerComponent")
+			if not prod:
+				continue
+			for key in prod.get("productionlines", {}).keys():
+				if isinstance(key, int):
+					continue
+				pid = prod_line_id(key)
+				production_line_ids[f"{path.stem}:{key}"] = pid
 
+	(OUT_DIR / "production_line_ids.json").write_text(
+		json.dumps(production_line_ids, indent=2, sort_keys=True), encoding="utf-8"
+	)
 	(OUT_DIR / "buildings.json").write_text(
 		json.dumps(buildings, indent=2, sort_keys=True), encoding="utf-8"
 	)
