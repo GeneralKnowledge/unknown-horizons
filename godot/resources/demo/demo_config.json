@@ -4,7 +4,7 @@
   "default_settlement_y": 30,
   "show_start_menu": true,
   "title": "Unknown Horizons",
-  "subtitle": "Lumber → boards, then clay → bricks (YAML build costs)",
+  "subtitle": "Settlement prototype — lumber, warehouse delivery, brickyard",
   "theme_pack_id": "northern_company",
   "showcase_scenario": "res://resources/demo/starter_tier1_scenario.json"
 }

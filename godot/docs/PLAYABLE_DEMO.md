@@ -42,10 +42,17 @@ From the title screen choose **Start settlement demo**.
 
 ## Flow
 
-1. Place a **lumberjack camp** inside the settlement build area (green ghost = valid).
+**Step 1 — lumber**
+
+1. Place a **lumberjack camp** inside the settlement build area (green ghost = valid; red = invalid or insufficient resources).
 2. Plant **trees** near the camp.
-3. Let the simulation run; collectors move **boards** into the settlement warehouse.
-4. When warehouse boards reach the target (see objective panel), the success overlay appears.
+3. Let the simulation run; collectors move **boards** into the settlement warehouse until the objective panel target is met.
+
+**Step 2 — bricks**
+
+4. Build a **clay pit** on the clay deposit (spawned near the settlement).
+5. Build a **brickyard** inside the build area; wait for **bricks** in the warehouse.
+6. When both steps complete, the **success overlay** appears (you can keep playing or save).
 
 Configuration: `resources/demo/playable_lumber_demo.json` (steps, clay deposit spawn, starting stock).
 

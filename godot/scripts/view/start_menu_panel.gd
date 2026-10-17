@@ -28,6 +28,14 @@ func _ready() -> void:
 		sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		v.add_child(sub)
+	var goal := Label.new()
+	goal.text = (
+		"Prototype goal: establish a lumber camp, deliver boards to the warehouse, "
+		+ "then build a brickyard and deliver bricks."
+	)
+	goal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	goal.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(goal)
 	v.add_child(_btn("Start settlement demo", func(): new_game_requested.emit()))
 	v.add_child(_btn("Economy showcase (pre-built)", func(): showcase_requested.emit()))
 	var continue_btn := _btn("Continue JSON save", func(): continue_requested.emit())

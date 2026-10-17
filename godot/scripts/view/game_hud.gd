@@ -197,15 +197,28 @@ func refresh() -> void:
 	var theme_suffix := ""
 	if ContentTheme.display_name != "":
 		theme_suffix = "  [%s]" % ContentTheme.display_name
-	_header.text = (
-		"Settlement — gold: %d  buildings: %d  tick: %d%s"
-		% [
-			settlement.inventory.amount(GameConstants.RES["GOLD"]),
-			settlement.buildings.size(),
-			session.scheduler.cur_tick,
-			theme_suffix,
-		]
-	)
+	if _playable_demo_active:
+		_header.text = (
+			"Gold %d · Tools %d · Warehouse boards %d · bricks %d · buildings %d%s"
+			% [
+				settlement.inventory.amount(GameConstants.RES["GOLD"]),
+				settlement.inventory.amount(GameConstants.RES["TOOLS"]),
+				settlement.inventory.amount(GameConstants.RES["BOARDS"]),
+				settlement.inventory.amount(GameConstants.RES["BRICKS"]),
+				settlement.buildings.size(),
+				theme_suffix,
+			]
+		)
+	else:
+		_header.text = (
+			"Settlement — gold: %d  buildings: %d  tick: %d%s"
+			% [
+				settlement.inventory.amount(GameConstants.RES["GOLD"]),
+				settlement.buildings.size(),
+				session.scheduler.cur_tick,
+				theme_suffix,
+			]
+		)
 	if ContentTheme.pack_id != "":
 		_header.modulate = ContentTheme.hud_accent_color()
 	else:
