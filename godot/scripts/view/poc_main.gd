@@ -115,8 +115,11 @@ func _on_start_new_game() -> void:
 
 
 func _on_start_continue() -> void:
-	_on_load_requested()
-	if _session != null:
+	var path := SaveLoadPanel.DEFAULT_SAVE_PATH
+	if not FileAccess.file_exists(path):
+		return
+	var text := FileAccess.get_file_as_string(path)
+	if _load_snapshot_text(text):
 		_hide_start_menu()
 		_camera_ctrl.fit_island()
 
@@ -205,17 +208,16 @@ func _on_load_requested() -> void:
 
 
 func _on_import_snapshot(json_text: String) -> void:
-	_load_snapshot_text(json_text)
-	if _session != null:
+	if _load_snapshot_text(json_text):
 		_hide_start_menu()
 		_camera_ctrl.fit_island()
 
 
-func _load_snapshot_text(json_text: String) -> void:
+func _load_snapshot_text(json_text: String) -> bool:
 	var data: Variant = JSON.parse_string(json_text)
 	if typeof(data) != TYPE_DICTIONARY:
 		_hud.show_status("Invalid save JSON", true)
-		return
+		return false
 	if _session == null:
 		_session = GameSession.new()
 		_boot_map(_map_id)
@@ -226,9 +228,10 @@ func _load_snapshot_text(json_text: String) -> void:
 		_hud.show_status("Load failed: %s" % str(result.get("error", "")), true)
 		if _session.get_buildings_on_island(_session.island).size() != before:
 			push_error("Session mutated after failed load")
-		return
+		return false
 	_apply_session(_session)
 	_hud.show_status("Save loaded")
+	return true
 
 
 func _boot_map(map_id: String) -> void:

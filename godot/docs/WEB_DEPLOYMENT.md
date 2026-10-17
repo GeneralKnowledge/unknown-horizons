@@ -40,6 +40,12 @@ Open `http://127.0.0.1:8080/`.
 
 Use any static host (S3, Cloudflare Pages, nginx, etc.). Upload the **contents** of `build/web/`.
 
+### GitHub Pages (optional)
+
+1. Enable Pages on the repo (Settings → Pages → deploy from **GitHub Actions** or upload `build/web` from a workflow artifact).
+2. After `./godot/export_web.sh`, publish `godot/build/web/` as the site root (no Jekyll: add an empty `.nojekyll` if needed).
+3. WASM must be served over **HTTPS** with correct `application/wasm` MIME type (Pages does this by default).
+
 ### Headers
 
 This export uses **single-threaded** WASM (`variant/threads_enabled=false`) and does **not** require SharedArrayBuffer. You do **not** need:

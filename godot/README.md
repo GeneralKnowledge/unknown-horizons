@@ -14,10 +14,10 @@ Sim code lives under `scripts/sim/` as headless `RefCounted` types (commands, pr
 
 | Area | Status |
 |------|--------|
-| Headless sim (scheduler, storage, production, buildability) | Ported + **154** GUT tests |
+| Headless sim (scheduler, storage, production, buildability) | Ported + **181** GUT tests |
 | Building integration (legacy pytest matrix) | **28/28** building game tests in GUT |
 | JSON save/load (schema v3) | PoC HUD + integration tests |
-| Playable PoC (`scenes/poc_main.tscn`) | Map, build palette, lumberjack + tree loop, HUD |
+| Playable PoC (`scenes/poc_main.tscn`) | Start menu, **development** map, pan/zoom, tier build palette, lumberjack + tree loop, JSON saves |
 | Content pipeline | YAML → `export_content.py` → `resources/exported/` + validation |
 | Dual-run parity harness | 4 scenarios vs golden traces (`wood`, warehouse, farm, snapshot round-trip) |
 | Web export | `./export_web.sh` → static WASM build (see [WEB_DEPLOYMENT.md](docs/WEB_DEPLOYMENT.md)) |
@@ -52,10 +52,11 @@ cd godot/build/web && python3 -m http.server 8080
 
 ### PoC controls
 
-- **Build palette** or keys **1** (lumberjack), **2** (tree), **3** / **T** (tear)
+- **Start menu** — New game, Continue (`user://` save), Import save (see [BROWSER_DEMO.md](docs/BROWSER_DEMO.md))
+- **Pan / zoom** — middle-drag and mouse wheel on the map
+- **Build palette** — tier tabs; or keys **B** / **S** / **T** (build / select / tear)
 - **Left click** — place (build mode) or pick building
 - **Right click** — select building under cursor
-- **Space** — toggle build mode
 - **Save / Load / Download / Import** — JSON snapshots in the HUD
 
 **Gameplay loop:** place **lumberjackcamp**, place **tree** tiles nearby, wait for **boards** in building storage (sim-driven, not debug cheats).

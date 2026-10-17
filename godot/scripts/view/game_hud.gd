@@ -74,7 +74,7 @@ func bind(p_session: GameSession, build_tool: BuildTool = null) -> void:
 			_dev_debug = DevDebugPanel.new()
 			$VBox.add_child(_dev_debug)
 		_dev_debug.bind(p_session)
-	if _map_picker == null:
+	if OS.is_debug_build() and _map_picker == null:
 		_map_picker = MapPickerPanel.new()
 		$VBox.add_child(_map_picker)
 		$VBox.move_child(_map_picker, 1)

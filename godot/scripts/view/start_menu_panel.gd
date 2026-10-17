@@ -17,7 +17,9 @@ func _ready() -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(title)
 	v.add_child(_btn("New game", func(): new_game_requested.emit()))
-	v.add_child(_btn("Continue", func(): continue_requested.emit()))
+	var continue_btn := _btn("Continue", func(): continue_requested.emit())
+	continue_btn.disabled = not FileAccess.file_exists(SaveLoadPanel.DEFAULT_SAVE_PATH)
+	v.add_child(continue_btn)
 	v.add_child(_btn("Import save…", func(): _import_dialog.popup_centered()))
 	_import_dialog = FileDialog.new()
 	_import_dialog.title = "Import save"
