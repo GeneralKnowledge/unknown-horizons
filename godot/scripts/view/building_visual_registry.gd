@@ -5,27 +5,21 @@ extends Node
 const GFX_ROOT := "res://resources/gfx/"
 
 var _frames_by_stem: Dictionary = {}
-var _manifest_stems: Array[String] = [
-	"lumberjackcamp",
-	"hunterstent",
-	"fishermanstent",
-	"brickyard",
-	"warehouse",
-	"farm",
-	"stonemason",
-]
-
-
-func _ready() -> void:
-	for stem in _manifest_stems:
-		_load_manifest_for_stem(stem)
 
 
 func get_sprite_frames_for_building(building_id: int) -> SpriteFrames:
 	var stem := ContentLoader.stem_for_building_id(building_id)
 	if _frames_by_stem.has(stem):
 		return _frames_by_stem[stem] as SpriteFrames
+	if _manifest_exists(stem):
+		_load_manifest_for_stem(stem)
+		if _frames_by_stem.has(stem):
+			return _frames_by_stem[stem] as SpriteFrames
 	return _make_placeholder_frames(Color(0.55, 0.55, 0.55), Color(0.75, 0.55, 0.35))
+
+
+func _manifest_exists(stem: String) -> bool:
+	return FileAccess.file_exists("%s%s/sprite_manifest.json" % [GFX_ROOT, stem])
 
 
 func get_dlc_tint(stem: String) -> Color:

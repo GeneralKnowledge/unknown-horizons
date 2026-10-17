@@ -1,0 +1,16 @@
+{
+  "building_stem": "ruinedtent",
+  "building_id": 10,
+  "source": "legacy_png",
+  "atlas_sqlite": null,
+  "animations": {
+    "idle": {
+      "texture": "idle.png",
+      "fps": 1.0
+    },
+    "working": {
+      "texture": "working.png",
+      "fps": 4.0
+    }
+  }
+}

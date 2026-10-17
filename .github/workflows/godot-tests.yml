@@ -30,7 +30,7 @@ jobs:
         run: python3 development/godot/export_content.py
 
       - name: Export gfx manifests
-        run: python3 development/godot/export_gfx.py
+        run: python3 development/godot/export_gfx.py --auto
 
       - name: Validate exported content
         run: python3 development/godot/validate_content.py
@@ -55,7 +55,7 @@ jobs:
       - name: Export content for parity
         run: |
           python3 development/godot/export_content.py
-          python3 development/godot/export_gfx.py
+          python3 development/godot/export_gfx.py --auto
           mkdir -p godot/resources/parity
           cp development/godot/parity/scenarios/*.json godot/resources/parity/
           cp development/godot/parity/map_specs.json godot/resources/parity/

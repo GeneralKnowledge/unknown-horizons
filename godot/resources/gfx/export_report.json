@@ -1,0 +1,635 @@
+{
+  "stems_requested": 63,
+  "rows": [
+    {
+      "stem": "alvearies",
+      "ok": true,
+      "actionset": "as_alvearies0",
+      "actionset_dir": "gfx/buildings/citizens/as_alvearies0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/citizens/as_alvearies0/idle/135/000.png",
+      "working": "buildings/citizens/as_alvearies0/idle/135/000.png"
+    },
+    {
+      "stem": "ambient",
+      "ok": true,
+      "actionset": "as_rock0",
+      "actionset_dir": "gfx/terrain/ambient/as_rock0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "terrain/ambient/as_rock0/idle/135/0.png",
+      "working": "terrain/ambient/as_rock0/idle/135/0.png"
+    },
+    {
+      "stem": "bakery",
+      "ok": true,
+      "actionset": "as_bakery0",
+      "actionset_dir": "gfx/buildings/citizens/bakery/as_bakery0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/citizens/bakery/as_bakery0/idle/135/000.png",
+      "working": "buildings/citizens/bakery/as_bakery0/work/135/000.png"
+    },
+    {
+      "stem": "barracks",
+      "ok": true,
+      "actionset": "as_barracks0",
+      "actionset_dir": "gfx/buildings/settlers/barracks/as_barracks0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/settlers/barracks/as_barracks0/idle/135/000.png",
+      "working": "buildings/settlers/barracks/as_barracks0/idle/135/000.png"
+    },
+    {
+      "stem": "barrier",
+      "ok": true,
+      "actionset": "as_wall",
+      "actionset_dir": "gfx/buildings/sailors/wall/as_wall",
+      "idle_action": "a",
+      "working_action": "a",
+      "idle": "buildings/sailors/wall/as_wall/a/135/0.png",
+      "working": "buildings/sailors/wall/as_wall/a/135/0.png"
+    },
+    {
+      "stem": "blender",
+      "ok": true,
+      "actionset": "as_blender0",
+      "actionset_dir": "gfx/buildings/settlers/blender/as_blender0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/settlers/blender/as_blender0/idle/135/0.png",
+      "working": "buildings/settlers/blender/as_blender0/idle/135/0.png"
+    },
+    {
+      "stem": "boatbuilder",
+      "ok": true,
+      "actionset": "as_boat_builder0",
+      "actionset_dir": "gfx/buildings/pioneers/boat_builder/as_boat_builder0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/pioneers/boat_builder/as_boat_builder0/idle/135/0.png",
+      "working": "buildings/pioneers/boat_builder/as_boat_builder0/idle/135/0.png"
+    },
+    {
+      "stem": "brewery",
+      "ok": true,
+      "actionset": "as_brewery0",
+      "actionset_dir": "gfx/buildings/pioneers/brewery/as_brewery0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/pioneers/brewery/as_brewery0/idle/135/000.png",
+      "working": "buildings/pioneers/brewery/as_brewery0/work/135/000.png"
+    },
+    {
+      "stem": "brickyard",
+      "ok": true,
+      "actionset": "as_brickyard0",
+      "actionset_dir": "gfx/buildings/pioneers/brickyard/as_brickyard0",
+      "idle_action": "idle",
+      "working_action": "bricks_01",
+      "idle": "buildings/pioneers/brickyard/as_brickyard0/idle/135/000.png",
+      "working": "buildings/pioneers/brickyard/as_brickyard0/bricks_01/135/000.png"
+    },
+    {
+      "stem": "butchery",
+      "ok": true,
+      "actionset": "as_butchery0",
+      "actionset_dir": "gfx/buildings/settlers/butchery/as_butchery0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/settlers/butchery/as_butchery0/idle/135/0.png",
+      "working": "buildings/settlers/butchery/as_butchery0/idle/135/0.png"
+    },
+    {
+      "stem": "cannonfoundry",
+      "ok": true,
+      "actionset": "as_cannonfoundry",
+      "actionset_dir": "gfx/buildings/citizens/as_cannonfoundry",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/citizens/as_cannonfoundry/idle/135/001.png",
+      "working": "buildings/citizens/as_cannonfoundry/work/135/001.png"
+    },
+    {
+      "stem": "cattlerun",
+      "ok": true,
+      "actionset": "as_cattlerun0",
+      "actionset_dir": "gfx/buildings/settlers/agricultural/as_cattlerun0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/settlers/agricultural/as_cattlerun0/idle/135/000.png",
+      "working": "buildings/settlers/agricultural/as_cattlerun0/work/135/000.png"
+    },
+    {
+      "stem": "charcoalburning",
+      "ok": true,
+      "actionset": "as_charcoal_burning0",
+      "actionset_dir": "gfx/buildings/settlers/charcoal_burning/as_charcoal_burning0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/settlers/charcoal_burning/as_charcoal_burning0/idle/135/0.png",
+      "working": "buildings/settlers/charcoal_burning/as_charcoal_burning0/work/135/0.png"
+    },
+    {
+      "stem": "claydeposit",
+      "ok": true,
+      "actionset": "as_clay0",
+      "actionset_dir": "gfx/terrain/resources/as_clay0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "terrain/resources/as_clay0/idle/135/2.png",
+      "working": "terrain/resources/as_clay0/idle/135/2.png"
+    },
+    {
+      "stem": "claypit",
+      "ok": true,
+      "actionset": "as_clay_pit0",
+      "actionset_dir": "gfx/buildings/pioneers/clay_pit/as_clay_pit0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/pioneers/clay_pit/as_clay_pit0/idle/135/0.png",
+      "working": "buildings/pioneers/clay_pit/as_clay_pit0/idle/135/0.png"
+    },
+    {
+      "stem": "cocoafield",
+      "ok": true,
+      "actionset": "as_cocoafield0",
+      "actionset_dir": "gfx/buildings/citizens/as_cocoafield0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/citizens/as_cocoafield0/idle/135/0.png",
+      "working": "buildings/citizens/as_cocoafield0/work/135/0.png"
+    },
+    {
+      "stem": "cornfield",
+      "ok": true,
+      "actionset": "as_cornfield0",
+      "actionset_dir": "gfx/buildings/citizens/as_cornfield0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/citizens/as_cornfield0/idle/135/0.png",
+      "working": "buildings/citizens/as_cornfield0/work/135/0.png"
+    },
+    {
+      "stem": "distillery",
+      "ok": true,
+      "actionset": "as_distillery0",
+      "actionset_dir": "gfx/buildings/pioneers/distillery/as_distillery0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/pioneers/distillery/as_distillery0/idle/135/0.png",
+      "working": "buildings/pioneers/distillery/as_distillery0/work/135/0.png"
+    },
+    {
+      "stem": "doctor",
+      "ok": true,
+      "actionset": "as_doctor0",
+      "actionset_dir": "gfx/buildings/settlers/doctor/as_doctor0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/settlers/doctor/as_doctor0/idle/135/000.png",
+      "working": "buildings/settlers/doctor/as_doctor0/idle/135/000.png"
+    },
+    {
+      "stem": "farm",
+      "ok": true,
+      "actionset": "as_farm0",
+      "actionset_dir": "gfx/buildings/pioneers/farm/as_farm0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/pioneers/farm/as_farm0/idle/135/0.png",
+      "working": "buildings/pioneers/farm/as_farm0/idle/135/0.png"
+    },
+    {
+      "stem": "fireservice",
+      "ok": true,
+      "actionset": "as_fireservice0",
+      "actionset_dir": "gfx/buildings/pioneers/fireservice/as_fireservice0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/pioneers/fireservice/as_fireservice0/idle/135/0.png",
+      "working": "buildings/pioneers/fireservice/as_fireservice0/idle/135/0.png"
+    },
+    {
+      "stem": "fishdeposit",
+      "ok": true,
+      "actionset": "as_fish0",
+      "actionset_dir": "gfx/terrain/resources/as_fish0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "terrain/resources/as_fish0/idle/135/000.png",
+      "working": "terrain/resources/as_fish0/idle/135/000.png"
+    },
+    {
+      "stem": "fishermanstent",
+      "ok": true,
+      "actionset": "as_fisherman0",
+      "actionset_dir": "gfx/buildings/sailors/fisherman/as_fisherman0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/fisherman/as_fisherman0/idle/135/0.png",
+      "working": "buildings/sailors/fisherman/as_fisherman0/idle/135/0.png"
+    },
+    {
+      "stem": "herbary",
+      "ok": true,
+      "actionset": "as_herbary0",
+      "actionset_dir": "gfx/buildings/settlers/agricultural/as_herbary0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/settlers/agricultural/as_herbary0/idle/135/000.png",
+      "working": "buildings/settlers/agricultural/as_herbary0/work/135/000.png"
+    },
+    {
+      "stem": "hopfield",
+      "ok": true,
+      "actionset": "as_hopfield",
+      "actionset_dir": "gfx/buildings/citizens/as_hopfield",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/citizens/as_hopfield/idle/135/0.png",
+      "working": "buildings/citizens/as_hopfield/work/135/0.png"
+    },
+    {
+      "stem": "hunterstent",
+      "ok": true,
+      "actionset": "as_hunter0",
+      "actionset_dir": "gfx/buildings/sailors/hunter/as_hunter0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/hunter/as_hunter0/idle/135/0.png",
+      "working": "buildings/sailors/hunter/as_hunter0/idle/135/0.png"
+    },
+    {
+      "stem": "lookout",
+      "ok": true,
+      "actionset": "as_lookout0",
+      "actionset_dir": "gfx/buildings/sailors/lookout/as_lookout0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/lookout/as_lookout0/idle/135/0.png",
+      "working": "buildings/sailors/lookout/as_lookout0/idle/135/0.png"
+    },
+    {
+      "stem": "lumberjackcamp",
+      "ok": true,
+      "actionset": "as_lumberjack0",
+      "actionset_dir": "gfx/buildings/sailors/lumberjack/as_lumberjack0",
+      "idle_action": "idle",
+      "working_action": "logs_1",
+      "idle": "buildings/sailors/lumberjack/as_lumberjack0/idle/135/0.png",
+      "working": "buildings/sailors/lumberjack/as_lumberjack0/logs_1/135/0.png"
+    },
+    {
+      "stem": "mainsquare",
+      "ok": true,
+      "actionset": "as_mainsquare0",
+      "actionset_dir": "gfx/buildings/sailors/mainsquare/as_mainsquare0",
+      "idle_action": "work",
+      "working_action": "work",
+      "idle": "buildings/sailors/mainsquare/as_mainsquare0/work/135/000.png",
+      "working": "buildings/sailors/mainsquare/as_mainsquare0/work/135/000.png"
+    },
+    {
+      "stem": "mine",
+      "ok": true,
+      "actionset": "as_mine5x5",
+      "actionset_dir": "gfx/terrain/mountains/as_mine5x5",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "terrain/mountains/as_mine5x5/idle/135/0.png",
+      "working": "terrain/mountains/as_mine5x5/work/135/0.png"
+    },
+    {
+      "stem": "mountain",
+      "ok": true,
+      "actionset": "as_mountain5x5",
+      "actionset_dir": "gfx/terrain/mountains/as_mountain5x5",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "terrain/mountains/as_mountain5x5/idle/135/0.png",
+      "working": "terrain/mountains/as_mountain5x5/idle/135/0.png"
+    },
+    {
+      "stem": "pastryshop",
+      "ok": true,
+      "actionset": "as_pastryshop0",
+      "actionset_dir": "gfx/buildings/citizens/as_pastryshop0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/citizens/as_pastryshop0/idle/135/0.png",
+      "working": "buildings/citizens/as_pastryshop0/work/135/100.png"
+    },
+    {
+      "stem": "pasture",
+      "ok": true,
+      "actionset": "as_pasture0",
+      "actionset_dir": "gfx/buildings/pioneers/agricultural/as_pasture0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/pioneers/agricultural/as_pasture0/idle/135/000.png",
+      "working": "buildings/pioneers/agricultural/as_pasture0/work/135/000.png"
+    },
+    {
+      "stem": "pavilion",
+      "ok": true,
+      "actionset": "as_sunsail0",
+      "actionset_dir": "gfx/buildings/sailors/sunsail/as_sunsail0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/sunsail/as_sunsail0/idle/135/0.png",
+      "working": "buildings/sailors/sunsail/as_sunsail0/idle/135/0.png"
+    },
+    {
+      "stem": "pigsty",
+      "ok": true,
+      "actionset": "as_pigsty0",
+      "actionset_dir": "gfx/buildings/citizens/as_pigsty0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/citizens/as_pigsty0/idle/135/0.png",
+      "working": "buildings/citizens/as_pigsty0/work/135/00.png"
+    },
+    {
+      "stem": "potatofield",
+      "ok": true,
+      "actionset": "as_potatofield0",
+      "actionset_dir": "gfx/buildings/pioneers/agricultural/as_potatofield0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/pioneers/agricultural/as_potatofield0/idle/135/0.png",
+      "working": "buildings/pioneers/agricultural/as_potatofield0/work/135/0.png"
+    },
+    {
+      "stem": "publicbath",
+      "ok": true,
+      "actionset": "as_bath",
+      "actionset_dir": "gfx/buildings/merchants/as_bath",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/merchants/as_bath/idle/135/000.png",
+      "working": "buildings/merchants/as_bath/idle/135/000.png"
+    },
+    {
+      "stem": "ruinedtent",
+      "ok": true,
+      "actionset": "as_ruined_tent0",
+      "actionset_dir": "gfx/buildings/sailors/ruined_tent/as_ruined_tent0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/ruined_tent/as_ruined_tent0/idle/135/0.png",
+      "working": "buildings/sailors/ruined_tent/as_ruined_tent0/idle/135/0.png"
+    },
+    {
+      "stem": "saline",
+      "ok": true,
+      "actionset": "as_2x2",
+      "actionset_dir": "gfx/buildings/placeholder/as_2x2",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/placeholder/as_2x2/idle/135/0.png",
+      "working": "buildings/placeholder/as_2x2/idle/135/0.png"
+    },
+    {
+      "stem": "saltponds",
+      "ok": true,
+      "actionset": "as_saltponds0",
+      "actionset_dir": "gfx/buildings/settlers/salt_ponds/as_saltponds0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/settlers/salt_ponds/as_saltponds0/idle/135/0.png",
+      "working": "buildings/settlers/salt_ponds/as_saltponds0/work/135/0.png"
+    },
+    {
+      "stem": "signalfire",
+      "ok": true,
+      "actionset": "as_signalfire0",
+      "actionset_dir": "gfx/buildings/sailors/signalfire/as_signalfire0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/signalfire/as_signalfire0/idle/135/0.png",
+      "working": "buildings/sailors/signalfire/as_signalfire0/idle/135/0.png"
+    },
+    {
+      "stem": "smeltery",
+      "ok": true,
+      "actionset": "as_smeltery0",
+      "actionset_dir": "gfx/buildings/settlers/smeltery/as_smeltery0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/settlers/smeltery/as_smeltery0/idle/135/0.png",
+      "working": "buildings/settlers/smeltery/as_smeltery0/work/135/0.png"
+    },
+    {
+      "stem": "spicefield",
+      "ok": true,
+      "actionset": "as_spicefield0",
+      "actionset_dir": "gfx/buildings/settlers/agricultural/as_spicefield0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/settlers/agricultural/as_spicefield0/idle/135/0.png",
+      "working": "buildings/settlers/agricultural/as_spicefield0/work/135/0.png"
+    },
+    {
+      "stem": "stonedeposit",
+      "ok": true,
+      "actionset": "as_stonedeposit0",
+      "actionset_dir": "gfx/terrain/resources/as_stonedeposit0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "terrain/resources/as_stonedeposit0/idle/135/0.png",
+      "working": "terrain/resources/as_stonedeposit0/idle/135/0.png"
+    },
+    {
+      "stem": "stonemason",
+      "ok": true,
+      "actionset": "as_stonemason0",
+      "actionset_dir": "gfx/buildings/citizens/as_stonemason0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/citizens/as_stonemason0/idle/135/0.png",
+      "working": "buildings/citizens/as_stonemason0/idle/135/0.png"
+    },
+    {
+      "stem": "stonepit",
+      "ok": true,
+      "actionset": "as_stone_pit0",
+      "actionset_dir": "gfx/buildings/citizens/as_stone_pit0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/citizens/as_stone_pit0/idle/135/0.png",
+      "working": "buildings/citizens/as_stone_pit0/idle/135/0.png"
+    },
+    {
+      "stem": "storagetent",
+      "ok": true,
+      "actionset": "as_storagetent0",
+      "actionset_dir": "gfx/buildings/sailors/storagetent/as_storagetent0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/storagetent/as_storagetent0/idle/135/0.png",
+      "working": "buildings/sailors/storagetent/as_storagetent0/idle/135/0.png"
+    },
+    {
+      "stem": "sugarfield",
+      "ok": true,
+      "actionset": "as_sugarfield0",
+      "actionset_dir": "gfx/buildings/pioneers/agricultural/as_sugarfield0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/pioneers/agricultural/as_sugarfield0/idle/135/0.png",
+      "working": "buildings/pioneers/agricultural/as_sugarfield0/work/135/0.png"
+    },
+    {
+      "stem": "tavern",
+      "ok": true,
+      "actionset": "as_tavern0",
+      "actionset_dir": "gfx/buildings/settlers/tavern/as_tavern0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/settlers/tavern/as_tavern0/idle/135/0.png",
+      "working": "buildings/settlers/tavern/as_tavern0/idle/135/0.png"
+    },
+    {
+      "stem": "tent",
+      "ok": true,
+      "actionset": "as_tent0",
+      "actionset_dir": "gfx/buildings/sailors/residential/as_tent0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/residential/as_tent0/idle/135/0.png",
+      "working": "buildings/sailors/residential/as_tent0/idle/135/0.png"
+    },
+    {
+      "stem": "tobaccofield",
+      "ok": true,
+      "actionset": "as_tobaccofield0",
+      "actionset_dir": "gfx/buildings/settlers/agricultural/as_tobaccofield0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/settlers/agricultural/as_tobaccofield0/idle/135/0.png",
+      "working": "buildings/settlers/agricultural/as_tobaccofield0/work/135/0.png"
+    },
+    {
+      "stem": "tobacconist",
+      "ok": true,
+      "actionset": "as_tobacconist0",
+      "actionset_dir": "gfx/buildings/settlers/tobacconist/as_tobacconist0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/settlers/tobacconist/as_tobacconist0/idle/135/0.png",
+      "working": "buildings/settlers/tobacconist/as_tobacconist0/idle/135/0.png"
+    },
+    {
+      "stem": "toolmaker",
+      "ok": true,
+      "actionset": "as_toolmaker0",
+      "actionset_dir": "gfx/buildings/settlers/toolmaker/as_toolmaker0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/settlers/toolmaker/as_toolmaker0/idle/135/0.png",
+      "working": "buildings/settlers/toolmaker/as_toolmaker0/work/135/0.png"
+    },
+    {
+      "stem": "trail",
+      "ok": true,
+      "actionset": "as_trail",
+      "actionset_dir": "gfx/buildings/sailors/streets/as_trail",
+      "idle_action": "a",
+      "working_action": "a",
+      "idle": "buildings/sailors/streets/as_trail/a/135/0.png",
+      "working": "buildings/sailors/streets/as_trail/a/135/0.png"
+    },
+    {
+      "stem": "tree",
+      "ok": true,
+      "actionset": "as_tupelo2",
+      "actionset_dir": "gfx/terrain/trees/as_tupelo2",
+      "idle_action": "idle_full",
+      "working_action": "work",
+      "idle": "terrain/trees/as_tupelo2/idle_full/135/0.png",
+      "working": "terrain/trees/as_tupelo2/work/135/0.png"
+    },
+    {
+      "stem": "villageschool",
+      "ok": true,
+      "actionset": "as_school0",
+      "actionset_dir": "gfx/buildings/pioneers/school/as_school0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/pioneers/school/as_school0/idle/135/0.png",
+      "working": "buildings/pioneers/school/as_school0/idle/135/0.png"
+    },
+    {
+      "stem": "vineyard",
+      "ok": true,
+      "actionset": "as_vineyard0",
+      "actionset_dir": "gfx/buildings/citizens/as_vineyard0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/citizens/as_vineyard0/idle/135/000.png",
+      "working": "buildings/citizens/as_vineyard0/work/135/000.png"
+    },
+    {
+      "stem": "warehouse",
+      "ok": true,
+      "actionset": "as_warehouse0",
+      "actionset_dir": "gfx/buildings/sailors/warehouse/as_warehouse0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/warehouse/as_warehouse0/idle/135/0.png",
+      "working": "buildings/sailors/warehouse/as_warehouse0/idle/135/0.png"
+    },
+    {
+      "stem": "weaponsmith",
+      "ok": true,
+      "actionset": "as_weaponsmith0",
+      "actionset_dir": "gfx/buildings/settlers/weaponsmith/as_weaponsmith0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/settlers/weaponsmith/as_weaponsmith0/idle/135/000.png",
+      "working": "buildings/settlers/weaponsmith/as_weaponsmith0/work/135/000.png"
+    },
+    {
+      "stem": "weaverstent",
+      "ok": true,
+      "actionset": "as_weaver0",
+      "actionset_dir": "gfx/buildings/pioneers/weaver/as_weaver0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/pioneers/weaver/as_weaver0/idle/135/0.png",
+      "working": "buildings/pioneers/weaver/as_weaver0/idle/135/0.png"
+    },
+    {
+      "stem": "windmill",
+      "ok": true,
+      "actionset": "as_windmill0",
+      "actionset_dir": "gfx/buildings/citizens/as_windmill0",
+      "idle_action": "idle",
+      "working_action": "work",
+      "idle": "buildings/citizens/as_windmill0/idle/135/000.png",
+      "working": "buildings/citizens/as_windmill0/work/135/000.png"
+    },
+    {
+      "stem": "winery",
+      "ok": true,
+      "actionset": "as_winery",
+      "actionset_dir": "gfx/buildings/citizens/as_winery",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/citizens/as_winery/idle/135/0.png",
+      "working": "buildings/citizens/as_winery/idle/135/0.png"
+    },
+    {
+      "stem": "woodentower",
+      "ok": true,
+      "actionset": "as_woodentower0",
+      "actionset_dir": "gfx/buildings/pioneers/tower_wooden/as_woodentower0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/pioneers/tower_wooden/as_woodentower0/idle/135/0.png",
+      "working": "buildings/pioneers/tower_wooden/as_woodentower0/idle/135/0.png"
+    }
+  ]
+}

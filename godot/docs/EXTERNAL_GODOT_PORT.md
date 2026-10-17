@@ -32,7 +32,12 @@ Typical upstream paths (names vary by stem, e.g. `lumberjack` vs export stem `lu
 - **UI chrome:** `Assets/UI/Theme/Theme.tres`, `MenuTheme.tres`, icon trees under `Assets/UI/Icons/`.
 - **Maps:** adopt **`maps_manifest.json` shape** only; ground truth stays our [`MapLoader`](../scripts/sim/map/map_loader.gd) + legacy/exported ground JSON—not their `WorldDev2D.tscn` sim worlds.
 
-**Long-term art pipeline:** Tier A from godot-port is fastest for demos; [`export_gfx.py`](../../development/godot/export_gfx.py) from `legacy/content/gfx` remains the maintainable source when YAML/actionsets change. Re-sync upstream pin or regenerate from legacy to avoid double maintenance.
+**Long-term art pipeline:** Tier A from godot-port is fastest for demos; **automated legacy export** remains the maintainable source when YAML/actionsets change:
+
+- [`development/godot/export_gfx.py --auto`](../../development/godot/GFX_EXPORT.md) — discovers actionsets from building YAML → `godot/resources/gfx/<stem>/` (`sprite_manifest.json` + PNGs). Used by `./development/godot/sync.sh`.
+- Manual overrides in `export_gfx.py` for better working animations; discovery report in `resources/gfx/export_report.json`.
+
+Re-sync godot-port Tier A only for gaps the legacy exporter misses; avoid maintaining both for the same stem without a pin note in `ATTRIBUTION.md`.
 
 ### Tier B — detail
 

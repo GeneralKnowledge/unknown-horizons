@@ -1,5 +1,133 @@
 {
   "buildings": {
+    "alvearies": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 62,
+      "building_stem": "alvearies",
+      "source": "legacy_png"
+    },
+    "ambient": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 72,
+      "building_stem": "ambient",
+      "source": "legacy_png"
+    },
+    "bakery": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 48,
+      "building_stem": "bakery",
+      "source": "legacy_png"
+    },
+    "barracks": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 53,
+      "building_stem": "barracks",
+      "source": "legacy_png"
+    },
+    "barrier": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 71,
+      "building_stem": "barrier",
+      "source": "legacy_png"
+    },
+    "blender": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 50,
+      "building_stem": "blender",
+      "source": "legacy_png"
+    },
+    "boatbuilder": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 12,
+      "building_stem": "boatbuilder",
+      "source": "legacy_png"
+    },
+    "brewery": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 68,
+      "building_stem": "brewery",
+      "source": "legacy_png"
+    },
     "brickyard": {
       "animations": {
         "idle": {
@@ -14,6 +142,166 @@
       "atlas_sqlite": null,
       "building_id": 24,
       "building_stem": "brickyard",
+      "source": "legacy_png"
+    },
+    "butchery": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 41,
+      "building_stem": "butchery",
+      "source": "legacy_png"
+    },
+    "cannonfoundry": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 67,
+      "building_stem": "cannonfoundry",
+      "source": "legacy_png"
+    },
+    "cattlerun": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 38,
+      "building_stem": "cattlerun",
+      "source": "legacy_png"
+    },
+    "charcoalburning": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 31,
+      "building_stem": "charcoalburning",
+      "source": "legacy_png"
+    },
+    "claydeposit": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 23,
+      "building_stem": "claydeposit",
+      "source": "legacy_png"
+    },
+    "claypit": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 25,
+      "building_stem": "claypit",
+      "source": "legacy_png"
+    },
+    "cocoafield": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 60,
+      "building_stem": "cocoafield",
+      "source": "legacy_png"
+    },
+    "cornfield": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 46,
+      "building_stem": "cornfield",
+      "source": "legacy_png"
+    },
+    "distillery": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 26,
+      "building_stem": "distillery",
+      "source": "legacy_png"
+    },
+    "doctor": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 42,
+      "building_stem": "doctor",
       "source": "legacy_png"
     },
     "farm": {
@@ -32,6 +320,38 @@
       "building_stem": "farm",
       "source": "legacy_png"
     },
+    "fireservice": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 45,
+      "building_stem": "fireservice",
+      "source": "legacy_png"
+    },
+    "fishdeposit": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 33,
+      "building_stem": "fishdeposit",
+      "source": "legacy_png"
+    },
     "fishermanstent": {
       "animations": {
         "idle": {
@@ -46,6 +366,38 @@
       "atlas_sqlite": null,
       "building_id": 11,
       "building_stem": "fishermanstent",
+      "source": "legacy_png"
+    },
+    "herbary": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 40,
+      "building_stem": "herbary",
+      "source": "legacy_png"
+    },
+    "hopfield": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 69,
+      "building_stem": "hopfield",
       "source": "legacy_png"
     },
     "hunterstent": {
@@ -64,6 +416,22 @@
       "building_stem": "hunterstent",
       "source": "legacy_png"
     },
+    "lookout": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 13,
+      "building_stem": "lookout",
+      "source": "legacy_png"
+    },
     "lumberjackcamp": {
       "animations": {
         "idle": {
@@ -78,6 +446,262 @@
       "atlas_sqlite": null,
       "building_id": 8,
       "building_stem": "lumberjackcamp",
+      "source": "legacy_png"
+    },
+    "mainsquare": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 4,
+      "building_stem": "mainsquare",
+      "source": "legacy_png"
+    },
+    "mine": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 28,
+      "building_stem": "mine",
+      "source": "legacy_png"
+    },
+    "mountain": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 34,
+      "building_stem": "mountain",
+      "source": "legacy_png"
+    },
+    "pastryshop": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 63,
+      "building_stem": "pastryshop",
+      "source": "legacy_png"
+    },
+    "pasture": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 18,
+      "building_stem": "pasture",
+      "source": "legacy_png"
+    },
+    "pavilion": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 5,
+      "building_stem": "pavilion",
+      "source": "legacy_png"
+    },
+    "pigsty": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 39,
+      "building_stem": "pigsty",
+      "source": "legacy_png"
+    },
+    "potatofield": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 19,
+      "building_stem": "potatofield",
+      "source": "legacy_png"
+    },
+    "publicbath": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 87,
+      "building_stem": "publicbath",
+      "source": "legacy_png"
+    },
+    "ruinedtent": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 10,
+      "building_stem": "ruinedtent",
+      "source": "legacy_png"
+    },
+    "saline": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 86,
+      "building_stem": "saline",
+      "source": "legacy_png"
+    },
+    "saltponds": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 35,
+      "building_stem": "saltponds",
+      "source": "legacy_png"
+    },
+    "signalfire": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 6,
+      "building_stem": "signalfire",
+      "source": "legacy_png"
+    },
+    "smeltery": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 29,
+      "building_stem": "smeltery",
+      "source": "legacy_png"
+    },
+    "spicefield": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 49,
+      "building_stem": "spicefield",
+      "source": "legacy_png"
+    },
+    "stonedeposit": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 70,
+      "building_stem": "stonedeposit",
       "source": "legacy_png"
     },
     "stonemason": {
@@ -96,6 +720,198 @@
       "building_stem": "stonemason",
       "source": "legacy_png"
     },
+    "stonepit": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 54,
+      "building_stem": "stonepit",
+      "source": "legacy_png"
+    },
+    "storagetent": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 2,
+      "building_stem": "storagetent",
+      "source": "legacy_png"
+    },
+    "sugarfield": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 22,
+      "building_stem": "sugarfield",
+      "source": "legacy_png"
+    },
+    "tavern": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 32,
+      "building_stem": "tavern",
+      "source": "legacy_png"
+    },
+    "tent": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 3,
+      "building_stem": "tent",
+      "source": "legacy_png"
+    },
+    "tobaccofield": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 36,
+      "building_stem": "tobaccofield",
+      "source": "legacy_png"
+    },
+    "tobacconist": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 37,
+      "building_stem": "tobacconist",
+      "source": "legacy_png"
+    },
+    "toolmaker": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 30,
+      "building_stem": "toolmaker",
+      "source": "legacy_png"
+    },
+    "trail": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 15,
+      "building_stem": "trail",
+      "source": "legacy_png"
+    },
+    "tree": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 17,
+      "building_stem": "tree",
+      "source": "legacy_png"
+    },
+    "villageschool": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 21,
+      "building_stem": "villageschool",
+      "source": "legacy_png"
+    },
+    "vineyard": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 61,
+      "building_stem": "vineyard",
+      "source": "legacy_png"
+    },
     "warehouse": {
       "animations": {
         "idle": {
@@ -110,6 +926,86 @@
       "atlas_sqlite": null,
       "building_id": 1,
       "building_stem": "warehouse",
+      "source": "legacy_png"
+    },
+    "weaponsmith": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 66,
+      "building_stem": "weaponsmith",
+      "source": "legacy_png"
+    },
+    "weaverstent": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 7,
+      "building_stem": "weaverstent",
+      "source": "legacy_png"
+    },
+    "windmill": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 47,
+      "building_stem": "windmill",
+      "source": "legacy_png"
+    },
+    "winery": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 65,
+      "building_stem": "winery",
+      "source": "legacy_png"
+    },
+    "woodentower": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 44,
+      "building_stem": "woodentower",
       "source": "legacy_png"
     }
   },
