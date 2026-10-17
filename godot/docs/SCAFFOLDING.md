@@ -23,6 +23,7 @@ Use [`GameTestSession`](../scripts/sim/test/game_test_session.gd):
 | `run_until(building, res_id, min, max_sec)` | Wait for production / finish fallback |
 | `snapshot_roundtrip()` | JSON save/load helper |
 | `spawn_unit(stem, x, y)` | Units from `units.json` (WildAnimal today) |
+| `ToggleActiveCommand` / `TransferToSettlementCommand` | Production toggle + warehouse-style transfer |
 
 ## Sim composition
 

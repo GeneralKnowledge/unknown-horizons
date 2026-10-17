@@ -1,5 +1,7 @@
 {
   "northern_mint": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Producer": {
         "productionlines": {
@@ -35,9 +37,12 @@
     "id_name": "BUILDINGS.NORTHERN_MINT",
     "radius": 6,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "northern_outpost": {
+    "baseclass": "building.Building",
+    "buildable_upon": false,
     "components": {
       "Storage": {
         "config": {
@@ -53,9 +58,12 @@
     "id_name": "BUILDINGS.NORTHERN_OUTPOST",
     "radius": 0,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "northern_signal_tower": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Producer": {
         "productionlines": {
@@ -84,9 +92,12 @@
     "id_name": "BUILDINGS.NORTHERN_SIGNAL_TOWER",
     "radius": 0,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "northern_smokery": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
@@ -127,9 +138,12 @@
     "id_name": "BUILDINGS.NORTHERN_SMOKERY",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "northern_warehouse": {
+    "baseclass": "storages.Warehouse",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
@@ -160,6 +174,7 @@
     "id_name": "BUILDINGS.NORTHERN_WAREHOUSE",
     "radius": 24,
     "size_x": 3,
-    "size_y": 3
+    "size_y": 3,
+    "terrain_requirement": 1
   }
 }

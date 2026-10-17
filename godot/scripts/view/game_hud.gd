@@ -9,12 +9,14 @@ var selected: Building
 @onready var _building_panel: InventoryPanel = $VBox/BuildingInventory
 @onready var _producer_label: Label = $VBox/ProducerState
 @onready var _palette: BuildPalettePanel = $VBox/BuildPalette
+@onready var _warehouse: WarehouseTab = $VBox/WarehouseTab
 
 
 func bind(p_session: GameSession, build_tool: BuildTool = null) -> void:
 	session = p_session
 	if build_tool != null:
 		_palette.bind(build_tool)
+	_warehouse.bind(p_session)
 	if not MessageBus.settlement_updated.is_connected(refresh):
 		MessageBus.settlement_updated.connect(refresh)
 	if not MessageBus.building_placed.is_connected(_on_building_placed):
@@ -35,6 +37,7 @@ func _on_building_selected(building: Building) -> void:
 
 func set_selected(building: Building) -> void:
 	selected = building
+	_warehouse.set_selected(building)
 	refresh()
 
 

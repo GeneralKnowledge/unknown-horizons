@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://uh/godot/poc"]
+[gd_scene load_steps=7 format=3 uid="uid://uh/godot/poc"]
 
 [ext_resource type="Script" path="res://scripts/view/poc_main.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/view/map_view.gd" id="2"]
 [ext_resource type="Script" path="res://scripts/view/game_hud.gd" id="3"]
 [ext_resource type="Script" path="res://scripts/view/inventory_panel.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/view/build_palette_panel.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/view/warehouse_tab.gd" id="6"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_building"]
 size = Vector2(64, 64)
@@ -59,3 +60,7 @@ script = ExtResource("4")
 [node name="ProducerState" type="Label" parent="CanvasLayer/HUD/VBox"]
 layout_mode = 2
 text = "Producer: —"
+
+[node name="WarehouseTab" type="VBoxContainer" parent="CanvasLayer/HUD/VBox"]
+layout_mode = 2
+script = ExtResource("6")

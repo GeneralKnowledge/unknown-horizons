@@ -144,8 +144,27 @@ def export_building(
 		for entry in entries or []:
 			out.append([resolve_res_token(entry[0], res_map), entry[1]])
 		return out
+	baseclass = str(data.get("baseclass", ""))
+	buildable_upon = baseclass.endswith("Tree") or baseclass.endswith("Ambient")
+	if "Trail" in baseclass:
+		buildable_upon = True
+	if data.get("translucent"):
+		buildable_upon = True
+	terrain_requirement = 1  # TerrainRequirement.LAND
+	coast_ids = {
+		"FISHER",
+		"SALT_PONDS",
+	}
+	id_name = str(data.get("id", ""))
+	if id_name.startswith("BUILDINGS."):
+		bname = id_name[10:]
+		if bname in coast_ids:
+			terrain_requirement = 2  # TerrainRequirement.LAND_AND_COAST
 	out = {
 		"id_name": data.get("id"),
+		"baseclass": baseclass,
+		"buildable_upon": buildable_upon,
+		"terrain_requirement": terrain_requirement,
 		"size_x": data.get("size_x", 1),
 		"size_y": data.get("size_y", 1),
 		"radius": int(data.get("radius", 0)),

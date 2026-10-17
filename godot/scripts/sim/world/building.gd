@@ -3,6 +3,7 @@ extends RefCounted
 
 var worldid: int
 var building_id: int
+var buildable_upon: bool = false
 var position: Vector2i
 var island: Island
 var settlement: Settlement

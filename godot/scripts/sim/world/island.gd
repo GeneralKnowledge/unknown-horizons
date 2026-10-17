@@ -61,10 +61,14 @@ func release_tiles(building: Building) -> void:
 func _occupant_allows_build(existing: Building, building_id: int) -> bool:
 	if existing == null:
 		return true
+	if existing.buildable_upon or BuildingRules.is_buildable_upon(existing.building_id):
+		return true
 	if building_id == GameConstants.BUILDINGS["MINE"]:
 		return existing.building_id == GameConstants.BUILDINGS["MOUNTAIN"]
 	if building_id == GameConstants.BUILDINGS["CLAY_PIT"]:
 		return existing.building_id == GameConstants.BUILDINGS["CLAY_DEPOSIT"]
+	if building_id == GameConstants.BUILDINGS["STONE_PIT"]:
+		return existing.building_id == GameConstants.BUILDINGS["STONE_DEPOSIT"]
 	return false
 
 

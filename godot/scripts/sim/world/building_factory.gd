@@ -22,5 +22,6 @@ static func create_building(
 		inventory,
 		null
 	)
+	building.buildable_upon = bool(export.get("buildable_upon", false))
 	ComponentFactory.attach_to_building(building, session, export)
 	return building
