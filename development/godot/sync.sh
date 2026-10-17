@@ -10,6 +10,9 @@ python3 development/godot/export_content.py
 echo "==> export_gfx.py"
 python3 development/godot/export_gfx.py
 
+echo "==> validate_content.py"
+python3 development/godot/validate_content.py
+
 echo "==> report_matrix.py"
 python3 development/godot/report_matrix.py
 

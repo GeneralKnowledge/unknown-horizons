@@ -72,6 +72,12 @@ def emit_game_constants(classes: dict[str, dict[str, int]]) -> None:
 	)
 
 
+RES_NAME_ALIASES = {
+	"BRINE": "GOLD",
+	"BRINE_DEPOSIT": "GOLD",
+}
+
+
 def resolve_res_token(token, res_map: dict[str, int]):
 	if isinstance(token, int):
 		return token
@@ -79,6 +85,10 @@ def resolve_res_token(token, res_map: dict[str, int]):
 		name = token[4:]
 		if name in res_map:
 			return res_map[name]
+		if name in RES_NAME_ALIASES:
+			alias = RES_NAME_ALIASES[name]
+			if alias in res_map:
+				return res_map[alias]
 		return token
 	raise ValueError(f"Unknown resource token: {token!r}")
 

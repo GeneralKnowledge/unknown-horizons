@@ -544,7 +544,7 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | `test_session_save.gd`, `test_session_save_extended.gd` | **7/7** ✓ |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** run `./godot/run_tests.sh` (includes component + sqlite subset tests).
+**Current GUT total:** run `./godot/run_tests.sh` — **154** tests (includes component + sqlite subset + gameplay loop).
 
 **DLC scaffolding (pre-parity):** see [`DLC_VISION.md`](DLC_VISION.md) and [`PORT_CHECKLIST_DLC.md`](PORT_CHECKLIST_DLC.md).
 
@@ -557,6 +557,7 @@ Tick items: `[ ]` → `[x]`.
 | `wood.json` | `./development/godot/parity/run_pair.sh` | ✓ |
 | `warehouse_collector.json` | same | ✓ |
 | `farm_crop.json` | same | ✓ |
+| `snapshot_roundtrip.json` | same | ✓ |
 
 Docs: [`development/godot/parity/README.md`](../development/godot/parity/README.md). Optional: `./development/godot/sync.sh --parity`.
 

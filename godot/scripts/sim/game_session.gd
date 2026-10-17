@@ -129,6 +129,9 @@ func to_snapshot() -> Dictionary:
 
 
 func load_snapshot(data: Dictionary) -> void:
+	var version := int(data.get("schema_version", 0))
+	if version != SNAPSHOT_VERSION:
+		data = SaveMigration.migrate(data, version)
 	for b in _buildings.values():
 		island.release_tiles(b)
 		registry.unregister(b.worldid)

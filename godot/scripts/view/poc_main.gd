@@ -8,7 +8,7 @@ extends Node2D
 var _session: GameSession
 var _build_tool: BuildTool
 var _views: Dictionary = {} # worldid -> BuildingView
-var _tick_accum := 0.0
+var _sim_clock := SimClock.new()
 var _hover_grid := Vector2i.ZERO
 
 
@@ -28,18 +28,17 @@ func _ready() -> void:
 		_hud.save_requested.connect(_on_save_requested)
 	if not _hud.load_requested.is_connected(_on_load_requested):
 		_hud.load_requested.connect(_on_load_requested)
+	if not _hud.import_snapshot.is_connected(_on_import_snapshot):
+		_hud.import_snapshot.connect(_on_import_snapshot)
 
 
 func _process(delta: float) -> void:
-	_tick_accum += delta
-	var step := 1.0 / float(GameTimer.TICKS_PER_SECOND)
-	while _tick_accum >= step:
-		_session.run_ticks(1)
-		_tick_accum -= step
+	_sim_clock.accumulate_and_run(_session, delta, func():
 		MessageBus.settlement_updated.emit()
 		for view in _views.values():
 			if view is BuildingView:
 				(view as BuildingView).refresh_from_sim()
+	)
 	_update_ghost()
 
 
@@ -121,8 +120,17 @@ func _on_load_requested() -> void:
 	_apply_session(loaded)
 
 
+func _on_import_snapshot(json_text: String) -> void:
+	var data: Variant = JSON.parse_string(json_text)
+	if typeof(data) != TYPE_DICTIONARY:
+		push_error("Invalid save JSON")
+		return
+	_apply_session(JsonSnapshotLoader.load_from_dict(data))
+
+
 func _apply_session(new_session: GameSession) -> void:
 	_session = new_session
+	_sim_clock.reset()
 	_build_tool = BuildTool.new(_session)
 	_build_tool.building_placed.connect(_on_building_placed)
 	_map_view.bind(_session.island)

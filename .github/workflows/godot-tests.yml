@@ -31,8 +31,54 @@ jobs:
       - name: Export gfx manifests
         run: python3 development/godot/export_gfx.py
 
+      - name: Validate exported content
+        run: python3 development/godot/validate_content.py
+
       - name: Legacy SQLite save smoke
         run: python3 development/godot/sqlite_save_smoke.py
 
       - name: Run GUT (headless)
         run: ./godot/run_tests.sh
+
+  parity-golden:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Godot 4.3
+        run: |
+          curl -sL "https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip" -o /tmp/godot.zip
+          unzip -q /tmp/godot.zip -d /tmp
+          sudo mv /tmp/Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
+
+      - name: Export content for parity
+        run: |
+          python3 development/godot/export_content.py
+          python3 development/godot/export_gfx.py
+          mkdir -p godot/resources/parity
+          cp development/godot/parity/scenarios/*.json godot/resources/parity/
+          cp development/godot/parity/map_specs.json godot/resources/parity/
+
+      - name: Import Godot project (global class cache for autoloads)
+        run: godot --headless --path godot --import --quit
+
+      - name: Compare Godot traces to golden
+        run: ./development/godot/parity/run_all.sh
+
+  web-export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Godot 4.3 + web export templates
+        run: |
+          curl -sL "https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip" -o /tmp/godot.zip
+          unzip -q /tmp/godot.zip -d /tmp
+          sudo mv /tmp/Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
+          curl -sL "https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz" -o /tmp/templates.tpz
+          mkdir -p "$HOME/.local/share/godot/export_templates/4.3.stable"
+          unzip -q /tmp/templates.tpz -d /tmp/templates
+          cp -r /tmp/templates/templates/* "$HOME/.local/share/godot/export_templates/4.3.stable/"
+
+      - name: Export web build
+        run: ./godot/export_web.sh

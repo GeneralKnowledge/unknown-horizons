@@ -45,6 +45,11 @@ layout_mode = 2
 layout_mode = 2
 text = "Loading..."
 
+[node name="GameplayHint" type="Label" parent="CanvasLayer/HUD/VBox"]
+layout_mode = 2
+autowrap_mode = 3
+text = ""
+
 [node name="BuildPalette" type="HBoxContainer" parent="CanvasLayer/HUD/VBox"]
 layout_mode = 2
 script = ExtResource("5")

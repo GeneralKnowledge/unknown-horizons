@@ -23,6 +23,9 @@ static func _repo_root() -> String:
 
 
 static func _extract_buildings_json(sqlite_path: String) -> String:
+	if OS.has_feature("web"):
+		push_error("SQLite save import is not supported in browser builds; use JSON snapshots.")
+		return ""
 	var tmp := "user://sqlite_buildings_extract.json"
 	var tmp_abs := ProjectSettings.globalize_path(tmp)
 	var script := _repo_root().path_join(EXTRACT_SCRIPT)
@@ -60,6 +63,9 @@ static func probe(path: String) -> Dictionary:
 
 
 static func load(path: String) -> GameSession:
+	if OS.has_feature("web"):
+		push_error("SQLite save import is not supported in browser builds.")
+		return null
 	if not is_sqlite_file(path):
 		push_error("Not a sqlite save: %s" % path)
 		return null

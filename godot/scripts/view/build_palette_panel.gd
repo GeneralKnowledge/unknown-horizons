@@ -36,7 +36,7 @@ func _rebuild() -> void:
 	var stems: Array = _load_menu_stems()
 	for stem in stems:
 		var btn := Button.new()
-		btn.text = str(stem)
+		btn.text = ContentTheme.label_for_build_stem(str(stem))
 		var captured: String = str(stem)
 		btn.pressed.connect(func():
 			_apply_stem(captured)

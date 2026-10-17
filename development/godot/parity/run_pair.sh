@@ -32,6 +32,10 @@ python3 "$PARITY/run_legacy.py" "$RAW_SCENARIO" --out "$LEGACY_OUT" || LEGACY_OK
 
 GODOT_SCENARIO="res://resources/parity/$(basename "$SCENARIO")"
 cd "$ROOT/godot"
+# Fresh checkouts have no .godot/; autoloads (MessageBus) need global class cache from import.
+if [[ ! -f ".godot/global_script_class_cache.cfg" ]]; then
+	"$GODOT" --headless --path . --import --quit
+fi
 timeout 120 "$GODOT" --headless --path . res://scenes/parity_runner.tscn -- "$GODOT_SCENARIO" --out "$GODOT_OUT"
 test -f "$GODOT_OUT"
 

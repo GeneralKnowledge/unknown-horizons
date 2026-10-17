@@ -15,6 +15,19 @@ and diplomacy.
 
 Find more information about Unknown Horizons on [our website](http://unknown-horizons.org/).
 
+## Godot port (experimental)
+
+This repository also contains an active **Godot 4.3** port under [`godot/`](godot/), aimed at a future **browser-playable** settlement sim that reuses the original YAML content and preserves simulation parity with the Python game where tested.
+
+| | |
+|--|--|
+| **Status** | Playable PoC (build, produce, save/load); **154** automated GUT tests; reproducible web export |
+| **Docs** | [`godot/README.md`](godot/README.md), [`godot/docs/PROJECT_ROADMAP.md`](godot/docs/PROJECT_ROADMAP.md) |
+| **Run tests** | `./development/godot/sync.sh` |
+| **Play** | `godot --path godot scenes/poc_main.tscn` |
+
+The classic FIFE/Python game below is still the reference implementation; the Godot port does not replace it yet. A future goal is **loading original saves in Godot** and **playing across Python and Godot clients** on the same world—see [`godot/docs/PROJECT_ROADMAP.md`](godot/docs/PROJECT_ROADMAP.md#future-ideas).
+
 
 ## Installation
 

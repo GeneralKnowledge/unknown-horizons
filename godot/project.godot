@@ -15,6 +15,7 @@ GameConstants="*res://scripts/autoload/game_constants.gd"
 DlcConstants="*res://scripts/autoload/dlc_constants.gd"
 MessageBus="*res://scripts/sim/message_bus.gd"
 BuildingVisualRegistry="*res://scripts/view/building_visual_registry.gd"
+ContentTheme="*res://scripts/autoload/content_theme.gd"
 
 
 [filesystem]
