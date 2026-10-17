@@ -12,9 +12,13 @@ var selected: Building
 @onready var _warehouse: WarehouseTab = $VBox/WarehouseTab
 
 var _save_load: SaveLoadPanel
+var _dev_debug: DevDebugPanel
 
 signal save_requested
 signal load_requested
+signal import_snapshot(json_text: String)
+
+@onready var _hint: Label = $VBox/GameplayHint
 
 
 func bind(p_session: GameSession, build_tool: BuildTool = null) -> void:
@@ -35,6 +39,13 @@ func bind(p_session: GameSession, build_tool: BuildTool = null) -> void:
 		$VBox.add_child(_save_load)
 		_save_load.save_requested.connect(func(): save_requested.emit())
 		_save_load.load_requested.connect(func(): load_requested.emit())
+		_save_load.export_save_requested.connect(func(): export_snapshot_text(_snapshot_text_for_export()))
+		_save_load.import_snapshot.connect(func(t): import_snapshot.emit(t))
+	if OS.is_debug_build():
+		if _dev_debug == null:
+			_dev_debug = DevDebugPanel.new()
+			$VBox.add_child(_dev_debug)
+		_dev_debug.bind(p_session)
 
 
 func _on_building_placed(building: Building) -> void:
@@ -48,7 +59,20 @@ func _on_building_selected(building: Building) -> void:
 func set_selected(building: Building) -> void:
 	selected = building
 	_warehouse.set_selected(building)
+	if _dev_debug != null:
+		_dev_debug.set_selected(building)
 	refresh()
+
+
+func export_snapshot_text(json_text: String) -> void:
+	if _save_load != null:
+		_save_load.export_snapshot_to_disk_or_browser(json_text)
+
+
+func _snapshot_text_for_export() -> String:
+	if session == null:
+		return ""
+	return JSON.stringify(session.to_snapshot(), "\t")
 
 
 func refresh() -> void:
@@ -56,14 +80,22 @@ func refresh() -> void:
 		_header.text = "Unknown Horizons Godot"
 		return
 	var settlement := session.settlement
+	var theme_suffix := ""
+	if ContentTheme.display_name != "":
+		theme_suffix = "  [%s]" % ContentTheme.display_name
 	_header.text = (
-		"Settlement — gold: %d  buildings: %d  tick: %d"
+		"Settlement — gold: %d  buildings: %d  tick: %d%s"
 		% [
 			settlement.inventory.amount(GameConstants.RES["GOLD"]),
 			settlement.buildings.size(),
 			session.scheduler.cur_tick,
+			theme_suffix,
 		]
 	)
+	if _hint != null:
+		_hint.text = (
+			"Loop: place lumberjack → place trees nearby → wait for boards → save/load or download JSON."
+		)
 	_settlement_panel.show_inventory("Settlement warehouse", settlement.inventory)
 	if selected != null:
 		var inv := selected.get_storage()

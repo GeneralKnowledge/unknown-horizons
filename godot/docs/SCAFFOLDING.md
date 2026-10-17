@@ -11,7 +11,7 @@ From repo root:
 ./development/godot/sync.sh --skip-tests
 ```
 
-CI runs `export_content.py`, `export_gfx.py`, `sqlite_save_smoke.py`, then `./godot/run_tests.sh`.
+CI runs `export_content.py`, `export_gfx.py`, `validate_content.py`, `sqlite_save_smoke.py`, then `./godot/run_tests.sh`.
 
 ## Integration test recipes
 

@@ -11,6 +11,7 @@ Experimental Godot 4 reimplementation focused on **headless simulation parity** 
 | `resources/content` | Symlink to repo `content/` |
 | `resources/exported/` | JSON + generated constants from Python export |
 | `tests/` | GUT unit + integration tests |
+| `docs/PROJECT_ROADMAP.md` | Audit, milestones, browser blockers |
 
 ## Prerequisites
 
@@ -22,7 +23,7 @@ Experimental Godot 4 reimplementation focused on **headless simulation parity** 
 From repo root (recommended — matches CI):
 
 ```bash
-./development/godot/sync.sh --skip-tests   # export content + gfx + matrix report
+./development/godot/sync.sh --skip-tests   # export content + gfx + validate + matrix report
 ./development/godot/sync.sh                # same, then GUT
 ```
 
@@ -31,6 +32,7 @@ Or manually:
 ```bash
 python3 development/godot/export_content.py
 python3 development/godot/export_gfx.py
+python3 development/godot/validate_content.py
 ```
 
 See [docs/SCAFFOLDING.md](docs/SCAFFOLDING.md) for test recipes, `SaveLoader`, and component factories.
@@ -55,8 +57,25 @@ Open `godot/project.godot` in the editor and run `scenes/poc_main.tscn`, or:
 godot --path godot scenes/poc_main.tscn
 ```
 
-- **Space**: add 2 trees to the lumberjack (starts production)
-- **Enter**: remove one board from storage (debug)
+### Controls
+
+- **Build palette** buttons or keys **1** (lumberjack), **2** (tree), **3** / **T** (tear)
+- **Left click** — place building (when build mode active) or pick building
+- **Right click** — select building under cursor
+- **Ui select** (Space) — toggle build mode
+- **Save / Load / Download / Import** — JSON snapshot (see HUD)
+
+Gameplay loop: place **lumberjackcamp**, place **tree** tiles nearby, wait for **boards** in building storage (sim-driven).
+
+Dev builds show a **+2 TREES** debug button; release/web builds do not.
+
+## Browser build
+
+```bash
+./godot/export_web.sh
+```
+
+See [docs/WEB_DEPLOYMENT.md](docs/WEB_DEPLOYMENT.md).
 
 ## Adding the next pytest as a GUT test
 

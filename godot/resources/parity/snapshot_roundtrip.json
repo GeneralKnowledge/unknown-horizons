@@ -1,0 +1,21 @@
+{
+  "id": "snapshot_roundtrip",
+  "map": "test_island_20x20",
+  "steps": [
+    { "op": "settle" },
+    { "op": "build", "building": "LUMBERJACK", "x": 30, "y": 30 },
+    { "op": "alter_storage", "target": "building", "resource": "TREES", "amount": 2 },
+    { "op": "run_seconds", "seconds": 15 },
+    { "op": "snapshot_roundtrip" },
+    { "op": "run_seconds", "seconds": 2 }
+  ],
+  "expect": {
+    "min_building_storage": {
+      "stem": "lumberjackcamp",
+      "x": 30,
+      "y": 30,
+      "resource": "BOARDS",
+      "min": 1
+    }
+  }
+}

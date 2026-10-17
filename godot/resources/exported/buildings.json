@@ -1664,7 +1664,7 @@
           "854772720": {
             "consumes": [
               [
-                "RES.BRINE",
+                1,
                 -2
               ],
               [
@@ -1685,9 +1685,9 @@
       "Storage": {
         "config": {
           "slot_sizes": {
+            "1": 6,
             "23": 6,
-            "29": 6,
-            "RES.BRINE": 6
+            "29": 6
           }
         },
         "type": "SlotsStorage"
