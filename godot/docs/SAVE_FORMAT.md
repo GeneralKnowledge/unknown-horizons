@@ -27,11 +27,19 @@ Warehouses are replayed first so settlement attachment matches legacy ordering.
 
 ### Migration
 
-`SaveMigration.migrate(data, from_version)` runs before `load_snapshot` applies state. Today v3→v3 is a no-op; future versions add steps there.
+`SaveMigration.try_prepare(data)` validates and migrates JSON **schema versions only** (supported: **0, 1, 2 → 3**). This is **not** the legacy SQLite `SavegameUpgrader`.
+
+`GameSession.try_load_snapshot(data)` returns `{ ok: bool, error: string }` and **does not mutate** the session when validation or migration fails.
+
+`load_snapshot()` calls `try_load_snapshot` and logs errors on failure.
 
 ### Invalid saves
 
-Missing `schema_version` or unknown version: loader should reject with a clear error (tests cover round-trip for v3).
+Rejected before any state change (see `SnapshotValidator` + tests in `test_snapshot_load_validation.gd`):
+
+- Missing / invalid / future `schema_version`
+- Malformed `buildings` entries or unknown `building_id`
+- Invalid inventory field types
 
 ## Legacy SQLite (desktop dev)
 

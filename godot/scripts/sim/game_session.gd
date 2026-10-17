@@ -146,10 +146,25 @@ func to_snapshot() -> Dictionary:
 	}
 
 
+func try_load_snapshot(data: Dictionary) -> Dictionary:
+	var prepared := SaveMigration.try_prepare(data)
+	if not prepared["ok"]:
+		return {"ok": false, "error": str(prepared.get("error", "migration_failed"))}
+	var migrated: Dictionary = prepared["data"]
+	var validation := SnapshotValidator.validate(migrated)
+	if not validation["ok"]:
+		return {"ok": false, "error": str(validation.get("error", "validation_failed"))}
+	_apply_snapshot(migrated)
+	return {"ok": true, "error": ""}
+
+
 func load_snapshot(data: Dictionary) -> void:
-	var version := int(data.get("schema_version", 0))
-	if version != SNAPSHOT_VERSION:
-		data = SaveMigration.migrate(data, version)
+	var result := try_load_snapshot(data)
+	if not result["ok"]:
+		push_error("load_snapshot failed: %s" % result.get("error", ""))
+
+
+func _apply_snapshot(data: Dictionary) -> void:
 	for b in _buildings.values():
 		island.release_tiles(b)
 		registry.unregister(b.worldid)

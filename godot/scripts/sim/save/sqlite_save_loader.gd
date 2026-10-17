@@ -1,9 +1,10 @@
 class_name SqliteSaveLoader
 extends RefCounted
 
-## Legacy UH savegames (.sqlite). Subset load via Python extract + BuildCommand replay.
+## Legacy UH savegames (.sqlite). Partial import with diagnostics (desktop).
 
 const MAGIC := "SQLite format 3"
+const META_REPORT := "sqlite_import_report"
 const EXTRACT_BUILDINGS_SCRIPT := "development/godot/sqlite_extract_buildings.py"
 const EXTRACT_STORAGE_SCRIPT := "development/godot/sqlite_extract_storage.py"
 const EXTRACT_METADATA_SCRIPT := "development/godot/sqlite_extract_metadata.py"
@@ -24,6 +25,12 @@ static func is_sqlite_file(path: String) -> bool:
 	var header := f.get_buffer(16).get_string_from_ascii()
 	f.close()
 	return header.begins_with(MAGIC)
+
+
+static func get_report(session: GameSession) -> SqliteImportReport:
+	if session == null or not session.has_meta(META_REPORT):
+		return null
+	return SqliteImportReport.from_dictionary(session.get_meta(META_REPORT))
 
 
 static func _repo_root() -> String:
@@ -51,10 +58,9 @@ static func _prepare_sqlite_path(path: String) -> String:
 
 
 static func _run_python_extract(script_rel: String, sqlite_path: String, tmp_user: String, extra: Array = []) -> String:
-	var tmp_abs := ProjectSettings.globalize_path(tmp_user)
 	var script := _repo_root().path_join(script_rel)
 	var output: Array = []
-	var args: Array = [script, sqlite_path, tmp_abs]
+	var args: Array = [script, sqlite_path, ProjectSettings.globalize_path(tmp_user)]
 	args.append_array(extra)
 	var exit_code := OS.execute("python3", args, output, true)
 	if exit_code != 0:
@@ -73,71 +79,114 @@ static func _extract_buildings_json(sqlite_path: String, limit: int = DEFAULT_BU
 		EXTRACT_BUILDINGS_SCRIPT,
 		sqlite_path,
 		"user://sqlite_buildings_extract.json",
-		[str(limit)],
+		[str(limit), "--include-skipped"],
 	)
 
 
 static func probe(path: String) -> Dictionary:
 	if not is_sqlite_file(path):
 		return {"ok": false, "error": "not_sqlite", "path": path}
-	var rows := _extract_buildings_json(path, 200)
-	var count := 0
-	if not rows.is_empty():
-		var data: Variant = JSON.parse_string(rows)
-		if typeof(data) == TYPE_ARRAY:
-			count = data.size()
+	var result := load_with_report(path)
+	if not result["ok"]:
+		return {"ok": false, "error": result.get("error", "load_failed"), "path": path}
+	var report: SqliteImportReport = result["report"]
 	return {
 		"ok": true,
-		"implemented": count > 0,
 		"path": path,
-		"building_rows": count,
-		"message": "Subset load via sqlite_extract_buildings.py",
+		"partial": report.partial,
+		"building_rows": report.buildings_extracted,
+		"buildings_placed": report.buildings_placed,
+		"report": report.to_dictionary(),
 	}
 
 
 static func load(path: String) -> GameSession:
+	var result := load_with_report(path)
+	if not result["ok"]:
+		return null
+	return result["session"]
+
+
+static func load_with_report(path: String) -> Dictionary:
+	var report := SqliteImportReport.new()
+	report.source_path = path
 	if OS.has_feature("web"):
-		push_error("SQLite save import is not supported in browser builds.")
-		return null
+		return {"ok": false, "error": "web_unsupported", "session": null, "report": report}
 	if not is_sqlite_file(path):
-		push_error("Not a sqlite save: %s" % path)
-		return null
+		return {"ok": false, "error": "not_sqlite", "session": null, "report": report}
+
 	var sqlite_path := _prepare_sqlite_path(path)
 	if sqlite_path.is_empty():
 		sqlite_path = path
+
+	var meta := _extract_metadata_json(sqlite_path)
+	report.savegamerev = int(meta.get("savegamerev", "-1"))
+	var map_name := str(meta.get("map_name", ""))
+	report.map_id = MapLoader.legacy_map_name_to_id(map_name)
+
 	var json_text := _extract_buildings_json(sqlite_path)
 	if json_text.is_empty():
-		return null
+		return {"ok": false, "error": "extract_failed", "session": null, "report": report}
 	var rows: Variant = JSON.parse_string(json_text)
 	if typeof(rows) != TYPE_ARRAY:
-		return null
+		return {"ok": false, "error": "extract_invalid_json", "session": null, "report": report}
+
 	var session := GameSession.new()
 	_apply_session_header(session, sqlite_path)
-	_apply_map_from_save(session, sqlite_path)
+	_apply_map_from_save(session, sqlite_path, report)
 	var settlement := session.settlement
-	rows.sort_custom(func(a, b):
+
+	var building_rows: Array = []
+	for row in rows:
+		if typeof(row) == TYPE_DICTIONARY and row.get("_skipped", false):
+			report.buildings_truncated = true
+			report.buildings_total_in_save = int(row.get("total_buildings", -1))
+			continue
+		if typeof(row) == TYPE_DICTIONARY:
+			building_rows.append(row)
+	report.buildings_extracted = building_rows.size()
+
+	building_rows.sort_custom(func(a, b):
 		if int(a["building_id"]) == GameConstants.BUILDINGS["WAREHOUSE"]:
 			return true
 		if int(b["building_id"]) == GameConstants.BUILDINGS["WAREHOUSE"]:
 			return false
 		return int(a["worldid"]) < int(b["worldid"])
 	)
-	for row in rows:
-		if typeof(row) != TYPE_DICTIONARY or row.get("_skipped", false):
+	for row in building_rows:
+		if typeof(row) != TYPE_DICTIONARY:
+			report.record_rejection("invalid_row")
 			continue
-		var bid := int(row["building_id"])
+		var bid := int(row.get("building_id", -1))
 		if bid <= 0:
+			report.record_rejection("invalid_building_id")
 			continue
-		if not ContentLoader.stem_for_building_id(bid):
+		if not ContentLoader.is_known_building_id(bid):
+			report.record_rejection("unknown_building_type")
 			continue
 		var cmd := BuildCommand.new(
 			bid, int(row["x"]), int(row["y"]), session.island, settlement
 		)
 		cmd.forced_worldid = int(row["worldid"])
-		cmd.execute(session)
-	_apply_storage_rows(session, sqlite_path)
-	_apply_unit_rows(session, sqlite_path)
-	return session
+		var placed: Variant = cmd.execute(session)
+		if placed == null:
+			report.record_rejection("placement_failed")
+		else:
+			report.buildings_placed += 1
+
+	_apply_storage_rows(session, sqlite_path, report)
+	_apply_unit_rows(session, sqlite_path, report)
+
+	report.partial = (
+		report.buildings_truncated
+		or report.buildings_rejected > 0
+		or report.buildings_placed < report.buildings_extracted
+		or report.storage_rows_skipped > 0
+		or report.collectors_unsupported > 0
+		or report.collectors_skipped_yaml_duplicate > 0
+	)
+	session.set_meta(META_REPORT, report.to_dictionary())
+	return {"ok": true, "error": "", "session": session, "report": report}
 
 
 static func _apply_session_header(session: GameSession, sqlite_path: String) -> void:
@@ -171,53 +220,56 @@ static func _extract_metadata_json(sqlite_path: String) -> Dictionary:
 	return data
 
 
-static func _apply_map_from_save(session: GameSession, sqlite_path: String) -> void:
+static func _apply_map_from_save(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:
 	var meta := _extract_metadata_json(sqlite_path)
 	var map_name := str(meta.get("map_name", ""))
 	var map_id := MapLoader.legacy_map_name_to_id(map_name)
+	report.map_id = map_id
 	if map_id.is_empty():
 		session.load_test_map()
 		return
 	MapLoader.apply_map_to_session(session, map_id)
 
 
-static func _extract_storage_json(sqlite_path: String) -> String:
-	return _run_python_extract(
+static func _apply_storage_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:
+	var json_text := _run_python_extract(
 		EXTRACT_STORAGE_SCRIPT,
 		sqlite_path,
 		"user://sqlite_storage_extract.json",
 		["5000"],
 	)
-
-
-static func _apply_storage_rows(session: GameSession, sqlite_path: String) -> void:
-	var json_text := _extract_storage_json(sqlite_path)
 	if json_text.is_empty():
 		return
 	var rows: Variant = JSON.parse_string(json_text)
 	if typeof(rows) != TYPE_ARRAY:
 		return
+	report.storage_rows_total = rows.size()
 	var by_worldid: Dictionary = {}
 	for b in session.get_buildings_on_island(session.island):
 		by_worldid[b.worldid] = b
 	for row in rows:
 		if typeof(row) != TYPE_DICTIONARY:
+			report.storage_rows_skipped += 1
 			continue
 		var wid := int(row.get("worldid", -1))
 		if not by_worldid.has(wid):
+			report.storage_rows_skipped += 1
 			continue
 		var building: Building = by_worldid[wid]
 		var storage := building.get_storage()
 		if storage == null:
+			report.storage_rows_skipped += 1
 			continue
 		var res_id := int(row.get("resource_id", -1))
 		var amount := int(row.get("amount", 0))
 		if res_id < 0 or amount == 0:
+			report.storage_rows_skipped += 1
 			continue
 		storage.alter(res_id, amount)
+		report.storage_rows_applied += 1
 
 
-static func _apply_unit_rows(session: GameSession, sqlite_path: String) -> void:
+static func _apply_unit_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:
 	var json_text := _run_python_extract(
 		EXTRACT_UNITS_SCRIPT,
 		sqlite_path,
@@ -229,12 +281,28 @@ static func _apply_unit_rows(session: GameSession, sqlite_path: String) -> void:
 	var rows: Variant = JSON.parse_string(json_text)
 	if typeof(rows) != TYPE_ARRAY:
 		return
+	report.unit_rows_total = rows.size()
+	var yaml_collectors_by_home: Dictionary = {}
+	for b in session.get_buildings_on_island(session.island):
+		if b.collecting != null:
+			yaml_collectors_by_home[b.worldid] = b.collecting.collectors.size()
+
 	for row in rows:
 		if typeof(row) != TYPE_DICTIONARY:
 			continue
-		if str(row.get("kind", "")) != "wild_animal":
-			continue
-		var wid := int(row.get("worldid", -1))
-		var x := int(row.get("x", 0))
-		var y := int(row.get("y", 0))
-		session.spawn_wild_animal(session.island, x, y, wid)
+		var kind := str(row.get("kind", "unit"))
+		if kind == "wild_animal":
+			var wid := int(row.get("worldid", -1))
+			var x := int(row.get("x", 0))
+			var y := int(row.get("y", 0))
+			session.spawn_wild_animal(session.island, x, y, wid)
+			report.wild_animals_spawned += 1
+		elif kind == "collector":
+			report.collector_rows_in_save += 1
+			var home_id := int(row.get("home_building_worldid", -1))
+			if yaml_collectors_by_home.has(home_id) and int(yaml_collectors_by_home[home_id]) > 0:
+				report.collectors_skipped_yaml_duplicate += 1
+			else:
+				report.collectors_unsupported += 1
+		else:
+			report.collectors_unsupported += 1

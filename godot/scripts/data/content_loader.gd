@@ -68,6 +68,11 @@ static func stem_for_unit_id(unit_id: int) -> String:
 	return "deer"
 
 
+static func is_known_building_id(building_id: int) -> bool:
+	_ensure_stem_index()
+	return _building_id_to_stem.has(building_id)
+
+
 static func stem_for_building_id(building_id: int) -> String:
 	_ensure_stem_index()
 	if _building_id_to_stem.has(building_id):

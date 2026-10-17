@@ -47,6 +47,16 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 
 Web builds: JSON snapshots only ([`SAVE_FORMAT.md`](SAVE_FORMAT.md)).
 
+## Import diagnostics
+
+`SqliteSaveLoader.load_with_report(path)` returns `{ ok, session, report }`. After `load()`, read `SqliteSaveLoader.get_report(session)` for:
+
+- `buildings_extracted` / `buildings_placed` / `buildings_rejected` + `rejection_counts` (`placement_failed`, `unknown_building_type`, …)
+- `buildings_truncated` when Python extract hit a limit (marker row from `--include-skipped`)
+- Storage and unit/collector counts
+
+**Partial imports** set `report.partial = true` — not a full legacy save. See [`COLLECTOR_SQLITE_IMPORT.md`](COLLECTOR_SQLITE_IMPORT.md).
+
 ## Reading the gap report
 
 - **`unknown_building_type_ids`** — missing export / `GameConstants` mapping

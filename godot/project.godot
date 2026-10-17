@@ -17,6 +17,7 @@ MessageBus="*res://scripts/sim/message_bus.gd"
 BuildingVisualRegistry="*res://scripts/view/building_visual_registry.gd"
 ContentTheme="*res://scripts/autoload/content_theme.gd"
 ResourceIconRegistry="*res://scripts/view/resource_icon_registry.gd"
+GameAudioService="*res://scripts/view/audio/game_audio_service.gd"
 
 
 [filesystem]
