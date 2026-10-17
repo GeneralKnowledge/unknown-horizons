@@ -70,6 +70,7 @@ jobs:
         run: |
           python3 development/godot/export_content.py
           python3 development/godot/export_gfx.py --auto
+          python3 development/godot/export_maps.py
           mkdir -p godot/resources/parity
           cp development/godot/parity/scenarios/*.json godot/resources/parity/
           cp development/godot/parity/map_specs.json godot/resources/parity/
