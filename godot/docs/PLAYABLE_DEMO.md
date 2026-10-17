@@ -1,6 +1,11 @@
 # Playable settlement demo
 
-Vertical slice objective: **deliver building materials (boards) to the settlement warehouse** on the `development` map.
+Two-step vertical slice on the `development` map:
+
+1. **Lumber** — lumberjack camp, trees, deliver **boards** to the warehouse.
+2. **Bricks** — clay pit on the bundled deposit, brickyard, deliver **bricks** to the warehouse.
+
+Buildings charge **YAML `buildingcosts`** from settlement stock (gold, boards, tools, …). Founding warehouse remains free.
 
 ## Launch
 
@@ -31,7 +36,11 @@ From the title screen choose **Start settlement demo**.
 3. Let the simulation run; collectors move **boards** into the settlement warehouse.
 4. When warehouse boards reach the target (see objective panel), the success overlay appears.
 
-Configuration: `resources/demo/playable_lumber_demo.json` (map, target boards, starting gold/tools).
+Configuration: `resources/demo/playable_lumber_demo.json` (steps, clay deposit spawn, starting stock).
+
+## Browser hosting
+
+CI can publish the WASM build to **GitHub Pages** via `.github/workflows/godot-pages.yml` (after enabling Pages for the repo). Local verify: `./godot/export_web.sh` then `development/godot/web_export_smoke.sh`.
 
 ## Saves
 

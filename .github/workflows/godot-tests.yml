@@ -132,3 +132,8 @@ jobs:
 
       - name: Export web build
         run: ./godot/export_web.sh
+
+      - name: Web export smoke
+        run: |
+          chmod +x development/godot/web_export_smoke.sh
+          ./development/godot/web_export_smoke.sh

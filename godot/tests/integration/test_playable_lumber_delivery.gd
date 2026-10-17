@@ -1,16 +1,14 @@
 extends GutTest
 
-## Playable settlement demo: objective driven by real sim state + snapshot demo metadata.
+## Playable settlement demo: multi-step objectives, costs, snapshot demo metadata.
 
 
-func test_objective_completes_when_warehouse_has_boards() -> void:
-	var session := GameSession.new()
-	session.load_test_map()
-	GameTestHelpers.new_settlement(session, Vector2i(30, 30))
+func test_boards_step_completes_and_advances_to_bricks() -> void:
+	var settled := GameSession.settle()
+	var session: GameSession = settled.session
+	PlayableDemoConfig.apply_starting_resources(session.settlement)
 	var tracker := DemoObjectiveTracker.new(session)
-	tracker.target_boards = 5
-	tracker.min_trees = 2
-	assert_false(tracker.completed)
+	assert_eq(0, tracker.current_step_index)
 	BuildCommand.new(
 		GameConstants.BUILDINGS["LUMBERJACK"], 32, 32, session.island, session.settlement
 	).execute(session)
@@ -18,7 +16,27 @@ func test_objective_completes_when_warehouse_has_boards() -> void:
 		BuildCommand.new(
 			GameConstants.BUILDINGS["TREE"], 32 + off.x, 32 + off.y, session.island, session.settlement
 		).execute(session)
-	session.settlement.inventory.alter(GameConstants.RES["BOARDS"], 5)
+	session.settlement.inventory.alter(GameConstants.RES["BOARDS"], 8)
+	tracker.tick_after_sim()
+	assert_eq(1, tracker.current_step_index)
+	assert_false(tracker.completed)
+
+
+func test_full_demo_completes_after_bricks() -> void:
+	var settled := GameSession.settle()
+	var session: GameSession = settled.session
+	var tracker := DemoObjectiveTracker.new(session)
+	tracker.current_step_index = 1
+	BuildCommand.new(
+		GameConstants.BUILDINGS["CLAY_DEPOSIT"], 33, 33, session.island, null, true
+	).execute(session)
+	BuildCommand.new(
+		GameConstants.BUILDINGS["CLAY_PIT"], 33, 33, session.island, session.settlement
+	).execute(session)
+	BuildCommand.new(
+		GameConstants.BUILDINGS["BRICKYARD"], 33, 25, session.island, session.settlement
+	).execute(session)
+	session.settlement.inventory.alter(GameConstants.RES["BRICKS"], 4)
 	tracker.tick_after_sim()
 	assert_true(tracker.completed)
 
@@ -36,12 +54,12 @@ func test_invalid_placement_leaves_building_count_unchanged() -> void:
 	assert_eq(before, after)
 
 
-func test_demo_snapshot_roundtrip_preserves_completion() -> void:
+func test_demo_snapshot_roundtrip_preserves_step_index() -> void:
 	var session := GameSession.new()
 	session.load_test_map()
 	GameTestHelpers.new_settlement(session, Vector2i(30, 30))
 	var tracker := DemoObjectiveTracker.new(session)
-	tracker.completed = true
+	tracker.current_step_index = 1
 	var snap := session.to_snapshot()
 	snap["demo"] = tracker.to_snapshot_demo_block()
 	var session2 := GameSession.new()
@@ -50,7 +68,7 @@ func test_demo_snapshot_roundtrip_preserves_completion() -> void:
 	assert_true(result["ok"])
 	var tracker2 := DemoObjectiveTracker.new(session2)
 	tracker2.apply_snapshot_demo_block(snap["demo"])
-	assert_true(tracker2.completed)
+	assert_eq(1, tracker2.current_step_index)
 
 
 func test_lumberjack_production_increases_boards_with_trees() -> void:

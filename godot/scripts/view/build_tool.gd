@@ -23,9 +23,16 @@ func placement_failure_reason(origin: Vector2i) -> String:
 	var export := ContentLoader.load_building_export(
 		ContentLoader.stem_for_building_id(building_id)
 	)
-	return session.island.explain_placement_failure(
+	var terrain_reason := session.island.explain_placement_failure(
 		building_id, export, origin, session.settlement
 	)
+	if not terrain_reason.is_empty():
+		return terrain_reason
+	if session.settlement != null:
+		var cost_reason := BuildingCosts.describe_missing(session.settlement, building_id)
+		if not cost_reason.is_empty():
+			return cost_reason
+	return ""
 
 
 func try_place(origin: Vector2i) -> Building:

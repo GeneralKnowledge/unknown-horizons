@@ -199,6 +199,7 @@ func _apply_snapshot(data: Dictionary) -> void:
 			settlement
 		)
 		cmd.forced_worldid = int(snap["worldid"])
+		cmd.skip_cost = true
 		var building: Building = cmd.execute(self)
 		if building == null:
 			continue

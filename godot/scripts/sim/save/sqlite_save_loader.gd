@@ -168,6 +168,7 @@ static func load_with_report(path: String) -> Dictionary:
 			bid, int(row["x"]), int(row["y"]), session.island, settlement
 		)
 		cmd.forced_worldid = int(row["worldid"])
+		cmd.skip_cost = true
 		var placed: Variant = cmd.execute(session)
 		if placed == null:
 			report.record_rejection("placement_failed")

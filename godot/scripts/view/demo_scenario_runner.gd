@@ -59,13 +59,11 @@ static func _apply_chain(session: GameSession, chain: Dictionary) -> void:
 	for deposit: Variant in chain.get("fish_deposits", []):
 		if typeof(deposit) != TYPE_DICTIONARY:
 			continue
-		var school: Building = BuildCommand.new(
+		var school: Building = _build_ownerless_cmd(
+			session,
 			GameConstants.BUILDINGS["FISH_DEPOSIT"],
-			int(deposit.get("x", 0)),
-			int(deposit.get("y", 0)),
-			island,
-			null
-		).execute(session) as Building
+			Vector2i(int(deposit.get("x", 0)), int(deposit.get("y", 0)))
+		)
 		if school != null and school.get_producer() != null:
 			school.get_producer().finish_production_now()
 
@@ -75,9 +73,9 @@ static func _apply_chain(session: GameSession, chain: Dictionary) -> void:
 
 	var clay_xy := _xy(chain, "clay_deposit")
 	if clay_xy != Vector2i.ZERO:
-		var deposit: Building = BuildCommand.new(
-			GameConstants.BUILDINGS["CLAY_DEPOSIT"], clay_xy.x, clay_xy.y, island, null
-		).execute(session) as Building
+		var deposit: Building = _build_ownerless_cmd(
+			session, GameConstants.BUILDINGS["CLAY_DEPOSIT"], clay_xy
+		)
 		if deposit != null:
 			deposit.get_storage().alter(GameConstants.RES["RAW_CLAY"], 10)
 
@@ -97,7 +95,19 @@ static func _build(
 	settlement: Settlement,
 	island: Island
 ) -> Building:
-	return BuildCommand.new(building_id, at.x, at.y, island, settlement).execute(session) as Building
+	var cmd := BuildCommand.new(building_id, at.x, at.y, island, settlement)
+	cmd.skip_cost = true
+	return cmd.execute(session) as Building
+
+
+static func _build_ownerless_cmd(
+	session: GameSession,
+	building_id: int,
+	at: Vector2i
+) -> Building:
+	var cmd := BuildCommand.new(building_id, at.x, at.y, session.island, null, true)
+	cmd.skip_cost = true
+	return cmd.execute(session) as Building
 
 
 static func _xy(chain: Dictionary, key: String) -> Vector2i:
