@@ -75,6 +75,40 @@ Reproducible via `./godot/export_web.sh` → `build/web/`. See [WEB_DEPLOYMENT.m
 | **M4** | Data-driven + theme | `validate_content.py` in sync/CI; theme pack demo |
 | **M5** | Save integrity | SAVE_FORMAT.md, migration hook, `snapshot_roundtrip` parity |
 | **M6** | Living world (design) | Sections below — no large implementation |
+| **M7** | Cross-version saves & play (future gate) | See **Future ideas** — required before treating Godot as the primary client |
+
+## Future ideas
+
+These are intentional next horizons—not current milestones—but they should **gate** a full cutover from the Python/FIFE game to Godot. The port is not “complete” until players can move between engines without losing progress, and (ideally) play together across engines.
+
+### Legacy save fidelity (Python → Godot)
+
+- **Goal:** Open real **original-game savegames** (`.sqlite` / legacy format) in Godot and continue playing with the same settlement state that matters for gameplay (map, buildings, inventories, production state, settlers/units as they are ported).
+- **Today:** Subset load only — buildings via `SqliteSaveLoader` + `sqlite_extract_buildings.py` on desktop; not web-safe.
+- **Tests to add:** A growing **fixture library** of authentic saves (small → large); for each fixture, assert key invariants after load (building counts, resource totals, tick/time, selected world ids). Failures mean the Godot sim is still missing rules or export mappings.
+- **Smooth transition:** Document a player workflow: *save in Python → copy file → load in Godot* (and later the reverse once Godot can write compatible saves or an documented interchange format exists).
+
+### Cross-version play (Python + Godot in one world)
+
+- **Goal:** Before moving on to unrelated big features, prove **mixed clients**: one player on the **legacy Python** build and another on the **Godot** build in the **same** session or shared world (observe the same sim truth, submit compatible commands).
+- **Why it matters:** Forces agreement on commands, ticks, entity ids, and network/state sync—not just single-player parity traces.
+- **Likely shape:** Aligns with [Future server direction](#future-server-direction-design-only)—authoritative sim, versioned command envelope, clients are thin. Mixed-engine play is an **acceptance test** for that design, not a one-off hack.
+- **Pragmatic staging:**
+  1. Same save loads in both engines; manual QA on identical scenario steps (dual-run parity extended to full saves).
+  2. Hot-join or sync via a small relay/server (out of scope until single-player legacy load is trustworthy).
+  3. Only then: declare Godot ready to replace Python for multiplayer scenarios.
+
+### Exit criteria (proposal — do not skip)
+
+| Criterion | Meaning |
+|-----------|---------|
+| Fixture saves load in Godot | No silent data loss; explicit errors for unsupported fields |
+| Python → Godot → play | Player can continue a campaign slice without debug cheats |
+| Parity on loaded state | After load, run N ticks; compare traces or inventories vs golden |
+| Cross-version session (stretch) | Python + Godot clients stay in sync on a test map |
+| Reverse path (stretch) | Godot save or export readable by Python, or documented migration only |
+
+See also [MIGRATION_STRATEGY.md](MIGRATION_STRATEGY.md).
 
 ## Browser blockers (living list)
 

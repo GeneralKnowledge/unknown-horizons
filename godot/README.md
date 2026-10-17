@@ -30,6 +30,10 @@ Sim code lives under `scripts/sim/` as headless `RefCounted` types (commands, pr
 - Complete SQLite save fidelity (subset load on desktop only)
 - Automated browser playtesting in CI (manual smoke checklist documented)
 
+## Future ideas (before full cutover)
+
+We should **load real saves from the original Python game** in Godot and prove a smooth handoff (save in legacy → continue in Godot). Ideally, **play across versions** in one world (you on Python, someone on Godot) so command and state parity is real—not only headless traces. That is a deliberate gate documented in [docs/PROJECT_ROADMAP.md](docs/PROJECT_ROADMAP.md#future-ideas) and [docs/MIGRATION_STRATEGY.md](docs/MIGRATION_STRATEGY.md).
+
 ## Quick start
 
 **Prerequisites:** Godot **4.3+**, Python 3 + PyYAML.

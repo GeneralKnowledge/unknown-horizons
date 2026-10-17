@@ -15,6 +15,22 @@ Unknown Horizons keeps the **Python + FIFE** game shippable while the **Godot 4*
 2. Headless save/load round-trip for a standard map.
 3. Single-player session playable without Python installed (menu → build → produce → save).
 4. Performance equal or better on reference hardware for a large map.
+5. **Legacy save compatibility:** representative **original-game saves** load in Godot; automated fixture tests prove inventories/buildings/state match expectations (see [PROJECT_ROADMAP.md — Future ideas](PROJECT_ROADMAP.md#future-ideas)).
+6. **Cross-version confidence (before moving on):** ability to **transition smoothly** from Python to Godot on the same save; stretch goal — **play across versions** (you on Python, another player on Godot) on a shared world via a common command/sync layer.
+
+Until (5) is largely green, treat Godot as a parallel client, not a replacement.
+
+## Legacy saves and cross-version play (future gate)
+
+| Step | What |
+|------|------|
+| Export path | Keep using `content/` + pytest/GUT parity for *rules*; saves prove *integration* |
+| Load Python saves in Godot | Expand `SqliteSaveLoader` beyond building subset; map + units + session metadata |
+| Test harness | `development/godot/` fixtures from real `.sqlite` files; CI smoke + diff vs extractors |
+| Player workflow | Document save-in-Python → load-in-Godot for early adopters |
+| Mixed clients | Shared authoritative sim (server or host); Python and Godot as peers—validates command parity under real latency |
+
+This is listed in [PROJECT_ROADMAP.md](PROJECT_ROADMAP.md) as milestone **M7** / future ideas—not implemented in the PoC phase.
 
 ## Principles
 
