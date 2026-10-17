@@ -32,6 +32,8 @@ Until (5) is largely green, treat Godot as a parallel client, not a replacement.
 
 This is listed in [PROJECT_ROADMAP.md](PROJECT_ROADMAP.md) as milestone **M7** / future ideas—not implemented in the PoC phase.
 
+**Current PoC stepping stones (2026-10):** JSON snapshot v3 with GUT + `snapshot_roundtrip` parity; desktop **partial** legacy `.sqlite` import (buildings, storage/units subset) with PoC FileDialog UI and CI fixture matrix; no cross-client sync or full savegamerev fidelity yet.
+
 ## Principles
 
 - **Sim/view split:** rules in `scripts/sim/`; scenes only render and enqueue commands.

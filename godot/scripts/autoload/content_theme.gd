@@ -24,6 +24,24 @@ func _ready() -> void:
 	_reload()
 
 
+func apply_pack_override(forced_pack_id: String) -> void:
+	var pid := forced_pack_id.strip_edges()
+	if pid.is_empty():
+		_reload()
+		return
+	pack_id = pid
+	display_name = ""
+	gfx_root = ""
+	player_accent_color = ""
+	ui_theme_id = ""
+	hud_status_ok_color = ""
+	hud_status_error_color = ""
+	_legacy_sound_overrides = {}
+	_label_overrides = {}
+	_ui_theme = null
+	_load_manifest_for_pack(pid)
+
+
 func _reload() -> void:
 	pack_id = ""
 	display_name = ""
@@ -44,24 +62,28 @@ func _reload() -> void:
 	_apply_active_theme_overrides(data)
 	if pack_id.is_empty():
 		return
-	var manifest_path := "%s%s/manifest.json" % [PACK_ROOT, pack_id]
+	_load_manifest_for_pack(pack_id)
+
+
+func _load_manifest_for_pack(pid: String) -> void:
+	var manifest_path := "%s%s/manifest.json" % [PACK_ROOT, pid]
 	if not FileAccess.file_exists(manifest_path):
-		push_warning("ContentTheme: unknown pack %s" % pack_id)
+		push_warning("ContentTheme: unknown pack %s" % pid)
 		pack_id = ""
 		return
 	var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
-	display_name = str(manifest.get("display_name", pack_id))
+	display_name = str(manifest.get("display_name", pid))
 	gfx_root = _normalize_gfx_root(str(manifest.get("gfx_root", "")))
 	if player_accent_color.is_empty():
 		player_accent_color = str(manifest.get("player_accent_color", ""))
 	ui_theme_id = str(manifest.get("ui_theme", ""))
 	var sounds_file := str(manifest.get("sounds_manifest", "sounds.json"))
-	var sounds_path := "%s%s/%s" % [PACK_ROOT, pack_id, sounds_file]
+	var sounds_path := "%s%s/%s" % [PACK_ROOT, pid, sounds_file]
 	if FileAccess.file_exists(sounds_path):
 		var sounds: Variant = JSON.parse_string(FileAccess.get_file_as_string(sounds_path))
 		if typeof(sounds) == TYPE_DICTIONARY:
 			_legacy_sound_overrides = sounds
-	_label_overrides = load_ui_labels_for_pack(pack_id)
+	_label_overrides = load_ui_labels_for_pack(pid)
 
 
 func _apply_active_theme_overrides(active: Dictionary) -> void:

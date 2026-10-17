@@ -1,6 +1,6 @@
 # Unknown Horizons Godot Port — Project Roadmap
 
-Last verified: **2026-10-17** — `./godot/run_tests.sh` **191/191** GUT pass; parity golden **6/6** (includes `tier1_starter` lumberjack → hunter/fisher + warehouse collector); browser demo Phase 1 on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
+Last verified: **2026-10-17** — `./godot/run_tests.sh` **192/192** GUT pass; parity golden **6/6** (includes `tier1_starter` lumberjack → hunter/fisher + warehouse collector); browser demo Phase 1 on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
 
 ## Vision
 
@@ -55,7 +55,7 @@ Reproducible via `./godot/export_web.sh` → `build/web/`. See [WEB_DEPLOYMENT.m
 
 ### Parity confidence
 
-191 GUT tests; 6 parity scenarios vs golden traces (legacy Python optional when `fife` is installed). Tier-1 starter slice: `resources/demo/starter_tier1_scenario.json` + `development/godot/parity/scenarios/tier1_starter.json`.
+192 GUT tests; 6 parity scenarios vs golden traces (legacy Python optional when `fife` is installed). Tier-1 starter slice: `resources/demo/starter_tier1_scenario.json` + `development/godot/parity/scenarios/tier1_starter.json`.
 
 ### Architectural risks
 
@@ -183,11 +183,11 @@ Merged browser demo Phase 1, reskin/export pipeline, and tier-1 scenario work (#
 | Area | Notes |
 |------|--------|
 | **PORT_CHECKLIST body** | Many section checkboxes still read “not started” while GUT/parity cover the behavior — treat Appendix C/D + `./development/godot/report_matrix.py` as truth until the checklist is refreshed wholesale. |
-| **PoC SQLite import** | Desktop subset load exists in sim/tests; no player-facing import in `poc_main` (browser story is JSON download/upload). |
-| **`report_matrix.py`** | May lag new integration tests (tier-1, brickyard, demo scenarios) — run after major test additions. |
-| **Automated browser QA** | CI builds web via `export_web.sh`; no headless browser playtest — manual [WEB_DEPLOYMENT.md](WEB_DEPLOYMENT.md) smoke. |
+| **PoC SQLite import** | Desktop FileDialog import wired; browser remains JSON-only. |
+| **`report_matrix.py`** | Lists GUT-only demo/sqlite files; run after major test additions. |
+| **Automated browser QA** | CI builds web + **shareable-demo-screenshot** PNG artifact; no in-browser playtest yet. |
 | **Legacy GUI pytest (~30)** | Still deferred; PoC HUD is not full ingame GUI parity. |
-| **Stale git branch** | `origin/cursor/belief-batch-4931` is +2 vs master and can be deleted when no longer needed. |
+| **Stale git branch** | Delete `origin/cursor/belief-batch-4931` when confirmed obsolete. |
 | **Cross-version saves (M7)** | Documented gate; not implemented beyond JSON v3 + SQLite building subset. |
 
 Hygiene fixes from this audit: doc test/parity counts, `export_web.sh` → `export_all.sh`, parity README CI blurb, EXPORT_PIPELINE A1 status.

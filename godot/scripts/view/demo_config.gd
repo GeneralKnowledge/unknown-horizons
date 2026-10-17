@@ -37,6 +37,24 @@ static func title() -> String:
 	return str(load_config().get("title", "Unknown Horizons"))
 
 
+static func subtitle() -> String:
+	return str(load_config().get("subtitle", ""))
+
+
+static func theme_pack_id() -> String:
+	return str(load_config().get("theme_pack_id", "")).strip_edges()
+
+
+static func showcase_scenario_path() -> String:
+	return str(load_config().get("showcase_scenario", "res://resources/demo/starter_tier1_scenario.json"))
+
+
+static func apply_theme_pack_if_configured() -> void:
+	var pid := theme_pack_id()
+	if not pid.is_empty():
+		ContentTheme.apply_pack_override(pid)
+
+
 static func _defaults() -> Dictionary:
 	return {
 		"default_map_id": "development",
@@ -44,4 +62,7 @@ static func _defaults() -> Dictionary:
 		"default_settlement_y": 34,
 		"show_start_menu": true,
 		"title": "Unknown Horizons",
+		"subtitle": "",
+		"theme_pack_id": "",
+		"showcase_scenario": "res://resources/demo/starter_tier1_scenario.json",
 	}

@@ -5,6 +5,7 @@ signal save_requested
 signal load_requested
 signal export_save_requested
 signal import_snapshot(json_text: String)
+signal import_save_file(path: String)
 
 const DEFAULT_SAVE_PATH := "user://poc_snapshot.json"
 
@@ -21,7 +22,11 @@ func _ready() -> void:
 	_import_dialog.title = "Import save"
 	_import_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	_import_dialog.access = FileDialog.ACCESS_FILESYSTEM
-	_import_dialog.filters = PackedStringArray(["*.json ; JSON saves"])
+	var filters := PackedStringArray(["*.json ; JSON snapshots"])
+	if not OS.has_feature("web"):
+		filters.append("*.sqlite ; Legacy SQLite saves")
+		filters.append("*.sqlite.bz2 ; Compressed legacy saves")
+	_import_dialog.filters = filters
 	_import_dialog.size = Vector2i(600, 400)
 	_import_dialog.file_selected.connect(_on_import_file_selected)
 	add_child(_import_dialog)
@@ -48,11 +53,16 @@ func _open_import_dialog() -> void:
 
 
 func _on_import_file_selected(path: String) -> void:
-	var text := FileAccess.get_file_as_string(path)
-	if text.is_empty():
-		push_error("Empty save file: %s" % path)
+	if path.is_empty():
 		return
-	import_snapshot.emit(text)
+	if path.ends_with(".json"):
+		var text := FileAccess.get_file_as_string(path)
+		if text.is_empty():
+			push_error("Empty save file: %s" % path)
+			return
+		import_snapshot.emit(text)
+	else:
+		import_save_file.emit(path)
 
 
 func export_snapshot_to_disk_or_browser(json_text: String) -> void:
