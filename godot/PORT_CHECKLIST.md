@@ -537,30 +537,42 @@ Tick items: `[ ]` → `[x]`.
 | `tests/unittests/world/units/collectors/test_collector.py` (4) | `tests/unit/test_collector_job_list.gd` | **4/4** ✓ |
 | `tests/unittests/util/test_shapes.py` (3) | `tests/unit/test_shapes.gd` | **3/3** ✓ |
 | `tests/unittests/util/test_tile_orientation.py` (9 param) | `tests/unit/test_tile_orientation.gd` | **9/9** ✓ |
-| `tests/unittests/world/component/test_healthcomponent.py` (5) | — | **0/5** |
-| `tests/unittests/world/component/test_namedcomponent.py` (6) | — | **0/6** |
-| `tests/unittests/world/component/test_tradepostcomponent.py` (2) | — | **0/2** |
+| `tests/unittests/world/component/test_healthcomponent.py` (5) | `tests/unit/test_health_component.gd` | **5/5** ✓ |
+| `tests/unittests/world/component/test_namedcomponent.py` (6) | `tests/unit/test_named_component.gd` | **6/6** ✓ |
+| `tests/unittests/world/component/test_tradepostcomponent.py` (2) | `tests/unit/test_trade_post_component.gd` | **2/2** ✓ |
 | `tests/game/test_buildings.py` (28) | `tests/integration/test_buildings_wave_f*.gd`, tier-1 | **28/28** ✓ |
 | `tests/game/test_load_save.py` (7) | `test_session_save.gd`, `test_session_save_extended.gd` | **7/7** ✓ |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** **138** tests (`./godot/run_tests.sh`; **138** pass).
+**Current GUT total:** run `./godot/run_tests.sh` (includes component + sqlite subset tests).
 
 **DLC scaffolding (pre-parity):** see [`DLC_VISION.md`](DLC_VISION.md) and [`PORT_CHECKLIST_DLC.md`](PORT_CHECKLIST_DLC.md).
 
 ---
 
+## Appendix D — Parity scenarios (dual-run harness)
+
+| Scenario | Legacy + Godot | Golden (`golden/*.godot.json`) |
+|----------|----------------|--------------------------------|
+| `wood.json` | `./development/godot/parity/run_pair.sh` | ✓ |
+| `warehouse_collector.json` | same | ✓ |
+| `farm_crop.json` | same | ✓ |
+
+Docs: [`development/godot/parity/README.md`](../development/godot/parity/README.md). Optional: `./development/godot/sync.sh --parity`.
+
+---
+
 ## Recommended next 10 tasks (ordered)
 
-1. **`test_buildings.py` Tier 3** (distillery, farm animals, late chains).  
-2. **`test_load_save.py` remainder** (3 cases) + legacy SQLite reader.  
-3. **Game clock** GUT **7→13** (`test_timer.py` parity).  
-4. **Collector pathfinding E3** (walk home / roads; E2 distance MVP done).  
-5. ~~**Export `buildable_upon` / terrain** from YAML in `export_content.py`.~~ ✓  
-6. ~~**GUI warehouse tab** (transfer to settlement)~~ ✓ — [`warehouse_tab.gd`](scripts/view/warehouse_tab.gd)  
-7. **Isometric TileMap** + gfx pipeline (Phase 3).  
-8. **Units YAML export** (hunter/animal collectors).  
-9. **Health / trade / provider** components (Phase 2.5).  
+1. **Expand parity scenarios** (snapshot roundtrip, stonemason) + optional CI workflow when FIFE available.  
+2. **SQLite save load** — full settlement/inventory mapping beyond building subset.  
+3. **Collector pathfinding E3** (roads / walk-home).  
+4. **FieldUtilization** + automated farm fields.  
+5. **Gfx atlas pipeline** — sqlite atlas import beyond 5-building slice.  
+6. **SP session loop** (ship → found settlement).  
+7. **GUI pytest port** (batch ingame tabs).  
+8. **Game clock** edge cases (`test_timer.py` remainder).  
+9. **Units YAML export** expansion.  
 10. **MP / scenarios** (XL deferred).
 
 ---

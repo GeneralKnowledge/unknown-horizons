@@ -31,3 +31,4 @@ content/tilesets.json
 
 # vscode settings
 .vscode
+.parity-out/
