@@ -1,0 +1,77 @@
+{
+	"buildings": [
+		{
+			"producer_active": true,
+			"stem": "warehouse",
+			"storage": {
+
+			},
+			"x": 30,
+			"y": 23
+		},
+		{
+			"producer_active": true,
+			"stem": "lumberjackcamp",
+			"storage": {
+
+			},
+			"x": 30,
+			"y": 30
+		},
+		{
+			"producer_active": true,
+			"stem": "hunterstent",
+			"storage": {
+				"FOOD": 4
+			},
+			"x": 32,
+			"y": 30
+		},
+		{
+			"producer_active": true,
+			"stem": "fishdeposit",
+			"storage": {
+
+			},
+			"x": 35,
+			"y": 20
+		},
+		{
+			"producer_active": true,
+			"stem": "fishdeposit",
+			"storage": {
+
+			},
+			"x": 37,
+			"y": 20
+		},
+		{
+			"producer_active": true,
+			"stem": "fishdeposit",
+			"storage": {
+
+			},
+			"x": 39,
+			"y": 20
+		},
+		{
+			"producer_active": true,
+			"stem": "fishermanstent",
+			"storage": {
+
+			},
+			"x": 33,
+			"y": 21
+		}
+	],
+	"engine": "godot",
+	"scenario_id": "tier1_starter",
+	"settlement_storage": {
+		"BOARDS": 50,
+		"BRICKS": 50,
+		"FOOD": 8,
+		"GOLD": 5000,
+		"TOOLS": 50
+	},
+	"tick": 2079
+}
