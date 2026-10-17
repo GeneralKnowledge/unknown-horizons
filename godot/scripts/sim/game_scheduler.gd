@@ -116,7 +116,8 @@ func rem_object(callback_obj: SchedulerCallback) -> int:
 		var lst: Array = schedule[key]
 		while callback_obj in lst:
 			lst.erase(callback_obj)
-			calls_by_instance[callback_obj.class_instance].erase(callback_obj)
+			if calls_by_instance.has(callback_obj.class_instance):
+				calls_by_instance[callback_obj.class_instance].erase(callback_obj)
 			removed += 1
 	if calls_by_instance.has(callback_obj.class_instance):
 		if calls_by_instance[callback_obj.class_instance].is_empty():

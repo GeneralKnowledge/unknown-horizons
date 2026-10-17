@@ -106,27 +106,23 @@ Tick items: `[ ]` → `[x]`.
 
 ### 1.2 Timer and tick driver
 
-- [ ] **Port `GameTimer` wall-clock driver** — ★★★☆☆ (M)  
-  - **Python:** `horizons/timer.py`  
-  - **Godot:** extend `scripts/sim/game_timer.gd` or `scripts/sim/game_clock.gd`  
-  - **Blocked by:** scheduler  
-  - **Approach:** Accumulate `delta`, emit tick when `>= 1/TICKS_PER_SECOND`; support pause (`ticks_per_second = 0`).
+- [x] **Port wall-clock tick driver (`GameClock`)** — ★★★☆☆ (M)  
+  - **Godot:** `scripts/sim/game_clock.gd` (injectable time source; no FIFE pump).
 
-- [ ] **GUT: `test_activate_register_end_unregister_from_pump`** — ★★☆☆☆ (S)  
-  - **Test:** `tests/unittests/test_timer.py` → `tests/unit/test_timer.gd`  
-  - **Approach:** Mock pump as array of callbacks instead of FIFE.
+- [ ] **GUT: `test_activate_register_end_unregister_from_pump`** — ★★☆☆☆ (S) *(FIFE-specific; N/A)*  
 
-- [ ] **GUT: `test_first_pump_then_one_tick`** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_two_pump_same_time_only_one_tick`** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_two_pump_with_delay_then_two_ticks`** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_two_pump_close_in_time_then_only_one_tick`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_first_pump_then_one_tick`** — ★★☆☆☆ (S) → `tests/unit/test_game_clock.gd`  
+- [x] **GUT: `test_two_pump_same_time_only_one_tick`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_two_pump_with_delay_then_two_ticks`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_two_pump_close_in_time_then_only_one_tick`** — ★★☆☆☆ (S)  
 - [ ] **GUT: `test_fast_pumping_only_tick_alternately`** — ★★★☆☆ (M)  
-- [ ] **GUT: `test_slow_pump_multiple_ticks`** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_paused_pump_then_no_ticks`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_slow_pump_multiple_ticks`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_paused_pump_then_no_ticks`** — ★★☆☆☆ (S)  
 - [ ] **GUT: `test_pause_pump_unpack_pump`** — ★★★☆☆ (M)  
 - [ ] **GUT: `test_pause_on_callback`** — ★★★☆☆ (M)  
 - [ ] **GUT: `test_freeze_protection`** — ★★★☆☆ (M) *(optional for SP-only Godot)*  
-- [ ] **GUT: `test_pump_test_func_pass` / `test_pump_test_func_skip`** — ★★★☆☆ (M) *(MP-related)*  
+- [x] **GUT: `test_pump_test_func_skip`** — ★★★☆☆ (M)  
+- [ ] **GUT: `test_pump_test_func_pass`** — ★★★☆☆ (M) *(MP-related)*  
 
 ### 1.3 Scheduler — full pytest parity
 
@@ -147,7 +143,7 @@ Tick items: `[ ]` → `[x]`.
 - [x] **GUT: `test_add_periodic_callback_called_every_tick_3_times`** — ★★☆☆☆ (S)  
 - [x] **GUT: `test_add_periodic_callback_run_every_other_tick_3_times`** — ★★★☆☆ (M)  
 - [x] **GUT: `test_remove_call_from_instance`** — ★★★☆☆ (M)  
-- [ ] **GUT: `test_list_and_manually_remove_all_classinstance_callbacks`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_list_and_manually_remove_all_classinstance_callbacks`** — ★★★☆☆ (M)  
 - [x] **GUT: `test_remove_all_classinst_calls`** — ★★☆☆☆ (S)  
 - [x] **GUT: `test_get_remaining_ticks`** — ★★☆☆☆ (S)  
 - [x] **GUT: `test_get_remaining_tick_periodic_callback`** — ★★★☆☆ (M)  
@@ -168,11 +164,11 @@ Tick items: `[ ]` → `[x]`.
 | `SizedSpecializedStorage` | `SizedSpecializedInventory` | partial |
 | `PositiveStorage` | `PositiveInventory` | partial |
 | `PositiveSizedSpecializedStorage` | `PositiveSizedSpecializedInventory` | partial |
-| `GlobalLimitStorage` | — | no |
-| `TotalStorage` | — | no |
-| `PositiveTotalStorage` | — | no |
-| `PositiveSizedSlotStorage` | — | no |
-| `PositiveTotalNumSlotsStorage` | — | no |
+| `GlobalLimitStorage` | `GlobalLimitInventory` | yes |
+| `TotalStorage` | `TotalInventory` | yes |
+| `PositiveTotalStorage` | `PositiveTotalInventory` | yes |
+| `PositiveSizedSlotStorage` | `PositiveSizedSlotInventory` | yes |
+| `PositiveSizedNumSlotStorage` | `PositiveSizedNumSlotInventory` | yes |
 | `SettlementStorage` | flag / shared ref | no |
 
 **GUT parity** (`tests/unittests/world/test_storage.py` → `tests/unit/test_storage.gd`):
@@ -180,11 +176,11 @@ Tick items: `[ ]` → `[x]`.
 - [x] **GUT: `test_alter` (generic)** — ★☆☆☆☆ (S)  
 - [x] **GUT: `test_reset` / `test_reset_all` / `test_limit` / `test_sum_of_stored_resources` / `test_get_item`** — ★★☆☆☆ (S)  
 - [x] **GUT: `test_positive_sized_specialized` (partial)** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_specialized` / `test_sized_specialized` (full)** — ★★★☆☆ (M)  
-- [ ] **GUT: `test_adjust_limit` (`GlobalLimitStorage`)** — ★★★☆☆ (M)  
-- [ ] **GUT: `test_total` (`TotalStorage`)** — ★★★☆☆ (M)  
-- [ ] **GUT: `test_positive` / `test_positive_total`** — ★★★☆☆ (M)  
-- [ ] **GUT: `test_sized_slotted` / `test_positive_sized_num_slot`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_specialized` / `test_sized_specialized` (full)** — ★★★☆☆ (M)  
+- [x] **GUT: `test_adjust_limit` (`GlobalLimitStorage`)** — ★★★☆☆ (M)  
+- [x] **GUT: `test_total` (`TotalStorage`)** — ★★★☆☆ (M)  
+- [x] **GUT: `test_positive` / `test_positive_total`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_sized_slotted` / `test_positive_sized_num_slot`** — ★★★☆☆ (M)  
 - [ ] **`StorageComponent` wrapper** — ★★★☆☆ (M)  
   - **Python:** `horizons/component/storagecomponent.py`  
   - **Approach:** Settlement shared inventory; `something_changed` → production listeners.
@@ -283,12 +279,13 @@ Tick items: `[ ]` → `[x]`.
 
 *Python dir:* `horizons/world/buildability/`
 
-- [ ] **`ConnectedAreaCache` + GUT** — ★★★☆☆ (M)  
-  - **Test:** `tests/unittests/world/buildability/test_connectedareacache.py` (`test`)  
+- [x] **`ConnectedAreaCache` + GUT** — ★★★☆☆ (M)  
+  - **Godot:** `scripts/sim/buildability/connected_area_cache.gd` · **GUT:** `tests/unit/test_connected_area_cache.gd`  
   - **Godot:** `scripts/sim/buildability/connected_area_cache.gd`  
 
-- [ ] **`PartialBinaryCache` + all 5 GUT cases** — ★★★★☆ (L)  
-  - **Test:** `test_horizontal_row2`, `test_vertical_row2`, `test_r2x2`, `test_convenience_get_coords_list`, `test_r6x6`  
+- [ ] **`PartialBinaryCache` + all 5 GUT cases** — ★★★★☆ (L) **3/5**  
+  - **Godot:** `scripts/sim/buildability/partial_binary_buildability_cache.gd` · **GUT:** `tests/unit/test_partial_binary_cache.gd`  
+  - **Done:** `test_horizontal_row2`, `test_r2x2`, `test_r6x6` · **TODO:** `test_vertical_row2`, `test_convenience_get_coords_list`  
 
 - [ ] **`BinaryCache`** — ★★★☆☆ (M)  
 - [ ] **`TerrainCache`** — ★★★☆☆ (M)  
@@ -528,16 +525,16 @@ Tick items: `[ ]` → `[x]`.
 
 | Python test file | GUT file | Status |
 |------------------|----------|--------|
-| `tests/unittests/test_scheduler.py` (18 tests) | `tests/unit/test_scheduler.gd` | **17/18** (+1 `get_ticks_of_month`) |
-| `tests/unittests/test_timer.py` (13 tests) | — | **0/13** |
-| `tests/unittests/world/test_storage.py` (14 tests) | `tests/unit/test_storage.gd` | **7/14** |
+| `tests/unittests/test_scheduler.py` (18 tests) | `tests/unit/test_scheduler.gd` | **18/18** ✓ |
+| `tests/unittests/test_timer.py` (13 tests) | `tests/unit/test_game_clock.gd` | **7/13** |
+| `tests/unittests/world/test_storage.py` (14 tests) | `tests/unit/test_storage.gd` | **14/14** ✓ |
 | `tests/unittests/world/production/test_productionline.py` (3) | `tests/unit/test_production_line.gd` | **3/3** ✓ |
 | `tests/game/test_production.py` (1) | `tests/integration/test_wood_production.gd` | **1/1** ✓ |
-| `tests/unittests/world/buildability/test_connectedareacache.py` | — | **0/1** |
-| `tests/unittests/world/buildability/test_partialbinarycache.py` (5) | — | **0/5** |
-| `tests/unittests/world/units/collectors/test_collector.py` (4) | — | **0/4** |
+| `tests/unittests/world/buildability/test_connectedareacache.py` | `tests/unit/test_connected_area_cache.gd` | **1/1** ✓ |
+| `tests/unittests/world/buildability/test_partialbinarycache.py` (5) | `tests/unit/test_partial_binary_cache.gd` | **3/5** |
+| `tests/unittests/world/units/collectors/test_collector.py` (4) | `tests/unit/test_collector_job_list.gd` | **2/4** |
 | `tests/unittests/util/test_shapes.py` (3) | `tests/unit/test_shapes.gd` | **3/3** ✓ |
-| `tests/unittests/util/test_tile_orientation.py` (9 param) | `tests/unit/test_tile_orientation.gd` | **5/9** |
+| `tests/unittests/util/test_tile_orientation.py` (9 param) | `tests/unit/test_tile_orientation.gd` | **9/9** ✓ |
 | `tests/unittests/world/component/test_healthcomponent.py` (5) | — | **0/5** |
 | `tests/unittests/world/component/test_namedcomponent.py` (6) | — | **0/6** |
 | `tests/unittests/world/component/test_tradepostcomponent.py` (2) | — | **0/2** |
@@ -545,16 +542,16 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | — | **0/7** |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** **38** tests passing (`./godot/run_tests.sh`).
+**Current GUT total:** **64** tests passing (`./godot/run_tests.sh`).
 
 ---
 
 ## Recommended next 10 tasks (ordered)
 
-1. Finish **scheduler GUT** remaining 14 cases — low risk, high confidence.  
-2. Finish **production line** + **storage** GUT parity.  
+1. Finish **timer GUT** (6 remaining `test_timer.py` cases + freeze protection).  
+2. Finish **`PartialBinaryCache` GUT** (vertical row2 + coords helper).  
 3. **`WorldObject` registry** + **`create_map` in Godot**.  
-4. **`ConnectedAreaCache` + `PartialBinaryCache`** with GUT.  
+4. **`BinaryCache`** + terrain buildability integration.  
 5. **`Build` command** with real buildability (warehouse + lumberjack on map).  
 6. **`new_settlement` / `settle` helpers** matching `tests/game/utils.py`.  
 7. **`test_buildings.py` Tier 1** (lumberjack, hunter, build/tear).  
@@ -564,4 +561,4 @@ Tick items: `[ ]` → `[x]`.
 
 ---
 
-*Last updated: detailed checklist with per-test items and coverage matrix (PoC baseline: 8 GUT tests).*
+*Last updated: storage + buildability caches + GameClock batch (64 GUT tests).*

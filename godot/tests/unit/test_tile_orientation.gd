@@ -61,3 +61,43 @@ func test_abcdefgh() -> void:
 		x . x
 		x x x
 	""")
+
+
+func test_bd_diagonal() -> void:
+	_assert_alignment("bd", """
+		x _ _
+		x . x
+		_ _ x
+	""")
+
+
+func test_single_corners() -> void:
+	_assert_alignment("single", """
+		x _ _
+		_ . _
+		_ _ x
+	""")
+
+
+func test_ac() -> void:
+	_assert_alignment("ac", """
+		_ x _
+		_ . _
+		_ x _
+	""")
+
+
+func test_abcd() -> void:
+	_assert_alignment("abcd", """
+		_ x _
+		x . x
+		_ x _
+	""")
+
+
+func test_abcdeg() -> void:
+	_assert_alignment("abcdeg", """
+		_ x x
+		x . x
+		x x _
+	""")

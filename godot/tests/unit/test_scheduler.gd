@@ -184,3 +184,15 @@ func test_get_remaining_tick_periodic_callback() -> void:
 
 func test_get_ticks_of_month() -> void:
 	assert_eq(_timer.get_ticks(30.0), _scheduler.get_ticks_of_month())
+
+
+func test_list_and_manually_remove_all_classinstance_callbacks() -> void:
+	_scheduler.before_ticking()
+	var instance1 := {}
+	_scheduler.add_new_object(_cb, instance1, 1)
+	_scheduler.add_new_object(_cb, instance1, 1)
+	var callbacks := _scheduler.get_classinst_calls(instance1)
+	for cb in callbacks.keys():
+		_scheduler.rem_object(cb)
+	_scheduler.tick(GameScheduler.FIRST_TICK_ID)
+	assert_false(_callback_called)
