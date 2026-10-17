@@ -22,6 +22,7 @@ var _sim_paused := false
 var _objective_tracker: DemoObjectiveTracker
 var _success_panel: DemoSuccessPanel
 var _success_layer: CanvasLayer
+var _selected_worldid: int = -1
 
 
 func _ready() -> void:
@@ -130,6 +131,8 @@ func _wire_gameplay() -> void:
 		_hud.import_save_file.connect(_on_import_save_file)
 	if not MessageBus.building_placed.is_connected(_on_bus_building_placed):
 		MessageBus.building_placed.connect(_on_bus_building_placed)
+	if not MessageBus.building_selected.is_connected(_on_bus_building_selected):
+		MessageBus.building_selected.connect(_on_bus_building_selected)
 	_hud.refresh()
 	_update_ghost()
 	for child in _building_layer.get_children():
@@ -212,6 +215,18 @@ func _attach_view(building: Building) -> void:
 	_building_layer.add_child(view)
 	view.bind(building, _map_view)
 	_views[building.worldid] = view
+	if building.worldid == _selected_worldid:
+		view.set_highlighted(true)
+
+
+func _on_bus_building_selected(building: Building) -> void:
+	if building == null:
+		return
+	_selected_worldid = building.worldid
+	for wid in _views.keys():
+		var view: BuildingView = _views[wid] as BuildingView
+		if view != null:
+			view.set_highlighted(int(wid) == _selected_worldid)
 
 
 func toggle_sim_pause() -> void:
@@ -509,10 +524,17 @@ func _update_ghost() -> void:
 		_ghost.visible = false
 		return
 	_ghost.position = _map_view.grid_to_screen(_hover_grid)
-	if _build_tool.can_place_at(_hover_grid):
-		_ghost.modulate = Color(0.3, 0.9, 0.3, 0.55)
-	else:
-		_ghost.modulate = Color(0.9, 0.2, 0.2, 0.55)
+	var valid := _build_tool.can_place_at(_hover_grid)
+	var tint := Color(0.35, 1.0, 0.35, 0.65) if valid else Color(1.0, 0.25, 0.25, 0.65)
+	var frames := BuildingVisualRegistry.get_sprite_frames_for_building(_build_tool.building_id)
+	if frames != null and frames.get_animation_names().size() > 0:
+		var anim: StringName = frames.get_animation_name(0)
+		if frames.get_frame_count(anim) > 0:
+			_ghost.texture = frames.get_frame_texture(anim, 0)
+			var stem := ContentLoader.stem_for_building_id(_build_tool.building_id)
+			tint *= BuildingVisualRegistry.get_dlc_tint(stem)
+			tint.a = 0.65 if valid else 0.55
+	_ghost.modulate = tint
 	var ctx := &"build"
 	if _context_manager != null:
 		ctx = _context_manager.get_context_name()
