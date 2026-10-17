@@ -1,4 +1,16 @@
 {
+  "development": {
+    "settlement": {
+      "legacy": [34, 34],
+      "godot": [34, 34]
+    },
+    "starting_resources": {
+      "GOLD": 5000,
+      "BOARDS": 50,
+      "TOOLS": 50,
+      "BRICKS": 50
+    }
+  },
   "test_island_20x20": {
     "island_origin": [20, 20],
     "island_size": 20,

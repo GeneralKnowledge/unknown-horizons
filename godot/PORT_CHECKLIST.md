@@ -81,17 +81,32 @@ Tick items: `[ ]` → `[x]`.
   - **Godot:** `scenes/poc_main.tscn`, `scripts/view/poc_main.gd`  
   - **Approach:** Fixed tick rate `1/16 s`; Space/Enter cheat inputs into storage.
 
+### Phase 0.5 — Browser demo & shareable showcase
+
+- [x] **Start menu + demo_config.json** — ★★☆☆☆ (S)  
+  - **Godot:** `start_menu_panel.gd`, `demo_config.gd`, `resources/demo/demo_config.json`  
+- [x] **Showcase demo (tier-1 scenario)** — ★★☆☆☆ (S)  
+  - **Godot:** `demo_scenario_runner.gd`, `starter_tier1_scenario.json`, start menu **Play showcase demo**  
+- [x] **Shareable screenshot scene** — ★★☆☆☆ (S)  
+  - **Godot:** `scenes/shareable_demo.tscn`, `development/godot/capture_shareable_demo.sh`  
+- [x] **JSON save import/export in PoC** — ★★☆☆☆ (S)  
+- [x] **Legacy SQLite import UI (desktop)** — ★★★☆☆ (M)  
+  - **Godot:** FileDialog filters + `SaveLoader` / `SqliteSaveLoader` from start menu & HUD  
+- [x] **Northern Company reskin pack** — ★★★☆☆ (M)  
+  - **Docs:** `EXPORT_PIPELINE.md`, `resources/dlc/northern_company/`  
+- [x] **Web export CI + parity-golden CI** — ★★☆☆☆ (S)  
+  - **Workflow:** `.github/workflows/godot-tests.yml` (`gut`, `parity-golden`, `web-export`)
+
 ---
 
 ## Phase 1 — Simulation core
 
 ### 1.1 Content pipeline (extend export)
 
-- [ ] **Export units + grounds YAML** — ★★★☆☆ (M)  
-  - **Python:** `content/objects/units/`, `content/objects/grounds/`  
-  - **Godot:** extend `buildings.json` → `entities.json` or separate files  
-  - **Blocked by:** none  
-  - **Approach:** Same component normalization as buildings; map `ProducerComponent` → `Producer`.
+- [x] **Export units + grounds YAML (PoC slice)** — ★★★☆☆ (M)  
+  - **Python:** `export_grounds.py`, `export_maps.py`, `export_unit_gfx.py`  
+  - **Godot:** `resources/maps/`, `resources/gfx/units/`  
+  - **Approach:** Full entity graph still deferred; maps/grounds/unit gfx wired in CI/sync.
 
 - [x] **Export production line name → id map** — ★☆☆☆☆ (S)  
   - **Output:** `resources/exported/production_line_ids.json` (from YAML keys via SHA1 % 2³¹).
@@ -308,12 +323,12 @@ Tick items: `[ ]` → `[x]`.
 
 - [ ] **Collector sort helpers** — ★★★☆☆ (M)  
   - **Test:** 4 tests in `tests/unittests/world/units/collectors/test_collector.py`  
-- [ ] **`BuildingCollector` / `AnimalCollector` / …** — ★★★★☆ (L)  
-  - **Python:** `horizons/world/units/collectors/`  
+- [x] **`BuildingCollector` / warehouse flow (MVP)** — ★★★☆☆ (M)  
+  - **Godot:** `building_collector.gd`, `storage_collector.gd`; GUT + parity `warehouse_collector` / `tier1_starter`  
+  - **TODO:** pathfinding, unit visuals, full collector pytest matrix  
 - [x] **`CollectingComponent` on buildings (MVP)** — ★★★☆☆ (M)  
   - **Godot:** `collecting_component.gd`, `building_collector.gd` (radius pickup, no pathfinding)  
   - **Export:** `Collecting` + `radius` in `buildings.json`  
-  - **TODO:** warehouse collectors, pathfinding, unit visuals  
 
 ### 2.4 Units and movement
 
@@ -337,15 +352,15 @@ Tick items: `[ ]` → `[x]`.
 
 *Source:* `tests/game/test_buildings.py` — port as integration GUT once `Build` + map + chains work.
 
-**Tier 1 (early economy)** — ★★★☆☆ (M) each  
-- [ ] `test_lumberjack`  
-- [ ] `test_hunter`  
-- [ ] `test_fisherman`  
-- [ ] `test_tree_wood_production`  
-- [ ] `test_build_tear`  
+**Tier 1 (early economy)** — ★★★☆☆ (M) each — **ported** via `tests/integration/test_buildings*.gd` + `test_starter_tier1_scenario.gd`  
+- [x] `test_lumberjack`  
+- [x] `test_hunter`  
+- [x] `test_fisherman`  
+- [x] `test_tree_wood_production`  
+- [x] `test_build_tear`  
 
 **Tier 2 (chains)** — ★★★★☆ (L) each  
-- [ ] `test_brick_production_chain`  
+- [x] `test_brick_production_chain` *(demo scenario + integration waves; full pytest parity partial)*  
 - [ ] `test_tool_production_chain`  
 - [ ] `test_weaver_production_chain`  
 - [ ] `test_pavilion_production`  
@@ -362,11 +377,12 @@ Tick items: `[ ]` → `[x]`.
 
 ### 3.1 Map and camera
 
-- [ ] **Load map fixture (20×20 island)** — ★★★☆☆ (M)  
-  - **Python:** `tests/game/utils.py::create_map`  
-  - **Approach:** Export map to JSON once; or embed SQLite reader.  
+- [x] **Load map fixture (20×20 + development)** — ★★★☆☆ (M)  
+  - **Godot:** `MapLoader`, `resources/maps/ground/`, `development` + `test_island_20x20`  
+  - **Approach:** Exported JSON grounds; not full legacy map DB.  
 
-- [ ] **Ground tile rendering (placeholder)** — ★★★☆☆ (M)  
+- [x] **Ground tile rendering (placeholder)** — ★★★☆☆ (M)  
+  - **Godot:** `MapView` + exported ground ids  
 - [ ] **Isometric projection constants** — ★★★☆☆ (M)  
   - **Python:** FIFE tile sizes in `constants.py` / engine  
 - [x] **Camera pan/zoom (match `View`)** — ★★★☆☆ (M)  
@@ -375,7 +391,8 @@ Tick items: `[ ]` → `[x]`.
 
 ### 3.2 Buildings and gfx
 
-- [ ] **Lumberjack sprite from `content/gfx/buildings/.../as_lumberjack0`** — ★★★☆☆ (M)  
+- [x] **Lumberjack sprite (exported stem slice)** — ★★★☆☆ (M)  
+  - **Godot:** `export_gfx.py`, `BuildingVisualRegistry`, DLC pack gfx overrides  
 - [ ] **Idle / work action swap from producer state** — ★★★☆☆ (M)  
 - [ ] **Batch gfx → `SpriteFrames` tool** — ★★★★★ (XL)  
   - **Python:** `sqliteatlasloader.py`, `actionsetloader.py`  
@@ -383,7 +400,9 @@ Tick items: `[ ]` → `[x]`.
 
 ### 3.3 Audio
 
-- [ ] **Ambient / effect bus** — ★★★☆☆ (M)  
+- [x] **Sample effects (export + first-click)** — ★★☆☆☆ (S)  
+  - **Godot:** `export_audio.py`, `GameAudioService`  
+- [ ] **Full ambient / effect bus** — ★★★☆☆ (M)  
   - **Python:** `horizons/engine/sound.py`, `ambientsoundcomponent.py`  
 
 ---
@@ -392,7 +411,9 @@ Tick items: `[ ]` → `[x]`.
 
 ### 4.1 Save / load
 
-- [ ] **Savegame DB schema subset** — ★★★★★ (XL)  
+- [x] **Savegame DB schema subset (partial import + PoC UI)** — ★★★★☆ (L)  
+  - **Godot:** `sqlite_save_loader.gd`, start menu + HUD FileDialog, fixture matrix CI  
+- [ ] **Savegame DB schema subset (full fidelity)** — ★★★★★ (XL)  
 - [ ] **GUT: `test_load_inactive_production`** — ★★★★☆ (L)  
 - [ ] **GUT: `test_load_producing_production_fast/slow`** — ★★★★☆ (L)  
 - [ ] **GUT: `test_hunter_save_load` / settler save tests** — ★★★★★ (XL)  
@@ -545,7 +566,7 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | `test_session_save.gd`, `test_session_save_extended.gd` | **7/7** ✓ |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** run `./godot/run_tests.sh` — **191** tests (includes component + sqlite subset + gameplay loop + demo/tier-1 integration).
+**Current GUT total:** run `./godot/run_tests.sh` — **196** tests (includes component + sqlite subset + gameplay loop + demo/tier-1 integration).
 
 **DLC scaffolding (pre-parity):** see [`DLC_VISION.md`](DLC_VISION.md) and [`PORT_CHECKLIST_DLC.md`](PORT_CHECKLIST_DLC.md).
 
@@ -561,6 +582,10 @@ Tick items: `[ ]` → `[x]`.
 | `snapshot_roundtrip.json` | same | ✓ |
 | `stonemason.json` | same | ✓ |
 | `tier1_starter.json` | same | ✓ |
+| `brickyard.json` | same | ✓ |
+| `toolmaker.json` | same | ✓ |
+| `snapshot_mid_production.json` | same | ✓ |
+| `brickyard_development.json` | same | ✓ |
 
 Docs: [`development/godot/parity/README.md`](../development/godot/parity/README.md). CI: workflow job **`parity-golden`**. Optional local: `./development/godot/sync.sh --parity`.
 
@@ -568,8 +593,8 @@ Docs: [`development/godot/parity/README.md`](../development/godot/parity/README.
 
 ## Recommended next 10 tasks (ordered)
 
-1. **Refresh PORT_CHECKLIST section checkboxes** vs GUT/parity reality (Appendix C/D stay current via `report_matrix.py`).  
-2. **SQLite save load** — full settlement/inventory mapping beyond building subset; optional PoC import UI (JSON remains browser path).  
+1. **Idle/work gfx swap** from producer state + atlas pipeline beyond stem slice.  
+2. **SQLite save load** — full settlement/inventory mapping beyond building subset (PoC import UI done on desktop).  
 3. **Collector pathfinding E3** (roads / walk-home).  
 4. **FieldUtilization** + automated farm fields.  
 5. **Gfx atlas pipeline** — sqlite atlas import beyond 5-building slice.  

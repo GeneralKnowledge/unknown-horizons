@@ -5,7 +5,7 @@
   "required": ["id", "map", "steps"],
   "properties": {
     "id": { "type": "string" },
-    "map": { "type": "string", "const": "test_island_20x20" },
+    "map": { "type": "string", "enum": ["test_island_20x20", "development"] },
     "steps": {
       "type": "array",
       "items": {
@@ -19,10 +19,12 @@
               "build_ownerless",
               "build_farm",
               "alter_storage",
+              "alter_storage_at",
               "run_ticks",
               "run_seconds",
               "toggle_producer",
               "snapshot_roundtrip",
+              "finish_production",
               "load_fixture"
             ]
           },

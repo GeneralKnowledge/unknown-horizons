@@ -3,5 +3,8 @@
   "default_settlement_x": 34,
   "default_settlement_y": 34,
   "show_start_menu": true,
-  "title": "Unknown Horizons"
+  "title": "Unknown Horizons",
+  "subtitle": "Build · produce · save — desktop & browser",
+  "theme_pack_id": "northern_company",
+  "showcase_scenario": "res://resources/demo/starter_tier1_scenario.json"
 }

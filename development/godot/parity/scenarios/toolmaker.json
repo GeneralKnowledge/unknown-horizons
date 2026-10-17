@@ -1,0 +1,23 @@
+{
+  "id": "toolmaker",
+  "map": "test_island_20x20",
+  "steps": [
+    { "op": "settle" },
+    { "op": "build", "building": "TOOLMAKER", "x": 30, "y": 32 },
+    { "op": "alter_storage", "target": "building", "resource": "BOARDS", "amount": 10 },
+    { "op": "alter_storage", "target": "building", "resource": "CHARCOAL", "amount": 10 },
+    { "op": "alter_storage", "target": "building", "resource": "IRON_INGOTS", "amount": 4 },
+    { "op": "run_seconds", "seconds": 180 },
+    { "op": "finish_production" },
+    { "op": "run_seconds", "seconds": 30 }
+  ],
+  "expect": {
+    "min_building_storage": {
+      "stem": "toolmaker",
+      "x": 30,
+      "y": 32,
+      "resource": "TOOLS",
+      "min": 1
+    }
+  }
+}

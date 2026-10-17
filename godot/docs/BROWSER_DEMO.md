@@ -6,7 +6,7 @@ What the **Web** export of `scenes/poc_main.tscn` is meant to demonstrate, and w
 
 | Feature | Notes |
 |---------|--------|
-| Start menu | New game, Continue (`user://poc_snapshot.json`), Import save |
+| Start menu | New game, **Play showcase demo**, Continue (`user://poc_snapshot.json`), Import save |
 | Default map | `development` island from `resources/demo/demo_config.json` |
 | Camera | Middle-drag pan, mouse wheel zoom, fit-to-island on load |
 | Build palette | Tier tabs from exported `build_menu.json`; ghost valid/invalid tint |
@@ -18,7 +18,7 @@ What the **Web** export of `scenes/poc_main.tscn` is meant to demonstrate, and w
 
 | Feature | Why |
 |---------|-----|
-| Legacy SQLite import | No filesystem SQLite in WASM; use JSON saves |
+| Legacy SQLite import | Desktop only (start menu + HUD FileDialog); browser uses JSON saves |
 | Full legacy save parity | Placement rules and scheduler restore differ; see `SAVE_FORMAT.md` |
 | Dev map hotkeys | Start menu replaces casual use of keyboard map switches |
 
@@ -38,6 +38,18 @@ Edit `resources/demo/demo_config.json`:
 - `default_map_id` — bundled ground id (default `development`)
 - `show_start_menu` — set `false` for instant new game (useful for automated runs)
 - `default_settlement_x` / `default_settlement_y` — starting warehouse anchor
+- `subtitle` — start menu tagline
+- `theme_pack_id` — e.g. `northern_company` (applies pack theme on PoC load)
+- `showcase_scenario` — resource path for **Play showcase demo** and `shareable_demo.tscn`
+
+## Shareable screenshot
+
+```bash
+chmod +x development/godot/capture_shareable_demo.sh
+./development/godot/capture_shareable_demo.sh godot/build/shareable_demo.png
+```
+
+Opens `scenes/shareable_demo.tscn` (tier-1 buildings, Northern Company theme, title overlay).
 
 Bundled scenario JSON (manual QA / future scripted demos):
 

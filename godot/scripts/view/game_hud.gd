@@ -20,6 +20,7 @@ var _production: ProductionOverviewPanel
 signal save_requested
 signal load_requested
 signal import_snapshot(json_text: String)
+signal import_save_file(path: String)
 signal map_selected(map_id: String)
 signal context_selected(context_name: StringName)
 signal build_mode_selected(mode: StringName)
@@ -79,6 +80,7 @@ func bind(p_session: GameSession, build_tool: BuildTool = null) -> void:
 		_save_load.load_requested.connect(func(): load_requested.emit())
 		_save_load.export_save_requested.connect(func(): export_snapshot_text(_snapshot_text_for_export()))
 		_save_load.import_snapshot.connect(func(t): import_snapshot.emit(t))
+		_save_load.import_save_file.connect(func(p): import_save_file.emit(p))
 	if OS.is_debug_build():
 		if _dev_debug == null:
 			_dev_debug = DevDebugPanel.new()

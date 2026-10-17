@@ -10,6 +10,15 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LEGACY_ROOT = REPO_ROOT / "legacy"
 
+GUT_ONLY_DEMO: list[tuple[str, str]] = [
+	("godot/tests/integration/test_demo_scenario_runner.gd", "demo scenario runner"),
+	("godot/tests/integration/test_starter_tier1_scenario.gd", "tier-1 showcase scenario"),
+	("godot/tests/integration/test_starter_island_brickyard_scenario.gd", "brickyard demo scenario"),
+	("godot/tests/integration/test_sqlite_import_diagnostics.gd", "sqlite import diagnostics"),
+	("godot/tests/integration/test_sqlite_session_restore.gd", "sqlite session restore"),
+	("godot/tests/integration/test_sqlite_fixture_matrix.gd", "sqlite fixture matrix"),
+]
+
 MATRIX: list[tuple[str, str | None, str]] = [
 	("tests/unittests/test_scheduler.py", "godot/tests/unit/test_scheduler.gd", "scheduler"),
 	("tests/unittests/test_timer.py", "godot/tests/unit/test_game_clock.gd", "timer"),
@@ -119,6 +128,18 @@ def main() -> int:
 	print("-" * 110)
 	print(f"Tracked pytest cases (sum): {total_py}")
 	print(f"GUT cases (buildings waves summed): {count_buildings_gut()} + other files above")
+	print("\nGUT-only (no pytest row — demo / sqlite / browser harness)\n")
+	print(f"{'GUT file':<55} {'Notes'}")
+	print("-" * 110)
+	gut_only_total = 0
+	for gut_rel, note in GUT_ONLY_DEMO:
+		gut_path = REPO_ROOT / gut_rel
+		gut_n = count_gut_tests(gut_path)
+		gut_only_total += gut_n
+		print(f"{gut_rel:<55} {note} ({gut_n})")
+	print("-" * 110)
+	print(f"GUT-only cases (sum): {gut_only_total}")
+	print("Run ./godot/run_tests.sh for authoritative total count.")
 	return 0
 
 

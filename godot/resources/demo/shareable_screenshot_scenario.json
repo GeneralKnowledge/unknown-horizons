@@ -1,0 +1,9 @@
+{
+  "description": "Compact test island for marketing screenshots (lumberjack + hunter on green terrain).",
+  "map_id": "test_island_20x20",
+  "settlement": { "x": 30, "y": 23 },
+  "chain": {
+    "lumberjack": { "x": 30, "y": 30 },
+    "hunter": { "x": 32, "y": 30 }
+  }
+}

@@ -2,6 +2,16 @@
 
 Runs the same **scenario JSON** on legacy Horizons (Python sim) and the Godot port, then compares normalized traces.
 
+## Parity roadmap (stages)
+
+| Stage | Focus | Scenarios |
+|-------|--------|-----------|
+| **1** | Core loop | `wood`, `warehouse_collector`, `snapshot_roundtrip` |
+| **2** | Tier-1 + tier-2 economy | `tier1_starter`, `stonemason`, **`brickyard`**, `farm_crop` |
+| **3** | Chains + save fidelity + demo map | **`toolmaker`**, **`snapshot_mid_production`**, **`brickyard_development`** |
+
+Next targets: weaver/salt chains, legacy Python dual-run with `fife`, producer state in JSON snapshots.
+
 ## Quick start
 
 ```bash

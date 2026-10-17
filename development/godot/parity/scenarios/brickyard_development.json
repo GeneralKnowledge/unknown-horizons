@@ -1,0 +1,25 @@
+{
+  "id": "brickyard_development",
+  "map": "development",
+  "steps": [
+    { "op": "settle" },
+    { "op": "build_ownerless", "building": "CLAY_DEPOSIT", "x": 33, "y": 33 },
+    { "op": "alter_storage", "target": "building", "resource": "RAW_CLAY", "amount": 10 },
+    { "op": "build", "building": "CLAY_PIT", "x": 33, "y": 33 },
+    { "op": "build", "building": "BRICKYARD", "x": 33, "y": 25 },
+    { "op": "run_seconds", "seconds": 30 },
+    { "op": "alter_storage_at", "building": "CLAY_PIT", "x": 33, "y": 33, "resource": "RAW_CLAY", "amount": 4 },
+    { "op": "run_seconds", "seconds": 30 },
+    { "op": "alter_storage_at", "building": "BRICKYARD", "x": 33, "y": 25, "resource": "CLAY", "amount": 4 },
+    { "op": "run_seconds", "seconds": 20 }
+  ],
+  "expect": {
+    "min_building_storage": {
+      "stem": "brickyard",
+      "x": 33,
+      "y": 25,
+      "resource": "BRICKS",
+      "min": 1
+    }
+  }
+}

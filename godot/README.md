@@ -14,12 +14,12 @@ Sim code lives under `scripts/sim/` as headless `RefCounted` types (commands, pr
 
 | Area | Status |
 |------|--------|
-| Headless sim (scheduler, storage, production, buildability) | Ported + **191** GUT tests |
+| Headless sim (scheduler, storage, production, buildability) | Ported + **196** GUT tests |
 | Building integration (legacy pytest matrix) | **28/28** building game tests in GUT |
 | JSON save/load (schema v3) | PoC HUD + integration tests |
 | Playable PoC (`scenes/poc_main.tscn`) | Start menu, **development** map, pan/zoom, tier build palette, lumberjack + tree loop, JSON saves |
 | Content pipeline | YAML → `export_content.py` → `resources/exported/` + validation |
-| Dual-run parity harness | **6** scenarios vs golden traces (`wood`, warehouse, farm, snapshot, stonemason, tier1_starter) |
+| Dual-run parity harness | **10** scenarios vs golden traces (`wood`, warehouse, farm, snapshot, stonemason, tier1_starter) |
 | Web export | `./export_web.sh` → static WASM build (see [WEB_DEPLOYMENT.md](docs/WEB_DEPLOYMENT.md)) |
 | Theme / reskin demo | `ContentTheme` + Northern Company pack (labels, HUD colors, `gfx/` stems, `.tres` theme) |
 

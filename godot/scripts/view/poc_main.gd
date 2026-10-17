@@ -20,6 +20,7 @@ var _audio_primed := false
 
 
 func _ready() -> void:
+	DemoConfig.apply_theme_pack_if_configured()
 	_camera_ctrl = MapCameraController.new()
 	add_child(_camera_ctrl)
 	_camera_ctrl.setup(_camera, _map_view)
@@ -43,7 +44,8 @@ func _setup_start_menu() -> void:
 	center.add_child(_start_menu)
 	_start_menu.new_game_requested.connect(_on_start_new_game)
 	_start_menu.continue_requested.connect(_on_start_continue)
-	_start_menu.import_snapshot.connect(_on_import_snapshot)
+	_start_menu.import_save_file.connect(_on_import_save_file)
+	_start_menu.showcase_requested.connect(_on_showcase_requested)
 	_start_menu.visible = false
 	layer.visible = false
 	layer.name = "StartMenuLayer"
@@ -101,6 +103,8 @@ func _wire_gameplay() -> void:
 		_hud.load_requested.connect(_on_load_requested)
 	if not _hud.import_snapshot.is_connected(_on_import_snapshot):
 		_hud.import_snapshot.connect(_on_import_snapshot)
+	if not _hud.import_save_file.is_connected(_on_import_save_file):
+		_hud.import_save_file.connect(_on_import_save_file)
 	if not MessageBus.building_placed.is_connected(_on_bus_building_placed):
 		MessageBus.building_placed.connect(_on_bus_building_placed)
 	_hud.refresh()
@@ -211,6 +215,60 @@ func _on_import_snapshot(json_text: String) -> void:
 	if _load_snapshot_text(json_text):
 		_hide_start_menu()
 		_camera_ctrl.fit_island()
+
+
+func _on_import_save_file(path: String) -> void:
+	if path.ends_with(".json"):
+		var text := FileAccess.get_file_as_string(path)
+		if text.is_empty():
+			_hud.show_status("Empty save file", true)
+			return
+		_on_import_snapshot(text)
+		return
+	if SqliteSaveLoader.is_sqlite_file(path):
+		_on_import_sqlite(path)
+		return
+	_hud.show_status("Unsupported save format", true)
+
+
+func _on_import_sqlite(path: String) -> void:
+	if OS.has_feature("web"):
+		_hud.show_status("Legacy SQLite import is desktop-only; use JSON", true)
+		return
+	var result := SqliteSaveLoader.load_with_report(path)
+	if not result["ok"]:
+		_hud.show_status("SQLite import failed: %s" % str(result.get("error", "")), true)
+		return
+	var loaded: GameSession = result["session"]
+	var report: SqliteImportReport = result["report"]
+	_apply_session(loaded)
+	_map_id = report.map_id if not report.map_id.is_empty() else _map_id
+	_hide_start_menu()
+	_camera_ctrl.fit_island()
+	var msg := "Legacy save: %d/%d buildings" % [report.buildings_placed, report.buildings_extracted]
+	if report.partial:
+		msg += " (partial)"
+	_hud.show_status(msg)
+
+
+func _on_showcase_requested() -> void:
+	var scenario_path := DemoConfig.showcase_scenario_path()
+	var scenario := DemoScenarioRunner.load_dict(scenario_path)
+	if scenario.is_empty():
+		_hud.show_status("Showcase scenario missing", true)
+		return
+	_map_id = str(scenario.get("map_id", DemoConfig.default_map_id()))
+	_session = DemoScenarioRunner.boot_from_dict(scenario, 30.0)
+	if _session == null:
+		_hud.show_status("Showcase failed to start", true)
+		return
+	if _build_tool == null:
+		_wire_gameplay()
+	else:
+		_apply_session(_session)
+	_hide_start_menu()
+	_camera_ctrl.fit_island()
+	_hud.show_status("Showcase demo — tier-1 economy")
 
 
 func _load_snapshot_text(json_text: String) -> bool:

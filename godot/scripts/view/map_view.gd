@@ -11,6 +11,7 @@ var _coast_color := Color(0.18, 0.38, 0.62)
 var _water_color := Color(0.12, 0.28, 0.55)
 var _ground_layer: TileMapLayer
 var _ground_tileset: TileSet
+var _polygon_ground_only := false
 
 
 func _ready() -> void:
@@ -24,6 +25,15 @@ func _ready() -> void:
 func bind(p_island: Island) -> void:
 	island = p_island
 	_refresh_ground_tilemap()
+	if _ground_layer != null:
+		_ground_layer.visible = not _polygon_ground_only
+	queue_redraw()
+
+
+func set_polygon_ground_only(enabled: bool) -> void:
+	_polygon_ground_only = enabled
+	if _ground_layer != null:
+		_ground_layer.visible = not enabled
 	queue_redraw()
 
 
@@ -43,6 +53,14 @@ func screen_to_grid(screen_pos: Vector2) -> Vector2i:
 
 func _draw() -> void:
 	if island == null:
+		return
+	# Ground is rendered via TileMapLayer unless polygon-only mode (screenshots / debug).
+	if (
+		not _polygon_ground_only
+		and _ground_layer != null
+		and _ground_layer.visible
+		and _ground_layer.tile_set != null
+	):
 		return
 	for coords in island.ground_map.keys():
 		var kind: int = int(island.ground_map[coords])
