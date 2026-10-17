@@ -2,7 +2,7 @@
 
 Tick items: `[ ]` → `[x]`.
 
-**Table of contents:** [Legend](#legend) · [Phase 0 (PoC)](#phase-0--poc-done) · [Phase 1 Sim](#phase-1--simulation-core) · [Phase 2 World](#phase-2--world-buildability-units) · [Phase 3 View](#phase-3--presentation--content) · [Phase 4 Meta](#phase-4--meta-systems) · [Phase 5 UI](#phase-5--ui) · [Phase 6 Quality](#phase-6--quality--migration) · [Components](#appendix-a--component-port-list) · [Commands](#appendix-b--command-port-list) · [Coverage matrix](#appendix-c--pytest--gut-coverage-matrix)
+**Table of contents:** [Legend](#legend) · [Phase 0 (PoC)](#phase-0--poc-done) · [Phase 1 Sim](#phase-1--simulation-core) · [Phase 2 World](#phase-2--world-buildability-units) · [Phase 3 View](#phase-3--presentation--content) · [Phase 4 Meta](#phase-4--meta-systems) · [Phase 5 UI](#phase-5--ui) · [Phase 6 Quality](#phase-6--quality--migration) · [Components](#appendix-a--component-port-list) · [Commands](#appendix-b--command-port-list) · [Coverage matrix](#appendix-c--pytest--gut-coverage-matrix) · **[GUI detail (per test)](PORT_CHECKLIST_GUI.md)**
 
 ---
 
@@ -93,17 +93,16 @@ Tick items: `[ ]` → `[x]`.
   - **Blocked by:** none  
   - **Approach:** Same component normalization as buildings; map `ProducerComponent` → `Producer`.
 
-- [ ] **Export production line name → id in docs** — ★☆☆☆☆ (S)  
-  - **Python:** `horizons/world/ingametype.py` (`sha1` % 2³¹)  
-  - **Approach:** Add comment generator in export script for debugging (e.g. `BOARDS` → `256812226`).
+- [x] **Export production line name → id map** — ★☆☆☆☆ (S)  
+  - **Output:** `resources/exported/production_line_ids.json` (from YAML keys via SHA1 % 2³¹).
 
 - [ ] **Export `game.sql` tables used at runtime** — ★★★★☆ (L)  
   - **Python:** `content/game.sql`, `horizons/util/dbreader.py`  
   - **Godot:** JSON blobs or Godot SQLite read-only  
   - **Approach:** Start with tables needed for `Entities.load` (buildings/units metadata), not full DB.
 
-- [ ] **Symlink / path docs for CI** — ★☆☆☆☆ (S)  
-  - **Approach:** CI must run `export_content.py` before GUT; document in README.
+- [x] **Symlink / path docs for CI** — ★☆☆☆☆ (S)  
+  - **Docs:** `README.md`; workflow runs `export_content.py` before GUT.
 
 ### 1.2 Timer and tick driver
 
@@ -131,35 +130,32 @@ Tick items: `[ ]` → `[x]`.
 
 ### 1.3 Scheduler — full pytest parity
 
-*Godot:* `scripts/sim/game_scheduler.gd` · *GUT:* `tests/unit/test_scheduler.gd`
+*Godot:* `scripts/sim/game_scheduler.gd` · *GUT:* `tests/unit/test_scheduler.gd` · **`can_tick()`** for invalid-tick checks
 
+- [x] **GUT: `test_create_then_register_with_timer`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_end_then_unregister_from_timer`** — ★★☆☆☆ (S)  
 - [x] **GUT: `test_multiple_sequential_ticks`** — ★☆☆☆☆ (S)  
+- [x] **GUT: `test_fail_when_missing_start_tick`** — ★☆☆☆☆ (S)  
+- [x] **GUT: `test_fail_when_same_tick_twice`** — ★☆☆☆☆ (S)  
+- [x] **GUT: `test_add_callback_before_first_tick`** — ★★☆☆☆ (S)  
 - [x] **GUT: `test_add_callback_run_in_1_on_first_tick`** — ★☆☆☆☆ (S)  
+- [x] **GUT: `test_add_callback_only_triggered_once`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_started_ticking_then_add_callback_for_next_tick`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_started_ticking_then_add_callback_for_future`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_within_callback_add_new_callback_for_same_tick`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_within_callback_add_new_callback_for_future_tick`** — ★★★☆☆ (M)  
 - [x] **GUT: `test_add_periodic_callback_called_every_tick_3_times`** — ★★☆☆☆ (S)  
-- [x] **GUT: `test_get_remaining_ticks`** — ★★☆☆☆ (S)  
-
-- [ ] **GUT: `test_create_then_register_with_timer`** — ★★☆☆☆ (S)  
-  - **Approach:** Assert timer callback list contains `scheduler.tick`.
-
-- [ ] **GUT: `test_end_then_unregister_from_timer`** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_fail_when_missing_start_tick`** — ★☆☆☆☆ (S)  
-- [ ] **GUT: `test_fail_when_same_tick_twice`** — ★☆☆☆☆ (S)  
-- [ ] **GUT: `test_add_callback_before_first_tick`** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_add_callback_only_triggered_once`** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_started_ticking_then_add_callback_for_next_tick`** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_started_ticking_then_add_callback_for_future`** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_within_callback_add_new_callback_for_same_tick`** — ★★★☆☆ (M)  
-- [ ] **GUT: `test_within_callback_add_new_callback_for_future_tick`** — ★★★☆☆ (M)  
-- [ ] **GUT: `test_add_periodic_callback_run_every_other_tick_3_times`** — ★★★☆☆ (M)  
-- [ ] **GUT: `test_remove_call_from_instance`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_add_periodic_callback_run_every_other_tick_3_times`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_remove_call_from_instance`** — ★★★☆☆ (M)  
 - [ ] **GUT: `test_list_and_manually_remove_all_classinstance_callbacks`** — ★★★☆☆ (M)  
-- [ ] **GUT: `test_remove_all_classinst_calls`** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_get_remaining_tick_periodic_callback`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_remove_all_classinst_calls`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_get_remaining_ticks`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_get_remaining_tick_periodic_callback`** — ★★★☆☆ (M)  
+- [x] **GUT: `test_get_ticks_of_month`** — ★☆☆☆☆ (S)  
 - [ ] **Port `rem_object` parity with Python** — ★★★☆☆ (M)  
-  - **Approach:** Compare edge cases when callback appears in multiple tick buckets.
 
-- [ ] **Port `Scheduler.get_ticks_of_month`** — ★☆☆☆☆ (S)  
-  - **Python:** uses `GAME.INGAME_TICK_INTERVAL` (30 s).
+- [x] **Port `Scheduler.get_ticks_of_month`** — ★☆☆☆☆ (S)  
+  - **Godot:** `GameScheduler.get_ticks_of_month()` + `GameTimer.INGAME_TICK_INTERVAL_SECONDS`.
 
 ### 1.4 Storage — classes and tests
 
@@ -181,9 +177,9 @@ Tick items: `[ ]` → `[x]`.
 
 **GUT parity** (`tests/unittests/world/test_storage.py` → `tests/unit/test_storage.gd`):
 
-- [x] **GUT: `test_generic_alter` (subset)** — ★☆☆☆☆ (S)  
-- [x] **GUT: `test_positive_sized_specialized` (subset)** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_reset` / `test_reset_all` / `test_limit` / `test_sum_of_stored_resources` / `test_get_item`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_alter` (generic)** — ★☆☆☆☆ (S)  
+- [x] **GUT: `test_reset` / `test_reset_all` / `test_limit` / `test_sum_of_stored_resources` / `test_get_item`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_positive_sized_specialized` (partial)** — ★★☆☆☆ (S)  
 - [ ] **GUT: `test_specialized` / `test_sized_specialized` (full)** — ★★★☆☆ (M)  
 - [ ] **GUT: `test_adjust_limit` (`GlobalLimitStorage`)** — ★★★☆☆ (M)  
 - [ ] **GUT: `test_total` (`TotalStorage`)** — ★★★☆☆ (M)  
@@ -195,9 +191,9 @@ Tick items: `[ ]` → `[x]`.
 
 ### 1.5 Production line and production variants
 
-- [x] **GUT: `test_productionline_init` (subset)** — ★☆☆☆☆ (S)  
-- [ ] **GUT: `test_alter_production_time`** — ★★☆☆☆ (S)  
-- [ ] **GUT: `test_change_amount`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_init`** — ★☆☆☆☆ (S)  
+- [x] **GUT: `test_alter_production_time`** — ★★☆☆☆ (S)  
+- [x] **GUT: `test_change_amount`** — ★★☆☆☆ (S)  
 - [ ] **Production state history / utilization window** — ★★★★☆ (L)  
   - **Python:** `_state_history`, `get_state_history_times`, `PRODUCTION.STATISTICAL_WINDOW`  
   - **Blocked by:** scheduler tick parity  
@@ -266,13 +262,10 @@ Tick items: `[ ]` → `[x]`.
 
 ### 1.9 Shapes and coordinates
 
-- [ ] **Port `Point`, `Rect`, `Circle`** — ★★☆☆☆ (S)  
-  - **Python:** `horizons/util/shapes/`  
-  - **Godot:** `scripts/sim/shapes/`  
-  - **Test:** `tests/unittests/util/test_shapes.py` → `tests/unit/test_shapes.gd`  
-- [ ] **Port `tile_orientation` / road keys** — ★★☆☆☆ (S)  
-  - **Python:** `horizons/util/tile_orientation.py`  
-  - **Test:** `tests/unittests/util/test_tile_orientation.py`  
+- [x] **Port `Point`, `Rect`, `Circle` (core)** — ★★☆☆☆ (S)  
+  - **Godot:** `scripts/sim/shapes/sim_*.gd` · **GUT:** `tests/unit/test_shapes.gd` (3/3)  
+- [x] **Port `tile_orientation` / road keys** — ★★☆☆☆ (S)  
+  - **Godot:** `scripts/sim/tile_orientation.gd` · **GUT:** 5 cases (subset of 9 parametrized pytest cases)  
 
 ### 1.10 Messaging (decouple sim from UI)
 
@@ -443,6 +436,8 @@ Tick items: `[ ]` → `[x]`.
 
 ## Phase 5 — UI
 
+**Detailed per-file GUI checklist:** [PORT_CHECKLIST_GUI.md](PORT_CHECKLIST_GUI.md) (every `tests/gui/ingame/*.py` test listed with widgets + Godot approach).
+
 ### 5.1 Shell and menus
 
 - [ ] **Main menu scene** — ★★★☆☆ (M) · **Python:** `gui/modules/singleplayermenu.py`  
@@ -487,7 +482,8 @@ Tick items: `[ ]` → `[x]`.
 - [ ] **Maintain Appendix C matrix after each PR** — ★☆☆☆☆ (S)  
 - [ ] **Pin Godot 4.3 + GUT 9.3 in CI and README** — ★☆☆☆☆ (S)  
 - [ ] **Headless benchmark: N ticks on 256×256 map** — ★★★☆☆ (M)  
-- [ ] **Document dual-run vs cutover strategy** — ★☆☆☆☆ (S)  
+- [x] **Document dual-run vs cutover strategy** — ★☆☆☆☆ (S)  
+  - **Doc:** [docs/MIGRATION_STRATEGY.md](docs/MIGRATION_STRATEGY.md)  
 - [ ] **Reduce ObjectDB leaks in GUT teardown** — ★★☆☆☆ (S) *(optional cleanup)*  
 
 ---
@@ -532,16 +528,16 @@ Tick items: `[ ]` → `[x]`.
 
 | Python test file | GUT file | Status |
 |------------------|----------|--------|
-| `tests/unittests/test_scheduler.py` (18 tests) | `tests/unit/test_scheduler.gd` | **4/18** |
+| `tests/unittests/test_scheduler.py` (18 tests) | `tests/unit/test_scheduler.gd` | **17/18** (+1 `get_ticks_of_month`) |
 | `tests/unittests/test_timer.py` (13 tests) | — | **0/13** |
-| `tests/unittests/world/test_storage.py` (14 tests) | `tests/unit/test_storage.gd` | **~2/14** |
-| `tests/unittests/world/production/test_productionline.py` (3) | `tests/unit/test_production_line.gd` | **1/3** |
+| `tests/unittests/world/test_storage.py` (14 tests) | `tests/unit/test_storage.gd` | **7/14** |
+| `tests/unittests/world/production/test_productionline.py` (3) | `tests/unit/test_production_line.gd` | **3/3** ✓ |
 | `tests/game/test_production.py` (1) | `tests/integration/test_wood_production.gd` | **1/1** ✓ |
 | `tests/unittests/world/buildability/test_connectedareacache.py` | — | **0/1** |
 | `tests/unittests/world/buildability/test_partialbinarycache.py` (5) | — | **0/5** |
 | `tests/unittests/world/units/collectors/test_collector.py` (4) | — | **0/4** |
-| `tests/unittests/util/test_shapes.py` (3) | — | **0/3** |
-| `tests/unittests/util/test_tile_orientation.py` | — | **0/?** |
+| `tests/unittests/util/test_shapes.py` (3) | `tests/unit/test_shapes.gd` | **3/3** ✓ |
+| `tests/unittests/util/test_tile_orientation.py` (9 param) | `tests/unit/test_tile_orientation.gd` | **5/9** |
 | `tests/unittests/world/component/test_healthcomponent.py` (5) | — | **0/5** |
 | `tests/unittests/world/component/test_namedcomponent.py` (6) | — | **0/6** |
 | `tests/unittests/world/component/test_tradepostcomponent.py` (2) | — | **0/2** |
@@ -549,7 +545,7 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | — | **0/7** |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** 8 tests passing (`./godot/run_tests.sh`).
+**Current GUT total:** **38** tests passing (`./godot/run_tests.sh`).
 
 ---
 

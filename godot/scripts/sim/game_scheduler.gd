@@ -19,7 +19,8 @@ func _init(p_timer: GameTimer) -> void:
 
 func end() -> void:
 	schedule.clear()
-	timer.remove_call(_on_timer_tick)
+	if timer != null:
+		timer.remove_call(_on_timer_tick)
 	timer = null
 
 
@@ -27,8 +28,12 @@ func _on_timer_tick(tick_id: int) -> void:
 	tick(tick_id)
 
 
+func can_tick(tick_id: int) -> bool:
+	return tick_id == cur_tick + 1
+
+
 func tick(tick_id: int) -> void:
-	assert(tick_id == cur_tick + 1)
+	assert(can_tick(tick_id))
 	cur_tick = tick_id
 
 	if schedule.has(cur_tick):
@@ -63,10 +68,12 @@ func before_ticking() -> void:
 
 
 func _run_additional_jobs() -> void:
-	for cb in additional_cur_tick_schedule:
-		assert(cb.loops == 0)
-		cb.callback.call()
-	additional_cur_tick_schedule.clear()
+	while not additional_cur_tick_schedule.is_empty():
+		var batch: Array = additional_cur_tick_schedule.duplicate()
+		additional_cur_tick_schedule.clear()
+		for cb in batch:
+			assert(cb.loops == 0)
+			cb.callback.call()
 
 
 func add_new_object(
@@ -144,7 +151,7 @@ func rem_call(instance: Variant, callback: Callable) -> int:
 			calls_by_instance.erase(instance)
 	for i in range(additional_cur_tick_schedule.size() - 1, -1, -1):
 		var cb2: SchedulerCallback = additional_cur_tick_schedule[i]
-		if cb2.class_instance == instance and cb2.callback == callback:
+		if cb2.class_instance == instance and cb2.callback == callback and not cb2.invalid:
 			additional_cur_tick_schedule.remove_at(i)
 			removed += 1
 	return removed
@@ -173,6 +180,10 @@ func get_ticks(seconds: float) -> int:
 	return timer.get_ticks(seconds)
 
 
+func get_ticks_of_month() -> int:
+	return timer.get_ticks(GameTimer.INGAME_TICK_INTERVAL_SECONDS)
+
+
 class SchedulerCallback extends RefCounted:
 	var callback: Callable
 	var class_instance: Variant
@@ -195,7 +206,7 @@ class SchedulerCallback extends RefCounted:
 		assert(p_run_in >= 0)
 		assert(p_loops > 0 or p_loops == -1)
 		assert(p_callback.is_valid())
-		assert(p_loop_interval > 0)
+		assert(p_loop_interval >= 0)
 		callback = p_callback
 		class_instance = p_class_instance
 		run_in = p_run_in

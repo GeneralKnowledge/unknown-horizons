@@ -21,6 +21,13 @@ func remove_call(callable: Callable) -> void:
 	tick_callbacks.erase(callable)
 
 
+func has_call(callable: Callable) -> bool:
+	return tick_callbacks.has(callable)
+
+
+const INGAME_TICK_INTERVAL_SECONDS := 30.0
+
+
 func advance_tick(tick_id: int) -> void:
 	for cb in tick_callbacks:
 		cb.call(tick_id)
