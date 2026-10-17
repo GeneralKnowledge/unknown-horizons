@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://uh/godot/parity_runner"]
+
+[ext_resource type="Script" path="res://scripts/parity/parity_runner_main.gd" id="1"]
+
+[node name="ParityRunner" type="Node"]
+script = ExtResource("1")

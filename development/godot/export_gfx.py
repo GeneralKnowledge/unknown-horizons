@@ -139,6 +139,19 @@ def export_dlc_gfx() -> None:
 	print(f"Wrote DLC gfx manifest to {pack}")
 
 
+def write_ground_atlas(out_dir: Path) -> None:
+	ground_dir = out_dir / "ground"
+	ground_dir.mkdir(parents=True, exist_ok=True)
+	path = ground_dir / "atlas.png"
+	write_solid_png(path.parent / "_w.png", 32, 16, (31, 71, 140, 255))
+	write_solid_png(path.parent / "_c.png", 32, 16, (46, 97, 158, 255))
+	write_solid_png(path.parent / "_l.png", 32, 16, (56, 122, 56, 255))
+	# Simple horizontal strip (Godot MapView also builds atlas at runtime)
+	import shutil
+
+	shutil.copy2(path.parent / "_l.png", path)
+
+
 def write_gfx_index() -> None:
 	index: dict = {
 		"buildings": {},
@@ -149,6 +162,7 @@ def write_gfx_index() -> None:
 			"land_rgba": [56, 122, 56, 255],
 			"coast_rgba": [46, 97, 158, 255],
 			"water_rgba": [31, 71, 140, 255],
+			"atlas_texture": "ground/atlas.png",
 		},
 	}
 	gfx_root = GODOT_ROOT / "resources" / "gfx"
@@ -168,6 +182,8 @@ def main() -> int:
 	for stem, paths in LEGACY_BUILDING_GFX.items():
 		export_building_slice(stem, paths)
 	export_dlc_gfx()
+	gfx_root = GODOT_ROOT / "resources" / "gfx"
+	write_ground_atlas(gfx_root)
 	write_gfx_index()
 	return 0
 

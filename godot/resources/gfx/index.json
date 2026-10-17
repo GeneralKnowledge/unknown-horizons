@@ -82,6 +82,7 @@
     }
   },
   "ground": {
+    "atlas_texture": "ground/atlas.png",
     "coast_rgba": [
       46,
       97,

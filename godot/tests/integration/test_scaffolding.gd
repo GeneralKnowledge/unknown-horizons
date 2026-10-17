@@ -48,4 +48,4 @@ func test_legacy_sqlite_fixture_probe() -> void:
 	var info := SaveLoader.probe(path)
 	assert_true(info.get("ok", false))
 	assert_eq("sqlite", str(info.get("format", "")))
-	assert_false(bool(info.get("implemented", true)))
+	assert_true(bool(info.get("implemented", false)) or info.get("building_rows", 0) > 0)

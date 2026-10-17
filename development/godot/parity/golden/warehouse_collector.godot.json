@@ -1,0 +1,31 @@
+{
+	"buildings": [
+		{
+			"producer_active": true,
+			"stem": "warehouse",
+			"storage": {
+
+			},
+			"x": 30,
+			"y": 23
+		},
+		{
+			"producer_active": true,
+			"stem": "lumberjackcamp",
+			"storage": {
+
+			},
+			"x": 30,
+			"y": 30
+		}
+	],
+	"engine": "godot",
+	"scenario_id": "warehouse_collector",
+	"settlement_storage": {
+		"BOARDS": 60,
+		"BRICKS": 50,
+		"GOLD": 5000,
+		"TOOLS": 50
+	},
+	"tick": 1439
+}

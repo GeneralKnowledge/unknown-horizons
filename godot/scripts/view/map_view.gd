@@ -9,14 +9,21 @@ var map_origin := Vector2(320, 180)
 var _land_color := Color(0.22, 0.48, 0.22)
 var _coast_color := Color(0.18, 0.38, 0.62)
 var _water_color := Color(0.12, 0.28, 0.55)
+var _ground_layer: TileMapLayer
+var _ground_tileset: TileSet
 
 
 func _ready() -> void:
 	_load_gfx_index_colors()
+	_ground_layer = TileMapLayer.new()
+	_ground_layer.name = "GroundTileMap"
+	add_child(_ground_layer)
+	_build_ground_tileset()
 
 
 func bind(p_island: Island) -> void:
 	island = p_island
+	_refresh_ground_tilemap()
 	queue_redraw()
 
 
@@ -73,3 +80,39 @@ func _load_gfx_index_colors() -> void:
 	if ground.has("water_rgba"):
 		var rgba3: Array = ground["water_rgba"]
 		_water_color = Color(rgba3[0] / 255.0, rgba3[1] / 255.0, rgba3[2] / 255.0, rgba3[3] / 255.0)
+	_build_ground_tileset()
+
+
+func _build_ground_tileset() -> void:
+	if _ground_layer == null:
+		return
+	_ground_tileset = TileSet.new()
+	var atlas := TileSetAtlasSource.new()
+	var img := Image.create(96, 16, false, Image.FORMAT_RGBA8)
+	for i in range(3):
+		var col := [_water_color, _coast_color, _land_color][i]
+		for x in range(32):
+			for y in range(16):
+				img.set_pixel(i * 32 + x, y, col)
+	var tex := ImageTexture.create_from_image(img)
+	atlas.texture = tex
+	atlas.create_tile(Vector2i(0, 0))
+	atlas.create_tile(Vector2i(1, 0))
+	atlas.create_tile(Vector2i(2, 0))
+	_ground_tileset.add_source(atlas, 0)
+	_ground_layer.tile_set = _ground_tileset
+
+
+func _refresh_ground_tilemap() -> void:
+	if _ground_layer == null or island == null:
+		return
+	_ground_layer.clear()
+	for coords in island.ground_map.keys():
+		var kind: int = int(island.ground_map[coords])
+		var tile_index := 0
+		if kind == SimGround.Kind.LAND:
+			tile_index = 2
+		elif kind == SimGround.Kind.SHALLOW_WATER:
+			tile_index = 1
+		var c: Vector2i = coords if coords is Vector2i else Vector2i(coords[0], coords[1])
+		_ground_layer.set_cell(c, 0, Vector2i(tile_index, 0))

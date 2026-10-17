@@ -77,3 +77,10 @@ func test_barracks_production_chain() -> void:
 	assert_not_null(barracks)
 	barracks.get_storage().alter(GameConstants.RES["SWORD"], 2)
 	assert_gte(barracks.get_storage().amount(GameConstants.RES["SWORD"]), 2)
+	if GameConstants.UNITS.has("SWORDSMAN"):
+		barracks.get_storage().alter(GameConstants.RES["SWORD"], 2)
+		gts.run_seconds(30)
+		assert_gte(
+			barracks.get_storage().amount(int(GameConstants.UNITS["SWORDSMAN"])),
+			1
+		)

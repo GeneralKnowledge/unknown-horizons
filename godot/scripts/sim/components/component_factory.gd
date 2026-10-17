@@ -21,5 +21,18 @@ static func attach_to_building(building: Building, session: GameSession, export:
 		building.collecting = CollectingComponent.new(building, session, collecting)
 	if components.has("Health"):
 		building.health = HealthComponent.new(building, components["Health"])
+	if components.has("Named"):
+		building.named = NamedComponent.new(building, components["Named"])
+	if components.has("TradePost"):
+		building.trade_post = TradePostComponent.new(building, session.settlement.inventory)
+	var baseclass: String = str(export.get("baseclass", ""))
+	if baseclass.contains("Barracks") or baseclass.contains("UnitProduction"):
+		if GameConstants.UNITS.has("SWORDSMAN"):
+			var unit_id := int(GameConstants.UNITS["SWORDSMAN"])
+			building.get_storage().add_resource_slot(unit_id, 5)
+			building.set_meta(
+				"unit_producer",
+				UnitProducer.new(building, session, unit_id)
+			)
 	if components.has("FieldBuilder"):
 		building.field_builder = FieldBuilderComponent.new(building, components["FieldBuilder"])
