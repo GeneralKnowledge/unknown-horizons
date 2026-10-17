@@ -42,6 +42,7 @@ Game data (buildings, resources, maps) is authored under **`legacy/content/`** a
 - Playable slice: lumberjack / tree / production / JSON save-load
 - Reproducible **web export** (`./godot/export_web.sh`)
 - **Legacy game:** run from `legacy/` — see [`legacy/README.md`](legacy/README.md)
+- **Cross-version goal:** load original saves in Godot and eventually play across Python + Godot clients — [`godot/docs/PROJECT_ROADMAP.md#future-ideas`](godot/docs/PROJECT_ROADMAP.md#future-ideas)
 
 ## CI
 

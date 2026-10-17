@@ -1,6 +1,6 @@
 # Unknown Horizons Godot Port — Project Roadmap
 
-Last verified: **2026-10-17** — `./godot/run_tests.sh` **152/152** GUT pass; parity golden **3/3** (`wood`, `warehouse_collector`, `farm_crop`).
+Last verified: **2026-10-17** — `./godot/run_tests.sh` **154/154** GUT pass; parity golden **4/4** (`wood`, `warehouse_collector`, `farm_crop`, `snapshot_roundtrip`).
 
 ## Vision
 
@@ -55,7 +55,7 @@ Reproducible via `./godot/export_web.sh` → `build/web/`. See [WEB_DEPLOYMENT.m
 
 ### Parity confidence
 
-152 GUT tests; 3 parity scenarios vs golden traces (legacy Python optional when `fife` is installed).
+154 GUT tests; 4 parity scenarios vs golden traces (legacy Python optional when `fife` is installed).
 
 ### Architectural risks
 

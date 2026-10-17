@@ -2,7 +2,7 @@
 
 A **Godot 4.3** reimplementation of the Unknown Horizons settlement simulation. The goal is a **browser-playable**, **data-driven** game that keeps the economic settlement loop of the original while allowing future rebranding (art, copy, content packs) without rewriting sim rules.
 
-The **legacy Python + FIFE game** in the repo root is unchanged; this directory is the active port.
+The **legacy Python + FIFE game** lives in [`../legacy/`](../legacy/); this directory is the active port.
 
 ## Design principle
 
