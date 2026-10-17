@@ -41,10 +41,8 @@ if ! grep -q 'name="Web"' "$GODOT_DIR/export_presets.cfg"; then
 	exit 1
 fi
 
-echo "==> Refresh content exports"
-python3 "$ROOT/development/godot/export_content.py"
-python3 "$ROOT/development/godot/export_gfx.py"
-python3 "$ROOT/development/godot/validate_content.py"
+echo "==> Refresh content exports (same steps as CI / export_all.sh)"
+"$ROOT/development/godot/export_all.sh"
 
 mkdir -p "$OUT_DIR"
 rm -rf "$OUT_DIR"/*

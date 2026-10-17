@@ -34,12 +34,14 @@ Full local CI parity (exports + tests):
 - Legacy save fixtures: [`godot/docs/LEGACY_SAVE_FIXTURES.md`](../../godot/docs/LEGACY_SAVE_FIXTURES.md)
 - Migration / M7 saves: [`godot/docs/MIGRATION_STRATEGY.md`](../../godot/docs/MIGRATION_STRATEGY.md)
 
-## Planned extensions (Phase A1)
+## Phase A1 (implemented)
 
-- `export_grounds.py` — tile metadata from `legacy/content/objects/grounds/`
-- `export_build_menu.py` — full tier menus from `gui_buildmenu/` YAML
-- `export_audio.py` — OGG paths from YAML ambient components
-- Atlas-backed gfx (XL) — `legacy/content/atlas.sql` via `development/generate_atlases.py`
+- [`export_grounds.py`](export_grounds.py), [`export_build_menu.py`](export_build_menu.py), [`export_audio.py`](export_audio.py) — wired in `sync.sh`, CI `gut`, and [`export_all.sh`](export_all.sh)
+- DLC pack gfx copy — `export_gfx.py` `export_dlc_pack_gfx()` → `godot/resources/dlc/<pack>/gfx/` (see Northern Company manifest)
+
+## Still open (XL / later)
+
+- Atlas-backed gfx — `legacy/content/atlas.sql` via `development/generate_atlases.py` (beyond current stem slice)
 
 ## Parity rules
 

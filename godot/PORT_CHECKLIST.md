@@ -545,7 +545,7 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | `test_session_save.gd`, `test_session_save_extended.gd` | **7/7** ✓ |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** run `./godot/run_tests.sh` — **154** tests (includes component + sqlite subset + gameplay loop).
+**Current GUT total:** run `./godot/run_tests.sh` — **191** tests (includes component + sqlite subset + gameplay loop + demo/tier-1 integration).
 
 **DLC scaffolding (pre-parity):** see [`DLC_VISION.md`](DLC_VISION.md) and [`PORT_CHECKLIST_DLC.md`](PORT_CHECKLIST_DLC.md).
 
@@ -559,15 +559,17 @@ Tick items: `[ ]` → `[x]`.
 | `warehouse_collector.json` | same | ✓ |
 | `farm_crop.json` | same | ✓ |
 | `snapshot_roundtrip.json` | same | ✓ |
+| `stonemason.json` | same | ✓ |
+| `tier1_starter.json` | same | ✓ |
 
-Docs: [`development/godot/parity/README.md`](../development/godot/parity/README.md). Optional: `./development/godot/sync.sh --parity`.
+Docs: [`development/godot/parity/README.md`](../development/godot/parity/README.md). CI: workflow job **`parity-golden`**. Optional local: `./development/godot/sync.sh --parity`.
 
 ---
 
 ## Recommended next 10 tasks (ordered)
 
-1. **Expand parity scenarios** (snapshot roundtrip, stonemason) + optional CI workflow when FIFE available.  
-2. **SQLite save load** — full settlement/inventory mapping beyond building subset.  
+1. **Refresh PORT_CHECKLIST section checkboxes** vs GUT/parity reality (Appendix C/D stay current via `report_matrix.py`).  
+2. **SQLite save load** — full settlement/inventory mapping beyond building subset; optional PoC import UI (JSON remains browser path).  
 3. **Collector pathfinding E3** (roads / walk-home).  
 4. **FieldUtilization** + automated farm fields.  
 5. **Gfx atlas pipeline** — sqlite atlas import beyond 5-building slice.  

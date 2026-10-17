@@ -43,7 +43,15 @@ Scenarios are copied to `godot/resources/parity/` during `sync.sh` (or by `run_p
 
 ## CI
 
-Default GitHub workflow runs GUT only. Optional local full check:
+[`.github/workflows/godot-tests.yml`](../../.github/workflows/godot-tests.yml) runs three jobs on `godot/**` changes:
+
+| Job | What it runs |
+|-----|----------------|
+| **`gut`** | Full export pipeline + SQLite smoke/matrix + `./godot/run_tests.sh` |
+| **`parity-golden`** | Godot traces vs `golden/*.godot.json` via `./development/godot/parity/run_all.sh` |
+| **`web-export`** | `./godot/export_web.sh` (uses `export_all.sh` for content parity) |
+
+Legacy Python dual-run still needs **`fife`** locally (`run_pair.sh`). Optional full local check:
 
 ```bash
 ./development/godot/sync.sh --parity
