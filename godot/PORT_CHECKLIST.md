@@ -566,7 +566,7 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | `test_session_save.gd`, `test_session_save_extended.gd` | **7/7** ✓ |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** run `./godot/run_tests.sh` — **192** tests (includes component + sqlite subset + gameplay loop + demo/tier-1 integration).
+**Current GUT total:** run `./godot/run_tests.sh` — **196** tests (includes component + sqlite subset + gameplay loop + demo/tier-1 integration).
 
 **DLC scaffolding (pre-parity):** see [`DLC_VISION.md`](DLC_VISION.md) and [`PORT_CHECKLIST_DLC.md`](PORT_CHECKLIST_DLC.md).
 
@@ -583,6 +583,9 @@ Tick items: `[ ]` → `[x]`.
 | `stonemason.json` | same | ✓ |
 | `tier1_starter.json` | same | ✓ |
 | `brickyard.json` | same | ✓ |
+| `toolmaker.json` | same | ✓ |
+| `snapshot_mid_production.json` | same | ✓ |
+| `brickyard_development.json` | same | ✓ |
 
 Docs: [`development/godot/parity/README.md`](../development/godot/parity/README.md). CI: workflow job **`parity-golden`**. Optional local: `./development/godot/sync.sh --parity`.
 

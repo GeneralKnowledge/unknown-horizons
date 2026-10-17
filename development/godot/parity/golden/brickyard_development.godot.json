@@ -1,0 +1,32 @@
+{
+	"buildings": [
+		{
+			"producer_active": true,
+			"stem": "warehouse",
+			"storage": {
+
+			},
+			"x": 34,
+			"y": 34
+		},
+		{
+			"producer_active": true,
+			"stem": "brickyard",
+			"storage": {
+				"BRICKS": 1,
+				"CLAY": 2
+			},
+			"x": 33,
+			"y": 25
+		}
+	],
+	"engine": "godot",
+	"scenario_id": "brickyard_development",
+	"settlement_storage": {
+		"BOARDS": 50,
+		"BRICKS": 50,
+		"GOLD": 5000,
+		"TOOLS": 50
+	},
+	"tick": 1279
+}

@@ -1,6 +1,6 @@
 # Unknown Horizons Godot Port — Project Roadmap
 
-Last verified: **2026-10-17** — `./godot/run_tests.sh` **195/195** GUT pass; parity golden **10/10** (stage 3: `toolmaker`, `brickyard_development`, `snapshot_mid_production`); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
+Last verified: **2026-10-17** — `./godot/run_tests.sh` **196/196** GUT pass; parity golden **10/10** (stage 3: `toolmaker`, `brickyard_development`, `snapshot_mid_production`); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
 
 ## Vision
 
@@ -55,7 +55,7 @@ Reproducible via `./godot/export_web.sh` → `build/web/`. See [WEB_DEPLOYMENT.m
 
 ### Parity confidence
 
-195 GUT tests; 10 parity scenarios vs golden traces (legacy Python optional when `fife` is installed). Demo slices under `resources/demo/` mirror key parity scenarios.
+196 GUT tests; 10 parity scenarios vs golden traces (legacy Python optional when `fife` is installed). Demo slices under `resources/demo/` mirror key parity scenarios.
 
 ### Architectural risks
 

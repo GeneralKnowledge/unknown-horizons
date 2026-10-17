@@ -3,6 +3,9 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 OUT="${1:-$ROOT/godot/build/shareable_demo.png}"
+if [[ "$OUT" != /* ]]; then
+	OUT="$ROOT/$OUT"
+fi
 mkdir -p "$(dirname "$OUT")"
 
 if ! command -v godot >/dev/null 2>&1; then
@@ -24,6 +27,7 @@ RUN+=(--resolution 1280x720)
 RUN+=(res://scenes/shareable_demo.tscn)
 RUN+=(--)
 RUN+=(--screenshot-out="$OUT")
+RUN+=(--audio-driver Dummy)
 
 if command -v xvfb-run >/dev/null 2>&1; then
 	echo "==> Capture via xvfb-run (OpenGL3) → $OUT"

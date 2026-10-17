@@ -110,6 +110,13 @@ func _execute_step(step: Dictionary) -> void:
 					producer.toggle_active()
 		"snapshot_roundtrip":
 			_gts.session = _gts.snapshot_roundtrip()
+			_gts.player = SimPlayer.new(_gts.session.allocate_worldid(), _gts.session.settlement)
+			_last_building = null
+		"finish_production":
+			assert(_last_building != null)
+			var producer := _last_building.get_producer()
+			if producer != null:
+				producer.finish_production_now()
 		_:
 			push_error("Unknown parity op: %s" % op)
 

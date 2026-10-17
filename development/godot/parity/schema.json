@@ -24,6 +24,7 @@
               "run_seconds",
               "toggle_producer",
               "snapshot_roundtrip",
+              "finish_production",
               "load_fixture"
             ]
           },

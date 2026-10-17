@@ -8,8 +8,9 @@ Runs the same **scenario JSON** on legacy Horizons (Python sim) and the Godot po
 |-------|--------|-----------|
 | **1** | Core loop | `wood`, `warehouse_collector`, `snapshot_roundtrip` |
 | **2** | Tier-1 + tier-2 economy | `tier1_starter`, `stonemason`, **`brickyard`**, `farm_crop` |
+| **3** | Chains + save fidelity + demo map | **`toolmaker`**, **`snapshot_mid_production`**, **`brickyard_development`** |
 
-Next targets: `toolmaker` chain, JSON save mid-production restore, optional **`development`** map scenarios (see `map_specs.json`).
+Next targets: weaver/salt chains, legacy Python dual-run with `fife`, producer state in JSON snapshots.
 
 ## Quick start
 
