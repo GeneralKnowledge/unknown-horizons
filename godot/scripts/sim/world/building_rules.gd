@@ -14,3 +14,13 @@ static func is_buildable_upon(building_id: int) -> bool:
 		GameConstants.BUILDINGS["AMBIENT"],
 	]
 	return building_id in UPON
+
+
+static func terrain_requirement(building_id: int) -> int:
+	const COAST: Array = [
+		GameConstants.BUILDINGS["FISHER"],
+		GameConstants.BUILDINGS["SALT_PONDS"],
+	]
+	if building_id in COAST:
+		return TerrainRequirement.LAND_AND_COAST
+	return TerrainRequirement.LAND

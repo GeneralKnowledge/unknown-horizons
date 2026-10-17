@@ -15,11 +15,12 @@ func test_hunter() -> void:
 
 func test_fisherman() -> void:
 	var gts := GameTestSession.start(true)
-	for x in [33, 35, 37]:
+	for x in [35, 37, 39]:
 		var school: Building = gts.build_ownerless(GameConstants.BUILDINGS["FISH_DEPOSIT"], x, 20)
 		assert_not_null(school)
 		school.get_producer().finish_production_now()
-	var fisherman: Building = gts.build(GameConstants.BUILDINGS["FISHER"], 33, 23)
+	# Shore placement (2×2 footprint must span land + shallow coast at y=20).
+	var fisherman: Building = gts.build(GameConstants.BUILDINGS["FISHER"], 33, 21)
 	assert_not_null(fisherman)
 	assert_eq(0, fisherman.get_storage().amount(GameConstants.RES["FOOD"]))
 	gts.run_seconds(25)

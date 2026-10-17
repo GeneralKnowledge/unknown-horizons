@@ -17,10 +17,14 @@ func _init(p_worldid: int, p_session: GameSession) -> void:
 func load_ground(map_data: Dictionary) -> void:
 	ground_map = map_data.duplicate(true)
 	var land := CoordSet.new()
+	var coast := CoordSet.new()
 	for coords in ground_map.keys():
-		if int(ground_map[coords]) == SimGround.Kind.LAND:
+		var kind := int(ground_map[coords])
+		if kind == SimGround.Kind.LAND:
 			land.add(coords)
-	terrain_cache = TerrainBuildabilityCache.new(land)
+		elif kind == SimGround.Kind.SHALLOW_WATER:
+			coast.add(coords)
+	terrain_cache = TerrainBuildabilityCache.new(land, coast)
 
 
 func get_ground(coords: Vector2i) -> int:
@@ -91,7 +95,8 @@ func can_place_building(
 	var sx := int(export.get("size_x", 1))
 	var sy := int(export.get("size_y", 1))
 	var size := Vector2i(sx, sy)
-	if not terrain_cache.can_place_land(origin, size):
+	var terrain_req := BuildingRules.terrain_requirement(building_id)
+	if not terrain_cache.can_place_for_requirement(terrain_req, origin, size):
 		return false
 	for tile in BuildFootprint.origin_tiles(origin, sx, sy):
 		var occupant: Building = occupied_tiles.get(tile)
