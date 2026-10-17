@@ -14,6 +14,17 @@ cd godot
 godot4 --path .   # or project export
 ```
 
+The project shows the **Godot boot splash** for at least 1.5s (`project.godot` → `config/boot_splash/*`) before the title menu.
+
+### Progress demo video (local / marketing)
+
+```bash
+chmod +x development/godot/record_progress_demo_video.sh
+DISPLAY=:0 ./development/godot/record_progress_demo_video.sh godot/build/progress_demo.mp4
+```
+
+Records: Godot splash → title menu → automated start of the settlement demo → sim running (requires `ffmpeg`, `xdotool`, and a visible `DISPLAY`).
+
 From the title screen choose **Start settlement demo**.
 
 ## Controls
