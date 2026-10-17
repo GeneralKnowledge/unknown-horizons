@@ -5,12 +5,13 @@ extends GutTest
 
 func test_brick_production_chain() -> void:
 	var gts := GameTestSession.start(true)
+	# Avoid warehouse footprint at default settle point (28, 28); Python uses (30, 20).
 	var deposit: Building = gts.build_ownerless(GameConstants.BUILDINGS["CLAY_DEPOSIT"], 33, 33)
 	assert_not_null(deposit)
 	deposit.get_storage().alter(GameConstants.RES["RAW_CLAY"], 10)
 	var pit: Building = gts.build(GameConstants.BUILDINGS["CLAY_PIT"], 33, 33)
 	assert_not_null(pit)
-	var brickyard: Building = gts.build(GameConstants.BUILDINGS["BRICKYARD"], 33, 28)
+	var brickyard: Building = gts.build(GameConstants.BUILDINGS["BRICKYARD"], 33, 25)
 	assert_not_null(brickyard)
 	assert_eq(0, brickyard.get_storage().amount(GameConstants.RES["BRICKS"]))
 	gts.run_seconds(30)

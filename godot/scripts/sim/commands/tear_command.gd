@@ -16,7 +16,7 @@ func execute(session: GameSession) -> Variant:
 			session.scheduler.rem_all_classinst_calls(collector)
 	building.island.release_tiles(building)
 	if building.settlement != null:
-		building.settlement.buildings.erase(building)
+		building.settlement.remove_building(building)
 	session.registry.unregister(building.worldid)
 	session._buildings.erase(building.worldid)
 	building.producer = null
