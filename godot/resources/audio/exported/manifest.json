@@ -1,0 +1,13 @@
+{
+  "files": {
+    "content/audio/sounds/chapel.ogg": "res://resources/audio/exported/chapel.ogg",
+    "content/audio/sounds/lumberjack.ogg": "res://resources/audio/exported/lumberjack.ogg",
+    "content/audio/sounds/main_square.ogg": "res://resources/audio/exported/main_square.ogg",
+    "content/audio/sounds/sheepfield.ogg": "res://resources/audio/exported/sheepfield.ogg",
+    "content/audio/sounds/smith.ogg": "res://resources/audio/exported/smith.ogg",
+    "content/audio/sounds/stonemason.ogg": "res://resources/audio/exported/stonemason.ogg",
+    "content/audio/sounds/tavern.ogg": "res://resources/audio/exported/tavern.ogg",
+    "content/audio/sounds/warehouse.ogg": "res://resources/audio/exported/warehouse.ogg",
+    "content/audio/sounds/windmill.ogg": "res://resources/audio/exported/windmill.ogg"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "tabs": [
+    {
+      "icon": "icons/tabwidget/buildmenu/tier/tier1",
+      "id": "tab1",
+      "sections": []
+    },
+    {
+      "icon": "icons/tabwidget/buildmenu/tier/tier2",
+      "id": "tab2",
+      "sections": []
+    },
+    {
+      "icon": "icons/tabwidget/buildmenu/tier/tier3",
+      "id": "tab3",
+      "sections": []
+    },
+    {
+      "icon": "icons/tabwidget/buildmenu/tier/tier4",
+      "id": "tab4",
+      "sections": []
+    },
+    {
+      "icon": "icons/tabwidget/buildmenu/tier/tier5",
+      "id": "tab5",
+      "sections": []
+    }
+  ]
+}

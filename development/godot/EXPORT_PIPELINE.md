@@ -20,6 +20,7 @@ Full local CI parity (exports + tests):
 | Step | Script | Output |
 |------|--------|--------|
 | 1 | [`export_content.py`](export_content.py) | [`godot/resources/exported/`](../../godot/resources/exported/) — buildings, units, constants, production line ids, PoC menu |
+| 1b | [`export_build_menu.py`](export_build_menu.py), [`export_grounds.py`](export_grounds.py), [`export_audio.py`](export_audio.py) | `build_menu.json`, `grounds.json`, `resources/audio/exported/` |
 | 2 | [`export_gfx.py --auto`](export_gfx.py) | [`godot/resources/gfx/<stem>/`](../../godot/resources/gfx/) — PNGs + `sprite_manifest.json`; [`export_report.json`](../../godot/resources/gfx/export_report.json) |
 | 3 | [`validate_content.py`](validate_content.py) | Exit code 0/1; warnings on collector id gaps |
 | 4 | [`export_maps.py`](export_maps.py) | [`godot/resources/maps/ground/*.json`](../../godot/resources/maps/ground/) + updates [`maps_manifest.json`](../../godot/resources/maps/maps_manifest.json) |

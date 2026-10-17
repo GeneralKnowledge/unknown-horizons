@@ -39,6 +39,13 @@ func load_test_map() -> void:
 	settlement.init_buildability()
 
 
+func restore_save_header(next_worldid: int, cur_tick: int) -> void:
+	if next_worldid > _next_worldid:
+		_next_worldid = next_worldid
+	if cur_tick >= scheduler.FIRST_TICK_ID - 1:
+		scheduler.cur_tick = cur_tick
+
+
 func allocate_worldid() -> int:
 	var id := _next_worldid
 	_next_worldid += 1
@@ -75,20 +82,31 @@ func get_wild_animals_on_island(p_island: Island) -> Array:
 	return out
 
 
-func spawn_wild_animal(p_island: Island, x: int, y: int) -> WildAnimal:
-	var unit = spawn_unit(p_island, "deer", x, y)
+func spawn_wild_animal(p_island: Island, x: int, y: int, forced_worldid: int = -1) -> WildAnimal:
+	var unit = spawn_unit(p_island, "deer", x, y, forced_worldid)
 	return unit as WildAnimal
 
 
-func spawn_unit(p_island: Island, unit_stem: String, x: int, y: int) -> Variant:
+func spawn_unit(
+	p_island: Island,
+	unit_stem: String,
+	x: int,
+	y: int,
+	forced_worldid: int = -1,
+) -> Variant:
 	var export := ContentLoader.load_unit_export(unit_stem)
 	var baseclass: String = str(export.get("baseclass", ""))
 	if baseclass.contains("WildAnimal"):
 		var inventory := ContentLoader.create_storage_from_unit_export(export)
 		var lines := ContentLoader.create_producer_lines_from_unit(export)
-		var animal := WildAnimal.new(
-			allocate_worldid(), p_island, Vector2i(x, y), self, inventory, lines
-		)
+		var wid: int
+		if forced_worldid > 0:
+			wid = forced_worldid
+			if wid >= _next_worldid:
+				_next_worldid = wid + 1
+		else:
+			wid = allocate_worldid()
+		var animal := WildAnimal.new(wid, p_island, Vector2i(x, y), self, inventory, lines)
 		register_wild_animal(animal)
 		return animal
 	push_warning("spawn_unit not implemented for baseclass %s" % baseclass)

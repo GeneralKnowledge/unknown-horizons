@@ -295,7 +295,12 @@ def main() -> int:
 			if stem in LEGACY_BUILDING_GFX:
 				gfx_map[stem] = LEGACY_BUILDING_GFX[stem]
 
+	want_export: set[str] | None = None
+	if args.stems.strip():
+		want_export = {s.strip() for s in args.stems.split(",") if s.strip()}
 	for stem, paths in sorted(gfx_map.items()):
+		if want_export is not None and stem not in want_export:
+			continue
 		export_building_slice(stem, paths, multi_frame=args.multi_frame)
 	export_dlc_gfx()
 	gfx_root = GODOT_ROOT / "resources" / "gfx"

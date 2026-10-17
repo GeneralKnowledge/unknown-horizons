@@ -1,0 +1,253 @@
+{
+  "legacy_to_sim_kind": {
+    "0": 2,
+    "1": 1,
+    "2": 1,
+    "3": 0,
+    "4": 0,
+    "5": 1,
+    "6": 0
+  },
+  "tiles": {
+    "COAST_EAST": {
+      "action_id": "straight",
+      "ground_id": 5,
+      "rotation": 135,
+      "sim_kind": 1
+    },
+    "COAST_NORTH": {
+      "action_id": "straight",
+      "ground_id": 5,
+      "rotation": 225,
+      "sim_kind": 1
+    },
+    "COAST_NORTHEAST1": {
+      "action_id": "curve_out",
+      "ground_id": 5,
+      "rotation": 225,
+      "sim_kind": 1
+    },
+    "COAST_NORTHEAST3": {
+      "action_id": "curve_in",
+      "ground_id": 5,
+      "rotation": 315,
+      "sim_kind": 1
+    },
+    "COAST_NORTHWEST1": {
+      "action_id": "curve_out",
+      "ground_id": 5,
+      "rotation": 315,
+      "sim_kind": 1
+    },
+    "COAST_NORTHWEST3": {
+      "action_id": "curve_in",
+      "ground_id": 5,
+      "rotation": 225,
+      "sim_kind": 1
+    },
+    "COAST_SOUTH": {
+      "action_id": "straight",
+      "ground_id": 5,
+      "rotation": 45,
+      "sim_kind": 1
+    },
+    "COAST_SOUTHEAST1": {
+      "action_id": "curve_out",
+      "ground_id": 5,
+      "rotation": 135,
+      "sim_kind": 1
+    },
+    "COAST_SOUTHEAST3": {
+      "action_id": "curve_in",
+      "ground_id": 5,
+      "rotation": 45,
+      "sim_kind": 1
+    },
+    "COAST_SOUTHWEST1": {
+      "action_id": "curve_out",
+      "ground_id": 5,
+      "rotation": 45,
+      "sim_kind": 1
+    },
+    "COAST_SOUTHWEST3": {
+      "action_id": "curve_in",
+      "ground_id": 5,
+      "rotation": 135,
+      "sim_kind": 1
+    },
+    "COAST_WEST": {
+      "action_id": "straight",
+      "ground_id": 5,
+      "rotation": 315,
+      "sim_kind": 1
+    },
+    "DEEP_WATER_EAST": {
+      "action_id": "straight",
+      "ground_id": 2,
+      "rotation": 135,
+      "sim_kind": 1
+    },
+    "DEEP_WATER_NORTH": {
+      "action_id": "straight",
+      "ground_id": 2,
+      "rotation": 225,
+      "sim_kind": 1
+    },
+    "DEEP_WATER_NORTHEAST1": {
+      "action_id": "curve_out",
+      "ground_id": 2,
+      "rotation": 225,
+      "sim_kind": 1
+    },
+    "DEEP_WATER_NORTHEAST3": {
+      "action_id": "curve_in",
+      "ground_id": 2,
+      "rotation": 315,
+      "sim_kind": 1
+    },
+    "DEEP_WATER_NORTHWEST1": {
+      "action_id": "curve_out",
+      "ground_id": 2,
+      "rotation": 315,
+      "sim_kind": 1
+    },
+    "DEEP_WATER_NORTHWEST3": {
+      "action_id": "curve_in",
+      "ground_id": 2,
+      "rotation": 225,
+      "sim_kind": 1
+    },
+    "DEEP_WATER_SOUTH": {
+      "action_id": "straight",
+      "ground_id": 2,
+      "rotation": 45,
+      "sim_kind": 1
+    },
+    "DEEP_WATER_SOUTHEAST1": {
+      "action_id": "curve_out",
+      "ground_id": 2,
+      "rotation": 135,
+      "sim_kind": 1
+    },
+    "DEEP_WATER_SOUTHEAST3": {
+      "action_id": "curve_in",
+      "ground_id": 2,
+      "rotation": 45,
+      "sim_kind": 1
+    },
+    "DEEP_WATER_SOUTHWEST1": {
+      "action_id": "curve_out",
+      "ground_id": 2,
+      "rotation": 45,
+      "sim_kind": 1
+    },
+    "DEEP_WATER_SOUTHWEST3": {
+      "action_id": "curve_in",
+      "ground_id": 2,
+      "rotation": 135,
+      "sim_kind": 1
+    },
+    "DEEP_WATER_WEST": {
+      "action_id": "straight",
+      "ground_id": 2,
+      "rotation": 315,
+      "sim_kind": 1
+    },
+    "DEFAULT_LAND": {
+      "action_id": "straight",
+      "ground_id": 3,
+      "rotation": 45,
+      "sim_kind": 0
+    },
+    "SAND": {
+      "action_id": "straight",
+      "ground_id": 6,
+      "rotation": 45,
+      "sim_kind": 0
+    },
+    "SAND_EAST": {
+      "action_id": "straight",
+      "ground_id": 4,
+      "rotation": 135,
+      "sim_kind": 0
+    },
+    "SAND_NORTH": {
+      "action_id": "straight",
+      "ground_id": 4,
+      "rotation": 225,
+      "sim_kind": 0
+    },
+    "SAND_NORTHEAST1": {
+      "action_id": "curve_out",
+      "ground_id": 4,
+      "rotation": 225,
+      "sim_kind": 0
+    },
+    "SAND_NORTHEAST3": {
+      "action_id": "curve_in",
+      "ground_id": 4,
+      "rotation": 315,
+      "sim_kind": 0
+    },
+    "SAND_NORTHWEST1": {
+      "action_id": "curve_out",
+      "ground_id": 4,
+      "rotation": 315,
+      "sim_kind": 0
+    },
+    "SAND_NORTHWEST3": {
+      "action_id": "curve_in",
+      "ground_id": 4,
+      "rotation": 225,
+      "sim_kind": 0
+    },
+    "SAND_SOUTH": {
+      "action_id": "straight",
+      "ground_id": 4,
+      "rotation": 45,
+      "sim_kind": 0
+    },
+    "SAND_SOUTHEAST1": {
+      "action_id": "curve_out",
+      "ground_id": 4,
+      "rotation": 135,
+      "sim_kind": 0
+    },
+    "SAND_SOUTHEAST3": {
+      "action_id": "curve_in",
+      "ground_id": 4,
+      "rotation": 45,
+      "sim_kind": 0
+    },
+    "SAND_SOUTHWEST1": {
+      "action_id": "curve_out",
+      "ground_id": 4,
+      "rotation": 45,
+      "sim_kind": 0
+    },
+    "SAND_SOUTHWEST3": {
+      "action_id": "curve_in",
+      "ground_id": 4,
+      "rotation": 135,
+      "sim_kind": 0
+    },
+    "SAND_WEST": {
+      "action_id": "straight",
+      "ground_id": 4,
+      "rotation": 315,
+      "sim_kind": 0
+    },
+    "SHALLOW_WATER": {
+      "action_id": "straight",
+      "ground_id": 1,
+      "rotation": 45,
+      "sim_kind": 1
+    },
+    "WATER": {
+      "action_id": "straight",
+      "ground_id": 0,
+      "rotation": 45,
+      "sim_kind": 2
+    }
+  }
+}

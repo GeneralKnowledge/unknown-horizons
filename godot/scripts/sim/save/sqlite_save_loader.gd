@@ -7,8 +7,10 @@ const MAGIC := "SQLite format 3"
 const EXTRACT_BUILDINGS_SCRIPT := "development/godot/sqlite_extract_buildings.py"
 const EXTRACT_STORAGE_SCRIPT := "development/godot/sqlite_extract_storage.py"
 const EXTRACT_METADATA_SCRIPT := "development/godot/sqlite_extract_metadata.py"
+const EXTRACT_SESSION_SCRIPT := "development/godot/sqlite_extract_session.py"
+const EXTRACT_UNITS_SCRIPT := "development/godot/sqlite_extract_units.py"
 const PREPARE_SAVE_SCRIPT := "development/godot/sqlite_prepare_save.py"
-const DEFAULT_BUILDING_LIMIT := 500
+const DEFAULT_BUILDING_LIMIT := 0
 
 
 static func is_sqlite_file(path: String) -> bool:
@@ -29,8 +31,6 @@ static func _repo_root() -> String:
 
 
 static func _prepare_sqlite_path(path: String) -> String:
-	if not path.ends_with(".sqlite.bz2"):
-		return path
 	var tmp_dir := ProjectSettings.globalize_path("user://sqlite_prepare")
 	var script := _repo_root().path_join(PREPARE_SAVE_SCRIPT)
 	var output: Array = []
@@ -50,32 +50,37 @@ static func _prepare_sqlite_path(path: String) -> String:
 	return ""
 
 
+static func _run_python_extract(script_rel: String, sqlite_path: String, tmp_user: String, extra: Array = []) -> String:
+	var tmp_abs := ProjectSettings.globalize_path(tmp_user)
+	var script := _repo_root().path_join(script_rel)
+	var output: Array = []
+	var args: Array = [script, sqlite_path, tmp_abs]
+	args.append_array(extra)
+	var exit_code := OS.execute("python3", args, output, true)
+	if exit_code != 0:
+		push_warning("%s failed: %s" % [script_rel, str(output)])
+		return ""
+	if not FileAccess.file_exists(tmp_user):
+		return ""
+	return FileAccess.get_file_as_string(tmp_user)
+
+
 static func _extract_buildings_json(sqlite_path: String, limit: int = DEFAULT_BUILDING_LIMIT) -> String:
 	if OS.has_feature("web"):
 		push_error("SQLite save import is not supported in browser builds; use JSON snapshots.")
 		return ""
-	var tmp := "user://sqlite_buildings_extract.json"
-	var tmp_abs := ProjectSettings.globalize_path(tmp)
-	var script := _repo_root().path_join(EXTRACT_BUILDINGS_SCRIPT)
-	var output: Array = []
-	var exit_code := OS.execute(
-		"python3",
-		[script, sqlite_path, tmp_abs, str(limit)],
-		output,
-		true
+	return _run_python_extract(
+		EXTRACT_BUILDINGS_SCRIPT,
+		sqlite_path,
+		"user://sqlite_buildings_extract.json",
+		[str(limit)],
 	)
-	if exit_code != 0:
-		push_error("sqlite_extract_buildings failed: %s" % str(output))
-		return ""
-	if not FileAccess.file_exists(tmp):
-		return ""
-	return FileAccess.get_file_as_string(tmp)
 
 
 static func probe(path: String) -> Dictionary:
 	if not is_sqlite_file(path):
 		return {"ok": false, "error": "not_sqlite", "path": path}
-	var rows := _extract_buildings_json(path)
+	var rows := _extract_buildings_json(path, 200)
 	var count := 0
 	if not rows.is_empty():
 		var data: Variant = JSON.parse_string(rows)
@@ -107,6 +112,7 @@ static func load(path: String) -> GameSession:
 	if typeof(rows) != TYPE_ARRAY:
 		return null
 	var session := GameSession.new()
+	_apply_session_header(session, sqlite_path)
 	_apply_map_from_save(session, sqlite_path)
 	var settlement := session.settlement
 	rows.sort_custom(func(a, b):
@@ -130,23 +136,36 @@ static func load(path: String) -> GameSession:
 		cmd.forced_worldid = int(row["worldid"])
 		cmd.execute(session)
 	_apply_storage_rows(session, sqlite_path)
+	_apply_unit_rows(session, sqlite_path)
 	return session
 
 
-static func _extract_metadata_json(sqlite_path: String) -> Dictionary:
-	var tmp := "user://sqlite_metadata_extract.json"
-	var tmp_abs := ProjectSettings.globalize_path(tmp)
-	var script := _repo_root().path_join(EXTRACT_METADATA_SCRIPT)
-	var output: Array = []
-	var exit_code := OS.execute(
-		"python3",
-		[script, sqlite_path, tmp_abs],
-		output,
-		true
+static func _apply_session_header(session: GameSession, sqlite_path: String) -> void:
+	var json_text := _run_python_extract(
+		EXTRACT_SESSION_SCRIPT,
+		sqlite_path,
+		"user://sqlite_session_extract.json",
 	)
-	if exit_code != 0 or not FileAccess.file_exists(tmp):
+	if json_text.is_empty():
+		return
+	var data: Variant = JSON.parse_string(json_text)
+	if typeof(data) != TYPE_DICTIONARY:
+		return
+	session.restore_save_header(
+		int(data.get("next_worldid", 1)),
+		int(data.get("estimated_cur_tick", -1)),
+	)
+
+
+static func _extract_metadata_json(sqlite_path: String) -> Dictionary:
+	var json_text := _run_python_extract(
+		EXTRACT_METADATA_SCRIPT,
+		sqlite_path,
+		"user://sqlite_metadata_extract.json",
+	)
+	if json_text.is_empty():
 		return {}
-	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(tmp))
+	var data: Variant = JSON.parse_string(json_text)
 	if typeof(data) != TYPE_DICTIONARY:
 		return {}
 	return data
@@ -163,24 +182,12 @@ static func _apply_map_from_save(session: GameSession, sqlite_path: String) -> v
 
 
 static func _extract_storage_json(sqlite_path: String) -> String:
-	if OS.has_feature("web"):
-		return ""
-	var tmp := "user://sqlite_storage_extract.json"
-	var tmp_abs := ProjectSettings.globalize_path(tmp)
-	var script := _repo_root().path_join(EXTRACT_STORAGE_SCRIPT)
-	var output: Array = []
-	var exit_code := OS.execute(
-		"python3",
-		[script, sqlite_path, tmp_abs, "5000"],
-		output,
-		true
+	return _run_python_extract(
+		EXTRACT_STORAGE_SCRIPT,
+		sqlite_path,
+		"user://sqlite_storage_extract.json",
+		["5000"],
 	)
-	if exit_code != 0:
-		push_warning("sqlite_extract_storage failed: %s" % str(output))
-		return ""
-	if not FileAccess.file_exists(tmp):
-		return ""
-	return FileAccess.get_file_as_string(tmp)
 
 
 static func _apply_storage_rows(session: GameSession, sqlite_path: String) -> void:
@@ -208,3 +215,26 @@ static func _apply_storage_rows(session: GameSession, sqlite_path: String) -> vo
 		if res_id < 0 or amount == 0:
 			continue
 		storage.alter(res_id, amount)
+
+
+static func _apply_unit_rows(session: GameSession, sqlite_path: String) -> void:
+	var json_text := _run_python_extract(
+		EXTRACT_UNITS_SCRIPT,
+		sqlite_path,
+		"user://sqlite_units_extract.json",
+		["5000"],
+	)
+	if json_text.is_empty():
+		return
+	var rows: Variant = JSON.parse_string(json_text)
+	if typeof(rows) != TYPE_ARRAY:
+		return
+	for row in rows:
+		if typeof(row) != TYPE_DICTIONARY:
+			continue
+		if str(row.get("kind", "")) != "wild_animal":
+			continue
+		var wid := int(row.get("worldid", -1))
+		var x := int(row.get("x", 0))
+		var y := int(row.get("y", 0))
+		session.spawn_wild_animal(session.island, x, y, wid)

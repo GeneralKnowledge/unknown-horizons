@@ -337,7 +337,7 @@
       "atlas_sqlite": null,
       "building_id": 20,
       "building_stem": "farm",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "fireservice": {
@@ -473,7 +473,7 @@
       "atlas_sqlite": null,
       "building_id": 8,
       "building_stem": "lumberjackcamp",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "mainsquare": {
@@ -762,7 +762,7 @@
       "atlas_sqlite": null,
       "building_id": 55,
       "building_stem": "stonemason",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "stonepit": {

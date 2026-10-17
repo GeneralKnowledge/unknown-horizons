@@ -36,8 +36,11 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 
 [`SqliteSaveLoader`](../scripts/sim/save/sqlite_save_loader.gd):
 
-- Buildings via [`sqlite_extract_buildings.py`](../../development/godot/sqlite_extract_buildings.py)
+- Rev **76→77** bump via [`sqlite_upgrade_save.py`](../../development/godot/sqlite_upgrade_save.py) (no FIFE) inside [`sqlite_prepare_save.py`](../../development/godot/sqlite_prepare_save.py)
+- Session header (tick estimate, `next_worldid`) via [`sqlite_extract_session.py`](../../development/godot/sqlite_extract_session.py)
+- Buildings via [`sqlite_extract_buildings.py`](../../development/godot/sqlite_extract_buildings.py) (limit `0` = all rows)
 - Storage via [`sqlite_extract_storage.py`](../../development/godot/sqlite_extract_storage.py)
+- Wild animals via [`sqlite_extract_units.py`](../../development/godot/sqlite_extract_units.py) (`kind: wild_animal`)
 - Ground from save `metadata.map_name` when a bundled [`export_maps.py`](../../development/godot/export_maps.py) map exists (`development`, `test_map_tiny`, `quattro`); otherwise test stub
 - `.sqlite.bz2` saves decompressed via [`sqlite_prepare_save.py`](../../development/godot/sqlite_prepare_save.py) (desktop)
 - No `SavegameUpgrader` — rev **76** fixture tests upgrade path in **legacy** pytest only

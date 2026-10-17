@@ -28,14 +28,6 @@ static func legacy_map_name_to_id(legacy_name: String) -> String:
 	for entry in list_maps():
 		if str(entry.get("id", "")) == candidate:
 			return candidate
-	# Common legacy map_name values (hyphenated) not yet in manifest id form.
-	match raw.to_lower():
-		"test-map-tiny":
-			return "test_map_tiny"
-		"development":
-			return "development"
-		"quattro":
-			return "quattro"
 	return ""
 
 

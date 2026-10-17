@@ -26,11 +26,8 @@ LEGACY_GROUND_TO_KIND = {
 	6: 0,  # SAND
 }
 
-DEFAULT_EXPORT_MAPS = (
-	"test-map-tiny.sqlite",
-	"development.sqlite",
-	"quattro.sqlite",
-)
+def discover_map_files() -> list[Path]:
+	return sorted(MAPS_SRC.glob("*.sqlite"))
 
 
 def map_id_from_filename(name: str) -> str:
@@ -84,11 +81,8 @@ def main() -> int:
 	OUT_DIR.mkdir(parents=True, exist_ok=True)
 	manifest = load_manifest()
 	exported = 0
-	for filename in DEFAULT_EXPORT_MAPS:
-		src = MAPS_SRC / filename
-		if not src.is_file():
-			print(f"skip missing map {src}")
-			continue
+	for src in discover_map_files():
+		filename = src.name
 		map_id = map_id_from_filename(filename)
 		payload = export_map_sqlite(src)
 		out_path = OUT_DIR / f"{map_id}.json"

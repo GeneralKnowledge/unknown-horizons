@@ -20,7 +20,11 @@ _run() {
 
 set -e
 _run export_content.py "$PYTHON" development/godot/export_content.py
+_run export_a1_extras "$PYTHON" development/godot/export_build_menu.py && "$PYTHON" development/godot/export_grounds.py && "$PYTHON" development/godot/export_audio.py
 _run export_gfx.py "$PYTHON" development/godot/export_gfx.py --auto
+set +e
+"$PYTHON" development/godot/export_gfx.py --auto --multi-frame --stems lumberjackcamp,stonemason,farm
+set -e
 _run validate_content.py "$PYTHON" development/godot/validate_content.py
 set +e
 [[ -f development/godot/export_maps.py ]] && _run export_maps.py "$PYTHON" development/godot/export_maps.py

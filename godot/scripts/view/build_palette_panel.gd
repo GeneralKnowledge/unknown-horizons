@@ -50,6 +50,22 @@ func _rebuild() -> void:
 
 
 func _load_menu_stems() -> Array:
+	const FULL_MENU := "res://resources/exported/build_menu.json"
+	if FileAccess.file_exists(FULL_MENU):
+		var full: Variant = JSON.parse_string(FileAccess.get_file_as_string(FULL_MENU))
+		if typeof(full) == TYPE_DICTIONARY:
+			var stems: Array = []
+			for tab in full.get("tabs", []):
+				if typeof(tab) != TYPE_DICTIONARY:
+					continue
+				for section in tab.get("sections", []):
+					if typeof(section) != TYPE_DICTIONARY:
+						continue
+					for stem in section.get("stems", []):
+						if not stems.has(stem):
+							stems.append(stem)
+			if not stems.is_empty():
+				return stems
 	const MENU_PATH := "res://resources/exported/poc_build_menu.json"
 	if not FileAccess.file_exists(MENU_PATH):
 		return ["lumberjackcamp", "tree"]

@@ -27,6 +27,42 @@
       "name": "Quattro",
       "loader": "ground_json",
       "ground": "res://resources/maps/ground/quattro.json"
+    },
+    {
+      "id": "fight_for_res",
+      "name": "Fight For Res",
+      "loader": "ground_json",
+      "ground": "res://resources/maps/ground/fight_for_res.json"
+    },
+    {
+      "id": "full_house",
+      "name": "Full House",
+      "loader": "ground_json",
+      "ground": "res://resources/maps/ground/full_house.json"
+    },
+    {
+      "id": "mp_dev",
+      "name": "Mp Dev",
+      "loader": "ground_json",
+      "ground": "res://resources/maps/ground/mp_dev.json"
+    },
+    {
+      "id": "rouver",
+      "name": "Rouver",
+      "loader": "ground_json",
+      "ground": "res://resources/maps/ground/rouver.json"
+    },
+    {
+      "id": "singularity40",
+      "name": "Singularity40",
+      "loader": "ground_json",
+      "ground": "res://resources/maps/ground/singularity40.json"
+    },
+    {
+      "id": "triple",
+      "name": "Triple",
+      "loader": "ground_json",
+      "ground": "res://resources/maps/ground/triple.json"
     }
   ]
 }

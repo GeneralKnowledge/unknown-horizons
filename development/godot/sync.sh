@@ -7,8 +7,14 @@ cd "$ROOT"
 echo "==> export_content.py"
 python3 development/godot/export_content.py
 
+echo "==> export A1 extras (menu, grounds, audio)"
+python3 development/godot/export_build_menu.py
+python3 development/godot/export_grounds.py
+python3 development/godot/export_audio.py
+
 echo "==> export_gfx.py"
 python3 development/godot/export_gfx.py --auto
+python3 development/godot/export_gfx.py --auto --multi-frame --stems lumberjackcamp,stonemason,farm
 
 echo "==> export_maps.py"
 python3 development/godot/export_maps.py

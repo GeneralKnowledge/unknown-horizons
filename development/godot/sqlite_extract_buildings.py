@@ -12,11 +12,13 @@ from pathlib import Path
 def extract(path: Path, limit: int = 500, include_skipped: bool = False) -> list[dict]:
 	con = sqlite3.connect(str(path))
 	try:
+		total = con.execute("SELECT COUNT(*) FROM building").fetchone()[0]
+		if limit <= 0:
+			limit = int(total)
 		rows = con.execute(
 			"SELECT rowid, type, x, y, location, rotation, level FROM building LIMIT ?",
 			(limit,),
 		).fetchall()
-		total = con.execute("SELECT COUNT(*) FROM building").fetchone()[0]
 	finally:
 		con.close()
 	out = []
