@@ -2,6 +2,7 @@
   "building_stem": "toolmaker",
   "building_id": 30,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

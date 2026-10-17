@@ -120,7 +120,26 @@ def _merge_gfx_maps(manual: dict[str, dict[str, str]], auto: dict[str, dict[str,
 	return merged
 
 
-def export_building_slice(stem: str, paths: dict[str, str]) -> None:
+def _copy_action_frames(
+	out_dir: Path,
+	src_action_dir: Path,
+	prefix: str,
+	max_frames: int = 16,
+) -> list[str]:
+	rot = src_action_dir / "135"
+	if not rot.is_dir():
+		return []
+	out_names: list[str] = []
+	for i, png in enumerate(sorted(rot.glob("*.png"))):
+		if i >= max_frames:
+			break
+		name = f"{prefix}_{i:03d}.png"
+		shutil.copy2(png, out_dir / name)
+		out_names.append(name)
+	return out_names
+
+
+def export_building_slice(stem: str, paths: dict[str, str], multi_frame: bool = False) -> None:
 	constants = json.loads((GODOT_ROOT / "resources" / "exported" / "constants.json").read_text())
 	buildings = json.loads((GODOT_ROOT / "resources" / "exported" / "buildings.json").read_text())
 	building_id = None
@@ -133,6 +152,8 @@ def export_building_slice(stem: str, paths: dict[str, str]) -> None:
 	out_dir = GODOT_ROOT / "resources" / "gfx" / stem
 	out_dir.mkdir(parents=True, exist_ok=True)
 	source_mode = "placeholder"
+	idle_anim: dict = {"texture": "idle.png", "fps": 1.0}
+	work_anim: dict = {"texture": "working.png", "fps": 4.0}
 	for anim in ("idle", "working"):
 		rel = paths.get(anim, paths.get("idle", ""))
 		src = _resolve_gfx_source(rel) if rel else None
@@ -140,6 +161,13 @@ def export_building_slice(stem: str, paths: dict[str, str]) -> None:
 		if src and src.is_file():
 			shutil.copy2(src, dst)
 			source_mode = "legacy_png"
+			if multi_frame and src.parent.name == "135":
+				frame_names = _copy_action_frames(out_dir, src.parent.parent, anim)
+				if len(frame_names) > 1:
+					target = idle_anim if anim == "idle" else work_anim
+					target["frames"] = frame_names
+					target["fps"] = 4.0 if anim == "working" else 1.0
+					target.erase("texture")
 		else:
 			write_solid_png(dst, 64, 64, (120, 120, 120, 255) if anim == "idle" else (160, 140, 90, 255))
 
@@ -148,10 +176,11 @@ def export_building_slice(stem: str, paths: dict[str, str]) -> None:
 		"building_stem": stem,
 		"building_id": building_id,
 		"source": source_mode,
+		"manifest_version": 2 if multi_frame else 1,
 		"atlas_sqlite": str(atlas_db) if atlas_db else None,
 		"animations": {
-			"idle": {"texture": "idle.png", "fps": 1.0},
-			"working": {"texture": "working.png", "fps": 4.0},
+			"idle": idle_anim,
+			"working": work_anim,
 		},
 	}
 	(out_dir / "sprite_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
@@ -232,6 +261,11 @@ def main() -> int:
 		help="Comma-separated building stems to export (with --auto: subset; else manual map only).",
 	)
 	parser.add_argument(
+		"--multi-frame",
+		action="store_true",
+		help="Export all 135deg PNG frames for idle/working (manifest v2 frames list).",
+	)
+	parser.add_argument(
 		"--report",
 		type=Path,
 		default=GODOT_ROOT / "resources" / "gfx" / "export_report.json",
@@ -262,7 +296,7 @@ def main() -> int:
 				gfx_map[stem] = LEGACY_BUILDING_GFX[stem]
 
 	for stem, paths in sorted(gfx_map.items()):
-		export_building_slice(stem, paths)
+		export_building_slice(stem, paths, multi_frame=args.multi_frame)
 	export_dlc_gfx()
 	gfx_root = GODOT_ROOT / "resources" / "gfx"
 	write_ground_atlas(gfx_root)

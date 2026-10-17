@@ -2,6 +2,7 @@
   "building_stem": "pavilion",
   "building_id": 5,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

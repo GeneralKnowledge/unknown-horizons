@@ -2,6 +2,7 @@
   "building_stem": "fireservice",
   "building_id": 45,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

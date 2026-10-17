@@ -2,6 +2,7 @@
   "building_stem": "tobacconist",
   "building_id": 37,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

@@ -2,6 +2,7 @@
   "building_stem": "stonepit",
   "building_id": 54,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

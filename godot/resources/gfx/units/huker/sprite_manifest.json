@@ -1,0 +1,11 @@
+{
+  "unit_stem": "huker",
+  "actionset": "as_huker0",
+  "source": "legacy_png",
+  "animations": {
+    "idle": {
+      "texture": "idle.png",
+      "fps": 1.0
+    }
+  }
+}

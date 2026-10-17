@@ -2,6 +2,7 @@
   "building_stem": "fishdeposit",
   "building_id": 33,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

@@ -2,6 +2,7 @@
   "building_stem": "butchery",
   "building_id": 41,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

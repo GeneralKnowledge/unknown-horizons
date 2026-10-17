@@ -10,6 +10,12 @@ python3 development/godot/export_content.py
 echo "==> export_gfx.py"
 python3 development/godot/export_gfx.py --auto
 
+echo "==> export_maps.py"
+python3 development/godot/export_maps.py
+
+echo "==> export_unit_gfx.py"
+python3 development/godot/export_unit_gfx.py
+
 echo "==> validate_content.py"
 python3 development/godot/validate_content.py
 
@@ -28,6 +34,12 @@ fi
 
 echo "==> sqlite save smoke"
 python3 development/godot/sqlite_save_smoke.py
+
+echo "==> sqlite fixture matrix"
+python3 development/godot/sqlite_fixture_matrix.py
+
+echo "==> export manifest"
+python3 development/godot/write_export_manifest.py
 
 echo "==> run_tests.sh"
 ./godot/run_tests.sh

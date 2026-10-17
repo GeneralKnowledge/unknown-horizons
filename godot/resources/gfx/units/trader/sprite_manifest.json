@@ -1,0 +1,11 @@
+{
+  "unit_stem": "trader",
+  "actionset": "as_trader0",
+  "source": "legacy_png",
+  "animations": {
+    "idle": {
+      "texture": "idle.png",
+      "fps": 1.0
+    }
+  }
+}

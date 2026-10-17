@@ -4,7 +4,8 @@ extends RefCounted
 ## Legacy UH savegames (.sqlite). Subset load via Python extract + BuildCommand replay.
 
 const MAGIC := "SQLite format 3"
-const EXTRACT_SCRIPT := "development/godot/sqlite_extract_buildings.py"
+const EXTRACT_BUILDINGS_SCRIPT := "development/godot/sqlite_extract_buildings.py"
+const EXTRACT_STORAGE_SCRIPT := "development/godot/sqlite_extract_storage.py"
 
 
 static func is_sqlite_file(path: String) -> bool:
@@ -28,7 +29,7 @@ static func _extract_buildings_json(sqlite_path: String) -> String:
 		return ""
 	var tmp := "user://sqlite_buildings_extract.json"
 	var tmp_abs := ProjectSettings.globalize_path(tmp)
-	var script := _repo_root().path_join(EXTRACT_SCRIPT)
+	var script := _repo_root().path_join(EXTRACT_BUILDINGS_SCRIPT)
 	var output: Array = []
 	var exit_code := OS.execute(
 		"python3",
@@ -86,6 +87,8 @@ static func load(path: String) -> GameSession:
 		return int(a["worldid"]) < int(b["worldid"])
 	)
 	for row in rows:
+		if typeof(row) != TYPE_DICTIONARY or row.get("_skipped", false):
+			continue
 		var bid := int(row["building_id"])
 		if bid <= 0:
 			continue
@@ -96,4 +99,53 @@ static func load(path: String) -> GameSession:
 		)
 		cmd.forced_worldid = int(row["worldid"])
 		cmd.execute(session)
+	_apply_storage_rows(session, path)
 	return session
+
+
+static func _extract_storage_json(sqlite_path: String) -> String:
+	if OS.has_feature("web"):
+		return ""
+	var tmp := "user://sqlite_storage_extract.json"
+	var tmp_abs := ProjectSettings.globalize_path(tmp)
+	var script := _repo_root().path_join(EXTRACT_STORAGE_SCRIPT)
+	var output: Array = []
+	var exit_code := OS.execute(
+		"python3",
+		[script, sqlite_path, tmp_abs, "5000"],
+		output,
+		true
+	)
+	if exit_code != 0:
+		push_warning("sqlite_extract_storage failed: %s" % str(output))
+		return ""
+	if not FileAccess.file_exists(tmp):
+		return ""
+	return FileAccess.get_file_as_string(tmp)
+
+
+static func _apply_storage_rows(session: GameSession, sqlite_path: String) -> void:
+	var json_text := _extract_storage_json(sqlite_path)
+	if json_text.is_empty():
+		return
+	var rows: Variant = JSON.parse_string(json_text)
+	if typeof(rows) != TYPE_ARRAY:
+		return
+	var by_worldid: Dictionary = {}
+	for b in session.get_buildings_on_island(session.island):
+		by_worldid[b.worldid] = b
+	for row in rows:
+		if typeof(row) != TYPE_DICTIONARY:
+			continue
+		var wid := int(row.get("worldid", -1))
+		if not by_worldid.has(wid):
+			continue
+		var building: Building = by_worldid[wid]
+		var storage := building.get_storage()
+		if storage == null:
+			continue
+		var res_id := int(row.get("resource_id", -1))
+		var amount := int(row.get("amount", 0))
+		if res_id < 0 or amount == 0:
+			continue
+		storage.alter(res_id, amount)

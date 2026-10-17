@@ -32,11 +32,19 @@ jobs:
       - name: Export gfx manifests
         run: python3 development/godot/export_gfx.py --auto
 
+      - name: Export maps and unit gfx
+        run: |
+          python3 development/godot/export_maps.py
+          python3 development/godot/export_unit_gfx.py
+
       - name: Validate exported content
         run: python3 development/godot/validate_content.py
 
       - name: Legacy SQLite save smoke
         run: python3 development/godot/sqlite_save_smoke.py
+
+      - name: SQLite fixture matrix
+        run: python3 development/godot/sqlite_fixture_matrix.py
 
       - name: Run GUT (headless)
         run: ./godot/run_tests.sh

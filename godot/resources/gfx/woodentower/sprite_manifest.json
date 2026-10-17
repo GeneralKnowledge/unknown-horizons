@@ -2,6 +2,7 @@
   "building_stem": "woodentower",
   "building_id": 44,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

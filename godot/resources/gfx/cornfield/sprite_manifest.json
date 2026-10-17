@@ -2,6 +2,7 @@
   "building_stem": "cornfield",
   "building_id": 46,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

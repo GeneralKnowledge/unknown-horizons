@@ -5,7 +5,7 @@ Unknown Horizons keeps the **Python + FIFE** game shippable while the **Godot 4*
 ## Dual-run (current phase)
 
 - **Source of truth for balance/content:** `legacy/content/` and `legacy/horizons/` (unchanged workflow for contributors editing YAML).
-- **Godot consumes content** via `development/godot/export_content.py` (constants, buildings JSON, production line id map).
+- **Godot consumes content** via [`development/godot/export_all.sh`](../../development/godot/export_all.sh) / [`EXPORT_PIPELINE.md`](../../development/godot/EXPORT_PIPELINE.md) (constants, buildings JSON, gfx, maps, unit gfx).
 - **Correctness:** port pytest scenarios to GUT under `godot/tests/`; aim for behavioral parity on sim logic before replacing UI.
 - **Release:** no Godot binary in official downloads until a agreed milestone (e.g. settlement loop + save/load + core UI).
 
@@ -26,7 +26,7 @@ Until (5) is largely green, treat Godot as a parallel client, not a replacement.
 |------|------|
 | Export path | Keep using `content/` + pytest/GUT parity for *rules*; saves prove *integration* |
 | Load Python saves in Godot | Expand `SqliteSaveLoader` beyond building subset; map + units + session metadata |
-| Test harness | `development/godot/` fixtures from real `.sqlite` files; CI smoke + diff vs extractors |
+| Test harness | [`LEGACY_SAVE_FIXTURES.md`](LEGACY_SAVE_FIXTURES.md) + `sqlite_fixture_matrix.py`; CI matrix over in-repo `.sqlite` files |
 | Player workflow | Document save-in-Python → load-in-Godot for early adopters |
 | Mixed clients | Shared authoritative sim (server or host); Python and Godot as peers—validates command parity under real latency |
 

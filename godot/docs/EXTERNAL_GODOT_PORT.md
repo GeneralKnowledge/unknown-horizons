@@ -34,6 +34,7 @@ Typical upstream paths (names vary by stem, e.g. `lumberjack` vs export stem `lu
 
 **Long-term art pipeline:** Tier A from godot-port is fastest for demos; **automated legacy export** remains the maintainable source when YAML/actionsets change:
 
+- Master pipeline: [`development/godot/EXPORT_PIPELINE.md`](../../development/godot/EXPORT_PIPELINE.md) + `./development/godot/export_all.sh`.
 - [`development/godot/export_gfx.py --auto`](../../development/godot/GFX_EXPORT.md) — discovers actionsets from building YAML → `godot/resources/gfx/<stem>/` (`sprite_manifest.json` + PNGs). Used by `./development/godot/sync.sh`.
 - Manual overrides in `export_gfx.py` for better working animations; discovery report in `resources/gfx/export_report.json`.
 

@@ -14,6 +14,7 @@
       "atlas_sqlite": null,
       "building_id": 62,
       "building_stem": "alvearies",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "ambient": {
@@ -30,6 +31,7 @@
       "atlas_sqlite": null,
       "building_id": 72,
       "building_stem": "ambient",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "bakery": {
@@ -46,6 +48,7 @@
       "atlas_sqlite": null,
       "building_id": 48,
       "building_stem": "bakery",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "barracks": {
@@ -62,6 +65,7 @@
       "atlas_sqlite": null,
       "building_id": 53,
       "building_stem": "barracks",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "barrier": {
@@ -78,6 +82,7 @@
       "atlas_sqlite": null,
       "building_id": 71,
       "building_stem": "barrier",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "blender": {
@@ -94,6 +99,7 @@
       "atlas_sqlite": null,
       "building_id": 50,
       "building_stem": "blender",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "boatbuilder": {
@@ -110,6 +116,7 @@
       "atlas_sqlite": null,
       "building_id": 12,
       "building_stem": "boatbuilder",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "brewery": {
@@ -126,6 +133,7 @@
       "atlas_sqlite": null,
       "building_id": 68,
       "building_stem": "brewery",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "brickyard": {
@@ -142,6 +150,7 @@
       "atlas_sqlite": null,
       "building_id": 24,
       "building_stem": "brickyard",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "butchery": {
@@ -158,6 +167,7 @@
       "atlas_sqlite": null,
       "building_id": 41,
       "building_stem": "butchery",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "cannonfoundry": {
@@ -174,6 +184,7 @@
       "atlas_sqlite": null,
       "building_id": 67,
       "building_stem": "cannonfoundry",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "cattlerun": {
@@ -190,6 +201,7 @@
       "atlas_sqlite": null,
       "building_id": 38,
       "building_stem": "cattlerun",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "charcoalburning": {
@@ -206,6 +218,7 @@
       "atlas_sqlite": null,
       "building_id": 31,
       "building_stem": "charcoalburning",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "claydeposit": {
@@ -222,6 +235,7 @@
       "atlas_sqlite": null,
       "building_id": 23,
       "building_stem": "claydeposit",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "claypit": {
@@ -238,6 +252,7 @@
       "atlas_sqlite": null,
       "building_id": 25,
       "building_stem": "claypit",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "cocoafield": {
@@ -254,6 +269,7 @@
       "atlas_sqlite": null,
       "building_id": 60,
       "building_stem": "cocoafield",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "cornfield": {
@@ -270,6 +286,7 @@
       "atlas_sqlite": null,
       "building_id": 46,
       "building_stem": "cornfield",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "distillery": {
@@ -286,6 +303,7 @@
       "atlas_sqlite": null,
       "building_id": 26,
       "building_stem": "distillery",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "doctor": {
@@ -302,6 +320,7 @@
       "atlas_sqlite": null,
       "building_id": 42,
       "building_stem": "doctor",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "farm": {
@@ -318,6 +337,7 @@
       "atlas_sqlite": null,
       "building_id": 20,
       "building_stem": "farm",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "fireservice": {
@@ -334,6 +354,7 @@
       "atlas_sqlite": null,
       "building_id": 45,
       "building_stem": "fireservice",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "fishdeposit": {
@@ -350,6 +371,7 @@
       "atlas_sqlite": null,
       "building_id": 33,
       "building_stem": "fishdeposit",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "fishermanstent": {
@@ -366,6 +388,7 @@
       "atlas_sqlite": null,
       "building_id": 11,
       "building_stem": "fishermanstent",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "herbary": {
@@ -382,6 +405,7 @@
       "atlas_sqlite": null,
       "building_id": 40,
       "building_stem": "herbary",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "hopfield": {
@@ -398,6 +422,7 @@
       "atlas_sqlite": null,
       "building_id": 69,
       "building_stem": "hopfield",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "hunterstent": {
@@ -414,6 +439,7 @@
       "atlas_sqlite": null,
       "building_id": 9,
       "building_stem": "hunterstent",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "lookout": {
@@ -430,6 +456,7 @@
       "atlas_sqlite": null,
       "building_id": 13,
       "building_stem": "lookout",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "lumberjackcamp": {
@@ -446,6 +473,7 @@
       "atlas_sqlite": null,
       "building_id": 8,
       "building_stem": "lumberjackcamp",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "mainsquare": {
@@ -462,6 +490,7 @@
       "atlas_sqlite": null,
       "building_id": 4,
       "building_stem": "mainsquare",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "mine": {
@@ -478,6 +507,7 @@
       "atlas_sqlite": null,
       "building_id": 28,
       "building_stem": "mine",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "mountain": {
@@ -494,6 +524,7 @@
       "atlas_sqlite": null,
       "building_id": 34,
       "building_stem": "mountain",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "pastryshop": {
@@ -510,6 +541,7 @@
       "atlas_sqlite": null,
       "building_id": 63,
       "building_stem": "pastryshop",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "pasture": {
@@ -526,6 +558,7 @@
       "atlas_sqlite": null,
       "building_id": 18,
       "building_stem": "pasture",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "pavilion": {
@@ -542,6 +575,7 @@
       "atlas_sqlite": null,
       "building_id": 5,
       "building_stem": "pavilion",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "pigsty": {
@@ -558,6 +592,7 @@
       "atlas_sqlite": null,
       "building_id": 39,
       "building_stem": "pigsty",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "potatofield": {
@@ -574,6 +609,7 @@
       "atlas_sqlite": null,
       "building_id": 19,
       "building_stem": "potatofield",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "publicbath": {
@@ -590,6 +626,7 @@
       "atlas_sqlite": null,
       "building_id": 87,
       "building_stem": "publicbath",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "ruinedtent": {
@@ -606,6 +643,7 @@
       "atlas_sqlite": null,
       "building_id": 10,
       "building_stem": "ruinedtent",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "saline": {
@@ -622,6 +660,7 @@
       "atlas_sqlite": null,
       "building_id": 86,
       "building_stem": "saline",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "saltponds": {
@@ -638,6 +677,7 @@
       "atlas_sqlite": null,
       "building_id": 35,
       "building_stem": "saltponds",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "signalfire": {
@@ -654,6 +694,7 @@
       "atlas_sqlite": null,
       "building_id": 6,
       "building_stem": "signalfire",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "smeltery": {
@@ -670,6 +711,7 @@
       "atlas_sqlite": null,
       "building_id": 29,
       "building_stem": "smeltery",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "spicefield": {
@@ -686,6 +728,7 @@
       "atlas_sqlite": null,
       "building_id": 49,
       "building_stem": "spicefield",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "stonedeposit": {
@@ -702,6 +745,7 @@
       "atlas_sqlite": null,
       "building_id": 70,
       "building_stem": "stonedeposit",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "stonemason": {
@@ -718,6 +762,7 @@
       "atlas_sqlite": null,
       "building_id": 55,
       "building_stem": "stonemason",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "stonepit": {
@@ -734,6 +779,7 @@
       "atlas_sqlite": null,
       "building_id": 54,
       "building_stem": "stonepit",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "storagetent": {
@@ -750,6 +796,7 @@
       "atlas_sqlite": null,
       "building_id": 2,
       "building_stem": "storagetent",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "sugarfield": {
@@ -766,6 +813,7 @@
       "atlas_sqlite": null,
       "building_id": 22,
       "building_stem": "sugarfield",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "tavern": {
@@ -782,6 +830,7 @@
       "atlas_sqlite": null,
       "building_id": 32,
       "building_stem": "tavern",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "tent": {
@@ -798,6 +847,7 @@
       "atlas_sqlite": null,
       "building_id": 3,
       "building_stem": "tent",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "tobaccofield": {
@@ -814,6 +864,7 @@
       "atlas_sqlite": null,
       "building_id": 36,
       "building_stem": "tobaccofield",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "tobacconist": {
@@ -830,6 +881,7 @@
       "atlas_sqlite": null,
       "building_id": 37,
       "building_stem": "tobacconist",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "toolmaker": {
@@ -846,6 +898,7 @@
       "atlas_sqlite": null,
       "building_id": 30,
       "building_stem": "toolmaker",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "trail": {
@@ -862,6 +915,7 @@
       "atlas_sqlite": null,
       "building_id": 15,
       "building_stem": "trail",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "tree": {
@@ -878,6 +932,7 @@
       "atlas_sqlite": null,
       "building_id": 17,
       "building_stem": "tree",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "villageschool": {
@@ -894,6 +949,7 @@
       "atlas_sqlite": null,
       "building_id": 21,
       "building_stem": "villageschool",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "vineyard": {
@@ -910,6 +966,7 @@
       "atlas_sqlite": null,
       "building_id": 61,
       "building_stem": "vineyard",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "warehouse": {
@@ -926,6 +983,7 @@
       "atlas_sqlite": null,
       "building_id": 1,
       "building_stem": "warehouse",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "weaponsmith": {
@@ -942,6 +1000,7 @@
       "atlas_sqlite": null,
       "building_id": 66,
       "building_stem": "weaponsmith",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "weaverstent": {
@@ -958,6 +1017,7 @@
       "atlas_sqlite": null,
       "building_id": 7,
       "building_stem": "weaverstent",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "windmill": {
@@ -974,6 +1034,7 @@
       "atlas_sqlite": null,
       "building_id": 47,
       "building_stem": "windmill",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "winery": {
@@ -990,6 +1051,7 @@
       "atlas_sqlite": null,
       "building_id": 65,
       "building_stem": "winery",
+      "manifest_version": 1,
       "source": "legacy_png"
     },
     "woodentower": {
@@ -1006,6 +1068,7 @@
       "atlas_sqlite": null,
       "building_id": 44,
       "building_stem": "woodentower",
+      "manifest_version": 1,
       "source": "legacy_png"
     }
   },

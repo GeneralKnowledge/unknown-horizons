@@ -2,6 +2,7 @@
   "building_stem": "potatofield",
   "building_id": 19,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

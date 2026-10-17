@@ -1,0 +1,11 @@
+[
+  "legacy/tests/game/fixtures/blackdeath.sqlite",
+  "legacy/tests/game/fixtures/fire.sqlite",
+  "legacy/tests/game/fixtures/savegame-rev-76.sqlite",
+  "legacy/tests/game/fixtures/settlement-range.sqlite",
+  "legacy/tests/game/fixtures/traderoute.sqlite",
+  "legacy/tests/gui/ingame/fixtures/ai_settlement.sqlite",
+  "legacy/tests/gui/ingame/fixtures/boatbuilder.sqlite",
+  "legacy/tests/gui/ingame/fixtures/fife_exception_not_found.sqlite",
+  "legacy/tests/gui/ingame/fixtures/plain.sqlite"
+]

@@ -2,6 +2,7 @@
   "building_stem": "pigsty",
   "building_id": 39,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

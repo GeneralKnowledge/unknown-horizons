@@ -2,13 +2,25 @@
   "maps": [
     {
       "id": "test_island_20x20",
-      "name": "Test island 20×20",
+      "name": "Test island 20\u00d720",
       "loader": "stub_test_island"
     },
     {
       "id": "test_island_20x20_simple",
       "name": "Test island (simple label)",
       "loader": "stub_test_island"
+    },
+    {
+      "id": "test_map_tiny",
+      "name": "Test Map Tiny",
+      "loader": "ground_json",
+      "ground": "res://resources/maps/ground/test_map_tiny.json"
+    },
+    {
+      "id": "development",
+      "name": "Development",
+      "loader": "ground_json",
+      "ground": "res://resources/maps/ground/development.json"
     }
   ]
 }

@@ -2,6 +2,7 @@
   "building_stem": "winery",
   "building_id": 65,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

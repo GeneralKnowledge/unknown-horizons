@@ -54,16 +54,30 @@ func _load_manifest_for_stem(stem: String) -> void:
 	var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
 	var base := manifest_path.get_base_dir()
 	var anims: Dictionary = manifest.get("animations", {})
-	var idle_tex := _load_texture(base + "/" + str(anims.get("idle", {}).get("texture", "idle.png")))
-	var work_tex := _load_texture(base + "/" + str(anims.get("working", {}).get("texture", "working.png")))
 	var sf := SpriteFrames.new()
-	sf.add_animation(&"idle")
-	sf.set_animation_speed(&"idle", float(anims.get("idle", {}).get("fps", 1.0)))
-	sf.add_frame(&"idle", idle_tex)
-	sf.add_animation(&"working")
-	sf.set_animation_speed(&"working", float(anims.get("working", {}).get("fps", 4.0)))
-	sf.add_frame(&"working", work_tex)
+	_add_manifest_animation(sf, &"idle", base, anims.get("idle", {}), "idle.png")
+	_add_manifest_animation(sf, &"working", base, anims.get("working", {}), "working.png")
 	_frames_by_stem[stem] = sf
+
+
+func _add_manifest_animation(
+	sf: SpriteFrames,
+	anim_name: StringName,
+	base_dir: String,
+	anim_data: Variant,
+	fallback_texture: String,
+) -> void:
+	if typeof(anim_data) != TYPE_DICTIONARY:
+		anim_data = {"texture": fallback_texture, "fps": 1.0}
+	sf.add_animation(anim_name)
+	sf.set_animation_speed(anim_name, float(anim_data.get("fps", 1.0)))
+	var frames: Array = anim_data.get("frames", [])
+	if frames.is_empty():
+		var tex_path := str(anim_data.get("texture", fallback_texture))
+		sf.add_frame(anim_name, _load_texture(base_dir + "/" + tex_path))
+		return
+	for frame_name in frames:
+		sf.add_frame(anim_name, _load_texture(base_dir + "/" + str(frame_name)))
 
 
 func _load_texture(path: String) -> Texture2D:

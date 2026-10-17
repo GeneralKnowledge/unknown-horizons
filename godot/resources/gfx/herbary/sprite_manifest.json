@@ -2,6 +2,7 @@
   "building_stem": "herbary",
   "building_id": 40,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

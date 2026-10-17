@@ -2,6 +2,7 @@
   "building_stem": "blender",
   "building_id": 50,
   "source": "legacy_png",
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {
