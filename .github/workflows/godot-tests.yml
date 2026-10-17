@@ -1,6 +1,7 @@
 name: Godot PoC tests
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'godot/**'
@@ -64,6 +65,18 @@ jobs:
 
       - name: Compare Godot traces to golden
         run: ./development/godot/parity/run_all.sh
+
+  upstream-godot-port-inventory:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Inventory godot-port develop (shallow)
+        run: python3 development/godot/inventory_godot_port.py
+
+      - name: Verify SOURCE_COMMIT pin file exists
+        run: test -f godot/resources/upstream/godot-port/SOURCE_COMMIT.txt
 
   web-export:
     runs-on: ubuntu-latest

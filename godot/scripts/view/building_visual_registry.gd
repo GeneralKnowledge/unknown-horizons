@@ -11,6 +11,8 @@ var _manifest_stems: Array[String] = [
 	"fishermanstent",
 	"brickyard",
 	"warehouse",
+	"farm",
+	"stonemason",
 ]
 
 

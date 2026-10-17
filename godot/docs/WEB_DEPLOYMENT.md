@@ -86,6 +86,24 @@ If your local export fails, compare `godot --version` with the template folder n
 | SQLite load fails in browser | Expected — legacy SQLite import is desktop-only; use JSON saves. |
 | Audio silent until click | Browser autoplay policy — interact with canvas first. |
 
+## Custom maps (`user://maps`)
+
+Bundled maps are listed in `res://resources/maps/maps_manifest.json`. In the browser (and desktop), you can drop additional entries by placing a manifest at:
+
+`user://maps/maps_manifest.json`
+
+For a static site origin, `user://` is scoped to that host (same as JSON saves). Each entry should match the bundled shape:
+
+```json
+{
+  "maps": [
+    { "id": "my_island", "name": "My island", "loader": "stub_test_island" }
+  ]
+}
+```
+
+Loaders are still **stubs** until real ground import lands; unknown ids fall back to the default test island ground. The PoC **Map** dropdown merges bundled + user manifests.
+
 ## Static hosting only
 
 No backend is required to serve the game files. Future multiplayer would add a separate command API; out of scope for the initial web milestone.

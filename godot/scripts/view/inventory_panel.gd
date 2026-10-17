@@ -11,7 +11,7 @@ const DISPLAY_RES := [
 ]
 
 var _title: Label
-var _rows: Dictionary = {}
+var _rows: Dictionary = {} # res_name -> HBoxContainer
 
 
 func _ready() -> void:
@@ -19,10 +19,20 @@ func _ready() -> void:
 	_title.text = "Inventory"
 	add_child(_title)
 	for res_name in DISPLAY_RES:
-		var row := Label.new()
-		row.text = "%s: —" % res_name
+		var row := HBoxContainer.new()
+		var icon := TextureRect.new()
+		icon.custom_minimum_size = Vector2(24, 24)
+		icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		var tex := ResourceIconRegistry.get_icon_for_res_name(res_name)
+		if tex != null:
+			icon.texture = tex
+		row.add_child(icon)
+		var label := Label.new()
+		label.text = "%s: —" % res_name
+		row.add_child(label)
 		add_child(row)
-		_rows[res_name] = row
+		_rows[res_name] = label
 
 
 func show_inventory(title: String, inventory: Inventory) -> void:

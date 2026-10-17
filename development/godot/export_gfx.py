@@ -37,6 +37,14 @@ LEGACY_BUILDING_GFX: dict[str, dict[str, str]] = {
 		"idle": "sailors/warehouse/as_warehouse0/idle/135/0.png",
 		"working": "sailors/warehouse/as_warehouse0/idle/135/0.png",
 	},
+	"farm": {
+		"idle": "pioneers/farm/as_farm0/idle/135/0.png",
+		"working": "pioneers/farm/as_farm0/idle/135/0.png",
+	},
+	"stonemason": {
+		"idle": "citizens/as_stonemason0/idle/135/0.png",
+		"working": "citizens/as_stonemason0/idle/135/0.png",
+	},
 }
 
 

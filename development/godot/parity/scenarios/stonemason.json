@@ -1,0 +1,21 @@
+{
+  "id": "stonemason",
+  "map": "test_island_20x20",
+  "steps": [
+    { "op": "settle" },
+    { "op": "build_ownerless", "building": "STONE_DEPOSIT", "x": 33, "y": 33 },
+    { "op": "build", "building": "STONE_PIT", "x": 33, "y": 33 },
+    { "op": "build", "building": "STONEMASON", "x": 33, "y": 25 },
+    { "op": "alter_storage", "target": "building", "resource": "STONE_TOPS", "amount": 4 },
+    { "op": "run_seconds", "seconds": 45 }
+  ],
+  "expect": {
+    "min_building_storage": {
+      "stem": "stonemason",
+      "x": 33,
+      "y": 25,
+      "resource": "BRICKS",
+      "min": 1
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "maps": [
+    {
+      "id": "test_island_20x20",
+      "name": "Test island 20×20",
+      "loader": "stub_test_island"
+    },
+    {
+      "id": "test_island_20x20_simple",
+      "name": "Test island (simple label)",
+      "loader": "stub_test_island"
+    }
+  ]
+}

@@ -16,6 +16,22 @@
       "building_stem": "brickyard",
       "source": "legacy_png"
     },
+    "farm": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 20,
+      "building_stem": "farm",
+      "source": "legacy_png"
+    },
     "fishermanstent": {
       "animations": {
         "idle": {
@@ -62,6 +78,22 @@
       "atlas_sqlite": null,
       "building_id": 8,
       "building_stem": "lumberjackcamp",
+      "source": "legacy_png"
+    },
+    "stonemason": {
+      "animations": {
+        "idle": {
+          "fps": 1.0,
+          "texture": "idle.png"
+        },
+        "working": {
+          "fps": 4.0,
+          "texture": "working.png"
+        }
+      },
+      "atlas_sqlite": null,
+      "building_id": 55,
+      "building_stem": "stonemason",
       "source": "legacy_png"
     },
     "warehouse": {

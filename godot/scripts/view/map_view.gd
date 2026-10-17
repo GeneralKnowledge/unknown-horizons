@@ -90,7 +90,7 @@ func _build_ground_tileset() -> void:
 	var atlas := TileSetAtlasSource.new()
 	var img := Image.create(96, 16, false, Image.FORMAT_RGBA8)
 	for i in range(3):
-		var col := [_water_color, _coast_color, _land_color][i]
+		var col: Color = [_water_color, _coast_color, _land_color][i]
 		for x in range(32):
 			for y in range(16):
 				img.set_pixel(i * 32 + x, y, col)

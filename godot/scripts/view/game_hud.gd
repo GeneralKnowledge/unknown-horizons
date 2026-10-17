@@ -13,10 +13,16 @@ var selected: Building
 
 var _save_load: SaveLoadPanel
 var _dev_debug: DevDebugPanel
+var _map_picker: MapPickerPanel
+var _context_panel: ContextModePanel
+var _production: ProductionOverviewPanel
 
 signal save_requested
 signal load_requested
 signal import_snapshot(json_text: String)
+signal map_selected(map_id: String)
+signal context_selected(context_name: StringName)
+signal build_mode_selected(mode: StringName)
 
 @onready var _hint: Label = $VBox/GameplayHint
 
@@ -25,7 +31,11 @@ func bind(p_session: GameSession, build_tool: BuildTool = null) -> void:
 	session = p_session
 	if build_tool != null:
 		_palette.bind(build_tool)
+		if not _palette.mode_selected.is_connected(_on_palette_mode):
+			_palette.mode_selected.connect(_on_palette_mode)
 	_warehouse.bind(p_session)
+	if _production != null:
+		_production.bind(p_session)
 	if not MessageBus.settlement_updated.is_connected(refresh):
 		MessageBus.settlement_updated.connect(refresh)
 	if not MessageBus.building_placed.is_connected(_on_building_placed):
@@ -46,6 +56,42 @@ func bind(p_session: GameSession, build_tool: BuildTool = null) -> void:
 			_dev_debug = DevDebugPanel.new()
 			$VBox.add_child(_dev_debug)
 		_dev_debug.bind(p_session)
+	if _map_picker == null:
+		_map_picker = MapPickerPanel.new()
+		$VBox.add_child(_map_picker)
+		$VBox.move_child(_map_picker, 1)
+		if not _map_picker.map_selected.is_connected(_on_map_picker):
+			_map_picker.map_selected.connect(_on_map_picker)
+	if _context_panel == null:
+		_context_panel = ContextModePanel.new()
+		$VBox.add_child(_context_panel)
+		$VBox.move_child(_context_panel, _palette.get_index())
+		if not _context_panel.context_selected.is_connected(_on_context_panel):
+			_context_panel.context_selected.connect(_on_context_panel)
+	if _production == null:
+		_production = ProductionOverviewPanel.new()
+		$VBox.add_child(_production)
+		$VBox.move_child(_production, _producer_label.get_index() + 1)
+func bind_context(context_manager: ViewContextManager) -> void:
+	if _context_panel != null:
+		_context_panel.highlight(context_manager.get_context_name())
+
+
+func set_context_name(context_name: StringName) -> void:
+	if _context_panel != null:
+		_context_panel.highlight(context_name)
+
+
+func _on_map_picker(map_id: String) -> void:
+	map_selected.emit(map_id)
+
+
+func _on_context_panel(context_name: StringName) -> void:
+	context_selected.emit(context_name)
+
+
+func _on_palette_mode(mode: StringName) -> void:
+	build_mode_selected.emit(mode)
 
 
 func _on_building_placed(building: Building) -> void:
@@ -59,6 +105,8 @@ func _on_building_selected(building: Building) -> void:
 func set_selected(building: Building) -> void:
 	selected = building
 	_warehouse.set_selected(building)
+	if _production != null:
+		_production.set_selected(building)
 	if _dev_debug != null:
 		_dev_debug.set_selected(building)
 	refresh()
@@ -94,7 +142,7 @@ func refresh() -> void:
 	)
 	if _hint != null:
 		_hint.text = (
-			"Loop: place lumberjack → place trees nearby → wait for boards → save/load or download JSON."
+			"B=build S=select T=tear | lumberjack + trees → boards | save/load JSON."
 		)
 	_settlement_panel.show_inventory("Settlement warehouse", settlement.inventory)
 	if selected != null:
@@ -108,6 +156,8 @@ func refresh() -> void:
 			)
 		else:
 			_producer_label.text = "Producer: —"
+		if _production != null:
+			_production.set_selected(selected)
 	else:
 		_building_panel.show_inventory("Selected building", null)
-		_producer_label.text = "Left-click: place  |  Right-click: select"
+		_producer_label.text = "Use mode buttons or B / S / T keys"
