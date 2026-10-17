@@ -1,11 +1,14 @@
 class_name BuildPalettePanel
-extends HBoxContainer
+extends VBoxContainer
 
 signal mode_selected(mode: StringName)
 
 var _build_tool: BuildTool
 var _status: Label
+var _legend: Label
 var _pending_bind: BuildTool = null
+var _tabs: TabContainer
+var _tear_row: HBoxContainer
 
 
 func bind(p_tool: BuildTool) -> void:
@@ -20,6 +23,19 @@ func _ready() -> void:
 	_status = Label.new()
 	_status.text = "Build: —"
 	add_child(_status)
+	_legend = Label.new()
+	_legend.text = "Ghost: green = valid, red = invalid"
+	add_child(_legend)
+	_tabs = TabContainer.new()
+	_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_tabs.custom_minimum_size = Vector2(0, 120)
+	add_child(_tabs)
+	_tear_row = HBoxContainer.new()
+	add_child(_tear_row)
+	var tear_btn := Button.new()
+	tear_btn.text = "Tear"
+	tear_btn.pressed.connect(func(): _apply_mode(&"tear"))
+	_tear_row.add_child(tear_btn)
 	if _pending_bind != null:
 		_build_tool = _pending_bind
 		_pending_bind = null
@@ -28,44 +44,70 @@ func _ready() -> void:
 
 
 func _rebuild() -> void:
-	for child in get_children():
-		if child != _status:
-			child.queue_free()
+	for child in _tabs.get_children():
+		child.queue_free()
 	if _build_tool == null:
 		return
-	var stems: Array = _load_menu_stems()
-	for stem in stems:
-		var btn := Button.new()
-		btn.text = ContentTheme.label_for_build_stem(str(stem))
-		var captured: String = str(stem)
-		btn.pressed.connect(func():
-			_apply_stem(captured)
-		)
-		add_child(btn)
-	var tear_btn := Button.new()
-	tear_btn.text = "Tear"
-	tear_btn.pressed.connect(func(): _apply_mode(&"tear"))
-	add_child(tear_btn)
+	var menu := _load_full_menu()
+	if menu.get("tabs", []).is_empty():
+		_add_poc_tab()
+	else:
+		for tab in menu.get("tabs", []):
+			if typeof(tab) != TYPE_DICTIONARY:
+				continue
+			var scroll := ScrollContainer.new()
+			scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			var col := VBoxContainer.new()
+			scroll.add_child(col)
+			col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			for section in tab.get("sections", []):
+				if typeof(section) != TYPE_DICTIONARY:
+					continue
+				var hdr := Label.new()
+				hdr.text = str(section.get("label", "Buildings"))
+				col.add_child(hdr)
+				var row := HBoxContainer.new()
+				col.add_child(row)
+				for stem in section.get("stems", []):
+					row.add_child(_stem_button(str(stem)))
+			var tab_id := str(tab.get("id", "tab"))
+			_tabs.add_child(scroll)
+			_tabs.set_tab_title(_tabs.get_tab_count() - 1, tab_id)
 	_refresh_status()
 
 
-func _load_menu_stems() -> Array:
+func _add_poc_tab() -> void:
+	var scroll := ScrollContainer.new()
+	var row := HBoxContainer.new()
+	scroll.add_child(row)
+	for stem in _load_poc_stems():
+		row.add_child(_stem_button(str(stem)))
+	_tabs.add_child(scroll)
+	_tabs.set_tab_title(0, "PoC")
+
+
+func _stem_button(label: String, cb: Callable = Callable()) -> Button:
+	var btn := Button.new()
+	btn.text = ContentTheme.label_for_build_stem(label) if label != "Tear" else "Tear"
+	if cb.is_valid():
+		btn.pressed.connect(cb)
+	else:
+		var captured := label
+		btn.pressed.connect(func(): _apply_stem(captured))
+	return btn
+
+
+func _load_full_menu() -> Dictionary:
 	const FULL_MENU := "res://resources/exported/build_menu.json"
-	if FileAccess.file_exists(FULL_MENU):
-		var full: Variant = JSON.parse_string(FileAccess.get_file_as_string(FULL_MENU))
-		if typeof(full) == TYPE_DICTIONARY:
-			var stems: Array = []
-			for tab in full.get("tabs", []):
-				if typeof(tab) != TYPE_DICTIONARY:
-					continue
-				for section in tab.get("sections", []):
-					if typeof(section) != TYPE_DICTIONARY:
-						continue
-					for stem in section.get("stems", []):
-						if not stems.has(stem):
-							stems.append(stem)
-			if not stems.is_empty():
-				return stems
+	if not FileAccess.file_exists(FULL_MENU):
+		return {}
+	var data: Variant = JSON.parse_string(FileAccess.get_file_as_string(FULL_MENU))
+	if typeof(data) != TYPE_DICTIONARY:
+		return {}
+	return data
+
+
+func _load_poc_stems() -> Array:
 	const MENU_PATH := "res://resources/exported/poc_build_menu.json"
 	if not FileAccess.file_exists(MENU_PATH):
 		return ["lumberjackcamp", "tree"]
@@ -82,6 +124,7 @@ func _apply_stem(stem: String) -> void:
 	_build_tool.building_id = _building_id_for_stem(stem)
 	mode_selected.emit(StringName(stem))
 	_refresh_status()
+	_try_first_click_audio()
 
 
 func _building_id_for_stem(stem: String) -> int:
@@ -113,4 +156,11 @@ func _refresh_status() -> void:
 		_status.text = "Build: Tear (click building tile)"
 	else:
 		var stem := ContentLoader.stem_for_building_id(_build_tool.building_id)
-		_status.text = "Build: %s" % stem
+		_status.text = "Build: %s" % ContentTheme.label_for_build_stem(stem)
+
+
+func _try_first_click_audio() -> void:
+	if has_meta("_audio_primed"):
+		return
+	set_meta("_audio_primed", true)
+	GameAudioService.play_exported_legacy_key("content/audio/sounds/lumberjack.ogg")

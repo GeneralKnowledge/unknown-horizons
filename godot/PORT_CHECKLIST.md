@@ -369,7 +369,8 @@ Tick items: `[ ]` → `[x]`.
 - [ ] **Ground tile rendering (placeholder)** — ★★★☆☆ (M)  
 - [ ] **Isometric projection constants** — ★★★☆☆ (M)  
   - **Python:** FIFE tile sizes in `constants.py` / engine  
-- [ ] **Camera pan/zoom (match `View`)** — ★★★☆☆ (M)  
+- [x] **Camera pan/zoom (match `View`)** — ★★★☆☆ (M)  
+  - **Godot:** `MapCameraController` (middle-drag, wheel zoom, fit island)  
   - **Python:** `horizons/view.py` *(behavior only)*  
 
 ### 3.2 Buildings and gfx

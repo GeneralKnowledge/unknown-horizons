@@ -40,6 +40,9 @@ func play_ambient_res(res_path: String, volume_db: float = 0.0) -> bool:
 
 
 func play_exported_legacy_key(manifest_key: String) -> bool:
+	var pack_res := ContentTheme.legacy_audio_res_for_key(manifest_key)
+	if not pack_res.is_empty():
+		return play_ambient_res(pack_res)
 	if not FileAccess.file_exists(MANIFEST_PATH):
 		return false
 	var manifest: Variant = JSON.parse_string(FileAccess.get_file_as_string(MANIFEST_PATH))

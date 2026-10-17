@@ -25,6 +25,24 @@ signal context_selected(context_name: StringName)
 signal build_mode_selected(mode: StringName)
 
 @onready var _hint: Label = $VBox/GameplayHint
+@onready var _status: Label = $VBox/StatusLine
+
+var _status_timer: float = 0.0
+
+
+func _process(delta: float) -> void:
+	if _status_timer > 0.0:
+		_status_timer -= delta
+		if _status_timer <= 0.0 and _status != null:
+			_status.text = ""
+
+
+func show_status(message: String, is_error: bool = false) -> void:
+	if _status == null:
+		return
+	_status.text = message
+	_status.modulate = Color(1, 0.35, 0.35) if is_error else Color(0.85, 1, 0.85)
+	_status_timer = 5.0
 
 
 func bind(p_session: GameSession, build_tool: BuildTool = null) -> void:
@@ -71,7 +89,7 @@ func bind(p_session: GameSession, build_tool: BuildTool = null) -> void:
 	if _production == null:
 		_production = ProductionOverviewPanel.new()
 		$VBox.add_child(_production)
-		$VBox.move_child(_production, _producer_label.get_index() + 1)
+		$VBox.move_child(_production, _palette.get_index() + 1)
 func bind_context(context_manager: ViewContextManager) -> void:
 	if _context_panel != null:
 		_context_panel.highlight(context_manager.get_context_name())
@@ -141,9 +159,7 @@ func refresh() -> void:
 		]
 	)
 	if _hint != null:
-		_hint.text = (
-			"B=build S=select T=tear | lumberjack + trees → boards | save/load JSON."
-		)
+		_hint.text = "Pan: middle-drag | Zoom: wheel | Build palette tabs below"
 	_settlement_panel.show_inventory("Settlement warehouse", settlement.inventory)
 	if selected != null:
 		var inv := selected.get_storage()

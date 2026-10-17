@@ -63,12 +63,17 @@ GitHub Actions runs a headless `--export-release Web` when templates are install
 
 1. Load page — no blank canvas; Godot splash or game canvas visible.
 2. Open devtools console — no critical errors (red).
-3. Map tiles visible; HUD shows settlement gold / tick.
-4. Select **lumberjackcamp** from build palette; ghost turns green on valid tiles.
-5. Left-click — building appears; inventories update after ticks.
-6. Place **tree** tiles near lumberjack; wait — **boards** increase in building storage (sim-driven).
-7. **Save JSON** / **Load JSON** — state persists in `user://` for this origin.
-8. **Download save** — JSON file downloads; **Import save** restores boards/buildings.
+3. **Start menu** — New game loads the **development** map; Continue disabled until a save exists.
+4. Map tiles visible; HUD shows settlement gold / tick; status line can show load/save messages.
+5. **Pan/zoom** — middle-drag and mouse wheel change the view without moving the ghost when over the map.
+6. Open a **build palette tab** (tier1+); select **lumberjackcamp**; ghost turns green on valid tiles.
+7. Left-click — building appears; inventories update after ticks.
+8. Place **tree** tiles near lumberjack; wait — **boards** increase in building storage (sim-driven).
+9. **Save JSON** / **Load JSON** — state persists in `user://` for this origin.
+10. **Download save** — JSON file downloads; **Import save** restores boards/buildings.
+11. **Invalid JSON import** — HUD shows an error; building count unchanged (no silent wipe).
+
+See also [BROWSER_DEMO.md](BROWSER_DEMO.md).
 
 ### Environment note (2026-10-17)
 

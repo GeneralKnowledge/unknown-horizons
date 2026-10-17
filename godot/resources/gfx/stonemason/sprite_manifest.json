@@ -2,7 +2,7 @@
   "building_stem": "stonemason",
   "building_id": 55,
   "source": "legacy_png",
-  "manifest_version": 2,
+  "manifest_version": 1,
   "atlas_sqlite": null,
   "animations": {
     "idle": {
