@@ -83,7 +83,7 @@ def resolve_res_token(token, res_map: dict[str, int]):
 	raise ValueError(f"Unknown resource token: {token!r}")
 
 
-def export_building(yaml_path: Path, res_map: dict[str, int], units_map: dict[str, int]) -> dict:
+def export_unit(yaml_path: Path, res_map: dict[str, int]) -> dict:
 	data = yaml.safe_load(yaml_path.read_text(encoding="utf-8"))
 
 	def fix_res_list(entries):
@@ -91,8 +91,80 @@ def export_building(yaml_path: Path, res_map: dict[str, int], units_map: dict[st
 		for entry in entries or []:
 			out.append([resolve_res_token(entry[0], res_map), entry[1]])
 		return out
+
 	out = {
 		"id_name": data.get("id"),
+		"baseclass": data.get("baseclass", ""),
+		"radius": int(data.get("radius", 0)),
+		"components": {},
+	}
+	for comp in data.get("components", []):
+		if not isinstance(comp, dict):
+			continue
+		for key, value in comp.items():
+			if key == "ProducerComponent":
+				lines = {}
+				for lk, lv in value.get("productionlines", {}).items():
+					fixed = dict(lv)
+					if "produces" in fixed:
+						fixed["produces"] = fix_res_list(fixed["produces"])
+					if "consumes" in fixed:
+						fixed["consumes"] = fix_res_list(fixed["consumes"])
+					lines[str(prod_line_id(lk))] = fixed
+				out["components"]["Producer"] = {"productionlines": lines}
+			elif key == "StorageComponent":
+				for storage_type, cfg in value.items():
+					slot_sizes = {}
+					if storage_type == "PositiveSizedSlotStorage":
+						limit = int(cfg.get("limit", 8))
+						for res_name in ("DEER_MEAT", "WILDANIMALFOOD"):
+							if res_name in res_map:
+								slot_sizes[str(res_map[res_name])] = limit
+					else:
+						for rk, rv in cfg.get("slot_sizes", {}).items():
+							slot_sizes[str(resolve_res_token(rk, res_map))] = rv
+					out["components"]["Storage"] = {
+						"type": storage_type,
+						"config": {"slot_sizes": slot_sizes},
+					}
+	return out
+
+
+def export_building(
+	yaml_path: Path,
+	res_map: dict[str, int],
+	units_map: dict[str, int],
+	buildings_map: dict[str, int] | None = None,
+) -> dict:
+	buildings_map = buildings_map or {}
+	data = yaml.safe_load(yaml_path.read_text(encoding="utf-8"))
+
+	def fix_res_list(entries):
+		out = []
+		for entry in entries or []:
+			out.append([resolve_res_token(entry[0], res_map), entry[1]])
+		return out
+	baseclass = str(data.get("baseclass", ""))
+	buildable_upon = baseclass.endswith("Tree") or baseclass.endswith("Ambient")
+	if "Trail" in baseclass:
+		buildable_upon = True
+	if data.get("translucent"):
+		buildable_upon = True
+	terrain_requirement = 1  # TerrainRequirement.LAND
+	coast_ids = {
+		"FISHER",
+		"SALT_PONDS",
+	}
+	id_name = str(data.get("id", ""))
+	if id_name.startswith("BUILDINGS."):
+		bname = id_name[10:]
+		if bname in coast_ids:
+			terrain_requirement = 2  # TerrainRequirement.LAND_AND_COAST
+	out = {
+		"id_name": data.get("id"),
+		"baseclass": baseclass,
+		"buildable_upon": buildable_upon,
+		"terrain_requirement": terrain_requirement,
 		"size_x": data.get("size_x", 1),
 		"size_y": data.get("size_y", 1),
 		"radius": int(data.get("radius", 0)),
@@ -128,7 +200,85 @@ def export_building(yaml_path: Path, res_map: dict[str, int], units_map: dict[st
 						if unit_name in units_map:
 							collectors[str(units_map[unit_name])] = int(count)
 				out["components"]["Collecting"] = {"collectors": collectors}
+			elif key == "HealthComponent":
+				out["components"]["Health"] = dict(value)
+			elif key == "FieldBuilder":
+				field_token = value.get("field")
+				field_id = None
+				if isinstance(field_token, str) and field_token.startswith("BUILDINGS."):
+					bname = field_token[10:]
+					if bname in buildings_map:
+						field_id = buildings_map[bname]
+				out["components"]["FieldBuilder"] = {
+					"field_building_id": field_id,
+					"raw_field": field_token,
+				}
 	return out
+
+
+def export_dlc_packs(
+	res_map: dict[str, int], units_map: dict[str, int], buildings_map: dict[str, int]
+) -> None:
+	dlc_root = REPO_ROOT / "content" / "dlc"
+	if not dlc_root.is_dir():
+		return
+	dlc_buildings_const: dict[str, int] = {}
+	for manifest_path in sorted(dlc_root.glob("*/manifest.yaml")):
+		pack_id = manifest_path.parent.name
+		manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
+		pack_buildings: dict = {}
+		prod_ids: dict[str, int] = {}
+		for entry in manifest.get("buildings", []):
+			stem = entry["stem"]
+			godot_name = entry["godot_name"]
+			building_id = int(entry["building_id"])
+			yaml_path = manifest_path.parent / "buildings" / f"{stem}.yaml"
+			if not yaml_path.is_file():
+				raise FileNotFoundError(yaml_path)
+			export = export_building(yaml_path, res_map, units_map, buildings_map)
+			export["id_name"] = f"BUILDINGS.{godot_name}"
+			export["dlc_pack"] = pack_id
+			export["dlc_building_id"] = building_id
+			pack_buildings[stem] = export
+			dlc_buildings_const[godot_name] = building_id
+			data = yaml.safe_load(yaml_path.read_text(encoding="utf-8"))
+			for comp in data.get("components", []):
+				if not isinstance(comp, dict):
+					continue
+				prod = comp.get("ProducerComponent")
+				if not prod:
+					continue
+				for key in prod.get("productionlines", {}).keys():
+					if isinstance(key, int):
+						continue
+					pid = prod_line_id(f"{pack_id}:{stem}:{key}")
+					prod_ids[f"{stem}:{key}"] = pid
+		out_pack = GODOT_ROOT / "resources" / "dlc" / pack_id
+		out_pack.mkdir(parents=True, exist_ok=True)
+		(out_pack / "buildings.json").write_text(
+			json.dumps(pack_buildings, indent=2, sort_keys=True), encoding="utf-8"
+		)
+		(out_pack / "manifest.json").write_text(
+			json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8"
+		)
+		if prod_ids:
+			(out_pack / "production_line_ids.json").write_text(
+				json.dumps(prod_ids, indent=2, sort_keys=True), encoding="utf-8"
+			)
+		print(f"Exported DLC pack {pack_id}: {len(pack_buildings)} buildings")
+	lines = [
+		"# Generated by development/godot/export_content.py — do not edit by hand.",
+		"extends Node",
+		"",
+		"const BUILDINGS = {",
+	]
+	for name, value in sorted(dlc_buildings_const.items(), key=lambda x: x[0]):
+		lines.append(f'\t"{name}": {value},')
+	lines.append("}")
+	lines.append("")
+	(GODOT_ROOT / "scripts" / "autoload" / "dlc_constants.gd").write_text(
+		"\n".join(lines), encoding="utf-8"
+	)
 
 
 def main() -> int:
@@ -142,7 +292,7 @@ def main() -> int:
 	res_map = classes["RES"]
 	units_map = classes.get("UNITS", {})
 	for path in sorted(buildings_dir.glob("*.yaml")):
-		buildings[path.stem] = export_building(path, res_map, units_map)
+		buildings[path.stem] = export_building(path, res_map, units_map, classes["BUILDINGS"])
 		data = yaml.safe_load(path.read_text(encoding="utf-8"))
 		for comp in data.get("components", []):
 			if not isinstance(comp, dict):
@@ -165,7 +315,19 @@ def main() -> int:
 	(OUT_DIR / "constants.json").write_text(
 		json.dumps(classes, indent=2, sort_keys=True), encoding="utf-8"
 	)
+	export_dlc_packs(res_map, units_map, classes["BUILDINGS"])
+
+	units: dict = {}
+	units_dir = REPO_ROOT / "content" / "objects" / "units"
+	for path in sorted(units_dir.rglob("*.yaml")):
+		stem = path.stem
+		units[stem] = export_unit(path, res_map)
+	(OUT_DIR / "units.json").write_text(
+		json.dumps(units, indent=2, sort_keys=True), encoding="utf-8"
+	)
+
 	print(f"Exported {len(buildings)} buildings to {OUT_DIR}")
+	print(f"Exported {len(units)} units to {OUT_DIR / 'units.json'}")
 	return 0
 
 

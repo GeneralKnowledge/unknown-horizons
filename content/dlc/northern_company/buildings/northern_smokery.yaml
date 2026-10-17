@@ -1,0 +1,25 @@
+id: BUILDINGS.NORTHERN_SMOKERY
+name: _ Northern Smokery
+baseclass: production.ProductionBuilding
+radius: 8
+size_x: 2
+size_y: 2
+tier: TIER.SAILORS
+components:
+- ProducerComponent:
+    productionlines:
+      SMOKED_FISH:
+        produces:
+        - [RES.FOOD, 2]
+        consumes:
+        - [RES.FISH, -1]
+        time: 12
+- StorageComponent:
+      SlotsStorage:
+        slot_sizes: {RES.FISH: 8, RES.FOOD: 8}
+- CollectingComponent:
+    collectors:
+      UNITS.BUILDING_COLLECTOR: 1
+actionsets:
+  TIER.SAILORS:
+    as_fishermanstent:

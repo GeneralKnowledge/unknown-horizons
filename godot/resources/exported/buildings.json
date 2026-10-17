@@ -1,17 +1,29 @@
 {
   "ambient": {
-    "components": {},
+    "baseclass": "nature.Ambient",
+    "buildable_upon": true,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      }
+    },
     "id_name": "BUILDINGS.AMBIENT",
     "radius": 0,
     "size_x": 1,
-    "size_y": 1
+    "size_y": 1,
+    "terrain_requirement": 1
   },
   "bakery": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -45,14 +57,20 @@
     "id_name": "BUILDINGS.BAKERY",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "barracks": {
+    "baseclass": "unitproduction.Barracks",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Storage": {
         "config": {
@@ -66,21 +84,34 @@
     "id_name": "BUILDINGS.BARRACKS",
     "radius": 6,
     "size_x": 3,
-    "size_y": 3
+    "size_y": 3,
+    "terrain_requirement": 1
   },
   "barrier": {
-    "components": {},
+    "baseclass": "war.Barrier",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 200
+      }
+    },
     "id_name": "BUILDINGS.BARRIER",
     "radius": 0,
     "size_x": 1,
-    "size_y": 1
+    "size_y": 1,
+    "terrain_requirement": 1
   },
   "blender": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -114,14 +145,20 @@
     "id_name": "BUILDINGS.BLENDER",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "boatbuilder": {
+    "baseclass": "unitproduction.BoatBuilder",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Storage": {
         "config": {
@@ -138,14 +175,20 @@
     "id_name": "BUILDINGS.BOAT_BUILDER",
     "radius": 10,
     "size_x": 3,
-    "size_y": 3
+    "size_y": 3,
+    "terrain_requirement": 1
   },
   "brewery": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -179,14 +222,20 @@
     "id_name": "BUILDINGS.BREWERY",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "brickyard": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -220,14 +269,20 @@
     "id_name": "BUILDINGS.BRICKYARD",
     "radius": 8,
     "size_x": 2,
-    "size_y": 4
+    "size_y": 4,
+    "terrain_requirement": 1
   },
   "butchery": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -277,14 +332,20 @@
     "id_name": "BUILDINGS.BUTCHERY",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "cannonfoundry": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -328,14 +389,20 @@
     "id_name": "BUILDINGS.CANNON_FOUNDRY",
     "radius": 8,
     "size_x": 3,
-    "size_y": 3
+    "size_y": 3,
+    "terrain_requirement": 1
   },
   "charcoalburning": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -369,10 +436,16 @@
     "id_name": "BUILDINGS.CHARCOAL_BURNER",
     "radius": 6,
     "size_x": 2,
-    "size_y": 3
+    "size_y": 3,
+    "terrain_requirement": 1
   },
   "claydeposit": {
+    "baseclass": "nature.ResourceDeposit",
+    "buildable_upon": false,
     "components": {
+      "Health": {
+        "maxhealth": 10
+      },
       "Storage": {
         "config": {
           "slot_sizes": {
@@ -385,10 +458,16 @@
     "id_name": "BUILDINGS.CLAY_DEPOSIT",
     "radius": 0,
     "size_x": 3,
-    "size_y": 3
+    "size_y": 3,
+    "terrain_requirement": 1
   },
   "claypit": {
+    "baseclass": "production.Mine",
+    "buildable_upon": false,
     "components": {
+      "Health": {
+        "maxhealth": 1000
+      },
       "Producer": {
         "productionlines": {
           "32": {
@@ -421,14 +500,20 @@
     "id_name": "BUILDINGS.CLAY_PIT",
     "radius": 0,
     "size_x": 3,
-    "size_y": 3
+    "size_y": 3,
+    "terrain_requirement": 1
   },
   "distillery": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -462,15 +547,21 @@
     "id_name": "BUILDINGS.DISTILLERY",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "doctor": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1,
           "1000022": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -502,14 +593,20 @@
     "id_name": "BUILDINGS.DOCTOR",
     "radius": 10,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "farm": {
+    "baseclass": "production.Farm",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000009": 2
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -734,14 +831,20 @@
     "id_name": "BUILDINGS.FARM",
     "radius": 3,
     "size_x": 3,
-    "size_y": 3
+    "size_y": 3,
+    "terrain_requirement": 1
   },
   "fireservice": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000022": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -767,10 +870,16 @@
     "id_name": "BUILDINGS.FIRE_STATION",
     "radius": 13,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "fishdeposit": {
+    "baseclass": "nature.Fish",
+    "buildable_upon": false,
     "components": {
+      "Health": {
+        "maxhealth": 10
+      },
       "Producer": {
         "productionlines": {
           "923331670": {
@@ -797,14 +906,20 @@
     "id_name": "BUILDINGS.FISH_DEPOSIT",
     "radius": 0,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "fishermanstent": {
+    "baseclass": "production.Fisher",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000004": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -838,14 +953,20 @@
     "id_name": "BUILDINGS.FISHER",
     "radius": 16,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 2
   },
   "hunterstent": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000014": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -879,21 +1000,38 @@
     "id_name": "BUILDINGS.HUNTER",
     "radius": 10,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "lookout": {
-    "components": {},
+    "baseclass": "building.DefaultBuilding",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 1000
+      }
+    },
     "id_name": "BUILDINGS.LOOKOUT",
     "radius": 12,
     "size_x": 1,
-    "size_y": 1
+    "size_y": 1,
+    "terrain_requirement": 1
   },
   "lumberjackcamp": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000010": 1
         }
+      },
+      "FieldBuilder": {
+        "field_building_id": 17,
+        "raw_field": "BUILDINGS.TREE"
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -927,10 +1065,16 @@
     "id_name": "BUILDINGS.LUMBERJACK",
     "radius": 3,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "mainsquare": {
+    "baseclass": "storages.MainSquare",
+    "buildable_upon": false,
     "components": {
+      "Health": {
+        "maxhealth": 1000
+      },
       "Storage": {
         "config": {
           "slot_sizes": {}
@@ -941,10 +1085,16 @@
     "id_name": "BUILDINGS.MAIN_SQUARE",
     "radius": 0,
     "size_x": 6,
-    "size_y": 6
+    "size_y": 6,
+    "terrain_requirement": 1
   },
   "mine": {
+    "baseclass": "production.Mine",
+    "buildable_upon": true,
     "components": {
+      "Health": {
+        "maxhealth": 1000
+      },
       "Producer": {
         "productionlines": {
           "1510556113": {
@@ -977,10 +1127,16 @@
     "id_name": "BUILDINGS.MINE",
     "radius": 0,
     "size_x": 5,
-    "size_y": 5
+    "size_y": 5,
+    "terrain_requirement": 1
   },
   "mountain": {
+    "baseclass": "nature.ResourceDeposit",
+    "buildable_upon": true,
     "components": {
+      "Health": {
+        "maxhealth": 10
+      },
       "Storage": {
         "config": {
           "slot_sizes": {
@@ -993,14 +1149,20 @@
     "id_name": "BUILDINGS.MOUNTAIN",
     "radius": 0,
     "size_x": 5,
-    "size_y": 5
+    "size_y": 5,
+    "terrain_requirement": 1
   },
   "pastryshop": {
+    "baseclass": "production.PastryShop",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -1080,10 +1242,16 @@
     "id_name": "BUILDINGS.PASTRY_SHOP",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "pavilion": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
+      "Health": {
+        "maxhealth": 1000
+      },
       "Producer": {
         "productionlines": {
           "1056282634": {
@@ -1109,10 +1277,16 @@
     "id_name": "BUILDINGS.PAVILION",
     "radius": 0,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "publicbath": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
+      "Health": {
+        "maxhealth": 1000
+      },
       "Producer": {
         "productionlines": {
           "1205784915": {
@@ -1138,21 +1312,34 @@
     "id_name": "BUILDINGS.PUBLIC_BATH",
     "radius": 0,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "ruinedtent": {
-    "components": {},
+    "baseclass": "settler.SettlerRuin",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 1000
+      }
+    },
     "id_name": "BUILDINGS.SETTLER_RUIN",
     "radius": 0,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "saline": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -1191,10 +1378,16 @@
     "id_name": "BUILDINGS.SALINE",
     "radius": 0,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "saltponds": {
+    "baseclass": "production.CoastalProducer",
+    "buildable_upon": false,
     "components": {
+      "Health": {
+        "maxhealth": 1000
+      },
       "Producer": {
         "productionlines": {
           "854772720": {
@@ -1220,21 +1413,34 @@
     "id_name": "BUILDINGS.SALT_PONDS",
     "radius": 0,
     "size_x": 3,
-    "size_y": 3
+    "size_y": 3,
+    "terrain_requirement": 2
   },
   "signalfire": {
-    "components": {},
+    "baseclass": "building.DefaultBuilding",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 1000
+      }
+    },
     "id_name": "BUILDINGS.SIGNAL_FIRE",
     "radius": 13,
     "size_x": 1,
-    "size_y": 1
+    "size_y": 1,
+    "terrain_requirement": 1
   },
   "smeltery": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 2
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -1273,10 +1479,16 @@
     "id_name": "BUILDINGS.SMELTERY",
     "radius": 10,
     "size_x": 4,
-    "size_y": 4
+    "size_y": 4,
+    "terrain_requirement": 1
   },
   "stonedeposit": {
+    "baseclass": "nature.ResourceDeposit",
+    "buildable_upon": false,
     "components": {
+      "Health": {
+        "maxhealth": 10
+      },
       "Storage": {
         "config": {
           "slot_sizes": {
@@ -1289,14 +1501,20 @@
     "id_name": "BUILDINGS.STONE_DEPOSIT",
     "radius": 0,
     "size_x": 3,
-    "size_y": 3
+    "size_y": 3,
+    "terrain_requirement": 1
   },
   "stonemason": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -1330,10 +1548,16 @@
     "id_name": "BUILDINGS.STONEMASON",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "stonepit": {
+    "baseclass": "production.Mine",
+    "buildable_upon": false,
     "components": {
+      "Health": {
+        "maxhealth": 1000
+      },
       "Producer": {
         "productionlines": {
           "1971678669": {
@@ -1366,14 +1590,20 @@
     "id_name": "BUILDINGS.STONE_PIT",
     "radius": 0,
     "size_x": 3,
-    "size_y": 3
+    "size_y": 3,
+    "terrain_requirement": 1
   },
   "storagetent": {
+    "baseclass": "storages.StorageTent",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000008": 2
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Storage": {
         "config": {
@@ -1385,14 +1615,20 @@
     "id_name": "BUILDINGS.STORAGE",
     "radius": 17,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "tavern": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -1426,14 +1662,20 @@
     "id_name": "BUILDINGS.TAVERN",
     "radius": 6,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "tent": {
+    "baseclass": "settler.Settler",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000011": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -1741,14 +1983,20 @@
     "id_name": "BUILDINGS.RESIDENTIAL",
     "radius": 12,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "tobacconist": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -1782,14 +2030,20 @@
     "id_name": "BUILDINGS.TOBACCONIST",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "toolmaker": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -1833,17 +2087,30 @@
     "id_name": "BUILDINGS.TOOLMAKER",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "trail": {
-    "components": {},
+    "baseclass": "path.Road",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 10
+      }
+    },
     "id_name": "BUILDINGS.TRAIL",
     "radius": 0,
     "size_x": 1,
-    "size_y": 1
+    "size_y": 1,
+    "terrain_requirement": 1
   },
   "tree": {
+    "baseclass": "nature.Tree",
+    "buildable_upon": true,
     "components": {
+      "Health": {
+        "maxhealth": 10
+      },
       "Producer": {
         "productionlines": {
           "1": {
@@ -1880,10 +2147,16 @@
     "id_name": "BUILDINGS.TREE",
     "radius": 0,
     "size_x": 1,
-    "size_y": 1
+    "size_y": 1,
+    "terrain_requirement": 1
   },
   "villageschool": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
+      "Health": {
+        "maxhealth": 1000
+      },
       "Producer": {
         "productionlines": {
           "25": {
@@ -1909,14 +2182,20 @@
     "id_name": "BUILDINGS.VILLAGE_SCHOOL",
     "radius": 0,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "warehouse": {
+    "baseclass": "storages.Warehouse",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000008": 3
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -1940,14 +2219,20 @@
     "id_name": "BUILDINGS.WAREHOUSE",
     "radius": 24,
     "size_x": 3,
-    "size_y": 3
+    "size_y": 3,
+    "terrain_requirement": 1
   },
   "weaponsmith": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -1986,14 +2271,20 @@
     "id_name": "BUILDINGS.WEAPONSMITH",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "weaverstent": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -2027,14 +2318,20 @@
     "id_name": "BUILDINGS.WEAVER",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "windmill": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -2068,14 +2365,20 @@
     "id_name": "BUILDINGS.WINDMILL",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "winery": {
+    "baseclass": "production.ProductionBuilding",
+    "buildable_upon": false,
     "components": {
       "Collecting": {
         "collectors": {
           "1000002": 1
         }
+      },
+      "Health": {
+        "maxhealth": 1000
       },
       "Producer": {
         "productionlines": {
@@ -2109,13 +2412,21 @@
     "id_name": "BUILDINGS.WINERY",
     "radius": 8,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   },
   "woodentower": {
-    "components": {},
+    "baseclass": "war.Tower",
+    "buildable_upon": false,
+    "components": {
+      "Health": {
+        "maxhealth": 1000
+      }
+    },
     "id_name": "BUILDINGS.WOODEN_TOWER",
     "radius": 9,
     "size_x": 2,
-    "size_y": 2
+    "size_y": 2,
+    "terrain_requirement": 1
   }
 }

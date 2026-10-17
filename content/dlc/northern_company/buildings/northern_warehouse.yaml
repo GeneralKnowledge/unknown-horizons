@@ -1,0 +1,21 @@
+id: BUILDINGS.NORTHERN_WAREHOUSE
+name: _ Northern Warehouse
+baseclass: storages.Warehouse
+radius: 24
+size_x: 3
+size_y: 3
+tier: TIER.SAILORS
+components:
+- StorageComponent:
+      SettlementStorage: {}
+- CollectingComponent:
+    collectors:
+      UNITS.STORAGE_COLLECTOR: 3
+- ProducerComponent:
+    productionlines:
+      31:
+        produces:
+        - [RES.COMMUNITY, 10]
+actionsets:
+  TIER.SAILORS:
+    as_warehouse0:

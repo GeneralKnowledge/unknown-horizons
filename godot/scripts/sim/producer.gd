@@ -5,11 +5,11 @@ var production_lines: Dictionary = {}
 var _productions: Dictionary = {}
 var _inactive_productions: Dictionary = {}
 var _scheduler: GameScheduler
-var instance: Building
+var instance: Variant
 var _active_flag: bool = true
 
 
-func _init(p_instance: Building, p_scheduler: GameScheduler, lines: Dictionary, auto_init: bool = true) -> void:
+func _init(p_instance: Variant, p_scheduler: GameScheduler, lines: Dictionary, auto_init: bool = true) -> void:
 	instance = p_instance
 	_scheduler = p_scheduler
 	production_lines = lines
@@ -24,7 +24,7 @@ func _init(p_instance: Building, p_scheduler: GameScheduler, lines: Dictionary, 
 func create_production(id: int) -> Production:
 	var key_str := str(id)
 	var data: Dictionary = production_lines[key_str] if production_lines.has(key_str) else production_lines[id]
-	var storage := instance.get_storage()
+	var storage: Inventory = instance.get_storage()
 	return Production.new(
 		_scheduler,
 		storage,

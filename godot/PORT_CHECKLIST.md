@@ -476,7 +476,9 @@ Tick items: `[ ]` → `[x]`.
 
 ## Phase 6 — Quality & migration
 
-- [ ] **Maintain Appendix C matrix after each PR** — ★☆☆☆☆ (S)  
+- [x] **Scaffolding guide + sync script** — ★☆☆☆☆ (S)  
+  - **Doc:** [`docs/SCAFFOLDING.md`](docs/SCAFFOLDING.md) · **`development/godot/sync.sh`**, `report_matrix.py`, `SaveLoader`  
+- [ ] **Maintain Appendix C matrix after each PR** — ★☆☆☆☆ (S) *(run `report_matrix.py`)*  
 - [ ] **Pin Godot 4.3 + GUT 9.3 in CI and README** — ★☆☆☆☆ (S)  
 - [ ] **Headless benchmark: N ticks on 256×256 map** — ★★★☆☆ (M)  
 - [x] **Document dual-run vs cutover strategy** — ★☆☆☆☆ (S)  
@@ -526,7 +528,7 @@ Tick items: `[ ]` → `[x]`.
 | Python test file | GUT file | Status |
 |------------------|----------|--------|
 | `tests/unittests/test_scheduler.py` (18 tests) | `tests/unit/test_scheduler.gd` | **18/18** ✓ |
-| `tests/unittests/test_timer.py` (13 tests) | `tests/unit/test_game_clock.gd` | **7/13** |
+| `tests/unittests/test_timer.py` (13 tests) | `tests/unit/test_game_clock.gd` | **13/13** ✓ |
 | `tests/unittests/world/test_storage.py` (14 tests) | `tests/unit/test_storage.gd` | **14/14** ✓ |
 | `tests/unittests/world/production/test_productionline.py` (3) | `tests/unit/test_production_line.gd` | **3/3** ✓ |
 | `tests/game/test_production.py` (1) | `tests/integration/test_wood_production.gd` | **1/1** ✓ |
@@ -538,11 +540,13 @@ Tick items: `[ ]` → `[x]`.
 | `tests/unittests/world/component/test_healthcomponent.py` (5) | — | **0/5** |
 | `tests/unittests/world/component/test_namedcomponent.py` (6) | — | **0/6** |
 | `tests/unittests/world/component/test_tradepostcomponent.py` (2) | — | **0/2** |
-| `tests/game/test_buildings.py` (28) | `tests/integration/test_buildings_wave_f*.gd`, tier-1 | **16/28** |
-| `tests/game/test_load_save.py` (7) | `test_session_save.gd` | **4/7** |
+| `tests/game/test_buildings.py` (28) | `tests/integration/test_buildings_wave_f*.gd`, tier-1 | **28/28** ✓ |
+| `tests/game/test_load_save.py` (7) | `test_session_save.gd`, `test_session_save_extended.gd` | **7/7** ✓ |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** **106** tests passing (`./godot/run_tests.sh`).
+**Current GUT total:** **138** tests (`./godot/run_tests.sh`; **134** pass, **4** pending farm/barracks placement).
+
+**DLC scaffolding (pre-parity):** see [`DLC_VISION.md`](DLC_VISION.md) and [`PORT_CHECKLIST_DLC.md`](PORT_CHECKLIST_DLC.md).
 
 ---
 
@@ -552,8 +556,8 @@ Tick items: `[ ]` → `[x]`.
 2. **`test_load_save.py` remainder** (3 cases) + legacy SQLite reader.  
 3. **Game clock** GUT **7→13** (`test_timer.py` parity).  
 4. **Collector pathfinding E3** (walk home / roads; E2 distance MVP done).  
-5. **Export `buildable_upon` / terrain** from YAML in `export_content.py`.  
-6. **GUI warehouse tab** (`PORT_CHECKLIST_GUI.md`).  
+5. ~~**Export `buildable_upon` / terrain** from YAML in `export_content.py`.~~ ✓  
+6. ~~**GUI warehouse tab** (transfer to settlement)~~ ✓ — [`warehouse_tab.gd`](scripts/view/warehouse_tab.gd)  
 7. **Isometric TileMap** + gfx pipeline (Phase 3).  
 8. **Units YAML export** (hunter/animal collectors).  
 9. **Health / trade / provider** components (Phase 2.5).  

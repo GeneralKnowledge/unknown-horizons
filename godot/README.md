@@ -19,13 +19,21 @@ Experimental Godot 4 reimplementation focused on **headless simulation parity** 
 
 ## Refresh content exports
 
-From repo root:
+From repo root (recommended — matches CI):
+
+```bash
+./development/godot/sync.sh --skip-tests   # export content + gfx + matrix report
+./development/godot/sync.sh                # same, then GUT
+```
+
+Or manually:
 
 ```bash
 python3 development/godot/export_content.py
+python3 development/godot/export_gfx.py
 ```
 
-This writes `scripts/autoload/game_constants.gd` and `resources/exported/buildings.json`.
+See [docs/SCAFFOLDING.md](docs/SCAFFOLDING.md) for test recipes, `SaveLoader`, and component factories.
 
 ## Run tests (headless)
 

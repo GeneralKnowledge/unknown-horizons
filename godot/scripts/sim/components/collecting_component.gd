@@ -11,17 +11,19 @@ func _init(p_building: Building, p_session: GameSession, specs: Dictionary) -> v
 	home_building = p_building
 	session = p_session
 	collector_specs = specs
-	var use_storage := home_building.building_id == GameConstants.BUILDINGS["WAREHOUSE"]
 	for unit_id in specs.keys():
 		var count := int(specs[unit_id])
 		for _i in range(count):
-			if use_storage:
-				collectors.append(StorageCollector.new(home_building, session, int(unit_id)))
-			else:
-				collectors.append(BuildingCollector.new(home_building, session, int(unit_id)))
+			collectors.append(
+				CollectorRegistry.create_collector(int(unit_id), home_building, session)
+			)
 
 
 func tick_search_jobs() -> void:
 	for collector in collectors:
-		if collector is BuildingCollector or collector is StorageCollector:
+		if (
+			collector is BuildingCollector
+			or collector is StorageCollector
+			or collector is AnimalCollector
+		):
 			collector.search_job()

@@ -1,10 +1,30 @@
 class_name BuildingRules
 extends RefCounted
 
-## Placement rules until export carries buildable_upon.
+## Placement rules — prefer exported building JSON, fallback to legacy lists.
+
+
+static func is_buildable_upon_building_id(building_id: int) -> bool:
+	var stem := ContentLoader.stem_for_building_id(building_id)
+	var export := ContentLoader.load_building_export(stem)
+	if export.has("buildable_upon"):
+		return bool(export["buildable_upon"])
+	return _legacy_buildable_upon(building_id)
 
 
 static func is_buildable_upon(building_id: int) -> bool:
+	return is_buildable_upon_building_id(building_id)
+
+
+static func terrain_requirement(building_id: int) -> int:
+	var stem := ContentLoader.stem_for_building_id(building_id)
+	var export := ContentLoader.load_building_export(stem)
+	if export.has("terrain_requirement"):
+		return int(export["terrain_requirement"])
+	return _legacy_terrain_requirement(building_id)
+
+
+static func _legacy_buildable_upon(building_id: int) -> bool:
 	const UPON: Array = [
 		GameConstants.BUILDINGS["TREE"],
 		GameConstants.BUILDINGS["TRAIL"],
@@ -16,7 +36,7 @@ static func is_buildable_upon(building_id: int) -> bool:
 	return building_id in UPON
 
 
-static func terrain_requirement(building_id: int) -> int:
+static func _legacy_terrain_requirement(building_id: int) -> int:
 	const COAST: Array = [
 		GameConstants.BUILDINGS["FISHER"],
 		GameConstants.BUILDINGS["SALT_PONDS"],

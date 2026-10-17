@@ -1,0 +1,20 @@
+id: BUILDINGS.NORTHERN_SIGNAL_TOWER
+name: _ Signal Tower
+baseclass: production.ProductionBuilding
+radius: 0
+size_x: 2
+size_y: 2
+tier: TIER.SAILORS
+components:
+- ProducerComponent:
+    productionlines:
+      FAITH:
+        produces:
+        - [RES.FAITH, 1]
+        time: 4
+- StorageComponent:
+      SlotsStorage:
+        slot_sizes: {RES.FAITH: 10}
+actionsets:
+  TIER.SAILORS:
+    as_sunsail0:

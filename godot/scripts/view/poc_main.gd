@@ -2,12 +2,12 @@ extends Node2D
 
 @onready var _map_view: MapView = $MapView
 @onready var _hud: GameHud = $CanvasLayer/HUD
-@onready var _building_sprite: Sprite2D = $BuildingSprite
+@onready var _building_layer: Node2D = $BuildingLayer
 @onready var _ghost: Sprite2D = $GhostSprite
 
 var _session: GameSession
 var _build_tool: BuildTool
-var _buildings: Array[Building] = []
+var _views: Dictionary = {} # worldid -> BuildingView
 var _tick_accum := 0.0
 var _hover_grid := Vector2i.ZERO
 
@@ -19,9 +19,11 @@ func _ready() -> void:
 	_build_tool = BuildTool.new(_session)
 	_build_tool.building_placed.connect(_on_building_placed)
 	_map_view.bind(_session.island)
-	_hud.bind(_session)
+	_hud.bind(_session, _build_tool)
 	_hud.refresh()
 	_update_ghost()
+	if not MessageBus.building_placed.is_connected(_on_bus_building_placed):
+		MessageBus.building_placed.connect(_on_bus_building_placed)
 
 
 func _process(delta: float) -> void:
@@ -31,6 +33,9 @@ func _process(delta: float) -> void:
 		_session.run_ticks(1)
 		_tick_accum -= step
 		MessageBus.settlement_updated.emit()
+		for view in _views.values():
+			if view is BuildingView:
+				(view as BuildingView).refresh_from_sim()
 	_update_ghost()
 
 
@@ -38,11 +43,17 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		_hover_grid = _map_view.screen_to_grid(event.position)
 		_update_ghost()
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+	if event is InputEventMouseButton and event.pressed:
 		var grid := _map_view.screen_to_grid(event.position)
-		var placed := _build_tool.try_place(grid)
-		if placed != null:
-			_hud.set_selected(placed)
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			var placed := _build_tool.try_place(grid)
+			if placed != null:
+				_hud.set_selected(placed)
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
+			var picked := _pick_building_at(grid)
+			if picked != null:
+				MessageBus.building_selected.emit(picked)
+				_hud.set_selected(picked)
 	if event.is_action_pressed("ui_select"):
 		_build_tool.active = not _build_tool.active
 	if event is InputEventKey and event.pressed:
@@ -58,8 +69,32 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_building_placed(building: Building) -> void:
-	_buildings.append(building)
-	_building_sprite.position = _map_view.grid_to_screen(building.position)
+	_attach_view(building)
+
+
+func _on_bus_building_placed(building: Building) -> void:
+	if not _views.has(building.worldid):
+		_attach_view(building)
+
+
+func _attach_view(building: Building) -> void:
+	var view := BuildingView.new()
+	_building_layer.add_child(view)
+	view.bind(building, _map_view)
+	_views[building.worldid] = view
+
+
+func _pick_building_at(grid: Vector2i) -> Building:
+	for b in _session.get_buildings_on_island(_session.island):
+		var export := ContentLoader.load_building_export(
+			ContentLoader.stem_for_building_id(b.building_id)
+		)
+		for tile in BuildFootprint.origin_tiles(
+			b.position, int(export.get("size_x", 1)), int(export.get("size_y", 1))
+		):
+			if tile == grid:
+				return b
+	return null
 
 
 func _update_ghost() -> void:
