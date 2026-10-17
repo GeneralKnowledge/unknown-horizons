@@ -1,8 +1,11 @@
 {
-  "lumberjackcamp": "Timber Camp (NC)",
-  "tree": "Pine Stand",
-  "hunterstent": "Trapper Lodge",
-  "fishermanstent": "Ice Fisher Hut",
-  "brickyard": "Kiln Works",
-  "farm": "Northern Plot"
+  "schema_version": 1,
+  "labels": {
+    "lumberjackcamp": "Timber Camp (NC)",
+    "tree": "Pine Stand",
+    "hunterstent": "Trapper Lodge",
+    "fishermanstent": "Ice Fisher Hut",
+    "brickyard": "Kiln Works",
+    "farm": "Northern Plot"
+  }
 }
