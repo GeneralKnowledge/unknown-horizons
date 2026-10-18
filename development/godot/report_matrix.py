@@ -14,9 +14,12 @@ GUT_ONLY_DEMO: list[tuple[str, str]] = [
 	("godot/tests/integration/test_demo_scenario_runner.gd", "demo scenario runner"),
 	("godot/tests/integration/test_starter_tier1_scenario.gd", "tier-1 showcase scenario"),
 	("godot/tests/integration/test_starter_island_brickyard_scenario.gd", "brickyard demo scenario"),
-	("godot/tests/integration/test_sqlite_import_diagnostics.gd", "sqlite import diagnostics"),
-	("godot/tests/integration/test_sqlite_session_restore.gd", "sqlite session restore"),
-	("godot/tests/integration/test_sqlite_fixture_matrix.gd", "sqlite fixture matrix"),
+	("godot/tests/integration/test_playable_lumber_delivery.gd", "playable settlement demo"),
+	("godot/tests/integration/test_parity_stage3_scenarios.gd", "parity stage-3 GUT"),
+	("godot/tests/integration/test_parity_brickyard_scenario.gd", "parity brickyard GUT"),
+	("godot/tests/integration/test_sqlite_import_diagnostics.gd", "sqlite import diagnostics (frozen)"),
+	("godot/tests/integration/test_sqlite_session_restore.gd", "sqlite session restore (frozen)"),
+	("godot/tests/integration/test_sqlite_fixture_matrix.gd", "sqlite fixture matrix (frozen)"),
 ]
 
 MATRIX: list[tuple[str, str | None, str]] = [
@@ -52,17 +55,17 @@ MATRIX: list[tuple[str, str | None, str]] = [
 	),
 	(
 		"tests/unittests/world/component/test_healthcomponent.py",
-		None,
+		"godot/tests/unit/test_health_component.gd",
 		"health",
 	),
 	(
 		"tests/unittests/world/component/test_namedcomponent.py",
-		None,
+		"godot/tests/unit/test_named_component.gd",
 		"named",
 	),
 	(
 		"tests/unittests/world/component/test_tradepostcomponent.py",
-		None,
+		"godot/tests/unit/test_trade_post_component.gd",
 		"tradepost",
 	),
 	("tests/game/test_buildings.py", "godot/tests/integration/test_buildings", "buildings"),
