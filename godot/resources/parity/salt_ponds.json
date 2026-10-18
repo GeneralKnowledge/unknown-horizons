@@ -1,0 +1,18 @@
+{
+  "id": "salt_ponds",
+  "map": "test_island_20x20",
+  "steps": [
+    { "op": "settle" },
+    { "op": "build", "building": "SALT_PONDS", "x": 33, "y": 22 },
+    { "op": "run_seconds", "seconds": 60 }
+  ],
+  "expect": {
+    "min_building_storage": {
+      "stem": "saltponds",
+      "x": 33,
+      "y": 22,
+      "resource": "SALT",
+      "min": 2
+    }
+  }
+}

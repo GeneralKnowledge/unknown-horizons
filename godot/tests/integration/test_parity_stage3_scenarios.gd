@@ -25,6 +25,16 @@ func test_snapshot_mid_production_boards() -> void:
 	assert_true(_building_has_min(trace, "lumberjackcamp", 30, 30, "BOARDS", 1))
 
 
+func test_weaver_wool_to_textile() -> void:
+	var trace := _run("weaver")
+	assert_true(_building_has_min(trace, "weaverstent", 30, 26, "TEXTILE", 1))
+
+
+func test_salt_ponds_coastal_production() -> void:
+	var trace := _run("salt_ponds")
+	assert_true(_building_has_min(trace, "saltponds", 33, 22, "SALT", 2))
+
+
 func _building_has_min(
 	trace: Dictionary, stem: String, x: int, y: int, res: String, min_amt: int
 ) -> bool:

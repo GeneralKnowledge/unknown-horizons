@@ -80,7 +80,7 @@ Existing automation—**do not expand without a concrete regression risk**:
 ./godot/export_web.sh                   # browser build
 ```
 
-Reported: **204** GUT tests, **10** parity goldens, content validators in CI.
+Reported: run `./godot/run_tests.sh`; **12** parity goldens via `./development/godot/parity/run_all.sh`, content validators in CI.
 
 ## Documentation
 
