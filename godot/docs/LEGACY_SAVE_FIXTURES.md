@@ -34,7 +34,7 @@ These labels name **GUT tests and fixtures**, not M7 milestones. Track overall p
 | **T1** | Gap report: unknown `building.type` ids, storage/unit row counts |
 | **T1b** | After load, **all** placed `fire.sqlite` buildings with sqlite storage match extract (GUT: `test_fire_fixture_building_storage_matches_sqlite_extract`; goldens: `resources/fixtures/sqlite_storage/*.json` via `sqlite_storage_expectations.py`) |
 | **T1k** | M7: per-resource inventory totals at load match applicable sqlite rows (GUT: `test_m7_*_inventory_totals_at_load_*`; fixtures: `fire`, `settlement-range`, `traderoute`, totals-only `savegame-rev-76`) |
-| **T1l** | M7: post-load tick inventory golden — **`fire`**, **`settlement-range`**, **`traderoute`**, **`blackdeath`** +128 ticks (`test_sqlite_m7_tick_inventory.gd`; `resources/fixtures/sqlite_m7/*_tick128_*.json`) |
+| **T1l** | M7: post-load tick inventory golden — **`fire`**, **`settlement-range`**, **`traderoute`**, **`blackdeath`**, **`plain`** +128 ticks (`test_sqlite_m7_tick_inventory.gd`; `resources/fixtures/sqlite_m7/*_tick128_*.json`) |
 | **T1n** | M7: production `state` + `remaining_ticks` (PRODUCING) match sqlite extract on placed buildings (`test_sqlite_m7_production_parity.gd`; **`fire`**, **`settlement-range`**, **`traderoute`**) |
 | **T1o** | M7: T1k inventory gate across tier fixtures in one test (`test_sqlite_m7_fixture_matrix.gd`) |
 | **T1p** | M7: `scheduler.cur_tick` matches `sqlite_extract_session.py` after load (`test_sqlite_m7_session_header.gd`) |
