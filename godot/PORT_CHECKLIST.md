@@ -566,7 +566,7 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | `test_session_save.gd`, `test_session_save_extended.gd` | **7/7** ✓ |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** run `./godot/run_tests.sh` — **232** tests (includes sqlite save-compat T1b–T1m / M7, settler component, gameplay loop, demo/tier-1 integration).
+**Current GUT total:** run `./godot/run_tests.sh` — **239** tests (M7 tiers T1b–T1p, settler component, gameplay loop, demo/tier-1 integration).
 
 **DLC scaffolding (pre-parity):** see [`DLC_VISION.md`](DLC_VISION.md) and [`PORT_CHECKLIST_DLC.md`](PORT_CHECKLIST_DLC.md).
 

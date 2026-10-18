@@ -8,8 +8,8 @@ M7 is the **gate** before treating Godot as the primary Unknown Horizons client 
 |---|-----------|--------|----------|
 | 1 | Fixture saves load in Godot without silent loss | **Partial** | SQLite fixture matrix GUT; `SqliteImportReport` + `partial` flag |
 | 2 | Python → Godot → play (campaign slice) | **Partial** | Desktop `.sqlite` / `.extract.json`; PoC sim after load; no full GUI campaign |
-| 3 | Parity on loaded state | **Partial** | T1b/T1k on **`fire`**, **`settlement-range`**, **`traderoute`**; T1k totals on **`savegame-rev-76`**, **`blackdeath`**, **`plain`** |
-| 4 | Parity after N ticks vs golden | **Partial** | T1l Godot golden; T1m legacy Python dual-run when FIFE installed (else pending) |
+| 3 | Parity on loaded state | **Strong partial** | T1b/T1k tier fixtures; **T1n** production rows on **`fire`** + **`settlement-range`**; **T1p** session tick on 3 fixtures; **T1o** matrix gate |
+| 4 | Parity after N ticks vs golden | **Partial** | T1l tick-128 goldens (**`fire`**, **`settlement-range`**); T1m legacy dual-run when FIFE installed |
 | 5 | Cross-version session (stretch) | **Not started** | — |
 | 6 | Reverse save path (stretch) | **Not started** | JSON v3 only for Godot-native saves |
 
@@ -33,7 +33,7 @@ M7 is the **gate** before treating Godot as the primary Unknown Horizons client 
 |-----------|----------------------|--------|
 | Buildings + placement | Trust legacy coordinates | Done for fixtures |
 | Storage | Building + settlement rows | **Done** on `fire`, `settlement-range`, `traderoute`; rev-76 totals (T1k) |
-| Production | Restore lines / progress | Subset + GUT |
+| Production | Restore lines / progress | **M7:** all extract rows on placed buildings match state/ticks (**T1n** on fire + settlement-range) |
 | Collectors | Spawn + in-flight jobs | **Done** ([`COLLECTOR_SQLITE_IMPORT.md`](COLLECTOR_SQLITE_IMPORT.md)) |
 | Settlers | Residential restore + minimal sim | **Partial** — `LegacySettlerComponent` (inhabitants, simplified tax); no happiness tiers |
 | Units | Wild animals; ships placeholder | Partial |
@@ -41,7 +41,7 @@ M7 is the **gate** before treating Godot as the primary Unknown Horizons client 
 
 ## Automated tiers
 
-See [`LEGACY_SAVE_FIXTURES.md`](LEGACY_SAVE_FIXTURES.md) (T0–T1m). Run:
+See [`LEGACY_SAVE_FIXTURES.md`](LEGACY_SAVE_FIXTURES.md) (T0–T1p). Run:
 
 ```bash
 ./godot/run_tests.sh
