@@ -354,6 +354,12 @@ static func _apply_legacy_settlement_identity(
 	if legacy_settlement > 0:
 		if session.reassign_worldid(session.settlement, legacy_settlement):
 			report.legacy_settlement_worldid = legacy_settlement
+	var tax_raw: Variant = row.get("tax_settings_by_level", {})
+	if typeof(tax_raw) == TYPE_DICTIONARY:
+		var tax_map: Dictionary = {}
+		for level_key in tax_raw.keys():
+			tax_map[int(level_key)] = float(tax_raw[level_key])
+		session.settlement.legacy_tax_settings_by_level = tax_map
 
 
 static func _apply_storage_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:
@@ -673,7 +679,12 @@ static func _apply_settler_building_rows(
 			continue
 		var inhabitants := int(row.get("inhabitants", 0))
 		var last_tax := int(row.get("last_tax_payed", 0))
+		var tier_level := int(row.get("level", 0))
+		var remaining_month := int(row.get("remaining_ticks_of_month", -1))
 		building.set_meta("legacy_inhabitants", inhabitants)
 		building.set_meta("legacy_last_tax_payed", last_tax)
-		building.settler = LegacySettlerComponent.new(building, session, inhabitants, last_tax)
+		building.set_meta("legacy_settler_level", tier_level)
+		building.settler = LegacySettlerComponent.new(
+			building, session, inhabitants, last_tax, tier_level, remaining_month
+		)
 		report.settler_building_rows_applied += 1

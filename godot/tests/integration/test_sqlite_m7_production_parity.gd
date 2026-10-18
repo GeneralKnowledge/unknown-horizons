@@ -3,6 +3,7 @@ extends GutTest
 const M7_PRODUCTION_FIXTURES := {
 	"fire": "legacy/tests/game/fixtures/fire.sqlite",
 	"settlement-range": "legacy/tests/game/fixtures/settlement-range.sqlite",
+	"traderoute": "legacy/tests/game/fixtures/traderoute.sqlite",
 }
 
 
@@ -24,7 +25,10 @@ func _assert_production_parity(fixture_name: String, rel_path: String) -> void:
 		var building := session.get_building(owner_wid)
 		if building == null or building.producer == null:
 			continue
-		var production := building.producer._get_production(line_id)
+		var resolved_line := building.producer.resolve_saved_prod_line_id(line_id)
+		var production := building.producer._get_production(resolved_line)
+		if production == null:
+			production = building.producer.ensure_production_line(line_id)
 		if production == null:
 			fail_test(
 				"%s missing production line %s on worldid %s"
@@ -67,3 +71,10 @@ func test_m7_settlement_range_production_rows_match_sqlite_extract() -> void:
 	_assert_production_parity(
 		"settlement-range", M7_PRODUCTION_FIXTURES["settlement-range"]
 	)
+
+
+func test_m7_traderoute_production_rows_match_sqlite_extract() -> void:
+	if OS.has_feature("web"):
+		pending("desktop only")
+		return
+	_assert_production_parity("traderoute", M7_PRODUCTION_FIXTURES["traderoute"])

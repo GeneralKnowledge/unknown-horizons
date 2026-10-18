@@ -4,6 +4,8 @@ extends RefCounted
 var worldid: int
 var island: Island
 var inventory: Inventory
+## Legacy save: tier -> tax_setting from settlement_level_properties (defaults to 1.0).
+var legacy_tax_settings_by_level: Dictionary = {}
 var buildings: Array[Building] = []
 var warehouse_origin: Vector2i = Vector2i.ZERO
 var buildability: SettlementBuildabilityCache
@@ -14,6 +16,10 @@ func _init(p_worldid: int, p_island: Island, p_inventory: Inventory) -> void:
 	worldid = p_worldid
 	island = p_island
 	inventory = p_inventory
+
+
+func legacy_tax_setting_for_level(level: int) -> float:
+	return float(legacy_tax_settings_by_level.get(level, 1.0))
 
 
 func init_buildability() -> void:

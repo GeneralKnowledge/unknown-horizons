@@ -38,6 +38,11 @@ func test_fire_fixture_restores_settler_meta_on_residential() -> void:
 	assert_not_null(home.settler)
 	assert_eq(1, home.settler.inhabitants)
 	assert_eq(1, int(home.get_meta("legacy_inhabitants")))
+	assert_eq(0, home.settler.level)
+	assert_eq(3, home.settler.inhabitants_max())
+	var happiness_id := int(GameConstants.RES["HAPPINESS"])
+	assert_eq(50, home.get_storage().amount(happiness_id))
+	assert_eq(50, home.settler.get_happiness())
 
 
 func test_fire_fixture_settler_inhabitant_total_matches_sqlite_extract() -> void:
