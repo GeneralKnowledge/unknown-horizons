@@ -61,9 +61,11 @@ cd godot && WRITE_M7_GOLDEN=1 godot --headless --path . -s addons/gut/gut_cmdln.
 Optional local legacy Python dual-run (requires FIFE + legacy deps; not in default CI):
 
 ```bash
-python3 development/godot/sqlite_m7_legacy_fire_ticks.py \
-  legacy/tests/game/fixtures/fire.sqlite /tmp/legacy_fire_128.json --ticks 128
+./development/godot/run_t1m_fire.sh /tmp/legacy_fire_128.json
+# or: python3 development/godot/sqlite_m7_legacy_fire_ticks.py ...
 ```
+
+Legacy stack with FIFE: see [`legacy/README.md`](../../legacy/README.md) or [`legacy/development/docker/Dockerfile`](../../legacy/development/docker/Dockerfile).
 
 ## M7 PoC gate status (2026-10)
 

@@ -50,6 +50,28 @@ func record_rejection(reason: String) -> void:
 	rejection_counts[reason] = int(rejection_counts.get(reason, 0)) + 1
 
 
+## Short status for HUD after legacy SQLite import (exit #2 play slice).
+func summarize_for_hud() -> String:
+	var msg := "Legacy save: %d/%d buildings" % [buildings_placed, buildings_extracted]
+	if savegamerev >= 0:
+		msg += " (rev %d)" % savegamerev
+	if production_rows_applied > 0:
+		msg += ", prod %d" % production_rows_applied
+	if settlement_storage_rows_applied > 0:
+		msg += ", settlement stock"
+	if collectors_restored > 0:
+		msg += ", %d collectors" % collectors_restored
+	if settler_building_rows_applied > 0:
+		msg += ", %d homes" % settler_building_rows_applied
+	if unsupported_unit_rows > 0:
+		msg += ", %d units skipped" % unsupported_unit_rows
+	if legacy_settlement_worldid > 0:
+		msg += " (settlement wid %d)" % legacy_settlement_worldid
+	if partial:
+		msg += " — partial import"
+	return msg
+
+
 func to_dictionary() -> Dictionary:
 	return {
 		"source_path": source_path,

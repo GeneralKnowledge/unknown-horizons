@@ -28,6 +28,10 @@ func test_fire_fixture_reports_partial_import_with_diagnostics() -> void:
 	var attached := SqliteSaveLoader.get_report(session)
 	assert_not_null(attached)
 	assert_eq(report.buildings_placed, attached.buildings_placed)
+	var summary := report.summarize_for_hud()
+	assert_gt(summary.length(), 10)
+	assert_true(summary.contains("Legacy save"))
+	assert_true(summary.contains("partial"))
 
 
 func test_truncation_marker_when_limit_applied() -> void:
