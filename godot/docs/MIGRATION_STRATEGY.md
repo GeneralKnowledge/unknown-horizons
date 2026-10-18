@@ -30,6 +30,8 @@ Until (5) is largely green, treat Godot as a parallel client, not a replacement.
 | Player workflow | Document save-in-Python → load-in-Godot for early adopters |
 | Mixed clients | Shared authoritative sim (server or host); Python and Godot as peers—validates command parity under real latency |
 
+**Scheduling:** mixed-client / cross-version session work is **not on the backlog** until M7 exit criterion **#4** (tick parity on multiple fixtures) is green. See [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md) exit **#5–#6**.
+
 This is listed in [PROJECT_ROADMAP.md](PROJECT_ROADMAP.md) as milestone **M7** / future ideas—not implemented in the PoC phase.
 
 **Current PoC stepping stones (2026-10):** JSON snapshot v3 with GUT + `snapshot_roundtrip` parity; desktop **partial** legacy `.sqlite` import (buildings, storage, production, collectors, settler meta) with PoC FileDialog UI and CI fixture matrix; **M7 tracker:** [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md). No cross-client sync or full savegamerev fidelity yet.

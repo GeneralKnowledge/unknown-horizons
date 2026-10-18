@@ -24,9 +24,11 @@ Report: [`development/godot/reports/sqlite_fixture_report.json`](../../developme
 
 Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json`](../resources/fixtures/sqlite_save_fixtures.json)
 
-## Tiers
+## Test tags (T0–T1p)
 
-| Tier | Meaning |
+These labels name **GUT tests and fixtures**, not M7 milestones. Track overall progress via exit criteria **#1–#4** in [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md).
+
+| Tag | Meaning |
 |------|---------|
 | **T0** | SQLite valid, extract script OK, `SqliteSaveLoader.load` returns a session (GUT) |
 | **T1** | Gap report: unknown `building.type` ids, storage/unit row counts |
@@ -42,7 +44,7 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 | **T1f** | Prebuilt `.extract.json` bundles for web import (GUT: `test_sqlite_extract_bundle.gd`; tool: `sqlite_extract_bundle.py`) |
 | **T1g** | Python probe ↔ Godot import counts (GUT: `test_sqlite_cross_version_probe.gd`) |
 | **T1h** | Residential settler rows → `LegacySettlerComponent` + meta (tier, happiness storage, tax settings; GUT: `test_sqlite_settler_restore.gd`) |
-| **T1m** | M7: Godot vs legacy Python inventory after 128 ticks on `fire` when FIFE available, or vs committed `fire_tick128_legacy_python_totals.json` (GUT: `test_sqlite_m7_legacy_dual_run.gd`) |
+| **T1m** | Optional: Godot vs legacy Python inventory after 128 ticks on `fire` when FIFE installed (GUT: `test_sqlite_m7_legacy_dual_run.gd`; pending in CI). Godot tick regression: **T1l** |
 | **T1i** | Active `collector_job` in-transit cargo on collectors at load (GUT: `test_sqlite_collector_jobs.gd`, `test_sqlite_import_diagnostics.gd`) |
 | **T1j** | Legacy collector cargo deposited into home storage after ticks (GUT: `test_fire_fixture_deposits_legacy_collector_cargo_after_ticks`) |
 | **T2** | Full legacy Python load (needs `fife`) — optional, not in default CI |

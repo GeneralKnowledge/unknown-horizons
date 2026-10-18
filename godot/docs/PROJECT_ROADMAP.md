@@ -108,6 +108,8 @@ These are intentional next horizons—not current milestones—but they should *
 | Cross-version session (stretch) | Python + Godot clients stay in sync on a test map |
 | Reverse path (stretch) | Godot save or export readable by Python, or documented migration only |
 
+Stretch rows are **not scheduled** until M7 exit **#4** (tick parity) is green on multiple fixtures. Canonical tracker: [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md).
+
 See also [MIGRATION_STRATEGY.md](MIGRATION_STRATEGY.md).
 
 ## Browser blockers (living list)

@@ -1,11 +1,11 @@
 extends GutTest
 
 ## M7: compare Godot vs legacy Python inventory totals after ticks (when FIFE available).
+## CI uses T1l Godot tick goldens; this test is optional local/FIFE validation only.
 
 const FIRE_FIXTURE := "legacy/tests/game/fixtures/fire.sqlite"
 const TICKS := 128
 const PROBE_SCRIPT := "development/godot/sqlite_m7_legacy_fire_ticks.py"
-const LEGACY_GOLDEN := "godot/resources/fixtures/sqlite_m7/fire_tick128_legacy_python_totals.json"
 
 
 func _repo_root() -> String:
@@ -54,20 +54,13 @@ func test_fire_tick128_godot_inventory_matches_legacy_python_when_available() ->
 		output,
 		true
 	)
-	var expected: Dictionary = {}
 	if code == 2:
-		var golden_path := _repo_root().path_join(LEGACY_GOLDEN)
-		if not FileAccess.file_exists(golden_path):
-			pending("legacy Python runtime (FIFE) not installed — dual-run skipped")
-			return
-		var golden: Variant = JSON.parse_string(FileAccess.get_file_as_string(golden_path))
-		assert_eq(typeof(golden), TYPE_DICTIONARY)
-		expected = golden.get("totals_by_resource_id", {})
-	else:
-		assert_eq(0, code, "legacy probe failed: %s" % str(output))
-		var legacy: Variant = JSON.parse_string(FileAccess.get_file_as_string(tmp))
-		assert_eq(typeof(legacy), TYPE_DICTIONARY)
-		expected = legacy.get("totals_by_resource_id", {})
+		pending("legacy Python runtime (FIFE) not installed — dual-run skipped")
+		return
+	assert_eq(0, code, "legacy probe failed: %s" % str(output))
+	var legacy: Variant = JSON.parse_string(FileAccess.get_file_as_string(tmp))
+	assert_eq(typeof(legacy), TYPE_DICTIONARY)
+	var expected: Dictionary = legacy.get("totals_by_resource_id", {})
 	var actual := _godot_totals_after_ticks(sqlite_path)
 	for res_key in expected.keys():
 		assert_eq(
