@@ -38,6 +38,7 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 | **T1g** | Python probe ↔ Godot import counts (GUT: `test_sqlite_cross_version_probe.gd`) |
 | **T1h** | Residential settler rows → building meta (`legacy_inhabitants`, `legacy_last_tax_payed`; GUT: `test_sqlite_settler_restore.gd`) |
 | **T1i** | Active `collector_job` in-transit cargo on collectors at load (GUT: `test_sqlite_collector_jobs.gd`, `test_sqlite_import_diagnostics.gd`) |
+| **T1j** | Legacy collector cargo deposited into home storage after ticks (GUT: `test_fire_fixture_deposits_legacy_collector_cargo_after_ticks`) |
 | **T2** | Full legacy Python load (needs `fife`) — optional, not in default CI |
 
 ## Current Godot loader scope

@@ -27,6 +27,8 @@ func _on_work_tick() -> void:
 func search_job() -> void:
 	if _state == "working" or _state == "moving":
 		return
+	if _deposit_legacy_job_cargo_if_any():
+		return
 	var export := ContentLoader.load_building_export(
 		ContentLoader.stem_for_building_id(home_building.building_id)
 	)
@@ -135,6 +137,55 @@ func apply_legacy_job_at_load(target: Building, res_id: int, amount: int) -> boo
 	if target != null:
 		set_meta("legacy_job_target_worldid", int(target.worldid))
 	return true
+
+
+## Deliver in-flight legacy cargo into the home building (first idle collector tick).
+func _deposit_legacy_job_cargo_if_any() -> bool:
+	if not has_meta("legacy_job_cargo"):
+		return false
+	var cargo: Dictionary = get_meta("legacy_job_cargo")
+	if cargo.is_empty():
+		_clear_legacy_job_cargo_meta()
+		return false
+	var home_inv := get_home_inventory()
+	var any_moved := false
+	var remaining: Dictionary = {}
+	for res_key in cargo.keys():
+		var res_id := int(res_key)
+		var amount := int(cargo[res_key])
+		if amount <= 0:
+			continue
+		var free := home_inv.get_free_space_for(res_id)
+		if free <= 0:
+			remaining[res_id] = amount
+			continue
+		var moved := mini(amount, free)
+		home_inv.alter(res_id, moved)
+		any_moved = true
+		var left := amount - moved
+		if left > 0:
+			remaining[res_id] = left
+	if remaining.is_empty():
+		_clear_legacy_job_cargo_meta()
+	else:
+		set_meta("legacy_job_cargo", remaining)
+	return any_moved
+
+
+func _clear_legacy_job_cargo_meta() -> void:
+	if has_meta("legacy_job_cargo"):
+		remove_meta("legacy_job_cargo")
+	if has_meta("legacy_job_target_worldid"):
+		remove_meta("legacy_job_target_worldid")
+
+
+func legacy_job_cargo_amount() -> int:
+	if not has_meta("legacy_job_cargo"):
+		return 0
+	var total := 0
+	for v in get_meta("legacy_job_cargo").values():
+		total += int(v)
+	return total
 
 
 func _distance_rect_to_point(origin: Vector2i, size: Vector2i, point: Vector2i) -> float:

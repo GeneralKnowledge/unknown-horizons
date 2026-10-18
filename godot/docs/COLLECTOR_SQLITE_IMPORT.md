@@ -47,7 +47,19 @@ Building rows use **`trust_legacy_placement`** so saved coordinates are not reje
 | Save rows but building has no `Collecting` in export | `collectors_unsupported_no_collecting_yaml` |
 | Home building not placed | Rows → `collectors_unsupported` |
 
-**Partial restore:** active [`collector_job`](../../development/godot/sqlite_extract_collector_jobs.py) rows apply at load via `apply_legacy_job_at_load` — legacy stores **in-transit** amounts on the job row; Godot records them on the collector (`legacy_job_cargo` meta) without altering building storage (collectors keyed by legacy unit `worldid`). **Not restored:** `unit_path`, `building_collector_job_history` (report `unit_path_rows_in_save`, `collector_job_history_rows_in_save`).
+**Partial restore (load):** active [`collector_job`](../../development/godot/sqlite_extract_collector_jobs.py) rows apply at load via `apply_legacy_job_at_load` — legacy stores **in-transit** amounts on the job row; Godot records them on the collector (`legacy_job_cargo` meta) without altering building storage (collectors keyed by legacy unit `worldid`).
+
+**Partial restore (sim):** on the first idle collector tick, `_deposit_legacy_job_cargo_if_any()` moves cargo into the home building inventory (respecting free space). GUT: `test_sqlite_collector_jobs.gd` (deposit after ticks).
+
+### Partial import — collectors **done**
+
+For desktop legacy SQLite **partial import**, the collector subsystem is **complete** when:
+
+- Save rows spawn collectors (`attach_from_save_rows`, `legacy_unit_worldid`).
+- Active jobs restore in-transit cargo and deliver it after load.
+- YAML double-spawn is prevented (`defer_collecting`).
+
+**Still out of scope (full fidelity / M7):** `unit_path` replay, `building_collector_job_history`, per-collector map positions, hunter/animal job targets (`object == -1`), and bit-for-bit job state machine parity with legacy Python.
 
 ## Report fields
 
