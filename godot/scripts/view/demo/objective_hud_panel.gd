@@ -31,6 +31,13 @@ func _ready() -> void:
 	_pause_btn.text = "Pause simulation"
 	_pause_btn.pressed.connect(_on_pause_pressed)
 	v.add_child(_pause_btn)
+	var save_note := Label.new()
+	save_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	if OS.has_feature("web"):
+		save_note.text = "Progress: Save JSON then Download save before closing the tab."
+	else:
+		save_note.text = "Progress: Save JSON in the HUD (enables Continue on the title menu)."
+	v.add_child(save_note)
 	if tracker != null:
 		_connect_tracker(tracker)
 	_refresh()

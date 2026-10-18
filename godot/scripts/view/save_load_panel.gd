@@ -23,7 +23,9 @@ func _ready() -> void:
 	_import_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	_import_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	var filters := PackedStringArray(["*.json ; JSON snapshots"])
-	if not OS.has_feature("web"):
+	if OS.has_feature("web"):
+		filters.append("*.extract.json ; Legacy extract bundles (not raw .sqlite)")
+	else:
 		filters.append("*.sqlite ; Legacy SQLite saves")
 		filters.append("*.sqlite.bz2 ; Compressed legacy saves")
 		filters.append("*.extract.json ; Prebuilt legacy extract bundles")
@@ -56,7 +58,7 @@ func _open_import_dialog() -> void:
 func _on_import_file_selected(path: String) -> void:
 	if path.is_empty():
 		return
-	if path.ends_with(".json"):
+	if path.ends_with(".json") and not path.ends_with(".extract.json"):
 		var text := FileAccess.get_file_as_string(path)
 		if text.is_empty():
 			push_error("Empty save file: %s" % path)

@@ -10,9 +10,9 @@ Runs the same **scenario JSON** on legacy Horizons (Python sim) and the Godot po
 | **2** | Tier-1 + tier-2 economy | `tier1_starter`, `stonemason`, **`brickyard`**, `farm_crop` |
 | **3** | Chains + save fidelity + demo map | **`toolmaker`**, **`snapshot_mid_production`**, **`brickyard_development`** |
 
-Next targets: weaver/salt chains, legacy Python dual-run with `fife`, producer state in JSON snapshots.
+Next targets (Godot-only): weaver/salt chains, **`brickyard_development`**-style stage-3 extensions, producer state in JSON snapshots. Legacy Python dual-run requires **`fife`** locally and is **not** a merge gate ([`LEGACY_IMPORT_FROZEN.md`](../../godot/docs/LEGACY_IMPORT_FROZEN.md)).
 
-**Legacy `.sqlite` saves (M7):** Godot tick regression uses **T1l** goldens in CI; optional cross-engine check: `development/godot/sqlite_m7_legacy_fire_ticks.py` (see [`godot/docs/M7_LEGACY_SAVE.md`](../../godot/docs/M7_LEGACY_SAVE.md)).
+**Legacy `.sqlite` (frozen):** CI uses Godot **T1l** tick goldens only; optional FIFE probe: `RUN_T1M=1` + `sqlite_m7_legacy_fire_ticks.py`.
 
 ## Quick start
 

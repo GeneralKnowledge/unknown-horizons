@@ -118,6 +118,14 @@ func _hint_bricks_step(step: Dictionary) -> String:
 	]
 
 
+func step_label_short() -> String:
+	if completed:
+		return "demo complete"
+	if steps.is_empty():
+		return "demo"
+	return "step %d/%d" % [current_step_index + 1, steps.size()]
+
+
 func progress_line() -> String:
 	var step := current_step()
 	if step.is_empty():

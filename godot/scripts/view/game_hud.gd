@@ -73,7 +73,14 @@ func set_playable_demo_active(active: bool) -> void:
 	if _objective_panel != null:
 		_objective_panel.visible = active
 	if _hint != null and active:
-		_hint.text = "Select (S) · Build (B) · pan with middle mouse · zoom with wheel"
+		if OS.has_feature("web"):
+			_hint.text = (
+				"Objective panel tracks lumber → bricks. Save JSON / Download save to keep progress in this browser."
+			)
+		else:
+			_hint.text = (
+				"Select (S) · Build (B) · Save JSON in HUD · pan middle-mouse · zoom wheel"
+			)
 
 
 func set_snapshot_extra_fields(extra: Callable) -> void:
@@ -191,8 +198,15 @@ func set_selected(building: Building) -> void:
 
 
 func export_snapshot_text(json_text: String) -> void:
+	if json_text.is_empty():
+		show_status("Nothing to export — start or load a game first", true)
+		return
 	if _save_load != null:
 		_save_load.export_snapshot_to_disk_or_browser(json_text)
+	if OS.has_feature("web"):
+		show_status("Download started — keep uh_godot_snapshot.json for Import later")
+	else:
+		show_status("Choose where to save the JSON file")
 
 
 func _snapshot_text_for_export() -> String:
