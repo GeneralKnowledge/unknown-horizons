@@ -11,7 +11,7 @@ M7 is the **gate** before treating Godot as the primary Unknown Horizons client 
 | 1 | Fixture saves load in Godot without silent loss | **Partial** | SQLite fixture matrix GUT; `SqliteImportReport` + `partial` flag |
 | 2 | Python → Godot → play (campaign slice) | **Partial** | Desktop `.sqlite` / `.extract.json`; PoC sim after load; no full GUI campaign |
 | 3 | Parity on loaded state | **Strong partial** | T1b/T1k on main fixtures; T1n production on `fire`, `settlement-range`, `traderoute`; T1p session tick; T1o matrix gate |
-| 4 | Parity after N ticks vs golden | **Partial** | **T1l** Godot tick-128 goldens (`fire`, `settlement-range`); **T1m** legacy Python dual-run when FIFE installed (optional; pending in CI) |
+| 4 | Parity after N ticks vs golden | **Partial** | **T1l** Godot tick-128 goldens (`fire`, `settlement-range`, `traderoute`); **T1m** legacy Python dual-run when FIFE installed (optional; pending in CI) |
 | 5 | Cross-version session (stretch) | **Not scheduled** | Do not plan until exit **#4** is green on multiple fixtures |
 | 6 | Reverse save path (stretch) | **Not scheduled** | JSON v3 only for Godot-native saves today |
 
