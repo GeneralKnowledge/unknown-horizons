@@ -59,7 +59,8 @@ func _ready() -> void:
 	else:
 		note.text = (
 			"Legacy Unknown Horizons .sqlite / .sqlite.bz2: partial restore "
-			+ "(buildings, storage, production, collectors; ships/settlers skipped). "
+			+ "(buildings, storage, production, collectors, settler meta, in-flight collector jobs; "
+			+ "ships as placeholders). "
 			+ "Prefer JSON for the settlement demo."
 		)
 	v.add_child(note)

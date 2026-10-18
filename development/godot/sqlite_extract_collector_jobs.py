@@ -9,13 +9,13 @@ import sys
 from pathlib import Path
 
 
-def extract(path: Path) -> dict:
+def extract(path: Path, job_limit: int = 5000) -> dict:
 	con = sqlite3.connect(str(path))
 	try:
 		tables = {
 			r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")
 		}
-		out: dict = {"tables": {}}
+		out: dict = {"tables": {}, "active_jobs": []}
 		for name in (
 			"building_collector_job_history",
 			"collector_job",
@@ -26,6 +26,32 @@ def extract(path: Path) -> dict:
 				continue
 			count = con.execute(f"SELECT COUNT(*) FROM {name}").fetchone()[0]
 			out["tables"][name] = {"present": True, "rows": int(count)}
+		if "collector_job" in tables:
+			job_cols = {
+				r[1]
+				for r in con.execute("PRAGMA table_info(collector_job)").fetchall()
+			}
+			if "collector" in job_cols:
+				rows = con.execute(
+					"SELECT collector, object, resource, amount FROM collector_job LIMIT ?",
+					(job_limit,),
+				).fetchall()
+			else:
+				rows = con.execute(
+					"SELECT rowid, object, resource, amount FROM collector_job LIMIT ?",
+					(job_limit,),
+				).fetchall()
+			for collector, obj, res, amount in rows:
+				if collector is None or obj is None or res is None:
+					continue
+				out["active_jobs"].append(
+					{
+						"collector_unit_worldid": int(collector),
+						"target_worldid": int(obj),
+						"resource_id": int(res),
+						"amount": int(amount if amount is not None else 0),
+					}
+				)
 	finally:
 		con.close()
 	return out

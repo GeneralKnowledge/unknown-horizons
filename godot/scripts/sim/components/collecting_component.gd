@@ -41,8 +41,11 @@ static func attach_from_save_rows(
 		var unit_type_id := int(row.get("unit_type_id", -1))
 		if unit_type_id < 0:
 			continue
+		var legacy_wid := int(row.get("worldid", -1))
 		comp.collectors.append(
-			CollectorRegistry.create_collector(unit_type_id, p_building, p_session)
+			CollectorRegistry.create_collector(
+				unit_type_id, p_building, p_session, legacy_wid
+			)
 		)
 	p_building.collecting = comp
 	return comp

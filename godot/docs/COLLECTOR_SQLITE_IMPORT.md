@@ -47,7 +47,7 @@ Building rows use **`trust_legacy_placement`** so saved coordinates are not reje
 | Save rows but building has no `Collecting` in export | `collectors_unsupported_no_collecting_yaml` |
 | Home building not placed | Rows → `collectors_unsupported` |
 
-**Not restored (diagnostics only):** `unit_path`, `collector_job`, `building_collector_job_history` — row counts via [`sqlite_extract_collector_jobs.py`](../../development/godot/sqlite_extract_collector_jobs.py) → report `collector_job_rows_in_save`. Saved collector worldids still not re-keyed in sim (phase 2).
+**Partial restore:** active [`collector_job`](../../development/godot/sqlite_extract_collector_jobs.py) rows apply at load via `apply_legacy_job_at_load` — legacy stores **in-transit** amounts on the job row; Godot records them on the collector (`legacy_job_cargo` meta) without altering building storage (collectors keyed by legacy unit `worldid`). **Not restored:** `unit_path`, `building_collector_job_history` (report `unit_path_rows_in_save`, `collector_job_history_rows_in_save`).
 
 ## Report fields
 

@@ -28,6 +28,11 @@ var unsupported_unit_rows: int = 0
 var legacy_units_restored: int = 0
 var ships_restored: int = 0
 var collector_job_rows_in_save: int = 0
+var collector_job_history_rows_in_save: int = 0
+var unit_path_rows_in_save: int = 0
+var collector_jobs_applied: int = 0
+var collector_jobs_skipped: int = 0
+var settler_building_rows_applied: int = 0
 var collector_rows_in_save: int = 0
 var collectors_skipped_yaml_duplicate: int = 0
 var collectors_unsupported: int = 0
@@ -69,6 +74,11 @@ func to_dictionary() -> Dictionary:
 		"legacy_units_restored": legacy_units_restored,
 		"ships_restored": ships_restored,
 		"collector_job_rows_in_save": collector_job_rows_in_save,
+		"collector_job_history_rows_in_save": collector_job_history_rows_in_save,
+		"unit_path_rows_in_save": unit_path_rows_in_save,
+		"collector_jobs_applied": collector_jobs_applied,
+		"collector_jobs_skipped": collector_jobs_skipped,
+		"settler_building_rows_applied": settler_building_rows_applied,
 		"collector_rows_in_save": collector_rows_in_save,
 		"collectors_skipped_yaml_duplicate": collectors_skipped_yaml_duplicate,
 		"collectors_unsupported": collectors_unsupported,
@@ -105,6 +115,13 @@ static func from_dictionary(data: Dictionary) -> SqliteImportReport:
 	r.legacy_units_restored = int(data.get("legacy_units_restored", 0))
 	r.ships_restored = int(data.get("ships_restored", 0))
 	r.collector_job_rows_in_save = int(data.get("collector_job_rows_in_save", 0))
+	r.collector_job_history_rows_in_save = int(
+		data.get("collector_job_history_rows_in_save", 0)
+	)
+	r.unit_path_rows_in_save = int(data.get("unit_path_rows_in_save", 0))
+	r.collector_jobs_applied = int(data.get("collector_jobs_applied", 0))
+	r.collector_jobs_skipped = int(data.get("collector_jobs_skipped", 0))
+	r.settler_building_rows_applied = int(data.get("settler_building_rows_applied", 0))
 	r.collector_rows_in_save = int(data.get("collector_rows_in_save", 0))
 	r.collectors_skipped_yaml_duplicate = int(data.get("collectors_skipped_yaml_duplicate", 0))
 	r.collectors_unsupported = int(data.get("collectors_unsupported", 0))

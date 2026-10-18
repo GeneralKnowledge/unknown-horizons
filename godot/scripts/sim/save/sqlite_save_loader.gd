@@ -13,6 +13,7 @@ const EXTRACT_UNITS_SCRIPT := "development/godot/sqlite_extract_units.py"
 const EXTRACT_PRODUCTION_SCRIPT := "development/godot/sqlite_extract_production.py"
 const EXTRACT_SETTLEMENT_SCRIPT := "development/godot/sqlite_extract_settlement.py"
 const EXTRACT_COLLECTOR_JOBS_SCRIPT := "development/godot/sqlite_extract_collector_jobs.py"
+const EXTRACT_SETTLER_SCRIPT := "development/godot/sqlite_extract_settler.py"
 const PREPARE_SAVE_SCRIPT := "development/godot/sqlite_prepare_save.py"
 const BUNDLE_FILE_SUFFIX := ".extract.json"
 const DEFAULT_BUILDING_LIMIT := 0
@@ -207,8 +208,11 @@ static func _load_import_core(sqlite_path: String, report: SqliteImportReport) -
 	_attach_deferred_producers(session)
 	_apply_production_rows(session, sqlite_path, report)
 	_apply_collector_rows(session, sqlite_path, report)
+	var collector_jobs_data := _extract_collector_jobs_dict(sqlite_path)
+	_apply_collector_job_table_diagnostics(collector_jobs_data, report)
+	_apply_collector_job_rows(session, collector_jobs_data, report)
+	_apply_settler_building_rows(session, sqlite_path, report)
 	_apply_unit_rows(session, sqlite_path, report)
-	_apply_collector_job_diagnostics(sqlite_path, report)
 
 	report.partial = (
 		report.buildings_truncated
@@ -220,7 +224,9 @@ static func _load_import_core(sqlite_path: String, report: SqliteImportReport) -
 		or report.collectors_unsupported_no_collecting_yaml > 0
 		or report.collectors_skipped_yaml_duplicate > 0
 		or report.unsupported_unit_rows > 0
-		or report.collector_job_rows_in_save > 0
+		or report.collector_job_history_rows_in_save > 0
+		or report.unit_path_rows_in_save > 0
+		or report.collector_jobs_skipped > 0
 	)
 	session.set_meta(META_REPORT, report.to_dictionary())
 	_extract_bundle = {}
@@ -553,27 +559,118 @@ static func _apply_unit_rows(session: GameSession, sqlite_path: String, report: 
 			report.unsupported_unit_rows += 1
 
 
-static func _apply_collector_job_diagnostics(sqlite_path: String, report: SqliteImportReport) -> void:
-	var data: Dictionary = {}
+static func _extract_collector_jobs_dict(sqlite_path: String) -> Dictionary:
 	if _extract_bundle.has("collector_jobs"):
 		var bundled: Variant = _extract_bundle["collector_jobs"]
 		if typeof(bundled) == TYPE_DICTIONARY:
-			data = bundled
-	elif not sqlite_path.is_empty():
-		var json_text := _run_python_extract(
-			EXTRACT_COLLECTOR_JOBS_SCRIPT,
-			sqlite_path,
-			"user://sqlite_collector_jobs_extract.json",
-		)
-		if json_text.is_empty():
-			return
-		var parsed: Variant = JSON.parse_string(json_text)
-		if typeof(parsed) == TYPE_DICTIONARY:
-			data = parsed
+			return bundled
+	if sqlite_path.is_empty():
+		return {}
+	var json_text := _run_python_extract(
+		EXTRACT_COLLECTOR_JOBS_SCRIPT,
+		sqlite_path,
+		"user://sqlite_collector_jobs_extract.json",
+	)
+	if json_text.is_empty():
+		return {}
+	var parsed: Variant = JSON.parse_string(json_text)
+	if typeof(parsed) == TYPE_DICTIONARY:
+		return parsed
+	return {}
+
+
+static func _apply_collector_job_table_diagnostics(data: Dictionary, report: SqliteImportReport) -> void:
 	var tables: Variant = data.get("tables", {})
 	if typeof(tables) != TYPE_DICTIONARY:
 		return
-	for _key in tables.keys():
-		var entry: Variant = tables[_key]
-		if typeof(entry) == TYPE_DICTIONARY and bool(entry.get("present", false)):
-			report.collector_job_rows_in_save += int(entry.get("rows", 0))
+	var history: Variant = tables.get("building_collector_job_history", {})
+	if typeof(history) == TYPE_DICTIONARY and bool(history.get("present", false)):
+		report.collector_job_history_rows_in_save = int(history.get("rows", 0))
+	var paths: Variant = tables.get("unit_path", {})
+	if typeof(paths) == TYPE_DICTIONARY and bool(paths.get("present", false)):
+		report.unit_path_rows_in_save = int(paths.get("rows", 0))
+	var active: Variant = tables.get("collector_job", {})
+	if typeof(active) == TYPE_DICTIONARY and bool(active.get("present", false)):
+		report.collector_job_rows_in_save = int(active.get("rows", 0))
+
+
+static func _collectors_by_legacy_worldid(session: GameSession) -> Dictionary:
+	var out: Dictionary = {}
+	for building in session.get_buildings_on_island(session.island):
+		if building.collecting == null:
+			continue
+		for collector in building.collecting.collectors:
+			if collector is BuildingCollector:
+				var wid := int(collector.legacy_unit_worldid)
+				if wid > 0:
+					out[wid] = collector
+	return out
+
+
+static func _apply_collector_job_rows(
+	session: GameSession, data: Dictionary, report: SqliteImportReport
+) -> void:
+	var rows: Variant = data.get("active_jobs", [])
+	if typeof(rows) != TYPE_ARRAY:
+		return
+	var by_collector := _collectors_by_legacy_worldid(session)
+	for row in rows:
+		if typeof(row) != TYPE_DICTIONARY:
+			report.collector_jobs_skipped += 1
+			continue
+		var collector_wid := int(row.get("collector_unit_worldid", -1))
+		var target_wid := int(row.get("target_worldid", -1))
+		var res_id := int(row.get("resource_id", -1))
+		var amount := int(row.get("amount", 0))
+		if collector_wid < 0 or target_wid < 0 or res_id < 0 or amount <= 0:
+			report.collector_jobs_skipped += 1
+			continue
+		if not by_collector.has(collector_wid):
+			report.collector_jobs_skipped += 1
+			continue
+		var collector: BuildingCollector = by_collector[collector_wid]
+		var target := session.get_building(target_wid)
+		if target == null:
+			report.collector_jobs_skipped += 1
+			continue
+		if collector.apply_legacy_job_at_load(target, res_id, amount):
+			report.collector_jobs_applied += 1
+		else:
+			report.collector_jobs_skipped += 1
+
+
+static func _extract_settler_building_rows(sqlite_path: String) -> Array:
+	if _extract_bundle.has("settler_buildings"):
+		var bundled: Variant = _extract_bundle["settler_buildings"]
+		if typeof(bundled) == TYPE_ARRAY:
+			return bundled
+	if sqlite_path.is_empty():
+		return []
+	var json_text := _run_python_extract(
+		EXTRACT_SETTLER_SCRIPT,
+		sqlite_path,
+		"user://sqlite_settler_extract.json",
+	)
+	if json_text.is_empty():
+		return []
+	var rows: Variant = JSON.parse_string(json_text)
+	if typeof(rows) != TYPE_ARRAY:
+		return []
+	return rows
+
+
+static func _apply_settler_building_rows(
+	session: GameSession, sqlite_path: String, report: SqliteImportReport
+) -> void:
+	for row in _extract_settler_building_rows(sqlite_path):
+		if typeof(row) != TYPE_DICTIONARY:
+			continue
+		var wid := int(row.get("building_worldid", -1))
+		if wid < 0:
+			continue
+		var building := session.get_building(wid)
+		if building == null:
+			continue
+		building.set_meta("legacy_inhabitants", int(row.get("inhabitants", 0)))
+		building.set_meta("legacy_last_tax_payed", int(row.get("last_tax_payed", 0)))
+		report.settler_building_rows_applied += 1

@@ -26,6 +26,7 @@ def build_bundle(sqlite_path: Path, building_limit: int = 0) -> dict:
 	production_mod = _load_module("sqlite_extract_production", root / "sqlite_extract_production.py")
 	metadata_mod = _load_module("sqlite_extract_metadata", root / "sqlite_extract_metadata.py")
 	jobs_mod = _load_module("sqlite_extract_collector_jobs", root / "sqlite_extract_collector_jobs.py")
+	settler_mod = _load_module("sqlite_extract_settler", root / "sqlite_extract_settler.py")
 	limit = building_limit if building_limit > 0 else 500000
 	return {
 		"bundle_version": 1,
@@ -35,6 +36,7 @@ def build_bundle(sqlite_path: Path, building_limit: int = 0) -> dict:
 		"units": units_mod.extract(sqlite_path, limit=5000),
 		"session": session_mod.extract(sqlite_path),
 		"settlements": settlement_mod.extract(sqlite_path),
+		"settler_buildings": settler_mod.extract(sqlite_path),
 		"production": production_mod.extract(sqlite_path, limit=10000),
 		"metadata": metadata_mod.extract(sqlite_path),
 		"collector_jobs": jobs_mod.extract(sqlite_path),

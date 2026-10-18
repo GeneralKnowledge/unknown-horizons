@@ -1866,6 +1866,63 @@
       "island": 1001
     }
   ],
+  "settler_buildings": [
+    {
+      "building_worldid": 1196,
+      "inhabitants": 1,
+      "last_tax_payed": 0
+    },
+    {
+      "building_worldid": 1198,
+      "inhabitants": 1,
+      "last_tax_payed": 0
+    },
+    {
+      "building_worldid": 1200,
+      "inhabitants": 1,
+      "last_tax_payed": 0
+    },
+    {
+      "building_worldid": 1202,
+      "inhabitants": 1,
+      "last_tax_payed": 0
+    },
+    {
+      "building_worldid": 1204,
+      "inhabitants": 1,
+      "last_tax_payed": 0
+    },
+    {
+      "building_worldid": 1206,
+      "inhabitants": 1,
+      "last_tax_payed": 0
+    },
+    {
+      "building_worldid": 1208,
+      "inhabitants": 1,
+      "last_tax_payed": 0
+    },
+    {
+      "building_worldid": 1211,
+      "inhabitants": 1,
+      "last_tax_payed": 0
+    },
+    {
+      "building_worldid": 1213,
+      "inhabitants": 1,
+      "last_tax_payed": 0
+    },
+    {
+      "building_worldid": 1215,
+      "inhabitants": 1,
+      "last_tax_payed": 0
+    },
+    {
+      "building_worldid": 1217,
+      "inhabitants": 1,
+      "last_tax_payed": 0
+    }
+  ],
   "production": [
     {
       "rowid": 1,
@@ -2659,6 +2716,104 @@
         "present": true,
         "rows": 58
       }
-    }
+    },
+    "active_jobs": [
+      {
+        "collector_unit_worldid": 1013,
+        "target_worldid": 1019,
+        "resource_id": 4,
+        "amount": 8
+      },
+      {
+        "collector_unit_worldid": 1014,
+        "target_worldid": 1019,
+        "resource_id": 4,
+        "amount": 2
+      },
+      {
+        "collector_unit_worldid": 1020,
+        "target_worldid": 1041,
+        "resource_id": 8,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1201,
+        "target_worldid": 1065,
+        "resource_id": 19,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1201,
+        "target_worldid": 1065,
+        "resource_id": 5,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1203,
+        "target_worldid": 1065,
+        "resource_id": 19,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1203,
+        "target_worldid": 1065,
+        "resource_id": 5,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1205,
+        "target_worldid": 1065,
+        "resource_id": 19,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1207,
+        "target_worldid": 1065,
+        "resource_id": 19,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1207,
+        "target_worldid": 1065,
+        "resource_id": 5,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1209,
+        "target_worldid": 1065,
+        "resource_id": 19,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1212,
+        "target_worldid": 1065,
+        "resource_id": 19,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1212,
+        "target_worldid": 1065,
+        "resource_id": 5,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1214,
+        "target_worldid": 1065,
+        "resource_id": 5,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1216,
+        "target_worldid": 1065,
+        "resource_id": 5,
+        "amount": 1
+      },
+      {
+        "collector_unit_worldid": 1218,
+        "target_worldid": 1065,
+        "resource_id": 5,
+        "amount": 1
+      }
+    ]
   }
 }

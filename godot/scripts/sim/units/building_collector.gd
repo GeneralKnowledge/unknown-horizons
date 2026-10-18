@@ -8,6 +8,7 @@ const TICKS_PER_PATH_STEP := 2
 var home_building: Building
 var session: GameSession
 var unit_type_id: int
+var legacy_unit_worldid: int = -1
 var _state := "idle"
 var _active_job: CollectorJob
 
@@ -121,6 +122,19 @@ func _finish_job(job: CollectorJob) -> void:
 		job.target.get_storage().alter(res_id, -amount)
 		get_home_inventory().alter(res_id, amount)
 	_state = "idle"
+
+
+## Apply in-flight goods from legacy `collector_job` at load (no path replay).
+## Legacy stores carried amounts on the job row, not in home or target building storage.
+func apply_legacy_job_at_load(target: Building, res_id: int, amount: int) -> bool:
+	if amount <= 0 or res_id < 0:
+		return false
+	var cargo: Dictionary = get_meta("legacy_job_cargo") if has_meta("legacy_job_cargo") else {}
+	cargo[int(res_id)] = int(cargo.get(res_id, 0)) + amount
+	set_meta("legacy_job_cargo", cargo)
+	if target != null:
+		set_meta("legacy_job_target_worldid", int(target.worldid))
+	return true
 
 
 func _distance_rect_to_point(origin: Vector2i, size: Vector2i, point: Vector2i) -> float:

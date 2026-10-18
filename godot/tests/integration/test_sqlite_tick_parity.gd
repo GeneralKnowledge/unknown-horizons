@@ -48,3 +48,10 @@ func test_fire_fixture_production_advances_inventories_after_ticks() -> void:
 		"lumberjack storage should change after %s ticks (boards %s→%s, trees %s→%s)"
 		% [FIRE_TICKS, boards_before, boards_after, trees_before, trees_after]
 	)
+	for building in session.get_buildings_on_island(session.island):
+		var inv: Inventory = building.get_storage()
+		if inv == null:
+			continue
+		for res_id in inv.get_stored_resources().keys():
+			assert_gte(int(inv.amount(int(res_id))), 0, "worldid %s res %s" % [building.worldid, res_id])
+	assert_gte(session.settlement.inventory.amount(GameConstants.RES["CANNON"]), 0)
