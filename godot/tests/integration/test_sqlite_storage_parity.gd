@@ -10,6 +10,8 @@ const M7_FULL_PARITY_FIXTURES := {
 
 const M7_TOTALS_ONLY_FIXTURES := {
 	"savegame-rev-76": "legacy/tests/game/fixtures/savegame-rev-76.sqlite",
+	"blackdeath": "legacy/tests/game/fixtures/blackdeath.sqlite",
+	"plain": "legacy/tests/gui/ingame/fixtures/plain.sqlite",
 }
 
 
@@ -290,6 +292,20 @@ func test_m7_savegame_rev_76_inventory_totals_at_load_match_extract() -> void:
 	_assert_m7_inventory_totals_at_load(
 		"savegame-rev-76", M7_TOTALS_ONLY_FIXTURES["savegame-rev-76"]
 	)
+
+
+func test_m7_blackdeath_inventory_totals_at_load_match_extract() -> void:
+	if OS.has_feature("web"):
+		pending("desktop only")
+		return
+	_assert_m7_inventory_totals_at_load("blackdeath", M7_TOTALS_ONLY_FIXTURES["blackdeath"])
+
+
+func test_m7_plain_inventory_totals_at_load_match_extract() -> void:
+	if OS.has_feature("web"):
+		pending("desktop only")
+		return
+	_assert_m7_inventory_totals_at_load("plain", M7_TOTALS_ONLY_FIXTURES["plain"])
 
 
 func test_fire_fixture_run_ticks_after_load() -> void:

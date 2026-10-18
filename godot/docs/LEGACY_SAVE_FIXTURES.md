@@ -38,7 +38,8 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 | **T1e** | Ships / misc units → `LegacyUnit` placeholders at saved positions (GUT: `test_sqlite_legacy_units.gd`) |
 | **T1f** | Prebuilt `.extract.json` bundles for web import (GUT: `test_sqlite_extract_bundle.gd`; tool: `sqlite_extract_bundle.py`) |
 | **T1g** | Python probe ↔ Godot import counts (GUT: `test_sqlite_cross_version_probe.gd`) |
-| **T1h** | Residential settler rows → building meta (`legacy_inhabitants`, `legacy_last_tax_payed`; GUT: `test_sqlite_settler_restore.gd`) |
+| **T1h** | Residential settler rows → `LegacySettlerComponent` + meta (GUT: `test_sqlite_settler_restore.gd`) |
+| **T1m** | M7: Godot vs legacy Python inventory after 128 ticks on `fire` when FIFE available (GUT: `test_sqlite_m7_legacy_dual_run.gd`) |
 | **T1i** | Active `collector_job` in-transit cargo on collectors at load (GUT: `test_sqlite_collector_jobs.gd`, `test_sqlite_import_diagnostics.gd`) |
 | **T1j** | Legacy collector cargo deposited into home storage after ticks (GUT: `test_fire_fixture_deposits_legacy_collector_cargo_after_ticks`) |
 | **T2** | Full legacy Python load (needs `fife`) — optional, not in default CI |
@@ -54,7 +55,7 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 - Storage via [`sqlite_extract_storage.py`](../../development/godot/sqlite_extract_storage.py) (building `object` worldids + **settlement** rowids via [`sqlite_extract_settlement.py`](../../development/godot/sqlite_extract_settlement.py))
 - Production state via [`sqlite_extract_production.py`](../../development/godot/sqlite_extract_production.py) — after storage, before collectors
 - Collectors via [`sqlite_extract_units.py`](../../development/godot/sqlite_extract_units.py) (`kind: collector`) — see [`COLLECTOR_SQLITE_IMPORT.md`](COLLECTOR_SQLITE_IMPORT.md)
-- Settler/residential meta via [`sqlite_extract_settler.py`](../../development/godot/sqlite_extract_settler.py) (`settler_building` rows)
+- Settler/residential via [`sqlite_extract_settler.py`](../../development/godot/sqlite_extract_settler.py) → [`LegacySettlerComponent`](../scripts/sim/components/legacy_settler_component.gd)
 - In-flight collector jobs via [`sqlite_extract_collector_jobs.py`](../../development/godot/sqlite_extract_collector_jobs.py) (`active_jobs` in bundles)
 - Wild animals via same extract (`kind: wild_animal`)
 - Ground from save `metadata.map_name` when a bundled [`export_maps.py`](../../development/godot/export_maps.py) map exists (`development`, `test_map_tiny`, `quattro`); otherwise test stub

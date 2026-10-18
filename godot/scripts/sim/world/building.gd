@@ -14,6 +14,7 @@ var health: HealthComponent
 var field_builder: FieldBuilderComponent
 var named: NamedComponent
 var trade_post: TradePostComponent
+var settler: LegacySettlerComponent
 
 
 func _init(

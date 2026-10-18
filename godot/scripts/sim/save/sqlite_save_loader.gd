@@ -671,6 +671,9 @@ static func _apply_settler_building_rows(
 		var building := session.get_building(wid)
 		if building == null:
 			continue
-		building.set_meta("legacy_inhabitants", int(row.get("inhabitants", 0)))
-		building.set_meta("legacy_last_tax_payed", int(row.get("last_tax_payed", 0)))
+		var inhabitants := int(row.get("inhabitants", 0))
+		var last_tax := int(row.get("last_tax_payed", 0))
+		building.set_meta("legacy_inhabitants", inhabitants)
+		building.set_meta("legacy_last_tax_payed", last_tax)
+		building.settler = LegacySettlerComponent.new(building, session, inhabitants, last_tax)
 		report.settler_building_rows_applied += 1
