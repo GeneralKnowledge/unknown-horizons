@@ -8,6 +8,7 @@ signal import_save_file(path: String)
 
 var _import_json_dialog: FileDialog
 var _import_legacy_dialog: FileDialog
+var _continue_btn: Button
 
 
 func _ready() -> void:
@@ -38,17 +39,19 @@ func _ready() -> void:
 	v.add_child(goal)
 	v.add_child(_btn("Start settlement demo", func(): new_game_requested.emit()))
 	v.add_child(_btn("Economy showcase (pre-built)", func(): showcase_requested.emit()))
-	var continue_btn := _btn("Continue JSON save", func(): continue_requested.emit())
-	continue_btn.disabled = not FileAccess.file_exists(SaveLoadPanel.DEFAULT_SAVE_PATH)
-	v.add_child(continue_btn)
+	_continue_btn = _btn("Continue JSON save", func(): continue_requested.emit())
+	v.add_child(_continue_btn)
+	refresh_continue_availability()
 	v.add_child(_btn("Import JSON save…", func(): _import_json_dialog.popup_centered()))
-	var legacy_btn := _btn("Import legacy SQLite…", func(): _import_legacy_dialog.popup_centered())
 	if OS.has_feature("web"):
-		legacy_btn.disabled = true
-		legacy_btn.tooltip_text = (
-			"Legacy .sqlite is desktop-only. In browser use JSON saves or a prebuilt .extract.json bundle."
+		v.add_child(
+			_btn(
+				"Import legacy extract (.extract.json)…",
+				func(): _import_legacy_dialog.popup_centered()
+			)
 		)
-	v.add_child(legacy_btn)
+	else:
+		v.add_child(_btn("Import legacy SQLite…", func(): _import_legacy_dialog.popup_centered()))
 	var note := Label.new()
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	if OS.has_feature("web"):
@@ -68,14 +71,20 @@ func _ready() -> void:
 		"Import JSON save",
 		PackedStringArray(["*.json ; JSON snapshots"])
 	)
-	_import_legacy_dialog = _make_import_dialog(
-		"Import legacy SQLite save",
-		PackedStringArray([
-			"*.sqlite ; Legacy SQLite saves",
-			"*.sqlite.bz2 ; Compressed legacy saves",
-			"*.extract.json ; Prebuilt legacy extract bundles (web/desktop)",
-		])
-	)
+	if OS.has_feature("web"):
+		_import_legacy_dialog = _make_import_dialog(
+			"Import legacy extract bundle",
+			PackedStringArray(["*.extract.json ; Prebuilt legacy extract bundles"])
+		)
+	else:
+		_import_legacy_dialog = _make_import_dialog(
+			"Import legacy SQLite save",
+			PackedStringArray([
+				"*.sqlite ; Legacy SQLite saves",
+				"*.sqlite.bz2 ; Compressed legacy saves",
+				"*.extract.json ; Prebuilt legacy extract bundles",
+			])
+		)
 	add_child(_import_json_dialog)
 	add_child(_import_legacy_dialog)
 
@@ -96,6 +105,18 @@ func _btn(label: String, cb: Callable) -> Button:
 	b.text = label
 	b.pressed.connect(cb)
 	return b
+
+
+func refresh_continue_availability() -> void:
+	if _continue_btn == null:
+		return
+	var has_save := FileAccess.file_exists(SaveLoadPanel.DEFAULT_SAVE_PATH)
+	_continue_btn.disabled = not has_save
+	_continue_btn.tooltip_text = (
+		"Loads user://poc_snapshot.json (settlement demo progress when saved from the HUD)."
+		if has_save
+		else "Play the demo and use Save JSON in the HUD, or Import JSON save."
+	)
 
 
 func _on_import_file(path: String) -> void:

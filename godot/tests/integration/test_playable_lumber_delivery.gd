@@ -54,6 +54,16 @@ func test_invalid_placement_leaves_building_count_unchanged() -> void:
 	assert_eq(before, after)
 
 
+func test_step_label_short_reflects_progress() -> void:
+	var session := GameSession.new()
+	var tracker := DemoObjectiveTracker.new(session)
+	assert_eq("step 1/2", tracker.step_label_short())
+	tracker.current_step_index = 1
+	assert_eq("step 2/2", tracker.step_label_short())
+	tracker.completed = true
+	assert_eq("demo complete", tracker.step_label_short())
+
+
 func test_demo_snapshot_roundtrip_preserves_step_index() -> void:
 	var session := GameSession.new()
 	session.load_test_map()

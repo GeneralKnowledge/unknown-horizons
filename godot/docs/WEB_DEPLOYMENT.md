@@ -87,8 +87,11 @@ GitHub Actions runs a headless `--export-release Web` when templates are install
 9. **Save JSON** / **Load JSON** — state persists in `user://` for this origin.
 10. **Download save** — JSON file downloads; **Import save** restores boards/buildings.
 11. **Invalid JSON import** — HUD shows an error; building count unchanged (no silent wipe).
+12. **Settlement demo** — **Start settlement demo**; objective panel + clay marker on step 2.
+13. **Save JSON** → menu **Continue JSON save** enabled (same as desktop).
+14. **Legacy on web** — only **`.extract.json`** imports (not raw `.sqlite`); settlement demo should use JSON.
 
-See also [BROWSER_DEMO.md](BROWSER_DEMO.md).
+See also [BROWSER_DEMO.md](BROWSER_DEMO.md) and [PLAYABLE_DEMO.md](PLAYABLE_DEMO.md).
 
 ### Environment note (2026-10-17)
 

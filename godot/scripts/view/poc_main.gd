@@ -80,6 +80,7 @@ func _show_start_menu() -> void:
 	if layer:
 		layer.visible = true
 	_start_menu.visible = true
+	_start_menu.refresh_continue_availability()
 
 
 func _hide_start_menu() -> void:
@@ -421,10 +422,11 @@ func _on_save_requested() -> void:
 		return
 	file.store_string(JSON.stringify(snap, "\t"))
 	file.close()
+	_start_menu.refresh_continue_availability()
 	if OS.has_feature("web"):
 		_hud.show_status("Saved JSON — use Download in HUD to keep a copy")
 	else:
-		_hud.show_status("Saved JSON to user://poc_snapshot.json")
+		_hud.show_status("Saved JSON to user://poc_snapshot.json — Continue on menu works now")
 
 
 func _on_load_requested() -> void:
@@ -446,6 +448,9 @@ func _on_import_snapshot(json_text: String) -> void:
 
 
 func _on_import_save_file(path: String) -> void:
+	if SqliteSaveLoader.is_extract_bundle_file(path):
+		_on_import_sqlite(path)
+		return
 	if path.ends_with(".json"):
 		var text := FileAccess.get_file_as_string(path)
 		if text.is_empty():
@@ -453,15 +458,15 @@ func _on_import_save_file(path: String) -> void:
 			return
 		_on_import_snapshot(text)
 		return
-	if SqliteSaveLoader.is_extract_bundle_file(path) or SqliteSaveLoader.is_sqlite_file(path):
+	if SqliteSaveLoader.is_sqlite_file(path):
 		_on_import_sqlite(path)
 		return
 	_hud.show_status("Unsupported save format", true)
 
 
 func _on_import_sqlite(path: String) -> void:
-	if OS.has_feature("web"):
-		_hud.show_status("Legacy SQLite import is desktop-only; use JSON", true)
+	if OS.has_feature("web") and not SqliteSaveLoader.is_extract_bundle_file(path):
+		_hud.show_status("Raw .sqlite is desktop-only; use JSON or .extract.json", true)
 		return
 	var result := SqliteSaveLoader.load_with_report(path)
 	if not result["ok"]:
@@ -526,7 +531,10 @@ func _load_snapshot_text(json_text: String) -> bool:
 	_apply_demo_from_snapshot(data)
 	if not _playable_demo:
 		_hud.set_playable_demo_active(false)
-	_hud.show_status("JSON save loaded")
+	var status := "JSON save loaded"
+	if _playable_demo and _objective_tracker != null:
+		status += " (%s)" % _objective_tracker.step_label_short()
+	_hud.show_status(status)
 	return true
 
 

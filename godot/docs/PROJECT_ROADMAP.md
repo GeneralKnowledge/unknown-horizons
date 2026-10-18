@@ -84,8 +84,8 @@ Ordered work after the Godot-first policy merge. **Out of scope** until reconsid
 
 | Priority | Work | Anchors |
 |----------|------|---------|
-| **P0** | Playable demo polish — objective clarity, JSON save/load in flow, status/errors | [`PLAYABLE_DEMO.md`](PLAYABLE_DEMO.md), `DemoScenarioRunner` |
-| **P1** | Web parity with desktop demo — `.extract.json` or JSON-only path documented; no new sqlite on web | [`WEB_DEPLOYMENT.md`](WEB_DEPLOYMENT.md), [`BROWSER_DEMO.md`](BROWSER_DEMO.md) |
+| **P0** | Playable demo polish — objective clarity, JSON save/load in flow, status/errors | **In progress** — HUD hints, Continue menu refresh, load status with demo step |
+| **P1** | Web parity with desktop demo — `.extract.json` or JSON-only path documented; no new sqlite on web | **In progress** — browser `.extract.json` import + BROWSER/WEB checklists |
 | **P2** | Parity scenarios (Godot-only goldens) — extend stage 3 chains per [`development/godot/parity/README.md`](../../development/godot/parity/README.md) | No FIFE requirement |
 | **P3** | PORT_CHECKLIST refresh — sync checkboxes with GUT/parity truth | Appendix C/D, `report_matrix.py` |
 | **P4** | View/content — external port tiers ([`EXTERNAL_GODOT_PORT.md`](EXTERNAL_GODOT_PORT.md)), gfx slice, HUD gaps | |

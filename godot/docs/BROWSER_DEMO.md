@@ -6,21 +6,32 @@ What the **Web** export of `scenes/poc_main.tscn` is meant to demonstrate, and w
 
 | Feature | Notes |
 |---------|--------|
-| Start menu | **Start settlement demo**, economy showcase, Continue JSON, Import JSON / legacy SQLite (desktop) |
+| Start menu | **Start settlement demo**, economy showcase, **Continue JSON save** (after HUD save), Import JSON, legacy **`.extract.json`** on web; raw `.sqlite` desktop-only |
 | Default map | `development` island from `resources/demo/demo_config.json` |
 | Camera | Middle-drag pan, mouse wheel zoom, fit-to-island on load |
 | Build palette | Tier tabs from exported `build_menu.json`; ghost valid/invalid tint |
 | Production HUD | Settlement + selected building inventories; production strip when a building is selected |
-| JSON saves | Save/Load in `user://`, Download save, Import save (FileDialog + same validation as desktop) |
+| JSON saves | Same as desktop: Save/Load in `user://`, **Download save**, Import save; settlement demo stores `demo.playable_lumber` step progress in JSON |
 | Audio | First user interaction may play a sample sound (autoplay policy) |
 
 ## Does not work (by design)
 
 | Feature | Why |
 |---------|-----|
-| Legacy SQLite import | Desktop only (start menu + HUD FileDialog); browser uses JSON saves |
+| Raw legacy `.sqlite` | Desktop only — use **JSON** for the settlement demo loop |
+| Legacy extract bundles | **`.extract.json`** only (start menu + HUD Import) — partial legacy state, not the guided demo |
 | Full legacy save parity | Placement rules and scheduler restore differ; see `SAVE_FORMAT.md` |
 | Dev map hotkeys | Start menu replaces casual use of keyboard map switches |
+
+## Settlement demo parity (desktop vs browser)
+
+1. **Start settlement demo** — objective panel shows step 1 (boards).
+2. Place lumberjack + trees; **Save JSON** in the HUD.
+3. **Return to menu** → **Continue JSON save** must be enabled; continue restores step/progress.
+4. On web, also **Download save** and re-import via **Import JSON save** after a refresh (IndexedDB `user://` is per-origin).
+5. Complete both steps → success overlay; save again and reload to confirm `demo complete` status line.
+
+Canonical format: [`SAVE_FORMAT.md`](SAVE_FORMAT.md). Legacy import policy: [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md).
 
 ## Quick verify
 
