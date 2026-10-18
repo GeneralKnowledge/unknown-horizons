@@ -8,6 +8,7 @@ const M7_FULL_PARITY_FIXTURES := {
 	"traderoute": "legacy/tests/game/fixtures/traderoute.sqlite",
 }
 
+## M7 exit #3: per-building T1b only on M7_FULL_PARITY_FIXTURES; these use T1k totals-at-load only.
 const M7_TOTALS_ONLY_FIXTURES := {
 	"savegame-rev-76": "legacy/tests/game/fixtures/savegame-rev-76.sqlite",
 	"blackdeath": "legacy/tests/game/fixtures/blackdeath.sqlite",

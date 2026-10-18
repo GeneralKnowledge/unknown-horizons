@@ -11,7 +11,7 @@ M7 is the **gate** before treating Godot as the primary Unknown Horizons client 
 | 1 | Fixture saves load in Godot without silent loss | **Partial** | SQLite fixture matrix GUT; `SqliteImportReport` + `partial` flag |
 | 2 | Python → Godot → play (campaign slice) | **Partial** | Desktop `.sqlite` / `.extract.json`; PoC sim after load; no full GUI campaign |
 | 3 | Parity on loaded state | **Strong partial** | T1b/T1k on main fixtures; T1n production on `fire`, `settlement-range`, `traderoute`; T1p session tick; T1o matrix gate |
-| 4 | Parity after N ticks vs golden | **Partial** | **T1l** Godot tick-128 goldens (`fire`, `settlement-range`, `traderoute`); **T1m** legacy Python dual-run when FIFE installed (optional; pending in CI) |
+| 4 | Parity after N ticks vs golden | **Partial** | **T1l** tick-128 goldens (`fire`, `settlement-range`, `traderoute`, `blackdeath`); **T1m** optional with FIFE on `fire` (pending in CI) |
 | 5 | Cross-version session (stretch) | **Not scheduled** | Do not plan until exit **#4** is green on multiple fixtures |
 | 6 | Reverse save path (stretch) | **Not scheduled** | JSON v3 only for Godot-native saves today |
 
@@ -67,8 +67,8 @@ python3 development/godot/sqlite_m7_legacy_fire_ticks.py \
 
 ## Open work (exit #3 and #4 only)
 
-1. **Exit #3 — large / rev-76 storage:** choose **either** per-building T1b on `savegame-rev-76` **or** keep totals-only T1k; do not expand both in parallel.
-2. **Exit #4 — tick parity:** extend T1l to another fixture when stable; run T1m locally with FIFE and fix Godot vs legacy drift on `fire` when found.
+1. **Exit #3 — rev-76 / large storage:** **Policy — totals-only T1k** for `savegame-rev-76`, `blackdeath`, and `plain` (`M7_TOTALS_ONLY_FIXTURES` in `test_sqlite_storage_parity.gd`); per-building T1b stays on **`fire`**, **`settlement-range`**, **`traderoute`** only.
+2. **Exit #4 — tick parity:** optional **T1m** with FIFE on `fire` (fix Godot vs legacy drift when found); add **T1l** goldens for other fixtures only when load + 128 ticks are stable.
 3. **Settler goods / upgrades:** only if tick goldens regress after monthly settler sim; not a separate roadmap phase.
 
 Stretch exit criteria **#5–#6** stay out of the backlog until **#4** is satisfied on multiple fixtures.
