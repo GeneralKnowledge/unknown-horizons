@@ -12,6 +12,8 @@ Runs the same **scenario JSON** on legacy Horizons (Python sim) and the Godot po
 
 Next targets: weaver/salt chains, legacy Python dual-run with `fife`, producer state in JSON snapshots.
 
+**Legacy `.sqlite` saves (M7):** Godot tick regression uses **T1l** goldens in CI; optional cross-engine check: `development/godot/sqlite_m7_legacy_fire_ticks.py` (see [`godot/docs/M7_LEGACY_SAVE.md`](../../godot/docs/M7_LEGACY_SAVE.md)).
+
 ## Quick start
 
 ```bash
