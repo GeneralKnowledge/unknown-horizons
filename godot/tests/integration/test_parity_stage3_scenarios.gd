@@ -35,6 +35,16 @@ func test_salt_ponds_coastal_production() -> void:
 	assert_true(_building_has_min(trace, "saltponds", 33, 22, "SALT", 2))
 
 
+func test_bakery_flour_to_food() -> void:
+	var trace := _run("bakery")
+	assert_true(_building_has_min(trace, "bakery", 30, 26, "FOOD", 1))
+
+
+func test_pavilion_faith_production() -> void:
+	var trace := _run("pavilion")
+	assert_true(_building_has_min(trace, "pavilion", 30, 30, "FAITH", 1))
+
+
 func _building_has_min(
 	trace: Dictionary, stem: String, x: int, y: int, res: String, min_amt: int
 ) -> bool:

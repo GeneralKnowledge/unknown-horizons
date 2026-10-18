@@ -595,8 +595,10 @@ Tick items: `[ ]` → `[x]`.
 | `brickyard_development.json` | same | ✓ |
 | `weaver.json` | same | ✓ |
 | `salt_ponds.json` | same | ✓ |
+| `bakery.json` | same | ✓ |
+| `pavilion.json` | same | ✓ |
 
-**12** scenarios · Docs: [`development/godot/parity/README.md`](../development/godot/parity/README.md). CI: workflow job **`parity-golden`**. Optional local: `./development/godot/sync.sh --parity`.
+**14** scenarios · Docs: [`development/godot/parity/README.md`](../development/godot/parity/README.md). CI: workflow job **`parity-golden`**. Optional local: `./development/godot/sync.sh --parity`.
 
 ---
 

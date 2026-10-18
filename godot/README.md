@@ -86,6 +86,7 @@ Reported: run `./godot/run_tests.sh`; **12** parity goldens via `./development/g
 
 | Doc | Purpose |
 |-----|---------|
+| [docs/GETTING_ON_THE_ROAD.md](docs/GETTING_ON_THE_ROAD.md) | Play locally, browser, GitHub Pages |
 | [docs/PLAYABLE_DEMO.md](docs/PLAYABLE_DEMO.md) | Demo objective, saves, browser |
 | [docs/WEB_DEPLOYMENT.md](docs/WEB_DEPLOYMENT.md) | WASM export & Pages |
 | [docs/SAVE_FORMAT.md](docs/SAVE_FORMAT.md) | JSON snapshot v3 |

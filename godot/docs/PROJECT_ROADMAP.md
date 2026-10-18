@@ -1,6 +1,6 @@
 # Unknown Horizons Godot Port — Project Roadmap
 
-Last verified: **2026-10-18** — `./godot/run_tests.sh` **243** GUT pass; parity golden **12/12**; **Godot-first** — JSON v3 + demo are the product path; legacy SQLite import **frozen** — [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
+Last verified: **2026-10-18** — `./godot/run_tests.sh` **243** GUT pass; parity golden **14/14**; **Godot-first** — JSON v3 + demo are the product path; legacy SQLite import **frozen** — [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
 
 ## Vision
 
@@ -55,7 +55,7 @@ Reproducible via `./godot/export_web.sh` → `build/web/`. See [WEB_DEPLOYMENT.m
 
 ### Parity confidence
 
-196+ GUT tests; 12 parity scenarios vs golden traces (legacy Python optional when `fife` is installed). Demo slices under `resources/demo/` mirror key parity scenarios.
+~246 GUT tests; 14 parity scenarios vs golden traces (legacy Python optional when `fife` is installed). Demo slices under `resources/demo/` mirror key parity scenarios.
 
 ### Architectural risks
 
@@ -88,7 +88,8 @@ Ordered work after the Godot-first policy merge. **Out of scope** until reconsid
 | **P1** | Web parity with desktop demo — `.extract.json` or JSON-only path documented; no new sqlite on web | **Done (2026-10):** browser `.extract.json` import + BROWSER/WEB checklists |
 | **P2** | Parity scenarios (Godot-only goldens) — extend stage 3 chains per [`development/godot/parity/README.md`](../../development/godot/parity/README.md) | **Done (2026-10):** `weaver`, `salt_ponds` + goldens |
 | **P3** | PORT_CHECKLIST refresh — sync checkboxes with GUT/parity truth | **Done (2026-10):** Appendix C/D, tier-2 chain rows, `report_matrix.py` |
-| **P4** | View/content — external port tiers ([`EXTERNAL_GODOT_PORT.md`](EXTERNAL_GODOT_PORT.md)), gfx slice, HUD gaps | |
+| **P4** | View/content — external port tiers ([`EXTERNAL_GODOT_PORT.md`](EXTERNAL_GODOT_PORT.md)), gfx slice, HUD gaps | **Done (2026-10):** build palette stem icons via `BuildingVisualRegistry` |
+| **P5** | Ship / host — play script, getting-on-the-road doc, Pages `.nojekyll`, parity bakery/pavilion | **Done (2026-10):** [`GETTING_ON_THE_ROAD.md`](GETTING_ON_THE_ROAD.md), `play_demo.sh`, **14** parity scenarios |
 
 ## Future ideas (historical — cross-engine)
 

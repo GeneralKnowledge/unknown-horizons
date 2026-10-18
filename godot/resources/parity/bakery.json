@@ -1,0 +1,19 @@
+{
+  "id": "bakery",
+  "map": "test_island_20x20",
+  "steps": [
+    { "op": "settle" },
+    { "op": "build", "building": "BAKERY", "x": 30, "y": 26 },
+    { "op": "alter_storage", "target": "building", "resource": "FLOUR", "amount": 4 },
+    { "op": "run_seconds", "seconds": 45 }
+  ],
+  "expect": {
+    "min_building_storage": {
+      "stem": "bakery",
+      "x": 30,
+      "y": 26,
+      "resource": "FOOD",
+      "min": 1
+    }
+  }
+}

@@ -88,7 +88,15 @@ func _add_poc_tab() -> void:
 
 func _stem_button(label: String, cb: Callable = Callable()) -> Button:
 	var btn := Button.new()
-	btn.text = ContentTheme.label_for_build_stem(label) if label != "Tear" else "Tear"
+	if label == "Tear":
+		btn.text = "Tear"
+	else:
+		var bid := _building_id_for_stem(label)
+		var icon := BuildingVisualRegistry.get_palette_icon_for_building(bid, 28)
+		if icon != null:
+			btn.icon = icon
+			btn.expand_icon = true
+		btn.text = ContentTheme.label_for_build_stem(label)
 	if cb.is_valid():
 		btn.pressed.connect(cb)
 	else:

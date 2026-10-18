@@ -93,6 +93,7 @@ Same as **Tier C** above:
 |------------|-----------|
 | `GameContextManager` | [`ViewContextManager`](../scripts/view/context/view_context_manager.gd) |
 | `ResourceConfig.resource_to_icon` | [`ResourceIconRegistry`](../scripts/view/resource_icon_registry.gd) |
+| Build menu building pickers | [`BuildPalettePanel`](../scripts/view/build_palette_panel.gd) + [`BuildingVisualRegistry.get_palette_icon_for_building()`](../scripts/view/building_visual_registry.gd) (Tier A gfx / placeholder) |
 | `maps_manifest.json` | [`resources/maps/maps_manifest.json`](../resources/maps/maps_manifest.json) |
 | `InventoryTab` / `ProductionOverviewTab` | [`production_overview_panel.gd`](../scripts/view/production_overview_panel.gd) + inventory panels |
 

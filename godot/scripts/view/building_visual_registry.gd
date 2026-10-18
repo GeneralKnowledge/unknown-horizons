@@ -7,6 +7,21 @@ const GFX_ROOT := "res://resources/gfx/"
 var _frames_by_stem: Dictionary = {}
 
 
+func get_palette_icon_for_building(building_id: int, size: int = 32) -> Texture2D:
+	var frames := get_sprite_frames_for_building(building_id)
+	if frames == null or not frames.has_animation(&"idle") or frames.get_frame_count(&"idle") < 1:
+		return null
+	var tex := frames.get_frame_texture(&"idle", 0)
+	if tex == null:
+		return null
+	var img := tex.get_image()
+	if img == null or img.is_empty():
+		return tex
+	img = img.duplicate()
+	img.resize(size, size, Image.INTERPOLATE_BILINEAR)
+	return ImageTexture.create_from_image(img)
+
+
 func get_sprite_frames_for_building(building_id: int) -> SpriteFrames:
 	var stem := ContentLoader.stem_for_building_id(building_id)
 	if _frames_by_stem.has(stem):
