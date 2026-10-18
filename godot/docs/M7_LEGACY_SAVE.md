@@ -11,8 +11,8 @@ M7 is the **gate** before treating Godot as the primary Unknown Horizons client 
 | 1 | Fixture saves load in Godot without silent loss | **Partial** | SQLite fixture matrix GUT; `SqliteImportReport` + `partial` flag |
 | 2 | Python → Godot → play (campaign slice) | **Partial** | Desktop `.sqlite` / `.extract.json`; PoC sim after load; no full GUI campaign |
 | 3 | Parity on loaded state | **Strong partial** | T1b/T1k on main fixtures; T1n production on `fire`, `settlement-range`, `traderoute`; T1p session tick; T1o matrix gate |
-| 4 | Parity after N ticks vs golden | **Partial** | **T1l** Godot tick-128 goldens (`fire`, `settlement-range`, `traderoute`); **T1m** legacy Python dual-run when FIFE installed (optional; pending in CI) |
-| 5 | Cross-version session (stretch) | **Not scheduled** | Do not plan until exit **#4** is green on multiple fixtures |
+| 4 | Parity after N ticks vs golden | **Strong partial (Godot)** | **T1l** tick-128 on `fire`, `settlement-range`, `traderoute`, `blackdeath`, `plain`; cross-engine **T1m** needs FIFE locally (pending in CI) |
+| 5 | Cross-version session (stretch) | **Out of scope (M7 PoC)** | Requires server/sync design — see [`MIGRATION_STRATEGY.md`](MIGRATION_STRATEGY.md) |
 | 6 | Reverse save path (stretch) | **Not scheduled** | JSON v3 only for Godot-native saves today |
 
 ## Player workflow (today)
@@ -65,10 +65,22 @@ python3 development/godot/sqlite_m7_legacy_fire_ticks.py \
   legacy/tests/game/fixtures/fire.sqlite /tmp/legacy_fire_128.json --ticks 128
 ```
 
-## Open work (exit #3 and #4 only)
+## M7 PoC gate status (2026-10)
 
-1. **Exit #3 — large / rev-76 storage:** choose **either** per-building T1b on `savegame-rev-76` **or** keep totals-only T1k; do not expand both in parallel.
-2. **Exit #4 — tick parity:** extend T1l to another fixture when stable; run T1m locally with FIFE and fix Godot vs legacy drift on `fire` when found.
-3. **Settler goods / upgrades:** only if tick goldens regress after monthly settler sim; not a separate roadmap phase.
+**CI-complete for the in-repo fixture matrix:** load (T0–T1k/T1n/T1p), storage parity policy, collectors, settler partial sim, and Godot tick-128 goldens (T1l) on all tier fixtures except **`savegame-rev-76`** (totals-only at load by policy). `report.partial` remains expected for ships, paths, and unsupported units — exit **#1** is satisfied when imports are explicit, not when every legacy subsystem is ported.
 
-Stretch exit criteria **#5–#6** stay out of the backlog until **#4** is satisfied on multiple fixtures.
+| Exit | PoC gate |
+|------|----------|
+| **#1** | Met for matrix fixtures (partial flag documented) |
+| **#2** | Met for experimental desktop import + sim; not full campaign GUI |
+| **#3** | Met for full-parity trio + totals-only policy on rev-76/plain/blackdeath |
+| **#4** | Met on Godot side (T1l); **T1m** is the remaining cross-engine check |
+| **#5–#6** | Not part of this gate |
+
+**Overall (~75% of full M7 vision):** single-player legacy continue on committed fixtures is test-gated; stretch multiplayer/reverse-save is explicitly deferred.
+
+## Remaining (optional, not blocking PoC gate)
+
+1. **T1m:** run `sqlite_m7_legacy_fire_ticks.py` on a machine with **FIFE**; fix inventory drift vs Godot if any.
+2. **`savegame-rev-76`:** keep **T1k totals-only** unless promoting to full T1b/T1l with a dedicated perf budget.
+3. **Settler upgrades / goods:** only if T1l goldens fail after sim changes.

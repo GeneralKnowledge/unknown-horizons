@@ -17,6 +17,14 @@ const M7_TICK_FIXTURES := {
 		"rel": "legacy/tests/game/fixtures/traderoute.sqlite",
 		"golden": "res://resources/fixtures/sqlite_m7/traderoute_tick128_inventory_totals.json",
 	},
+	"blackdeath": {
+		"rel": "legacy/tests/game/fixtures/blackdeath.sqlite",
+		"golden": "res://resources/fixtures/sqlite_m7/blackdeath_tick128_inventory_totals.json",
+	},
+	"plain": {
+		"rel": "legacy/tests/gui/ingame/fixtures/plain.sqlite",
+		"golden": "res://resources/fixtures/sqlite_m7/plain_tick128_inventory_totals.json",
+	},
 }
 
 
@@ -101,3 +109,17 @@ func test_m7_traderoute_tick128_inventory_totals_match_golden() -> void:
 		pending("desktop only")
 		return
 	_assert_tick_golden("traderoute")
+
+
+func test_m7_blackdeath_tick128_inventory_totals_match_golden() -> void:
+	if OS.has_feature("web"):
+		pending("desktop only")
+		return
+	_assert_tick_golden("blackdeath")
+
+
+func test_m7_plain_tick128_inventory_totals_match_golden() -> void:
+	if OS.has_feature("web"):
+		pending("desktop only")
+		return
+	_assert_tick_golden("plain")

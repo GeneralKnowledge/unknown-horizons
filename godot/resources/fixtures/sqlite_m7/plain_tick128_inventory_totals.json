@@ -1,0 +1,11 @@
+{
+	"fixture": "plain.sqlite",
+	"scheduler_tick": 366,
+	"ticks": 128,
+	"totals_by_resource_id": {
+		"12": 693,
+		"20": 4797,
+		"51": 5321,
+		"8": 1612
+	}
+}
