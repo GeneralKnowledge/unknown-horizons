@@ -47,7 +47,7 @@ Building rows use **`trust_legacy_placement`** so saved coordinates are not reje
 | Save rows but building has no `Collecting` in export | `collectors_unsupported_no_collecting_yaml` |
 | Home building not placed | Rows → `collectors_unsupported` |
 
-**Not restored:** `unit_path`, `collector_job`, `building_collector_job_history`, saved collector worldids (phase 1).
+**Not restored (diagnostics only):** `unit_path`, `collector_job`, `building_collector_job_history` — row counts via [`sqlite_extract_collector_jobs.py`](../../development/godot/sqlite_extract_collector_jobs.py) → report `collector_job_rows_in_save`. Saved collector worldids still not re-keyed in sim (phase 2).
 
 ## Report fields
 

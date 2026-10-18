@@ -26,6 +26,7 @@ func _ready() -> void:
 	if not OS.has_feature("web"):
 		filters.append("*.sqlite ; Legacy SQLite saves")
 		filters.append("*.sqlite.bz2 ; Compressed legacy saves")
+		filters.append("*.extract.json ; Prebuilt legacy extract bundles")
 	_import_dialog.filters = filters
 	_import_dialog.size = Vector2i(600, 400)
 	_import_dialog.file_selected.connect(_on_import_file_selected)

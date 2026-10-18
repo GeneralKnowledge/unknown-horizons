@@ -447,7 +447,7 @@ func _on_import_save_file(path: String) -> void:
 			return
 		_on_import_snapshot(text)
 		return
-	if SqliteSaveLoader.is_sqlite_file(path):
+	if SqliteSaveLoader.is_extract_bundle_file(path) or SqliteSaveLoader.is_sqlite_file(path):
 		_on_import_sqlite(path)
 		return
 	_hud.show_status("Unsupported save format", true)

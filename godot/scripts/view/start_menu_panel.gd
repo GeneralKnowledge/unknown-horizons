@@ -45,7 +45,9 @@ func _ready() -> void:
 	var legacy_btn := _btn("Import legacy SQLite…", func(): _import_legacy_dialog.popup_centered())
 	if OS.has_feature("web"):
 		legacy_btn.disabled = true
-		legacy_btn.tooltip_text = "Legacy .sqlite import is desktop-only. Use JSON saves in the browser."
+		legacy_btn.tooltip_text = (
+			"Legacy .sqlite is desktop-only. In browser use JSON saves or a prebuilt .extract.json bundle."
+		)
 	v.add_child(legacy_btn)
 	var note := Label.new()
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -67,7 +69,11 @@ func _ready() -> void:
 	)
 	_import_legacy_dialog = _make_import_dialog(
 		"Import legacy SQLite save",
-		PackedStringArray(["*.sqlite ; Legacy SQLite saves", "*.sqlite.bz2 ; Compressed legacy saves"])
+		PackedStringArray([
+			"*.sqlite ; Legacy SQLite saves",
+			"*.sqlite.bz2 ; Compressed legacy saves",
+			"*.extract.json ; Prebuilt legacy extract bundles (web/desktop)",
+		])
 	)
 	add_child(_import_json_dialog)
 	add_child(_import_legacy_dialog)

@@ -8,13 +8,45 @@ import sqlite3
 import sys
 from pathlib import Path
 
+# Known ship unit types (GameConstants.UNITS); extend as exports grow.
+SHIP_UNIT_TYPE_IDS = frozenset(
+	{
+		1000001,  # HUKER_SHIP
+		1000005,  # PIRATE_SHIP
+		1000006,  # TRADER_SHIP
+	}
+)
+
+SHIP_TABLES = (
+	"trader_ships",
+	"fleet_ship",
+	"pirate_ships",
+	"ai_ship",
+	"ai_combat_ship",
+)
+
+
+def _tables(con: sqlite3.Connection) -> set[str]:
+	return {r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+
+
+def _ship_unit_rowids(con: sqlite3.Connection, tables: set[str]) -> set[int]:
+	out: set[int] = set()
+	for table in SHIP_TABLES:
+		if table not in tables:
+			continue
+		try:
+			for rowid, in con.execute(f"SELECT rowid FROM {table}"):
+				out.add(int(rowid))
+		except sqlite3.OperationalError:
+			continue
+	return out
+
 
 def extract(path: Path, limit: int = 2000) -> list[dict]:
 	con = sqlite3.connect(str(path))
 	try:
-		tables = {
-			r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")
-		}
+		tables = _tables(con)
 		if "unit" not in tables:
 			return []
 		has_collector = "building_collector" in tables
@@ -32,6 +64,7 @@ def extract(path: Path, limit: int = 2000) -> list[dict]:
 				"SELECT rowid, health, can_reproduce FROM wildanimal"
 			):
 				wild_ids.add(int(rowid))
+		ship_ids = _ship_unit_rowids(con, tables)
 		rows = con.execute(
 			"SELECT rowid, type, x, y, location, owner FROM unit LIMIT ?",
 			(limit,),
@@ -48,11 +81,15 @@ def extract(path: Path, limit: int = 2000) -> list[dict]:
 			"location": int(location) if location is not None else 0,
 			"owner": int(owner),
 		}
-		if int(rowid) in wild_ids:
+		rid = int(rowid)
+		typ_id = int(typ)
+		if rid in wild_ids:
 			entry["kind"] = "wild_animal"
-		elif int(rowid) in collector_home:
+		elif rid in collector_home:
 			entry["kind"] = "collector"
-			entry["home_building_worldid"] = collector_home[int(rowid)]
+			entry["home_building_worldid"] = collector_home[rid]
+		elif rid in ship_ids or typ_id in SHIP_UNIT_TYPE_IDS:
+			entry["kind"] = "ship"
 		else:
 			entry["kind"] = "unit"
 		out.append(entry)

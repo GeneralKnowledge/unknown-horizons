@@ -1,6 +1,8 @@
 class_name GameSession
 extends RefCounted
 
+const LegacyUnit = preload("res://scripts/sim/units/legacy_unit.gd")
+
 const SNAPSHOT_VERSION := 3
 
 var timer: GameTimer
@@ -12,6 +14,7 @@ var manager: CommandManager
 var _next_worldid: int = 1
 var _buildings: Dictionary = {}
 var _wild_animals: Dictionary = {}
+var _legacy_units: Dictionary = {}
 
 
 func _init() -> void:
@@ -103,6 +106,42 @@ func get_wild_animals_on_island(p_island: Island) -> Array:
 func spawn_wild_animal(p_island: Island, x: int, y: int, forced_worldid: int = -1) -> WildAnimal:
 	var unit = spawn_unit(p_island, "deer", x, y, forced_worldid)
 	return unit as WildAnimal
+
+
+func register_legacy_unit(unit: LegacyUnit) -> void:
+	_legacy_units[unit.worldid] = unit
+	registry.register(unit)
+
+
+func get_legacy_unit(worldid: int) -> LegacyUnit:
+	return _legacy_units.get(worldid)
+
+
+func get_legacy_units_on_island(p_island: Island) -> Array:
+	var out: Array = []
+	for u in _legacy_units.values():
+		if u is LegacyUnit and u.island == p_island:
+			out.append(u)
+	return out
+
+
+func spawn_legacy_unit(
+	p_island: Island,
+	unit_type_id: int,
+	kind: String,
+	x: int,
+	y: int,
+	owner: int,
+	forced_worldid: int = -1
+) -> LegacyUnit:
+	var wid := forced_worldid if forced_worldid > 0 else allocate_worldid()
+	if forced_worldid > 0 and forced_worldid >= _next_worldid:
+		_next_worldid = forced_worldid + 1
+	var unit := LegacyUnit.new(
+		wid, unit_type_id, kind, p_island, Vector2i(x, y), owner
+	)
+	register_legacy_unit(unit)
+	return unit
 
 
 func spawn_unit(

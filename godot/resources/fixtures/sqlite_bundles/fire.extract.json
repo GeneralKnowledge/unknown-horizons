@@ -1,0 +1,2664 @@
+{
+  "bundle_version": 1,
+  "source_hint": "fire.sqlite",
+  "buildings": [
+    {
+      "worldid": 1011,
+      "building_id": 1,
+      "x": 26,
+      "y": 2,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1019,
+      "building_id": 8,
+      "x": 27,
+      "y": 8,
+      "location": 1012,
+      "rotation": 225,
+      "level": 0
+    },
+    {
+      "worldid": 1022,
+      "building_id": 17,
+      "x": 25,
+      "y": 6,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1023,
+      "building_id": 17,
+      "x": 25,
+      "y": 7,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1024,
+      "building_id": 17,
+      "x": 25,
+      "y": 8,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1025,
+      "building_id": 17,
+      "x": 25,
+      "y": 9,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1026,
+      "building_id": 17,
+      "x": 25,
+      "y": 10,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1027,
+      "building_id": 17,
+      "x": 25,
+      "y": 11,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1028,
+      "building_id": 17,
+      "x": 26,
+      "y": 6,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1029,
+      "building_id": 17,
+      "x": 26,
+      "y": 7,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1030,
+      "building_id": 17,
+      "x": 26,
+      "y": 8,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1031,
+      "building_id": 17,
+      "x": 26,
+      "y": 9,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1032,
+      "building_id": 17,
+      "x": 26,
+      "y": 10,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1033,
+      "building_id": 17,
+      "x": 26,
+      "y": 11,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1034,
+      "building_id": 17,
+      "x": 27,
+      "y": 6,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1035,
+      "building_id": 17,
+      "x": 27,
+      "y": 7,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1036,
+      "building_id": 17,
+      "x": 27,
+      "y": 10,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1037,
+      "building_id": 17,
+      "x": 27,
+      "y": 11,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1040,
+      "building_id": 17,
+      "x": 28,
+      "y": 10,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1041,
+      "building_id": 17,
+      "x": 28,
+      "y": 11,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1042,
+      "building_id": 17,
+      "x": 29,
+      "y": 6,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1043,
+      "building_id": 17,
+      "x": 29,
+      "y": 7,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1044,
+      "building_id": 17,
+      "x": 29,
+      "y": 8,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1045,
+      "building_id": 17,
+      "x": 29,
+      "y": 9,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1046,
+      "building_id": 17,
+      "x": 29,
+      "y": 10,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1047,
+      "building_id": 17,
+      "x": 29,
+      "y": 11,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1048,
+      "building_id": 17,
+      "x": 30,
+      "y": 6,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1049,
+      "building_id": 17,
+      "x": 30,
+      "y": 7,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1050,
+      "building_id": 17,
+      "x": 30,
+      "y": 8,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1051,
+      "building_id": 17,
+      "x": 30,
+      "y": 9,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1052,
+      "building_id": 17,
+      "x": 30,
+      "y": 10,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1053,
+      "building_id": 17,
+      "x": 30,
+      "y": 11,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1055,
+      "building_id": 15,
+      "x": 28,
+      "y": 5,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1056,
+      "building_id": 15,
+      "x": 28,
+      "y": 6,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1057,
+      "building_id": 15,
+      "x": 28,
+      "y": 7,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1065,
+      "building_id": 4,
+      "x": 17,
+      "y": 7,
+      "location": 1012,
+      "rotation": 315,
+      "level": 0
+    },
+    {
+      "worldid": 1069,
+      "building_id": 15,
+      "x": 21,
+      "y": 24,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1070,
+      "building_id": 15,
+      "x": 20,
+      "y": 24,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1071,
+      "building_id": 15,
+      "x": 20,
+      "y": 23,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1072,
+      "building_id": 15,
+      "x": 20,
+      "y": 22,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1073,
+      "building_id": 15,
+      "x": 20,
+      "y": 21,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1074,
+      "building_id": 15,
+      "x": 20,
+      "y": 20,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1075,
+      "building_id": 15,
+      "x": 20,
+      "y": 19,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1076,
+      "building_id": 15,
+      "x": 20,
+      "y": 18,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1077,
+      "building_id": 15,
+      "x": 20,
+      "y": 17,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1078,
+      "building_id": 15,
+      "x": 20,
+      "y": 16,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1079,
+      "building_id": 15,
+      "x": 20,
+      "y": 15,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1080,
+      "building_id": 15,
+      "x": 20,
+      "y": 14,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1081,
+      "building_id": 15,
+      "x": 20,
+      "y": 13,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1083,
+      "building_id": 15,
+      "x": 18,
+      "y": 13,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1084,
+      "building_id": 15,
+      "x": 19,
+      "y": 13,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1086,
+      "building_id": 15,
+      "x": 17,
+      "y": 22,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1087,
+      "building_id": 15,
+      "x": 17,
+      "y": 21,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1088,
+      "building_id": 15,
+      "x": 17,
+      "y": 20,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1089,
+      "building_id": 15,
+      "x": 17,
+      "y": 19,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1090,
+      "building_id": 15,
+      "x": 17,
+      "y": 18,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1091,
+      "building_id": 15,
+      "x": 17,
+      "y": 17,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1092,
+      "building_id": 15,
+      "x": 17,
+      "y": 16,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1093,
+      "building_id": 15,
+      "x": 17,
+      "y": 15,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1094,
+      "building_id": 15,
+      "x": 17,
+      "y": 14,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1095,
+      "building_id": 15,
+      "x": 17,
+      "y": 13,
+      "location": 1012,
+      "rotation": 45,
+      "level": 0
+    },
+    {
+      "worldid": 1097,
+      "building_id": 8,
+      "x": 18,
+      "y": 14,
+      "location": 1012,
+      "rotation": 315,
+      "level": 0
+    },
+    {
+      "worldid": 1196,
+      "building_id": 3,
+      "x": 21,
+      "y": 13,
+      "location": 1012,
+      "rotation": 225,
+      "level": 0
+    },
+    {
+      "worldid": 1198,
+      "building_id": 3,
+      "x": 21,
+      "y": 15,
+      "location": 1012,
+      "rotation": 225,
+      "level": 0
+    },
+    {
+      "worldid": 1200,
+      "building_id": 3,
+      "x": 21,
+      "y": 17,
+      "location": 1012,
+      "rotation": 225,
+      "level": 0
+    },
+    {
+      "worldid": 1202,
+      "building_id": 3,
+      "x": 21,
+      "y": 19,
+      "location": 1012,
+      "rotation": 225,
+      "level": 0
+    },
+    {
+      "worldid": 1204,
+      "building_id": 3,
+      "x": 21,
+      "y": 21,
+      "location": 1012,
+      "rotation": 225,
+      "level": 0
+    },
+    {
+      "worldid": 1206,
+      "building_id": 3,
+      "x": 18,
+      "y": 17,
+      "location": 1012,
+      "rotation": 225,
+      "level": 0
+    },
+    {
+      "worldid": 1208,
+      "building_id": 3,
+      "x": 18,
+      "y": 19,
+      "location": 1012,
+      "rotation": 225,
+      "level": 0
+    },
+    {
+      "worldid": 1211,
+      "building_id": 3,
+      "x": 15,
+      "y": 14,
+      "location": 1012,
+      "rotation": 225,
+      "level": 0
+    },
+    {
+      "worldid": 1213,
+      "building_id": 3,
+      "x": 15,
+      "y": 16,
+      "location": 1012,
+      "rotation": 225,
+      "level": 0
+    },
+    {
+      "worldid": 1215,
+      "building_id": 3,
+      "x": 15,
+      "y": 18,
+      "location": 1012,
+      "rotation": 225,
+      "level": 0
+    },
+    {
+      "worldid": 1217,
+      "building_id": 3,
+      "x": 15,
+      "y": 20,
+      "location": 1012,
+      "rotation": 225,
+      "level": 0
+    }
+  ],
+  "storage": [
+    {
+      "worldid": 1013,
+      "resource_id": 4,
+      "amount": 8
+    },
+    {
+      "worldid": 1014,
+      "resource_id": 4,
+      "amount": 2
+    },
+    {
+      "worldid": 1020,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1019,
+      "resource_id": 8,
+      "amount": 5
+    },
+    {
+      "worldid": 1019,
+      "resource_id": 4,
+      "amount": 0
+    },
+    {
+      "worldid": 1022,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1022,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1023,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1023,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1024,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1024,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1025,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1025,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1026,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1026,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1027,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1027,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1028,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1028,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1029,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1029,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1030,
+      "resource_id": 8,
+      "amount": 0
+    },
+    {
+      "worldid": 1030,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1031,
+      "resource_id": 8,
+      "amount": 0
+    },
+    {
+      "worldid": 1031,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1032,
+      "resource_id": 8,
+      "amount": 0
+    },
+    {
+      "worldid": 1032,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1033,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1033,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1034,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1034,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1035,
+      "resource_id": 8,
+      "amount": 0
+    },
+    {
+      "worldid": 1035,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1036,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1036,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1037,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1037,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1040,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1040,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1041,
+      "resource_id": 8,
+      "amount": 0
+    },
+    {
+      "worldid": 1041,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1042,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1042,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1043,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1043,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1044,
+      "resource_id": 8,
+      "amount": 0
+    },
+    {
+      "worldid": 1044,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1045,
+      "resource_id": 8,
+      "amount": 0
+    },
+    {
+      "worldid": 1045,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1046,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1046,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1047,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1047,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1048,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1048,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1049,
+      "resource_id": 8,
+      "amount": 0
+    },
+    {
+      "worldid": 1049,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1050,
+      "resource_id": 8,
+      "amount": 0
+    },
+    {
+      "worldid": 1050,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1051,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1051,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1052,
+      "resource_id": 8,
+      "amount": 1
+    },
+    {
+      "worldid": 1052,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1053,
+      "resource_id": 8,
+      "amount": 0
+    },
+    {
+      "worldid": 1053,
+      "resource_id": 12,
+      "amount": 1
+    },
+    {
+      "worldid": 1097,
+      "resource_id": 8,
+      "amount": 0
+    },
+    {
+      "worldid": 1097,
+      "resource_id": 4,
+      "amount": 0
+    },
+    {
+      "worldid": 1196,
+      "resource_id": 16,
+      "amount": 0
+    },
+    {
+      "worldid": 1196,
+      "resource_id": 3,
+      "amount": 0
+    },
+    {
+      "worldid": 1196,
+      "resource_id": 98,
+      "amount": 0
+    },
+    {
+      "worldid": 1196,
+      "resource_id": 99,
+      "amount": 0
+    },
+    {
+      "worldid": 1196,
+      "resource_id": 5,
+      "amount": 0
+    },
+    {
+      "worldid": 1196,
+      "resource_id": 11,
+      "amount": 0
+    },
+    {
+      "worldid": 1196,
+      "resource_id": 32,
+      "amount": 0
+    },
+    {
+      "worldid": 1196,
+      "resource_id": 27,
+      "amount": 0
+    },
+    {
+      "worldid": 1196,
+      "resource_id": 29,
+      "amount": 0
+    },
+    {
+      "worldid": 1196,
+      "resource_id": 14,
+      "amount": 50
+    },
+    {
+      "worldid": 1196,
+      "resource_id": 19,
+      "amount": 1
+    },
+    {
+      "worldid": 1198,
+      "resource_id": 16,
+      "amount": 0
+    },
+    {
+      "worldid": 1198,
+      "resource_id": 3,
+      "amount": 0
+    },
+    {
+      "worldid": 1198,
+      "resource_id": 98,
+      "amount": 0
+    },
+    {
+      "worldid": 1198,
+      "resource_id": 99,
+      "amount": 0
+    },
+    {
+      "worldid": 1198,
+      "resource_id": 5,
+      "amount": 0
+    },
+    {
+      "worldid": 1198,
+      "resource_id": 11,
+      "amount": 0
+    },
+    {
+      "worldid": 1198,
+      "resource_id": 32,
+      "amount": 0
+    },
+    {
+      "worldid": 1198,
+      "resource_id": 27,
+      "amount": 0
+    },
+    {
+      "worldid": 1198,
+      "resource_id": 29,
+      "amount": 0
+    },
+    {
+      "worldid": 1198,
+      "resource_id": 14,
+      "amount": 50
+    },
+    {
+      "worldid": 1198,
+      "resource_id": 19,
+      "amount": 1
+    },
+    {
+      "worldid": 1200,
+      "resource_id": 16,
+      "amount": 0
+    },
+    {
+      "worldid": 1200,
+      "resource_id": 3,
+      "amount": 0
+    },
+    {
+      "worldid": 1200,
+      "resource_id": 98,
+      "amount": 0
+    },
+    {
+      "worldid": 1200,
+      "resource_id": 99,
+      "amount": 0
+    },
+    {
+      "worldid": 1200,
+      "resource_id": 5,
+      "amount": 0
+    },
+    {
+      "worldid": 1200,
+      "resource_id": 11,
+      "amount": 0
+    },
+    {
+      "worldid": 1200,
+      "resource_id": 32,
+      "amount": 0
+    },
+    {
+      "worldid": 1200,
+      "resource_id": 27,
+      "amount": 0
+    },
+    {
+      "worldid": 1200,
+      "resource_id": 29,
+      "amount": 0
+    },
+    {
+      "worldid": 1200,
+      "resource_id": 14,
+      "amount": 50
+    },
+    {
+      "worldid": 1200,
+      "resource_id": 19,
+      "amount": 0
+    },
+    {
+      "worldid": 1201,
+      "resource_id": 19,
+      "amount": 1
+    },
+    {
+      "worldid": 1201,
+      "resource_id": 5,
+      "amount": 1
+    },
+    {
+      "worldid": 1202,
+      "resource_id": 16,
+      "amount": 0
+    },
+    {
+      "worldid": 1202,
+      "resource_id": 3,
+      "amount": 0
+    },
+    {
+      "worldid": 1202,
+      "resource_id": 98,
+      "amount": 0
+    },
+    {
+      "worldid": 1202,
+      "resource_id": 99,
+      "amount": 0
+    },
+    {
+      "worldid": 1202,
+      "resource_id": 5,
+      "amount": 0
+    },
+    {
+      "worldid": 1202,
+      "resource_id": 11,
+      "amount": 0
+    },
+    {
+      "worldid": 1202,
+      "resource_id": 32,
+      "amount": 0
+    },
+    {
+      "worldid": 1202,
+      "resource_id": 27,
+      "amount": 0
+    },
+    {
+      "worldid": 1202,
+      "resource_id": 29,
+      "amount": 0
+    },
+    {
+      "worldid": 1202,
+      "resource_id": 14,
+      "amount": 50
+    },
+    {
+      "worldid": 1202,
+      "resource_id": 19,
+      "amount": 0
+    },
+    {
+      "worldid": 1203,
+      "resource_id": 19,
+      "amount": 1
+    },
+    {
+      "worldid": 1203,
+      "resource_id": 5,
+      "amount": 1
+    },
+    {
+      "worldid": 1204,
+      "resource_id": 16,
+      "amount": 0
+    },
+    {
+      "worldid": 1204,
+      "resource_id": 3,
+      "amount": 0
+    },
+    {
+      "worldid": 1204,
+      "resource_id": 98,
+      "amount": 0
+    },
+    {
+      "worldid": 1204,
+      "resource_id": 99,
+      "amount": 0
+    },
+    {
+      "worldid": 1204,
+      "resource_id": 5,
+      "amount": 0
+    },
+    {
+      "worldid": 1204,
+      "resource_id": 11,
+      "amount": 0
+    },
+    {
+      "worldid": 1204,
+      "resource_id": 32,
+      "amount": 0
+    },
+    {
+      "worldid": 1204,
+      "resource_id": 27,
+      "amount": 0
+    },
+    {
+      "worldid": 1204,
+      "resource_id": 29,
+      "amount": 0
+    },
+    {
+      "worldid": 1204,
+      "resource_id": 14,
+      "amount": 50
+    },
+    {
+      "worldid": 1204,
+      "resource_id": 19,
+      "amount": 0
+    },
+    {
+      "worldid": 1206,
+      "resource_id": 16,
+      "amount": 0
+    },
+    {
+      "worldid": 1206,
+      "resource_id": 3,
+      "amount": 0
+    },
+    {
+      "worldid": 1206,
+      "resource_id": 98,
+      "amount": 0
+    },
+    {
+      "worldid": 1206,
+      "resource_id": 99,
+      "amount": 0
+    },
+    {
+      "worldid": 1206,
+      "resource_id": 5,
+      "amount": 0
+    },
+    {
+      "worldid": 1206,
+      "resource_id": 11,
+      "amount": 0
+    },
+    {
+      "worldid": 1206,
+      "resource_id": 32,
+      "amount": 0
+    },
+    {
+      "worldid": 1206,
+      "resource_id": 27,
+      "amount": 0
+    },
+    {
+      "worldid": 1206,
+      "resource_id": 29,
+      "amount": 0
+    },
+    {
+      "worldid": 1206,
+      "resource_id": 14,
+      "amount": 50
+    },
+    {
+      "worldid": 1206,
+      "resource_id": 19,
+      "amount": 0
+    },
+    {
+      "worldid": 1207,
+      "resource_id": 19,
+      "amount": 1
+    },
+    {
+      "worldid": 1207,
+      "resource_id": 5,
+      "amount": 1
+    },
+    {
+      "worldid": 1208,
+      "resource_id": 16,
+      "amount": 0
+    },
+    {
+      "worldid": 1208,
+      "resource_id": 3,
+      "amount": 0
+    },
+    {
+      "worldid": 1208,
+      "resource_id": 98,
+      "amount": 0
+    },
+    {
+      "worldid": 1208,
+      "resource_id": 99,
+      "amount": 0
+    },
+    {
+      "worldid": 1208,
+      "resource_id": 5,
+      "amount": 0
+    },
+    {
+      "worldid": 1208,
+      "resource_id": 11,
+      "amount": 0
+    },
+    {
+      "worldid": 1208,
+      "resource_id": 32,
+      "amount": 0
+    },
+    {
+      "worldid": 1208,
+      "resource_id": 27,
+      "amount": 0
+    },
+    {
+      "worldid": 1208,
+      "resource_id": 29,
+      "amount": 0
+    },
+    {
+      "worldid": 1208,
+      "resource_id": 14,
+      "amount": 50
+    },
+    {
+      "worldid": 1208,
+      "resource_id": 19,
+      "amount": 0
+    },
+    {
+      "worldid": 1211,
+      "resource_id": 16,
+      "amount": 0
+    },
+    {
+      "worldid": 1211,
+      "resource_id": 3,
+      "amount": 0
+    },
+    {
+      "worldid": 1211,
+      "resource_id": 98,
+      "amount": 0
+    },
+    {
+      "worldid": 1211,
+      "resource_id": 99,
+      "amount": 0
+    },
+    {
+      "worldid": 1211,
+      "resource_id": 5,
+      "amount": 0
+    },
+    {
+      "worldid": 1211,
+      "resource_id": 11,
+      "amount": 0
+    },
+    {
+      "worldid": 1211,
+      "resource_id": 32,
+      "amount": 0
+    },
+    {
+      "worldid": 1211,
+      "resource_id": 27,
+      "amount": 0
+    },
+    {
+      "worldid": 1211,
+      "resource_id": 29,
+      "amount": 0
+    },
+    {
+      "worldid": 1211,
+      "resource_id": 14,
+      "amount": 50
+    },
+    {
+      "worldid": 1211,
+      "resource_id": 19,
+      "amount": 0
+    },
+    {
+      "worldid": 1212,
+      "resource_id": 19,
+      "amount": 1
+    },
+    {
+      "worldid": 1212,
+      "resource_id": 5,
+      "amount": 1
+    },
+    {
+      "worldid": 1213,
+      "resource_id": 16,
+      "amount": 0
+    },
+    {
+      "worldid": 1213,
+      "resource_id": 3,
+      "amount": 0
+    },
+    {
+      "worldid": 1213,
+      "resource_id": 98,
+      "amount": 0
+    },
+    {
+      "worldid": 1213,
+      "resource_id": 99,
+      "amount": 0
+    },
+    {
+      "worldid": 1213,
+      "resource_id": 5,
+      "amount": 0
+    },
+    {
+      "worldid": 1213,
+      "resource_id": 11,
+      "amount": 0
+    },
+    {
+      "worldid": 1213,
+      "resource_id": 32,
+      "amount": 0
+    },
+    {
+      "worldid": 1213,
+      "resource_id": 27,
+      "amount": 0
+    },
+    {
+      "worldid": 1213,
+      "resource_id": 29,
+      "amount": 0
+    },
+    {
+      "worldid": 1213,
+      "resource_id": 14,
+      "amount": 50
+    },
+    {
+      "worldid": 1213,
+      "resource_id": 19,
+      "amount": 0
+    },
+    {
+      "worldid": 1215,
+      "resource_id": 16,
+      "amount": 0
+    },
+    {
+      "worldid": 1215,
+      "resource_id": 3,
+      "amount": 0
+    },
+    {
+      "worldid": 1215,
+      "resource_id": 98,
+      "amount": 0
+    },
+    {
+      "worldid": 1215,
+      "resource_id": 99,
+      "amount": 0
+    },
+    {
+      "worldid": 1215,
+      "resource_id": 5,
+      "amount": 0
+    },
+    {
+      "worldid": 1215,
+      "resource_id": 11,
+      "amount": 0
+    },
+    {
+      "worldid": 1215,
+      "resource_id": 32,
+      "amount": 0
+    },
+    {
+      "worldid": 1215,
+      "resource_id": 27,
+      "amount": 0
+    },
+    {
+      "worldid": 1215,
+      "resource_id": 29,
+      "amount": 0
+    },
+    {
+      "worldid": 1215,
+      "resource_id": 14,
+      "amount": 50
+    },
+    {
+      "worldid": 1215,
+      "resource_id": 19,
+      "amount": 0
+    },
+    {
+      "worldid": 1217,
+      "resource_id": 16,
+      "amount": 0
+    },
+    {
+      "worldid": 1217,
+      "resource_id": 3,
+      "amount": 0
+    },
+    {
+      "worldid": 1217,
+      "resource_id": 98,
+      "amount": 0
+    },
+    {
+      "worldid": 1217,
+      "resource_id": 99,
+      "amount": 0
+    },
+    {
+      "worldid": 1217,
+      "resource_id": 5,
+      "amount": 0
+    },
+    {
+      "worldid": 1217,
+      "resource_id": 11,
+      "amount": 0
+    },
+    {
+      "worldid": 1217,
+      "resource_id": 32,
+      "amount": 0
+    },
+    {
+      "worldid": 1217,
+      "resource_id": 27,
+      "amount": 0
+    },
+    {
+      "worldid": 1217,
+      "resource_id": 29,
+      "amount": 0
+    },
+    {
+      "worldid": 1217,
+      "resource_id": 14,
+      "amount": 50
+    },
+    {
+      "worldid": 1217,
+      "resource_id": 19,
+      "amount": 0
+    },
+    {
+      "worldid": 1012,
+      "resource_id": 40,
+      "amount": 12
+    },
+    {
+      "worldid": 1012,
+      "resource_id": 19,
+      "amount": 23
+    },
+    {
+      "worldid": 1012,
+      "resource_id": 4,
+      "amount": 8
+    },
+    {
+      "worldid": 1012,
+      "resource_id": 5,
+      "amount": 25
+    },
+    {
+      "worldid": 1012,
+      "resource_id": 6,
+      "amount": 26
+    },
+    {
+      "worldid": 1,
+      "resource_id": 1,
+      "amount": 25850
+    },
+    {
+      "worldid": 1,
+      "resource_id": 4,
+      "amount": 0
+    },
+    {
+      "worldid": 1,
+      "resource_id": 6,
+      "amount": 0
+    }
+  ],
+  "units": [
+    {
+      "worldid": 1002,
+      "unit_type_id": 1000001,
+      "x": 31,
+      "y": 0,
+      "location": 0,
+      "owner": 1,
+      "kind": "ship"
+    },
+    {
+      "worldid": 1013,
+      "unit_type_id": 1000008,
+      "x": 28,
+      "y": 5,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1011
+    },
+    {
+      "worldid": 1014,
+      "unit_type_id": 1000008,
+      "x": 28,
+      "y": 5,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1011
+    },
+    {
+      "worldid": 1015,
+      "unit_type_id": 1000008,
+      "x": 28,
+      "y": 4,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1011
+    },
+    {
+      "worldid": 1020,
+      "unit_type_id": 1000010,
+      "x": 27,
+      "y": 10,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1019
+    },
+    {
+      "worldid": 1098,
+      "unit_type_id": 1000010,
+      "x": 18,
+      "y": 14,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1097
+    },
+    {
+      "worldid": 1197,
+      "unit_type_id": 1000011,
+      "x": 21,
+      "y": 13,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1196
+    },
+    {
+      "worldid": 1199,
+      "unit_type_id": 1000011,
+      "x": 21,
+      "y": 15,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1198
+    },
+    {
+      "worldid": 1201,
+      "unit_type_id": 1000011,
+      "x": 20,
+      "y": 14,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1200
+    },
+    {
+      "worldid": 1203,
+      "unit_type_id": 1000011,
+      "x": 20,
+      "y": 12,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1202
+    },
+    {
+      "worldid": 1205,
+      "unit_type_id": 1000011,
+      "x": 20,
+      "y": 12,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1204
+    },
+    {
+      "worldid": 1207,
+      "unit_type_id": 1000011,
+      "x": 17,
+      "y": 12,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1206
+    },
+    {
+      "worldid": 1209,
+      "unit_type_id": 1000011,
+      "x": 17,
+      "y": 12,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1208
+    },
+    {
+      "worldid": 1212,
+      "unit_type_id": 1000011,
+      "x": 17,
+      "y": 12,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1211
+    },
+    {
+      "worldid": 1214,
+      "unit_type_id": 1000011,
+      "x": 17,
+      "y": 12,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1213
+    },
+    {
+      "worldid": 1216,
+      "unit_type_id": 1000011,
+      "x": 17,
+      "y": 14,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1215
+    },
+    {
+      "worldid": 1218,
+      "unit_type_id": 1000011,
+      "x": 17,
+      "y": 16,
+      "location": 0,
+      "owner": 1,
+      "kind": "collector",
+      "home_building_worldid": 1217
+    }
+  ],
+  "session": {
+    "savegamerev": 76,
+    "map_name": "test-map-tiny",
+    "estimated_cur_tick": 78,
+    "next_worldid": 1219
+  },
+  "settlements": [
+    {
+      "rowid": 1012,
+      "owner": 1,
+      "island": 1001
+    }
+  ],
+  "production": [
+    {
+      "rowid": 1,
+      "owner_worldid": 1011,
+      "prod_line_id": 31,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4871
+    },
+    {
+      "rowid": 2,
+      "owner_worldid": 1019,
+      "prod_line_id": 256812226,
+      "state": 3,
+      "remaining_ticks": 197,
+      "creation_tick": -4745
+    },
+    {
+      "rowid": 3,
+      "owner_worldid": 1022,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 4,
+      "owner_worldid": 1022,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 5,
+      "owner_worldid": 1023,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 6,
+      "owner_worldid": 1023,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 7,
+      "owner_worldid": 1024,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 8,
+      "owner_worldid": 1024,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 9,
+      "owner_worldid": 1025,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 10,
+      "owner_worldid": 1025,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 11,
+      "owner_worldid": 1026,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 12,
+      "owner_worldid": 1026,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 13,
+      "owner_worldid": 1027,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 14,
+      "owner_worldid": 1027,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 15,
+      "owner_worldid": 1028,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 16,
+      "owner_worldid": 1028,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 17,
+      "owner_worldid": 1029,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 18,
+      "owner_worldid": 1029,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 19,
+      "owner_worldid": 1030,
+      "prod_line_id": 1,
+      "state": 3,
+      "remaining_ticks": 829,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 20,
+      "owner_worldid": 1030,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 21,
+      "owner_worldid": 1031,
+      "prod_line_id": 1,
+      "state": 3,
+      "remaining_ticks": 389,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 22,
+      "owner_worldid": 1031,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 23,
+      "owner_worldid": 1032,
+      "prod_line_id": 1,
+      "state": 3,
+      "remaining_ticks": 168,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 24,
+      "owner_worldid": 1032,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 25,
+      "owner_worldid": 1033,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 26,
+      "owner_worldid": 1033,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 27,
+      "owner_worldid": 1034,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 28,
+      "owner_worldid": 1034,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 29,
+      "owner_worldid": 1035,
+      "prod_line_id": 1,
+      "state": 3,
+      "remaining_ticks": 755,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 30,
+      "owner_worldid": 1035,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 31,
+      "owner_worldid": 1036,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 32,
+      "owner_worldid": 1036,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 33,
+      "owner_worldid": 1037,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 34,
+      "owner_worldid": 1037,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 35,
+      "owner_worldid": 1040,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 36,
+      "owner_worldid": 1040,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 37,
+      "owner_worldid": 1041,
+      "prod_line_id": 1,
+      "state": 3,
+      "remaining_ticks": 1900,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 38,
+      "owner_worldid": 1041,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 39,
+      "owner_worldid": 1042,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 40,
+      "owner_worldid": 1042,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 41,
+      "owner_worldid": 1043,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 42,
+      "owner_worldid": 1043,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 43,
+      "owner_worldid": 1044,
+      "prod_line_id": 1,
+      "state": 3,
+      "remaining_ticks": 480,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 44,
+      "owner_worldid": 1044,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 45,
+      "owner_worldid": 1045,
+      "prod_line_id": 1,
+      "state": 3,
+      "remaining_ticks": 664,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 46,
+      "owner_worldid": 1045,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 47,
+      "owner_worldid": 1046,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 48,
+      "owner_worldid": 1046,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 49,
+      "owner_worldid": 1047,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 50,
+      "owner_worldid": 1047,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 51,
+      "owner_worldid": 1048,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 52,
+      "owner_worldid": 1048,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 53,
+      "owner_worldid": 1049,
+      "prod_line_id": 1,
+      "state": 3,
+      "remaining_ticks": 55,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 54,
+      "owner_worldid": 1049,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 55,
+      "owner_worldid": 1050,
+      "prod_line_id": 1,
+      "state": 3,
+      "remaining_ticks": 566,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 56,
+      "owner_worldid": 1050,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 57,
+      "owner_worldid": 1051,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 58,
+      "owner_worldid": 1051,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 59,
+      "owner_worldid": 1052,
+      "prod_line_id": 1,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 60,
+      "owner_worldid": 1052,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 61,
+      "owner_worldid": 1053,
+      "prod_line_id": 1,
+      "state": 3,
+      "remaining_ticks": 281,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 62,
+      "owner_worldid": 1053,
+      "prod_line_id": 17,
+      "state": 2,
+      "remaining_ticks": 1,
+      "creation_tick": -4675
+    },
+    {
+      "rowid": 63,
+      "owner_worldid": 1097,
+      "prod_line_id": 256812226,
+      "state": 1,
+      "remaining_ticks": 1,
+      "creation_tick": -4087
+    },
+    {
+      "rowid": 65,
+      "owner_worldid": 1196,
+      "prod_line_id": 30,
+      "state": 3,
+      "remaining_ticks": 1358,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 66,
+      "owner_worldid": 1196,
+      "prod_line_id": 71,
+      "state": 3,
+      "remaining_ticks": 953,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 64,
+      "owner_worldid": 1196,
+      "prod_line_id": 72,
+      "state": 1,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 68,
+      "owner_worldid": 1198,
+      "prod_line_id": 30,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 69,
+      "owner_worldid": 1198,
+      "prod_line_id": 71,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 67,
+      "owner_worldid": 1198,
+      "prod_line_id": 72,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 71,
+      "owner_worldid": 1200,
+      "prod_line_id": 30,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 72,
+      "owner_worldid": 1200,
+      "prod_line_id": 71,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 70,
+      "owner_worldid": 1200,
+      "prod_line_id": 72,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 74,
+      "owner_worldid": 1202,
+      "prod_line_id": 30,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 75,
+      "owner_worldid": 1202,
+      "prod_line_id": 71,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 73,
+      "owner_worldid": 1202,
+      "prod_line_id": 72,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 77,
+      "owner_worldid": 1204,
+      "prod_line_id": 30,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 78,
+      "owner_worldid": 1204,
+      "prod_line_id": 71,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 76,
+      "owner_worldid": 1204,
+      "prod_line_id": 72,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -122
+    },
+    {
+      "rowid": 80,
+      "owner_worldid": 1206,
+      "prod_line_id": 30,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -102
+    },
+    {
+      "rowid": 81,
+      "owner_worldid": 1206,
+      "prod_line_id": 71,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -102
+    },
+    {
+      "rowid": 79,
+      "owner_worldid": 1206,
+      "prod_line_id": 72,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -102
+    },
+    {
+      "rowid": 83,
+      "owner_worldid": 1208,
+      "prod_line_id": 30,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -102
+    },
+    {
+      "rowid": 84,
+      "owner_worldid": 1208,
+      "prod_line_id": 71,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -102
+    },
+    {
+      "rowid": 82,
+      "owner_worldid": 1208,
+      "prod_line_id": 72,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -102
+    },
+    {
+      "rowid": 86,
+      "owner_worldid": 1211,
+      "prod_line_id": 30,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -77
+    },
+    {
+      "rowid": 87,
+      "owner_worldid": 1211,
+      "prod_line_id": 71,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -77
+    },
+    {
+      "rowid": 85,
+      "owner_worldid": 1211,
+      "prod_line_id": 72,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -77
+    },
+    {
+      "rowid": 89,
+      "owner_worldid": 1213,
+      "prod_line_id": 30,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -77
+    },
+    {
+      "rowid": 90,
+      "owner_worldid": 1213,
+      "prod_line_id": 71,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -77
+    },
+    {
+      "rowid": 88,
+      "owner_worldid": 1213,
+      "prod_line_id": 72,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -77
+    },
+    {
+      "rowid": 92,
+      "owner_worldid": 1215,
+      "prod_line_id": 30,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -77
+    },
+    {
+      "rowid": 93,
+      "owner_worldid": 1215,
+      "prod_line_id": 71,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -77
+    },
+    {
+      "rowid": 91,
+      "owner_worldid": 1215,
+      "prod_line_id": 72,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -77
+    },
+    {
+      "rowid": 95,
+      "owner_worldid": 1217,
+      "prod_line_id": 30,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -77
+    },
+    {
+      "rowid": 96,
+      "owner_worldid": 1217,
+      "prod_line_id": 71,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -77
+    },
+    {
+      "rowid": 94,
+      "owner_worldid": 1217,
+      "prod_line_id": 72,
+      "state": 0,
+      "remaining_ticks": 1,
+      "creation_tick": -77
+    }
+  ],
+  "metadata": {
+    "map_name": "test-map-tiny",
+    "logbook_cur_entry": "0",
+    "selected_tab": "None",
+    "savecounter": "5",
+    "rng_state": "[3, [2651606238, 1523645230, 3388155324, 386252198, 788404770, 2420212603, 281606291, 749976645, 4165455833, 1034427911, 2216478800, 39141419, 206740351, 1293892141, 2556496897, 3154110165, 1813885694, 4285951557, 400209167, 2685860595, 2231206869, 231752468, 3437748497, 536832823, 2094024785, 551613362, 102191222, 658452716, 353996375, 1451046787, 1806683861, 4161919174, 2694315418, 3496544035, 2485380944, 1048057234, 1999084461, 1417924357, 1605778868, 1541079891, 770057242, 114538359, 275882310, 2425451216, 1969755775, 1038329871, 3372825896, 2757637567, 1010200342, 315801586, 903319568, 2701755482, 1281241665, 1722158919, 4120066412, 2982700325, 2091035358, 2207256500, 860613824, 741161521, 3362112859, 1395663405, 2650350205, 3078724499, 537328187, 1851320963, 3049885154, 2358275165, 206718424, 919185480, 3840419712, 502002432, 3252190591, 1468298676, 4074225532, 3778926203, 1322808539, 1847661319, 3377575358, 854498245, 733242778, 1522820371, 226227891, 4196426866, 1582764262, 1150582947, 3117247959, 1528584607, 2204757948, 2174941812, 1595049556, 2358953394, 187992246, 976144768, 733688106, 4029979609, 2039169066, 4178451214, 4170429233, 2514757487, 3589114788, 3328442895, 3143558496, 3259419224, 4119098492, 1911232214, 3777043767, 3339919966, 2762892773, 2175638523, 2121537630, 1279326533, 2515604500, 3965726344, 3898807310, 267998605, 930173082, 660268180, 2443569741, 3618603478, 1232599793, 2851578199, 2499016546, 3486112632, 3106686009, 2800889521, 2108085316, 4057709650, 3101040266, 2972779867, 3994236301, 965229926, 1728596651, 665663294, 3272657590, 2099126438, 4054778666, 688607220, 4018139421, 1865961212, 550363937, 2559377075, 806342324, 123032271, 1543511621, 575376548, 122854275, 2990051113, 1835793045, 3825311848, 2210180641, 1585145688, 1174415367, 1045079046, 223132903, 1837504603, 2105231561, 106891418, 3248837558, 1452407833, 3963115383, 2257737502, 3245634371, 1646621279, 1134210632, 1276892327, 445929056, 347774257, 2811947518, 168812987, 1807468400, 4185674772, 1233196447, 1985976210, 380543388, 430953630, 3466640804, 3934216605, 2459644744, 868055314, 1666568583, 3707955028, 3007623300, 240731615, 1734333356, 129467721, 1175347116, 774935555, 617348562, 2996798977, 3766541068, 77466471, 4266499504, 4021656626, 3545816615, 366376595, 2069780738, 2326718400, 421767266, 3858729493, 3833404698, 759321378, 1293479694, 2383833646, 1989633445, 1228464027, 3235152074, 2900251413, 2684565421, 3219786507, 570072125, 2713522484, 1188925592, 895050454, 1000948724, 2532224783, 1056530571, 2501433981, 2866185815, 4057780055, 51331940, 739805114, 2784837103, 2822939875, 1399588137, 2490536934, 2172711235, 3448217935, 1237875756, 698097411, 2134872938, 3897093831, 353048967, 4052443552, 1353503085, 2559143646, 4267933981, 8388488, 3709766778, 2451871998, 3585968248, 838688061, 2533237911, 2979398829, 4137756309, 1542053065, 3944554365, 2107238004, 670025613, 3014742194, 1013580518, 2902984876, 3835416016, 2586523325, 469664261, 1996162853, 2232792480, 2668772584, 1265370717, 3325742305, 879099135, 1062418643, 267621032, 2755349313, 3969490839, 3961154954, 3913812653, 1474212538, 2769540195, 3451789527, 3801707533, 652927916, 3103447016, 1100770756, 1548796725, 2870372316, 640828775, 2058418090, 1270871491, 3491100209, 2093709495, 1283506084, 52360478, 1757743690, 1330071193, 1489237262, 1675781298, 2645055082, 2918914835, 1478915125, 3364510662, 187708638, 3879651672, 28695966, 1512151124, 611782945, 1681949040, 3420581298, 1982837339, 671712460, 1733752733, 2253993947, 1417415542, 3859451365, 1610321067, 49540730, 3714890119, 499425063, 2635175710, 3857299564, 774346506, 1378704756, 1157122716, 1241525903, 2265338113, 2592318109, 132438546, 2240758044, 2669433138, 4283482660, 3646434271, 2877161396, 2920508800, 2163847595, 160638659, 3279381759, 1815884740, 1226995777, 2562119090, 1294031643, 644416811, 2811966301, 2395024362, 3278201018, 2812827486, 817551836, 2784607581, 3985096301, 2853204540, 4136820369, 1629684154, 3909014847, 3840592376, 1354054679, 1054559051, 3747926998, 808184559, 2966333044, 661146506, 1477888702, 714057824, 13758921, 3457381547, 2445182938, 3748461000, 3335650798, 834424474, 3822233248, 2699650513, 3601706099, 158536150, 333788035, 126724329, 2819649453, 1299751447, 4085103747, 1877461279, 2401867955, 1709118866, 1827514629, 398480759, 1162481814, 1133909170, 424617987, 3777666323, 3354127411, 1547023412, 3710015232, 2790031454, 1293818532, 3569472294, 1440809435, 3080934549, 3420765311, 1206915753, 2478885807, 1296217781, 1007065791, 819909203, 1513139528, 2921634886, 354317565, 4227114801, 3104991404, 3250231335, 3912229825, 3626130288, 1020571654, 1508388231, 3992613024, 1402669888, 3326586263, 4021753271, 342303946, 1816361311, 3840266020, 3834114109, 1998100587, 2191313144, 1373725231, 2125538356, 2866562596, 2332466561, 3401768505, 2532077350, 187964423, 2133464575, 2253801052, 2301468474, 3498073683, 1621279858, 1979335957, 2957584408, 2643273899, 98828308, 3844624592, 4017645361, 1446615562, 1200525203, 1745129451, 1947005034, 3713134893, 4176006817, 2203002439, 2948582844, 3123703192, 3864509656, 1393219247, 1596339797, 1622266696, 2422287542, 1061854733, 1087788016, 567547134, 625284174, 2786870756, 1629306353, 3275950926, 1170325298, 4153046194, 2037102026, 2354971578, 3160620175, 1486977500, 2846445788, 1958953527, 4148612505, 2516992962, 1675690841, 2201119216, 3398745870, 889384713, 1404200442, 2427867560, 278831888, 3265935878, 735858502, 3208720002, 8993246, 3436393294, 515570674, 1277446953, 2283850592, 562464544, 2607014115, 472707033, 1112589765, 349262765, 174365157, 1696536629, 1030517481, 3418387128, 1755812327, 3896496590, 1643793065, 2948625032, 3169395492, 3677226220, 3851220851, 1132516611, 786805529, 689228443, 3515438071, 194618784, 1772850850, 456879341, 1949733697, 540450567, 2298588514, 2750674903, 1556449132, 3167365193, 3030831202, 1106919826, 4019216907, 2330918706, 1924926680, 1913488745, 1629862414, 1754256684, 3888276579, 2717874412, 4005969745, 500405907, 29804380, 4155199903, 3130117171, 2855797003, 1561353612, 1867757452, 1467054459, 301775449, 2052280486, 2545901966, 712085271, 3318921651, 62515216, 319425830, 4219875847, 3752364918, 3683913926, 1579513172, 804211580, 4041241875, 419171408, 2684181637, 4254000451, 1968362852, 3884914676, 2963253452, 4285787006, 1733039434, 3206459822, 68125409, 741756999, 2695759312, 704028211, 4286241576, 1277802213, 1600262274, 4043313498, 1766354586, 1838551517, 2777141224, 1468957734, 3857098373, 3994944366, 2705331700, 4111308853, 2658730476, 2419654736, 2208812557, 2900510614, 2082028512, 3862467902, 3518786181, 1362349609, 3430486493, 1872796492, 1536176990, 1386294594, 1090714426, 444088349, 3568230475, 2270873736, 494515315, 4228663318, 3724778358, 3156594910, 3903074541, 444569215, 332463960, 2482632242, 3857479510, 2120029552, 1319818370, 3236517651, 1462142607, 3693201212, 2397360899, 108343484, 167863622, 4021957749, 431315720, 368479357, 1821987232, 3102955242, 3619765514, 3882593568, 2192038692, 653270082, 1797219483, 753459156, 2966549700, 1587396180, 1315844956, 2195201006, 1534423251, 3543658659, 2204162015, 3354492693, 560244160, 3036282809, 3751169527, 4209728649, 4241778891, 3632286607, 2357820218, 2430524152, 4280228308, 1976923772, 757932239, 3200558966, 2535750943, 53], null]",
+    "savegamerev": "76",
+    "timestamp": "1494193606.34233"
+  },
+  "collector_jobs": {
+    "tables": {
+      "building_collector_job_history": {
+        "present": true,
+        "rows": 18
+      },
+      "collector_job": {
+        "present": true,
+        "rows": 16
+      },
+      "unit_path": {
+        "present": true,
+        "rows": 58
+      }
+    }
+  }
+}

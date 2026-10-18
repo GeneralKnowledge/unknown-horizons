@@ -18,7 +18,9 @@ func test_fire_fixture_reports_partial_import_with_diagnostics() -> void:
 	assert_eq(report.buildings_placed, report.buildings_extracted)
 	assert_eq(0, int(report.rejection_counts.get("placement_failed", 0)))
 	assert_eq(0, report.collectors_skipped_yaml_duplicate)
-	assert_gt(report.unsupported_unit_rows, 0, "ships/settlers not simulated yet")
+	assert_eq(0, report.unsupported_unit_rows)
+	assert_eq(1, report.ships_restored)
+	assert_gt(report.collector_job_rows_in_save, 0)
 	assert_true(report.partial, "partial until unsupported units and storage gaps are gone")
 	assert_true(report.rejection_counts.size() >= 0)
 	var session: GameSession = result["session"]

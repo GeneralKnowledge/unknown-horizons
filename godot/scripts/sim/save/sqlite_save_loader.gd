@@ -12,11 +12,21 @@ const EXTRACT_SESSION_SCRIPT := "development/godot/sqlite_extract_session.py"
 const EXTRACT_UNITS_SCRIPT := "development/godot/sqlite_extract_units.py"
 const EXTRACT_PRODUCTION_SCRIPT := "development/godot/sqlite_extract_production.py"
 const EXTRACT_SETTLEMENT_SCRIPT := "development/godot/sqlite_extract_settlement.py"
+const EXTRACT_COLLECTOR_JOBS_SCRIPT := "development/godot/sqlite_extract_collector_jobs.py"
 const PREPARE_SAVE_SCRIPT := "development/godot/sqlite_prepare_save.py"
+const BUNDLE_FILE_SUFFIX := ".extract.json"
 const DEFAULT_BUILDING_LIMIT := 0
+
+static var _extract_bundle: Dictionary = {}
+
+
+static func is_extract_bundle_file(path: String) -> bool:
+	return path.ends_with(BUNDLE_FILE_SUFFIX) and FileAccess.file_exists(path)
 
 
 static func is_sqlite_file(path: String) -> bool:
+	if is_extract_bundle_file(path):
+		return false
 	if path.ends_with(".sqlite.bz2") and FileAccess.file_exists(path):
 		return true
 	if not FileAccess.file_exists(path):
@@ -74,8 +84,10 @@ static func _run_python_extract(script_rel: String, sqlite_path: String, tmp_use
 
 
 static func _extract_buildings_json(sqlite_path: String, limit: int = DEFAULT_BUILDING_LIMIT) -> String:
+	if _extract_bundle.has("buildings"):
+		return JSON.stringify(_extract_bundle["buildings"])
 	if OS.has_feature("web"):
-		push_error("SQLite save import is not supported in browser builds; use JSON snapshots.")
+		push_error("SQLite save import is not supported in browser builds; use prebuilt .extract.json bundles.")
 		return ""
 	return _run_python_extract(
 		EXTRACT_BUILDINGS_SCRIPT,
@@ -112,6 +124,13 @@ static func load(path: String) -> GameSession:
 static func load_with_report(path: String) -> Dictionary:
 	var report := SqliteImportReport.new()
 	report.source_path = path
+	_extract_bundle = {}
+	if is_extract_bundle_file(path):
+		var bundle_data: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+		if typeof(bundle_data) != TYPE_DICTIONARY:
+			return {"ok": false, "error": "invalid_bundle", "session": null, "report": report}
+		_extract_bundle = bundle_data
+		return _load_import_core("", report)
 	if OS.has_feature("web"):
 		return {"ok": false, "error": "web_unsupported", "session": null, "report": report}
 	if not is_sqlite_file(path):
@@ -120,7 +139,10 @@ static func load_with_report(path: String) -> Dictionary:
 	var sqlite_path := _prepare_sqlite_path(path)
 	if sqlite_path.is_empty():
 		sqlite_path = path
+	return _load_import_core(sqlite_path, report)
 
+
+static func _load_import_core(sqlite_path: String, report: SqliteImportReport) -> Dictionary:
 	var meta := _extract_metadata_json(sqlite_path)
 	report.savegamerev = int(meta.get("savegamerev", "-1"))
 	var map_name := str(meta.get("map_name", ""))
@@ -186,6 +208,7 @@ static func load_with_report(path: String) -> Dictionary:
 	_apply_production_rows(session, sqlite_path, report)
 	_apply_collector_rows(session, sqlite_path, report)
 	_apply_unit_rows(session, sqlite_path, report)
+	_apply_collector_job_diagnostics(sqlite_path, report)
 
 	report.partial = (
 		report.buildings_truncated
@@ -197,20 +220,26 @@ static func load_with_report(path: String) -> Dictionary:
 		or report.collectors_unsupported_no_collecting_yaml > 0
 		or report.collectors_skipped_yaml_duplicate > 0
 		or report.unsupported_unit_rows > 0
+		or report.collector_job_rows_in_save > 0
 	)
 	session.set_meta(META_REPORT, report.to_dictionary())
+	_extract_bundle = {}
 	return {"ok": true, "error": "", "session": session, "report": report}
 
 
 static func _apply_session_header(session: GameSession, sqlite_path: String) -> void:
-	var json_text := _run_python_extract(
-		EXTRACT_SESSION_SCRIPT,
-		sqlite_path,
-		"user://sqlite_session_extract.json",
-	)
-	if json_text.is_empty():
-		return
-	var data: Variant = JSON.parse_string(json_text)
+	var data: Variant = null
+	if _extract_bundle.has("session"):
+		data = _extract_bundle["session"]
+	else:
+		var json_text := _run_python_extract(
+			EXTRACT_SESSION_SCRIPT,
+			sqlite_path,
+			"user://sqlite_session_extract.json",
+		)
+		if json_text.is_empty():
+			return
+		data = JSON.parse_string(json_text)
 	if typeof(data) != TYPE_DICTIONARY:
 		return
 	session.restore_save_header(
@@ -220,6 +249,10 @@ static func _apply_session_header(session: GameSession, sqlite_path: String) -> 
 
 
 static func _extract_metadata_json(sqlite_path: String) -> Dictionary:
+	if _extract_bundle.has("metadata"):
+		var bundled: Variant = _extract_bundle["metadata"]
+		if typeof(bundled) == TYPE_DICTIONARY:
+			return bundled
 	var json_text := _run_python_extract(
 		EXTRACT_METADATA_SCRIPT,
 		sqlite_path,
@@ -255,6 +288,10 @@ static func _attach_deferred_producers(session: GameSession) -> void:
 
 
 static func _extract_settlement_rows(sqlite_path: String) -> Array:
+	if _extract_bundle.has("settlements"):
+		var bundled: Variant = _extract_bundle["settlements"]
+		if typeof(bundled) == TYPE_ARRAY:
+			return bundled
 	var json_text := _run_python_extract(
 		EXTRACT_SETTLEMENT_SCRIPT,
 		sqlite_path,
@@ -314,15 +351,19 @@ static func _apply_legacy_settlement_identity(
 
 
 static func _apply_storage_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:
-	var json_text := _run_python_extract(
-		EXTRACT_STORAGE_SCRIPT,
-		sqlite_path,
-		"user://sqlite_storage_extract.json",
-		["5000"],
-	)
-	if json_text.is_empty():
-		return
-	var rows: Variant = JSON.parse_string(json_text)
+	var rows: Variant = null
+	if _extract_bundle.has("storage"):
+		rows = _extract_bundle["storage"]
+	else:
+		var json_text := _run_python_extract(
+			EXTRACT_STORAGE_SCRIPT,
+			sqlite_path,
+			"user://sqlite_storage_extract.json",
+			["5000"],
+		)
+		if json_text.is_empty():
+			return
+		rows = JSON.parse_string(json_text)
 	if typeof(rows) != TYPE_ARRAY:
 		return
 	report.storage_rows_total = rows.size()
@@ -360,15 +401,19 @@ static func _apply_storage_rows(session: GameSession, sqlite_path: String, repor
 
 
 static func _apply_production_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:
-	var json_text := _run_python_extract(
-		EXTRACT_PRODUCTION_SCRIPT,
-		sqlite_path,
-		"user://sqlite_production_extract.json",
-		["10000"],
-	)
-	if json_text.is_empty():
-		return
-	var rows: Variant = JSON.parse_string(json_text)
+	var rows: Variant = null
+	if _extract_bundle.has("production"):
+		rows = _extract_bundle["production"]
+	else:
+		var json_text := _run_python_extract(
+			EXTRACT_PRODUCTION_SCRIPT,
+			sqlite_path,
+			"user://sqlite_production_extract.json",
+			["10000"],
+		)
+		if json_text.is_empty():
+			return
+		rows = JSON.parse_string(json_text)
 	if typeof(rows) != TYPE_ARRAY:
 		return
 	report.production_rows_total = rows.size()
@@ -403,6 +448,10 @@ static func _apply_production_rows(session: GameSession, sqlite_path: String, re
 
 
 static func _extract_unit_rows(sqlite_path: String) -> Array:
+	if _extract_bundle.has("units"):
+		var bundled: Variant = _extract_bundle["units"]
+		if typeof(bundled) == TYPE_ARRAY:
+			return bundled
 	var json_text := _run_python_extract(
 		EXTRACT_UNITS_SCRIPT,
 		sqlite_path,
@@ -485,5 +534,46 @@ static func _apply_unit_rows(session: GameSession, sqlite_path: String, report: 
 			report.wild_animals_spawned += 1
 		elif kind == "collector":
 			pass
+		elif kind == "ship" or kind == "unit":
+			var wid := int(row.get("worldid", -1))
+			var x := int(row.get("x", 0))
+			var y := int(row.get("y", 0))
+			var unit_type_id := int(row.get("unit_type_id", -1))
+			var owner := int(row.get("owner", 0))
+			if unit_type_id < 0 or wid < 0:
+				report.unsupported_unit_rows += 1
+				continue
+			session.spawn_legacy_unit(
+				session.island, unit_type_id, kind, x, y, owner, wid
+			)
+			report.legacy_units_restored += 1
+			if kind == "ship":
+				report.ships_restored += 1
 		else:
 			report.unsupported_unit_rows += 1
+
+
+static func _apply_collector_job_diagnostics(sqlite_path: String, report: SqliteImportReport) -> void:
+	var data: Dictionary = {}
+	if _extract_bundle.has("collector_jobs"):
+		var bundled: Variant = _extract_bundle["collector_jobs"]
+		if typeof(bundled) == TYPE_DICTIONARY:
+			data = bundled
+	elif not sqlite_path.is_empty():
+		var json_text := _run_python_extract(
+			EXTRACT_COLLECTOR_JOBS_SCRIPT,
+			sqlite_path,
+			"user://sqlite_collector_jobs_extract.json",
+		)
+		if json_text.is_empty():
+			return
+		var parsed: Variant = JSON.parse_string(json_text)
+		if typeof(parsed) == TYPE_DICTIONARY:
+			data = parsed
+	var tables: Variant = data.get("tables", {})
+	if typeof(tables) != TYPE_DICTIONARY:
+		return
+	for _key in tables.keys():
+		var entry: Variant = tables[_key]
+		if typeof(entry) == TYPE_DICTIONARY and bool(entry.get("present", false)):
+			report.collector_job_rows_in_save += int(entry.get("rows", 0))

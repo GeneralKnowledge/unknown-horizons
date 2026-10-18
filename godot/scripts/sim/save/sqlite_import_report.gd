@@ -25,6 +25,9 @@ var legacy_island_worldid: int = -1
 var unit_rows_total: int = 0
 var wild_animals_spawned: int = 0
 var unsupported_unit_rows: int = 0
+var legacy_units_restored: int = 0
+var ships_restored: int = 0
+var collector_job_rows_in_save: int = 0
 var collector_rows_in_save: int = 0
 var collectors_skipped_yaml_duplicate: int = 0
 var collectors_unsupported: int = 0
@@ -63,6 +66,9 @@ func to_dictionary() -> Dictionary:
 		"unit_rows_total": unit_rows_total,
 		"wild_animals_spawned": wild_animals_spawned,
 		"unsupported_unit_rows": unsupported_unit_rows,
+		"legacy_units_restored": legacy_units_restored,
+		"ships_restored": ships_restored,
+		"collector_job_rows_in_save": collector_job_rows_in_save,
 		"collector_rows_in_save": collector_rows_in_save,
 		"collectors_skipped_yaml_duplicate": collectors_skipped_yaml_duplicate,
 		"collectors_unsupported": collectors_unsupported,
@@ -96,6 +102,9 @@ static func from_dictionary(data: Dictionary) -> SqliteImportReport:
 	r.unit_rows_total = int(data.get("unit_rows_total", 0))
 	r.wild_animals_spawned = int(data.get("wild_animals_spawned", 0))
 	r.unsupported_unit_rows = int(data.get("unsupported_unit_rows", 0))
+	r.legacy_units_restored = int(data.get("legacy_units_restored", 0))
+	r.ships_restored = int(data.get("ships_restored", 0))
+	r.collector_job_rows_in_save = int(data.get("collector_job_rows_in_save", 0))
 	r.collector_rows_in_save = int(data.get("collector_rows_in_save", 0))
 	r.collectors_skipped_yaml_duplicate = int(data.get("collectors_skipped_yaml_duplicate", 0))
 	r.collectors_unsupported = int(data.get("collectors_unsupported", 0))

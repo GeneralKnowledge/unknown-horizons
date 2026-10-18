@@ -33,6 +33,9 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 | **T1b** | After load, placed building **storage** matches `sqlite_extract_storage.py` for **≥10** buildings on `fire.sqlite` (GUT: `test_sqlite_storage_parity.gd`; goldens: `resources/fixtures/sqlite_storage/*.json` via `sqlite_storage_expectations.py`) |
 | **T1c** | Collectors restored from save without YAML double-spawn (GUT: `test_sqlite_collector_restore.gd`); settlement `storage` → `settlement.inventory` |
 | **T1d** | Post-load tick stepping: load → N ticks → economy moves without crash (GUT: `test_sqlite_tick_parity.gd`) |
+| **T1e** | Ships / misc units → `LegacyUnit` placeholders at saved positions (GUT: `test_sqlite_legacy_units.gd`) |
+| **T1f** | Prebuilt `.extract.json` bundles for web import (GUT: `test_sqlite_extract_bundle.gd`; tool: `sqlite_extract_bundle.py`) |
+| **T1g** | Python probe ↔ Godot import counts (GUT: `test_sqlite_cross_version_probe.gd`) |
 | **T2** | Full legacy Python load (needs `fife`) — optional, not in default CI |
 
 ## Current Godot loader scope
@@ -51,7 +54,7 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 - `.sqlite.bz2` saves decompressed via [`sqlite_prepare_save.py`](../../development/godot/sqlite_prepare_save.py) (desktop)
 - No `SavegameUpgrader` — rev **76** fixture tests upgrade path in **legacy** pytest only
 
-Web builds: JSON snapshots only ([`SAVE_FORMAT.md`](SAVE_FORMAT.md)).
+Web builds: JSON snapshots, or legacy **`.extract.json`** bundles ([`sqlite_extract_bundle.py`](../../development/godot/sqlite_extract_bundle.py) → e.g. [`resources/fixtures/sqlite_bundles/fire.extract.json`](../resources/fixtures/sqlite_bundles/fire.extract.json)). Raw `.sqlite` still requires desktop Python extracts.
 
 ## Import diagnostics
 
