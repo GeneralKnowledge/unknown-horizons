@@ -84,6 +84,8 @@ func test_fire_fixture_building_storage_matches_sqlite_extract() -> void:
 	var report: SqliteImportReport = result["report"]
 	assert_gt(report.buildings_placed, 0)
 	assert_gt(report.storage_rows_applied, 0)
+	assert_gt(report.settlement_storage_rows_applied, 0)
+	assert_eq(12, session.settlement.inventory.amount(GameConstants.RES["CANNON"]))
 
 	var lumberjack := session.get_building(1019)
 	assert_not_null(lumberjack, "lumberjack worldid from fire fixture")

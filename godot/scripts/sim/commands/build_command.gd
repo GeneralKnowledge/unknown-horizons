@@ -11,6 +11,8 @@ var forced_worldid: int = -1
 var skip_cost: bool = false
 ## When true, Producer is not attached until the caller finishes storage/production restore.
 var defer_producer: bool = false
+## When true, CollectingComponent is not attached until collector restore from save.
+var defer_collecting: bool = false
 
 
 func _init(
@@ -48,7 +50,14 @@ func execute(session: GameSession) -> Variant:
 			if not BuildingCosts.try_pay(settlement, building_id):
 				return null
 	var building := BuildingFactory.create_building(
-		session, building_id, origin, island, settlement, forced_worldid, not defer_producer
+		session,
+		building_id,
+		origin,
+		island,
+		settlement,
+		forced_worldid,
+		not defer_producer,
+		defer_collecting
 	)
 	if building == null:
 		return null

@@ -9,7 +9,8 @@ static func create_building(
 	island: Island,
 	settlement: Settlement,
 	forced_worldid: int = -1,
-	attach_producer: bool = true
+	attach_producer: bool = true,
+	defer_collecting: bool = false
 ) -> Building:
 	var export := ContentLoader.load_building_export(ContentLoader.stem_for_building_id(building_id))
 	var inventory := ComponentFactory.create_storage(export)
@@ -24,5 +25,7 @@ static func create_building(
 		null
 	)
 	building.buildable_upon = bool(export.get("buildable_upon", false))
-	ComponentFactory.attach_to_building(building, session, export, attach_producer)
+	ComponentFactory.attach_to_building(
+		building, session, export, attach_producer, true, defer_collecting
+	)
 	return building

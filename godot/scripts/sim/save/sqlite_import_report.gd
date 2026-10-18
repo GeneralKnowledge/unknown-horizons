@@ -18,12 +18,16 @@ var rejection_counts: Dictionary = {} # reason -> count
 var storage_rows_total: int = 0
 var storage_rows_applied: int = 0
 var storage_rows_skipped: int = 0
+var settlement_storage_rows_applied: int = 0
 
 var unit_rows_total: int = 0
 var wild_animals_spawned: int = 0
 var collector_rows_in_save: int = 0
 var collectors_skipped_yaml_duplicate: int = 0
 var collectors_unsupported: int = 0
+var collectors_restored: int = 0
+var collectors_save_homes: int = 0
+var collectors_unsupported_no_collecting_yaml: int = 0
 
 var production_rows_total: int = 0
 var production_rows_applied: int = 0
@@ -50,11 +54,15 @@ func to_dictionary() -> Dictionary:
 		"storage_rows_total": storage_rows_total,
 		"storage_rows_applied": storage_rows_applied,
 		"storage_rows_skipped": storage_rows_skipped,
+		"settlement_storage_rows_applied": settlement_storage_rows_applied,
 		"unit_rows_total": unit_rows_total,
 		"wild_animals_spawned": wild_animals_spawned,
 		"collector_rows_in_save": collector_rows_in_save,
 		"collectors_skipped_yaml_duplicate": collectors_skipped_yaml_duplicate,
 		"collectors_unsupported": collectors_unsupported,
+		"collectors_restored": collectors_restored,
+		"collectors_save_homes": collectors_save_homes,
+		"collectors_unsupported_no_collecting_yaml": collectors_unsupported_no_collecting_yaml,
 		"production_rows_total": production_rows_total,
 		"production_rows_applied": production_rows_applied,
 		"production_rows_skipped": production_rows_skipped,
@@ -76,11 +84,17 @@ static func from_dictionary(data: Dictionary) -> SqliteImportReport:
 	r.storage_rows_total = int(data.get("storage_rows_total", 0))
 	r.storage_rows_applied = int(data.get("storage_rows_applied", 0))
 	r.storage_rows_skipped = int(data.get("storage_rows_skipped", 0))
+	r.settlement_storage_rows_applied = int(data.get("settlement_storage_rows_applied", 0))
 	r.unit_rows_total = int(data.get("unit_rows_total", 0))
 	r.wild_animals_spawned = int(data.get("wild_animals_spawned", 0))
 	r.collector_rows_in_save = int(data.get("collector_rows_in_save", 0))
 	r.collectors_skipped_yaml_duplicate = int(data.get("collectors_skipped_yaml_duplicate", 0))
 	r.collectors_unsupported = int(data.get("collectors_unsupported", 0))
+	r.collectors_restored = int(data.get("collectors_restored", 0))
+	r.collectors_save_homes = int(data.get("collectors_save_homes", 0))
+	r.collectors_unsupported_no_collecting_yaml = int(
+		data.get("collectors_unsupported_no_collecting_yaml", 0)
+	)
 	r.production_rows_total = int(data.get("production_rows_total", 0))
 	r.production_rows_applied = int(data.get("production_rows_applied", 0))
 	r.production_rows_skipped = int(data.get("production_rows_skipped", 0))

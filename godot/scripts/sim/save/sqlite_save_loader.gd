@@ -11,6 +11,7 @@ const EXTRACT_METADATA_SCRIPT := "development/godot/sqlite_extract_metadata.py"
 const EXTRACT_SESSION_SCRIPT := "development/godot/sqlite_extract_session.py"
 const EXTRACT_UNITS_SCRIPT := "development/godot/sqlite_extract_units.py"
 const EXTRACT_PRODUCTION_SCRIPT := "development/godot/sqlite_extract_production.py"
+const EXTRACT_SETTLEMENT_SCRIPT := "development/godot/sqlite_extract_settlement.py"
 const PREPARE_SAVE_SCRIPT := "development/godot/sqlite_prepare_save.py"
 const DEFAULT_BUILDING_LIMIT := 0
 
@@ -171,6 +172,7 @@ static func load_with_report(path: String) -> Dictionary:
 		cmd.forced_worldid = int(row["worldid"])
 		cmd.skip_cost = true
 		cmd.defer_producer = true
+		cmd.defer_collecting = true
 		var placed: Variant = cmd.execute(session)
 		if placed == null:
 			report.record_rejection("placement_failed")
@@ -180,6 +182,7 @@ static func load_with_report(path: String) -> Dictionary:
 	_apply_storage_rows(session, sqlite_path, report)
 	_attach_deferred_producers(session)
 	_apply_production_rows(session, sqlite_path, report)
+	_apply_collector_rows(session, sqlite_path, report)
 	_apply_unit_rows(session, sqlite_path, report)
 
 	report.partial = (
@@ -189,6 +192,7 @@ static func load_with_report(path: String) -> Dictionary:
 		or report.storage_rows_skipped > 0
 		or report.production_rows_skipped > 0
 		or report.collectors_unsupported > 0
+		or report.collectors_unsupported_no_collecting_yaml > 0
 		or report.collectors_skipped_yaml_duplicate > 0
 	)
 	session.set_meta(META_REPORT, report.to_dictionary())
@@ -244,7 +248,26 @@ static func _attach_deferred_producers(session: GameSession) -> void:
 		var export := ContentLoader.load_building_export(
 			ContentLoader.stem_for_building_id(building.building_id)
 		)
-		ComponentFactory.attach_to_building(building, session, export, true, false)
+		ComponentFactory.attach_to_building(building, session, export, true, false, true)
+
+
+static func _legacy_settlement_rowids(sqlite_path: String) -> Dictionary:
+	var json_text := _run_python_extract(
+		EXTRACT_SETTLEMENT_SCRIPT,
+		sqlite_path,
+		"user://sqlite_settlement_extract.json",
+	)
+	if json_text.is_empty():
+		return {}
+	var rows: Variant = JSON.parse_string(json_text)
+	if typeof(rows) != TYPE_ARRAY:
+		return {}
+	var ids: Dictionary = {}
+	for row in rows:
+		if typeof(row) != TYPE_DICTIONARY:
+			continue
+		ids[int(row.get("rowid", -1))] = true
+	return ids
 
 
 static func _apply_storage_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:
@@ -260,6 +283,7 @@ static func _apply_storage_rows(session: GameSession, sqlite_path: String, repor
 	if typeof(rows) != TYPE_ARRAY:
 		return
 	report.storage_rows_total = rows.size()
+	var settlement_rowids := _legacy_settlement_rowids(sqlite_path)
 	var by_worldid: Dictionary = {}
 	for b in session.get_buildings_on_island(session.island):
 		by_worldid[b.worldid] = b
@@ -268,17 +292,24 @@ static func _apply_storage_rows(session: GameSession, sqlite_path: String, repor
 			report.storage_rows_skipped += 1
 			continue
 		var wid := int(row.get("worldid", -1))
+		var res_id := int(row.get("resource_id", -1))
+		var amount := int(row.get("amount", 0))
+		if res_id < 0 or amount == 0:
+			report.storage_rows_skipped += 1
+			continue
+		if settlement_rowids.has(wid):
+			var inv := session.settlement.inventory
+			if not inv.has_resource_slot(res_id):
+				inv.add_resource_slot(res_id, 999999)
+			inv.alter(res_id, amount)
+			report.settlement_storage_rows_applied += 1
+			continue
 		if not by_worldid.has(wid):
 			report.storage_rows_skipped += 1
 			continue
 		var building: Building = by_worldid[wid]
 		var storage := building.get_storage()
 		if storage == null:
-			report.storage_rows_skipped += 1
-			continue
-		var res_id := int(row.get("resource_id", -1))
-		var amount := int(row.get("amount", 0))
-		if res_id < 0 or amount == 0:
 			report.storage_rows_skipped += 1
 			continue
 		storage.alter(res_id, amount)
@@ -328,7 +359,7 @@ static func _apply_production_rows(session: GameSession, sqlite_path: String, re
 		producer.sync_production_buckets()
 
 
-static func _apply_unit_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:
+static func _extract_unit_rows(sqlite_path: String) -> Array:
 	var json_text := _run_python_extract(
 		EXTRACT_UNITS_SCRIPT,
 		sqlite_path,
@@ -336,16 +367,69 @@ static func _apply_unit_rows(session: GameSession, sqlite_path: String, report: 
 		["5000"],
 	)
 	if json_text.is_empty():
-		return
+		return []
 	var rows: Variant = JSON.parse_string(json_text)
 	if typeof(rows) != TYPE_ARRAY:
-		return
-	report.unit_rows_total = rows.size()
-	var yaml_collectors_by_home: Dictionary = {}
-	for b in session.get_buildings_on_island(session.island):
-		if b.collecting != null:
-			yaml_collectors_by_home[b.worldid] = b.collecting.collectors.size()
+		return []
+	return rows
 
+
+static func _apply_collector_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:
+	var rows: Array = _extract_unit_rows(sqlite_path)
+	var by_home: Dictionary = {}
+	for row in rows:
+		if typeof(row) != TYPE_DICTIONARY:
+			continue
+		if str(row.get("kind", "")) != "collector":
+			continue
+		report.collector_rows_in_save += 1
+		var home_id := int(row.get("home_building_worldid", -1))
+		if home_id < 0:
+			report.collectors_unsupported += 1
+			continue
+		if not by_home.has(home_id):
+			by_home[home_id] = []
+		by_home[home_id].append(row)
+
+	for home_id_key in by_home.keys():
+		var home_id: int = int(home_id_key)
+		var save_rows: Array = by_home[home_id_key]
+		var building: Building = session.get_building(home_id)
+		if building == null:
+			report.collectors_unsupported += save_rows.size()
+			continue
+		var export := ContentLoader.load_building_export(
+			ContentLoader.stem_for_building_id(building.building_id)
+		)
+		var specs := ContentLoader.create_collecting_from_export(export)
+		if specs.is_empty():
+			report.collectors_unsupported_no_collecting_yaml += save_rows.size()
+			continue
+		CollectingComponent.attach_from_save_rows(building, session, specs, save_rows)
+		report.collectors_save_homes += 1
+		report.collectors_restored += save_rows.size()
+
+	_attach_deferred_yaml_collecting(session, by_home)
+
+
+static func _attach_deferred_yaml_collecting(session: GameSession, save_homes: Dictionary) -> void:
+	for building in session.get_buildings_on_island(session.island):
+		if building.collecting != null:
+			continue
+		if save_homes.has(int(building.worldid)):
+			continue
+		var export := ContentLoader.load_building_export(
+			ContentLoader.stem_for_building_id(building.building_id)
+		)
+		var collecting := ContentLoader.create_collecting_from_export(export)
+		if collecting.is_empty():
+			continue
+		building.collecting = CollectingComponent.new(building, session, collecting)
+
+
+static func _apply_unit_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:
+	var rows: Array = _extract_unit_rows(sqlite_path)
+	report.unit_rows_total = rows.size()
 	for row in rows:
 		if typeof(row) != TYPE_DICTIONARY:
 			continue
@@ -357,11 +441,6 @@ static func _apply_unit_rows(session: GameSession, sqlite_path: String, report: 
 			session.spawn_wild_animal(session.island, x, y, wid)
 			report.wild_animals_spawned += 1
 		elif kind == "collector":
-			report.collector_rows_in_save += 1
-			var home_id := int(row.get("home_building_worldid", -1))
-			if yaml_collectors_by_home.has(home_id) and int(yaml_collectors_by_home[home_id]) > 0:
-				report.collectors_skipped_yaml_duplicate += 1
-			else:
-				report.collectors_unsupported += 1
+			pass
 		else:
 			report.collectors_unsupported += 1

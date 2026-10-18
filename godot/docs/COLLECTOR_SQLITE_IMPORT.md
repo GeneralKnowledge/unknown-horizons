@@ -1,6 +1,6 @@
-# Legacy SQLite — collector rows (design)
+# Legacy SQLite — collector rows
 
-## How Godot spawns collectors today
+## How Godot spawns collectors (normal build)
 
 1. `BuildingFactory.create_building()` attaches components from exported YAML.
 2. `CollectingComponent` reads collector **unit type ids + counts** from the building export and calls `CollectorRegistry.create_collector()` immediately.
@@ -15,23 +15,49 @@
 
 Saved collectors have map positions and scheduler history Godot does not model yet.
 
-## Current import behaviour (this repo)
+## SQLite import order (desktop)
 
-- **Wild animals** (`wildanimal` + `unit` type `WILD_ANIMAL`): restored with saved `worldid` and tile position.
-- **Collectors**: counted in `SqliteImportReport` only:
-  - `collectors_skipped_yaml_duplicate` — save row matches a home building that already has YAML-spawned collectors (no duplicate spawn).
-  - `collectors_unsupported` — ships, settlers, or collectors without a collecting building.
+```mermaid
+flowchart TD
+  place[Place buildings defer_producer defer_collecting]
+  storage[Building + settlement storage rows]
+  prod[Attach producers + production restore]
+  coll[Restore collectors from save rows]
+  yaml[Attach YAML collectors for homes without save rows]
+  units[Wild animals + unsupported units]
+  place --> storage --> prod --> coll --> yaml --> units
+```
 
-Imports remain **`partial: true`** when collector rows exist in the save.
+1. **Place buildings** with `defer_producer` and `defer_collecting` (no YAML collectors yet).
+2. **Storage** — building inventories + **`settlement` rowid** rows → `session.settlement.inventory` ([`sqlite_extract_settlement.py`](../../development/godot/sqlite_extract_settlement.py)).
+3. **Producers** — attach without auto-start, then [`sqlite_extract_production.py`](../../development/godot/sqlite_extract_production.py).
+4. **Collectors** — [`sqlite_extract_units.py`](../../development/godot/sqlite_extract_units.py) rows with `kind: collector`:
+   - **Save wins:** one sim collector per save row (`unit_type_id`), via `CollectingComponent.attach_from_save_rows`.
+   - Homes with **no** save rows but YAML `Collecting` get YAML spawn in `_attach_deferred_yaml_collecting`.
+5. **Other units** — wild animals spawned; ships/settlers/generic units counted as unsupported.
 
-## Safe follow-up (not implemented here)
+## Import policy
 
-1. **Unit world nodes** (or sim records) with position for non-wild units.
-2. **Restore collector count mismatch** — only when YAML spec count &lt; save row count *and* explicit opt-in (still no path/job replay).
-3. **Do not** replay `unit_path`, `collector_job`, or `building_collector_job_history` until scheduler parity exists.
+| Case | Behaviour |
+|------|-----------|
+| Save has collector rows for home building | Restore **N** collectors from save (types from `unit.type`); **do not** YAML-auto-spawn first |
+| Save has no rows, YAML has `Collecting` | YAML counts after collector pass |
+| Save rows but building has no `Collecting` in export | `collectors_unsupported_no_collecting_yaml` |
+| Home building not placed | Rows → `collectors_unsupported` |
+
+**Not restored:** `unit_path`, `collector_job`, `building_collector_job_history`, saved collector worldids (phase 1).
+
+## Report fields
+
+- `collectors_restored`, `collectors_save_homes`, `collector_rows_in_save`
+- `collectors_unsupported`, `collectors_unsupported_no_collecting_yaml`
+- `collectors_skipped_yaml_duplicate` (should stay **0** when defer_collecting works)
+- `settlement_storage_rows_applied`
+
+Imports remain **`partial: true`** while non-collector units are unsupported.
 
 ## Prerequisites for full collector fidelity
 
-- Production / scheduler tick restore (`production.remaining_ticks`, etc.) — **partial:** [`sqlite_extract_production.py`](../../development/godot/sqlite_extract_production.py) + `Production.restore_from_legacy_save` on desktop SQLite import
+- Production / scheduler tick restore — **done (subset):** `Production.restore_from_legacy_save`
 - Collector job state machine parity with legacy `BuildingCollector`
 - Settlement ownership and multi-island `location` column handling

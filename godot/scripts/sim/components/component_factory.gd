@@ -15,7 +15,8 @@ static func attach_to_building(
 	session: GameSession,
 	export: Dictionary,
 	attach_producer: bool = true,
-	producer_auto_init: bool = true
+	producer_auto_init: bool = true,
+	defer_collecting: bool = false
 ) -> void:
 	var components: Dictionary = export.get("components", {})
 	if attach_producer and components.has("Producer"):
@@ -24,9 +25,10 @@ static func attach_to_building(
 			building.producer = Producer.new(
 				building, session.scheduler, lines, producer_auto_init
 			)
-	var collecting := ContentLoader.create_collecting_from_export(export)
-	if not collecting.is_empty():
-		building.collecting = CollectingComponent.new(building, session, collecting)
+	if not defer_collecting:
+		var collecting := ContentLoader.create_collecting_from_export(export)
+		if not collecting.is_empty():
+			building.collecting = CollectingComponent.new(building, session, collecting)
 	if components.has("Health"):
 		building.health = HealthComponent.new(building, components["Health"])
 	if components.has("Named"):

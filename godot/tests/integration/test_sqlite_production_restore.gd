@@ -38,8 +38,7 @@ func test_fire_fixture_restores_producing_lumberjack() -> void:
 
 
 func test_production_restore_matches_legacy_load_semantics() -> void:
-	var gts := GameTestSession.new()
-	gts.settle()
+	var gts := GameTestSession.start(true)
 	var session := gts.session
 	var building: Building = gts.build(GameConstants.BUILDINGS["LUMBERJACK"], 30, 30)
 	assert_not_null(building)
