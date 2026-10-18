@@ -136,6 +136,7 @@ static func load_with_report(path: String) -> Dictionary:
 	var session := GameSession.new()
 	_apply_session_header(session, sqlite_path)
 	_apply_map_from_save(session, sqlite_path, report)
+	_apply_legacy_settlement_identity(session, sqlite_path, report)
 	var settlement := session.settlement
 
 	var building_rows: Array = []
@@ -251,23 +252,63 @@ static func _attach_deferred_producers(session: GameSession) -> void:
 		ComponentFactory.attach_to_building(building, session, export, true, false, true)
 
 
-static func _legacy_settlement_rowids(sqlite_path: String) -> Dictionary:
+static func _extract_settlement_rows(sqlite_path: String) -> Array:
 	var json_text := _run_python_extract(
 		EXTRACT_SETTLEMENT_SCRIPT,
 		sqlite_path,
 		"user://sqlite_settlement_extract.json",
 	)
 	if json_text.is_empty():
-		return {}
+		return []
 	var rows: Variant = JSON.parse_string(json_text)
 	if typeof(rows) != TYPE_ARRAY:
-		return {}
+		return []
+	return rows
+
+
+static func _legacy_settlement_rowids(sqlite_path: String) -> Dictionary:
 	var ids: Dictionary = {}
-	for row in rows:
+	for row in _extract_settlement_rows(sqlite_path):
 		if typeof(row) != TYPE_DICTIONARY:
 			continue
 		ids[int(row.get("rowid", -1))] = true
 	return ids
+
+
+static func _pick_legacy_settlement_row(rows: Array, session: GameSession) -> Dictionary:
+	var candidates: Array = []
+	for row in rows:
+		if typeof(row) == TYPE_DICTIONARY:
+			candidates.append(row)
+	if candidates.is_empty():
+		return {}
+	if candidates.size() == 1:
+		return candidates[0]
+	for row in candidates:
+		if int(row.get("island", -1)) == session.island.worldid:
+			return row
+	for row in candidates:
+		if int(row.get("owner", -1)) == 1:
+			return row
+	return candidates[0]
+
+
+static func _apply_legacy_settlement_identity(
+	session: GameSession, sqlite_path: String, report: SqliteImportReport
+) -> void:
+	var row: Dictionary = _pick_legacy_settlement_row(
+		_extract_settlement_rows(sqlite_path), session
+	)
+	if row.is_empty():
+		return
+	var legacy_island := int(row.get("island", -1))
+	var legacy_settlement := int(row.get("rowid", -1))
+	if legacy_island > 0:
+		if session.reassign_worldid(session.island, legacy_island):
+			report.legacy_island_worldid = legacy_island
+	if legacy_settlement > 0:
+		if session.reassign_worldid(session.settlement, legacy_settlement):
+			report.legacy_settlement_worldid = legacy_settlement
 
 
 static func _apply_storage_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:

@@ -5,6 +5,8 @@ const FIRE_LUMBERJACK_WORLDID := 1019
 const FIRE_STORAGE_COLLECTOR_TYPE := 1000008
 const FIRE_LUMBERJACK_COLLECTOR_TYPE := 1000010
 const FIRE_COLLECTOR_COUNT := 16
+const FIRE_SETTLEMENT_WORLDID := 1012
+const FIRE_ISLAND_WORLDID := 1001
 
 
 func test_fire_fixture_restores_collectors_from_save() -> void:
@@ -53,6 +55,29 @@ func test_fire_fixture_restores_collectors_from_save() -> void:
 
 	session.run_ticks(64)
 	assert_gte(session.scheduler.cur_tick, 0)
+
+
+func test_fire_fixture_restores_legacy_settlement_and_island_worldids() -> void:
+	if OS.has_feature("web"):
+		pending("desktop only")
+		return
+	var path := (
+		ProjectSettings.globalize_path("res://").path_join("..")
+		.path_join("legacy/tests/game/fixtures/fire.sqlite")
+		.simplify_path()
+	)
+	if not FileAccess.file_exists(path):
+		pending("missing fixture")
+		return
+	var result := SqliteSaveLoader.load_with_report(path)
+	assert_true(result["ok"])
+	var report: SqliteImportReport = result["report"]
+	assert_eq(FIRE_SETTLEMENT_WORLDID, report.legacy_settlement_worldid)
+	assert_eq(FIRE_ISLAND_WORLDID, report.legacy_island_worldid)
+	var session: GameSession = result["session"]
+	assert_eq(FIRE_SETTLEMENT_WORLDID, session.settlement.worldid)
+	assert_eq(FIRE_ISLAND_WORLDID, session.island.worldid)
+	assert_same(session.settlement, session.registry.get_by_id(FIRE_SETTLEMENT_WORLDID))
 
 
 func test_fire_fixture_settlement_inventory_from_storage() -> void:

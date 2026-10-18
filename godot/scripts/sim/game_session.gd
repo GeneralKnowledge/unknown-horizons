@@ -52,6 +52,24 @@ func allocate_worldid() -> int:
 	return id
 
 
+## Re-key a registered world object (legacy SQLite import parity).
+func reassign_worldid(obj: Variant, new_worldid: int) -> bool:
+	if obj == null or new_worldid <= 0:
+		return false
+	var old_worldid := int(obj.worldid)
+	if old_worldid == new_worldid:
+		return true
+	if registry.has_id(new_worldid):
+		push_warning("SqliteSaveLoader: worldid %s already registered" % new_worldid)
+		return false
+	registry.unregister(old_worldid)
+	obj.worldid = new_worldid
+	registry.register(obj)
+	if new_worldid >= _next_worldid:
+		_next_worldid = new_worldid + 1
+	return true
+
+
 func register_building(building: Building) -> void:
 	_buildings[building.worldid] = building
 	registry.register(building)

@@ -40,6 +40,7 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 
 - Rev **76→77** bump via [`sqlite_upgrade_save.py`](../../development/godot/sqlite_upgrade_save.py) (no FIFE) inside [`sqlite_prepare_save.py`](../../development/godot/sqlite_prepare_save.py)
 - Session header (tick estimate, `next_worldid`) via [`sqlite_extract_session.py`](../../development/godot/sqlite_extract_session.py)
+- **Settlement / island worldids** from [`sqlite_extract_settlement.py`](../../development/godot/sqlite_extract_settlement.py): PoC single-settlement loads re-key `session.settlement` and `session.island` to legacy `rowid` / `island` (multi-settlement saves: first player-owned row when island id does not match yet)
 - Buildings via [`sqlite_extract_buildings.py`](../../development/godot/sqlite_extract_buildings.py) (limit `0` = all rows)
 - Storage via [`sqlite_extract_storage.py`](../../development/godot/sqlite_extract_storage.py) (building `object` worldids + **settlement** rowids via [`sqlite_extract_settlement.py`](../../development/godot/sqlite_extract_settlement.py))
 - Production state via [`sqlite_extract_production.py`](../../development/godot/sqlite_extract_production.py) — after storage, before collectors

@@ -19,6 +19,8 @@ var storage_rows_total: int = 0
 var storage_rows_applied: int = 0
 var storage_rows_skipped: int = 0
 var settlement_storage_rows_applied: int = 0
+var legacy_settlement_worldid: int = -1
+var legacy_island_worldid: int = -1
 
 var unit_rows_total: int = 0
 var wild_animals_spawned: int = 0
@@ -55,6 +57,8 @@ func to_dictionary() -> Dictionary:
 		"storage_rows_applied": storage_rows_applied,
 		"storage_rows_skipped": storage_rows_skipped,
 		"settlement_storage_rows_applied": settlement_storage_rows_applied,
+		"legacy_settlement_worldid": legacy_settlement_worldid,
+		"legacy_island_worldid": legacy_island_worldid,
 		"unit_rows_total": unit_rows_total,
 		"wild_animals_spawned": wild_animals_spawned,
 		"collector_rows_in_save": collector_rows_in_save,
@@ -85,6 +89,8 @@ static func from_dictionary(data: Dictionary) -> SqliteImportReport:
 	r.storage_rows_applied = int(data.get("storage_rows_applied", 0))
 	r.storage_rows_skipped = int(data.get("storage_rows_skipped", 0))
 	r.settlement_storage_rows_applied = int(data.get("settlement_storage_rows_applied", 0))
+	r.legacy_settlement_worldid = int(data.get("legacy_settlement_worldid", -1))
+	r.legacy_island_worldid = int(data.get("legacy_island_worldid", -1))
 	r.unit_rows_total = int(data.get("unit_rows_total", 0))
 	r.wild_animals_spawned = int(data.get("wild_animals_spawned", 0))
 	r.collector_rows_in_save = int(data.get("collector_rows_in_save", 0))
