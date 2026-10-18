@@ -1,11 +1,13 @@
 # Unknown Horizons — legacy (Python + FIFE)
 
+> **Reference prototype — not the shipping client.** The playable product is the Godot port at [`../godot/`](../godot/) (demo, JSON v3 saves, web export). The FIFE stack is optional for historians and local parity experiments only.
+
 This directory is the **original Unknown Horizons** implementation: Python 3, [FIFE](https://github.com/fifengine/fifengine), PyChan GUI, and multiplayer via pyenet.
 
-The **active product** in this repository is the Godot port at [`../godot/`](../godot/). This tree remains the:
+This tree remains the:
 
 - **Content source of truth** — `content/` (YAML, SQL, gfx, audio) exported to Godot via [`../development/godot/`](../development/godot/)
-- **Reference simulation** — for parity harness and future cross-version save/play ([`../godot/docs/PROJECT_ROADMAP.md`](../godot/docs/PROJECT_ROADMAP.md#future-ideas))
+- **Reference simulation** — optional for local dual-run; **not** a release gate ([`../godot/docs/LEGACY_IMPORT_FROZEN.md`](../godot/docs/LEGACY_IMPORT_FROZEN.md))
 - **Classic playable build** — when you need the full legacy game
 
 ## Run the legacy game

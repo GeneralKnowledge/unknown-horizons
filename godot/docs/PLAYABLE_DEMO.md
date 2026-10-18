@@ -78,9 +78,13 @@ Uses `scenes/playable_slice.tscn` with `--video-slice=settlement_demo` (no title
 
 CI can publish the WASM build to **GitHub Pages** via `.github/workflows/godot-pages.yml` (after enabling Pages for the repo). Local verify: `./godot/export_web.sh` then `development/godot/web_export_smoke.sh`.
 
-## Saves
+## Saves (canonical: JSON v3)
 
-JSON snapshots include optional top-level `demo.playable_lumber` (`completed`, targets). Legacy SQLite import remains **desktop-only** and partial — use JSON for the demo loop.
+**Use JSON for the demo loop** — desktop writes `user://poc_snapshot.json`; browser uses **Save JSON** (download) and **Load JSON** (file picker). Format: [`SAVE_FORMAT.md`](SAVE_FORMAT.md).
+
+JSON snapshots include optional top-level `demo.playable_lumber` (`completed`, targets) so reload restores objective progress.
+
+Legacy `.sqlite` import is **desktop-only**, **partial**, and **frozen** (experiments only) — [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md). Do not rely on sqlite for demo checkpoints.
 
 ## Known limitations
 

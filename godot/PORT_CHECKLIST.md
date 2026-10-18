@@ -411,14 +411,14 @@ Tick items: `[ ]` → `[x]`.
 
 ### 4.1 Save / load
 
-- [x] **Savegame DB schema subset (partial import + PoC UI)** — ★★★★☆ (L)  
+- [x] **Savegame DB schema subset (partial import + PoC UI)** — ★★★★☆ (L) — **frozen (Godot-first)**; regression tests only ([`LEGACY_IMPORT_FROZEN.md`](docs/LEGACY_IMPORT_FROZEN.md))  
   - **Godot:** `sqlite_save_loader.gd`, production/collector/settlement restore, trust placement, ships/`LegacyUnit`, `.extract.json` bundles, settler meta, in-flight collector jobs (load + sim deposit), T1b–T1l GUT / M7 multi-fixture storage + tick-128 golden ([`M7_LEGACY_SAVE.md`](docs/M7_LEGACY_SAVE.md)), start menu + HUD FileDialog, fixture matrix CI  
-- [ ] **Savegame DB schema subset (full fidelity)** — ★★★★★ (XL)  
+- [ ] **Savegame DB schema subset (full fidelity)** — ★★★★★ (XL) — **N/A (Godot-first)**; use JSON v3 + sim features instead  
 - [x] **GUT: `test_load_inactive_production`** — `test_session_save.gd`  
 - [x] **GUT: `test_load_producing_lumberjack` (+ mid-production)** — `test_session_save.gd`, `test_sqlite_production_restore.gd`  
-- [ ] **GUT: `test_hunter_save_load` / settler save tests** — ★★★★★ (XL)  
-- [ ] **GUT: `test_savegame_upgrade`** — ★★★★☆ (L)  
-- [ ] **Long: `tests/game/long/test_load_save_long.py`** — ★★★★★ (XL)  
+- [ ] **GUT: `test_hunter_save_load` / settler save tests** — ★★★★★ (XL) — **JSON v3 path**; legacy sqlite settler depth **frozen**  
+- [ ] **GUT: `test_savegame_upgrade`** — ★★★★☆ (L) — **N/A for sqlite expansion**  
+- [ ] **Long: `tests/game/long/test_load_save_long.py`** — ★★★★★ (XL) — **FIFE/legacy reference**; Godot equivalent via JSON + GUT  
 
 ### 4.2 Scenarios
 
