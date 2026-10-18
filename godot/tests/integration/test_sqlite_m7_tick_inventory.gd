@@ -13,6 +13,10 @@ const M7_TICK_FIXTURES := {
 		"rel": "legacy/tests/game/fixtures/settlement-range.sqlite",
 		"golden": "res://resources/fixtures/sqlite_m7/settlement_range_tick128_inventory_totals.json",
 	},
+	"traderoute": {
+		"rel": "legacy/tests/game/fixtures/traderoute.sqlite",
+		"golden": "res://resources/fixtures/sqlite_m7/traderoute_tick128_inventory_totals.json",
+	},
 }
 
 
@@ -90,3 +94,10 @@ func test_m7_settlement_range_tick128_inventory_totals_match_golden() -> void:
 		pending("desktop only")
 		return
 	_assert_tick_golden("settlement-range")
+
+
+func test_m7_traderoute_tick128_inventory_totals_match_golden() -> void:
+	if OS.has_feature("web"):
+		pending("desktop only")
+		return
+	_assert_tick_golden("traderoute")
