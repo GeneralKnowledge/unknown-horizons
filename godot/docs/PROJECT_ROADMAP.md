@@ -1,6 +1,6 @@
 # Unknown Horizons Godot Port — Project Roadmap
 
-Last verified: **2026-10-17** — `./godot/run_tests.sh` **196/196** GUT pass; parity golden **10/10** (stage 3: `toolmaker`, `brickyard_development`, `snapshot_mid_production`); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
+Last verified: **2026-10-18** — `./godot/run_tests.sh` **243** GUT pass (1 pending T1m without FIFE); parity golden **10/10**; M7 PoC gate on legacy SQLite fixtures — [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
 
 ## Vision
 
@@ -75,7 +75,7 @@ Reproducible via `./godot/export_web.sh` → `build/web/`. See [WEB_DEPLOYMENT.m
 | **M4** | Data-driven + theme | `validate_content.py` in sync/CI; theme pack demo |
 | **M5** | Save integrity | SAVE_FORMAT.md, migration hook, `snapshot_roundtrip` parity |
 | **M6** | Living world (design) | Sections below — no large implementation |
-| **M7** | Cross-version saves & play (future gate) | See **Future ideas** — required before treating Godot as the primary client |
+| **M7** | Cross-version saves & play | **PoC gate met** (CI fixtures) — tracker [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md); full cutover still needs optional T1m (FIFE) + stretch #5–#6 |
 
 ## Future ideas
 
@@ -84,7 +84,7 @@ These are intentional next horizons—not current milestones—but they should *
 ### Legacy save fidelity (Python → Godot)
 
 - **Goal:** Open real **original-game savegames** (`.sqlite` / legacy format) in Godot and continue playing with the same settlement state that matters for gameplay (map, buildings, inventories, production state, settlers/units as they are ported).
-- **Today:** Partial desktop load — buildings, storage ( **`fire` complete** ), production, collectors, settler meta via `SqliteSaveLoader`; web via `.extract.json`. Tracker: [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md).
+- **Today:** Desktop **partial** load test-gated on in-repo fixtures (T1b/T1k/T1n/T1l); PoC HUD shows import summary via `SqliteImportReport.summarize_for_hud()`; web via `.extract.json`. Tracker: [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md).
 - **Tests to add:** A growing **fixture library** of authentic saves (small → large); for each fixture, assert key invariants after load (building counts, resource totals, tick/time, selected world ids). Failures mean the Godot sim is still missing rules or export mappings.
 - **Smooth transition:** Document a player workflow: *save in Python → copy file → load in Godot* (and later the reverse once Godot can write compatible saves or an documented interchange format exists).
 

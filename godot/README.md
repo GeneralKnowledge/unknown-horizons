@@ -93,4 +93,4 @@ Reported: **204** GUT tests, **10** parity goldens, content validators in CI.
 
 ## Not the full original game
 
-Ships, campaign, multiplayer, and full legacy save parity are out of scope for this prototype. Legacy `.sqlite` import is **partial** and **desktop-only**.
+Ships, campaign, multiplayer, and full legacy save parity are out of scope for this prototype. Legacy `.sqlite` import is **partial** and **desktop-only** — PoC gate and fixture tests: [`docs/M7_LEGACY_SAVE.md`](docs/M7_LEGACY_SAVE.md). After import, the HUD shows `SqliteImportReport.summarize_for_hud()`.
