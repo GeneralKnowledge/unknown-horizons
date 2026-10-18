@@ -31,7 +31,8 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 | **T0** | SQLite valid, extract script OK, `SqliteSaveLoader.load` returns a session (GUT) |
 | **T1** | Gap report: unknown `building.type` ids, storage/unit row counts |
 | **T1b** | After load, **all** placed `fire.sqlite` buildings with sqlite storage match extract (GUT: `test_fire_fixture_building_storage_matches_sqlite_extract`; goldens: `resources/fixtures/sqlite_storage/*.json` via `sqlite_storage_expectations.py`) |
-| **T1k** | M7: per-resource inventory totals at load (buildings + settlement) match applicable sqlite rows on `fire` (GUT: `test_fire_fixture_m7_inventory_totals_at_load_match_extract`) |
+| **T1k** | M7: per-resource inventory totals at load match applicable sqlite rows (GUT: `test_m7_*_inventory_totals_at_load_*`; fixtures: `fire`, `settlement-range`, `traderoute`, totals-only `savegame-rev-76`) |
+| **T1l** | M7: post-load tick inventory golden — `fire` +128 ticks (GUT: `test_sqlite_m7_tick_inventory.gd`; golden: `resources/fixtures/sqlite_m7/fire_tick128_inventory_totals.json`) |
 | **T1c** | Collectors restored from save without YAML double-spawn (GUT: `test_sqlite_collector_restore.gd`); settlement `storage` → `settlement.inventory` |
 | **T1d** | Post-load tick stepping: load → N ticks → economy moves without crash (GUT: `test_sqlite_tick_parity.gd`) |
 | **T1e** | Ships / misc units → `LegacyUnit` placeholders at saved positions (GUT: `test_sqlite_legacy_units.gd`) |

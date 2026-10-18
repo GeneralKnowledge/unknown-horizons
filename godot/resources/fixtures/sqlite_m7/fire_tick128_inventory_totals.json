@@ -1,0 +1,15 @@
+{
+	"fixture": "fire.sqlite",
+	"scheduler_tick": 206,
+	"ticks": 128,
+	"totals_by_resource_id": {
+		"12": 30,
+		"14": 550,
+		"19": 31,
+		"4": 18,
+		"40": 12,
+		"5": 32,
+		"6": 26,
+		"8": 27
+	}
+}
