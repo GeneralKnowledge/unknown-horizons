@@ -22,9 +22,7 @@ func test_fire_fixture_restores_producing_lumberjack() -> void:
 	assert_gt(report.production_rows_applied, 0)
 	var session: GameSession = result["session"]
 	var building := session.get_building(FIRE_LUMBERJACK_WORLDID)
-	if building == null:
-		pending("lumberjack worldid not placed in partial import")
-		return
+	assert_not_null(building, "lumberjack worldid from fire fixture")
 	assert_not_null(building.producer)
 	var production := building.producer._get_production(FIRE_LUMBERJACK_BOARDS_LINE)
 	assert_not_null(production, "boards production line")

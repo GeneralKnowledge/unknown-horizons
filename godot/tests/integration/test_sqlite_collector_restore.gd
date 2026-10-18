@@ -26,6 +26,7 @@ func test_fire_fixture_restores_collectors_from_save() -> void:
 	var report: SqliteImportReport = result["report"]
 	assert_eq(FIRE_COLLECTOR_COUNT, report.collector_rows_in_save)
 	assert_eq(FIRE_COLLECTOR_COUNT, report.collectors_restored)
+	assert_eq(0, report.collectors_skipped_yaml_duplicate)
 	assert_gt(report.collectors_save_homes, 0)
 
 	var session: GameSession = result["session"]

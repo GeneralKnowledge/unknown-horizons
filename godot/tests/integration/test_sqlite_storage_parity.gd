@@ -100,11 +100,7 @@ func test_fire_fixture_building_storage_matches_sqlite_extract() -> void:
 			continue
 		_assert_building_storage_matches(building, exp, "fire")
 		compared += 1
-	assert_gte(
-		compared,
-		10,
-		"building inventories matching sqlite extract (fire fixture; needs legacy placement trust)"
-	)
+	assert_gte(compared, 10, "building inventories matching sqlite extract on fire fixture")
 
 
 func test_fire_fixture_run_ticks_after_load() -> void:

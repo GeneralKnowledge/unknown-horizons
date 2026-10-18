@@ -59,7 +59,7 @@ Web builds: JSON snapshots only ([`SAVE_FORMAT.md`](SAVE_FORMAT.md)).
 
 - `buildings_extracted` / `buildings_placed` / `buildings_rejected` + `rejection_counts` (`placement_failed`, `unknown_building_type`, …)
 - `buildings_truncated` when Python extract hit a limit (marker row from `--include-skipped`)
-- Storage and unit/collector counts
+- Storage, production, collector, and **`unsupported_unit_rows`** counts; **`rejection_counts.placement_failed`** (expect **0** on `fire.sqlite` with trust placement)
 
 **Partial imports** set `report.partial = true` — not a full legacy save. See [`COLLECTOR_SQLITE_IMPORT.md`](COLLECTOR_SQLITE_IMPORT.md).
 

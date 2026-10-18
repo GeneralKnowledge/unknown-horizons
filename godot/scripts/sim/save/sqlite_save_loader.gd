@@ -196,6 +196,7 @@ static func load_with_report(path: String) -> Dictionary:
 		or report.collectors_unsupported > 0
 		or report.collectors_unsupported_no_collecting_yaml > 0
 		or report.collectors_skipped_yaml_duplicate > 0
+		or report.unsupported_unit_rows > 0
 	)
 	session.set_meta(META_REPORT, report.to_dictionary())
 	return {"ok": true, "error": "", "session": session, "report": report}
@@ -485,4 +486,4 @@ static func _apply_unit_rows(session: GameSession, sqlite_path: String, report: 
 		elif kind == "collector":
 			pass
 		else:
-			report.collectors_unsupported += 1
+			report.unsupported_unit_rows += 1

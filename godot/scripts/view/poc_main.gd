@@ -468,8 +468,14 @@ func _on_import_sqlite(path: String) -> void:
 	_hide_start_menu()
 	_camera_ctrl.fit_island()
 	var msg := "Legacy save: %d/%d buildings" % [report.buildings_placed, report.buildings_extracted]
+	if report.collectors_restored > 0:
+		msg += ", %d collectors" % report.collectors_restored
+	if report.unsupported_unit_rows > 0:
+		msg += ", %d units skipped" % report.unsupported_unit_rows
+	if report.legacy_settlement_worldid > 0:
+		msg += " (settlement wid %d)" % report.legacy_settlement_worldid
 	if report.partial:
-		msg += " (partial)"
+		msg += " — partial"
 	_hud.show_status(msg)
 
 

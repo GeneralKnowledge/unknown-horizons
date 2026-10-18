@@ -412,10 +412,10 @@ Tick items: `[ ]` → `[x]`.
 ### 4.1 Save / load
 
 - [x] **Savegame DB schema subset (partial import + PoC UI)** — ★★★★☆ (L)  
-  - **Godot:** `sqlite_save_loader.gd`, start menu + HUD FileDialog, fixture matrix CI  
+  - **Godot:** `sqlite_save_loader.gd`, production/collector/settlement restore, trust placement, T1b–T1d GUT, start menu + HUD FileDialog, fixture matrix CI  
 - [ ] **Savegame DB schema subset (full fidelity)** — ★★★★★ (XL)  
-- [ ] **GUT: `test_load_inactive_production`** — ★★★★☆ (L)  
-- [ ] **GUT: `test_load_producing_production_fast/slow`** — ★★★★☆ (L)  
+- [x] **GUT: `test_load_inactive_production`** — `test_session_save.gd`  
+- [x] **GUT: `test_load_producing_lumberjack` (+ mid-production)** — `test_session_save.gd`, `test_sqlite_production_restore.gd`  
 - [ ] **GUT: `test_hunter_save_load` / settler save tests** — ★★★★★ (XL)  
 - [ ] **GUT: `test_savegame_upgrade`** — ★★★★☆ (L)  
 - [ ] **Long: `tests/game/long/test_load_save_long.py`** — ★★★★★ (XL)  
@@ -566,7 +566,7 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | `test_session_save.gd`, `test_session_save_extended.gd` | **7/7** ✓ |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** run `./godot/run_tests.sh` — **196** tests (includes component + sqlite subset + gameplay loop + demo/tier-1 integration).
+**Current GUT total:** run `./godot/run_tests.sh` — **214** tests (includes sqlite save-compat T1b–T1d, gameplay loop, demo/tier-1 integration).
 
 **DLC scaffolding (pre-parity):** see [`DLC_VISION.md`](DLC_VISION.md) and [`PORT_CHECKLIST_DLC.md`](PORT_CHECKLIST_DLC.md).
 

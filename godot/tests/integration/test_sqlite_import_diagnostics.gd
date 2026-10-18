@@ -15,7 +15,11 @@ func test_fire_fixture_reports_partial_import_with_diagnostics() -> void:
 	assert_not_null(report)
 	assert_gt(report.buildings_extracted, 0)
 	assert_gt(report.buildings_placed, 0)
-	assert_true(report.partial, "legacy import should be marked partial until full parity")
+	assert_eq(report.buildings_placed, report.buildings_extracted)
+	assert_eq(0, int(report.rejection_counts.get("placement_failed", 0)))
+	assert_eq(0, report.collectors_skipped_yaml_duplicate)
+	assert_gt(report.unsupported_unit_rows, 0, "ships/settlers not simulated yet")
+	assert_true(report.partial, "partial until unsupported units and storage gaps are gone")
 	assert_true(report.rejection_counts.size() >= 0)
 	var session: GameSession = result["session"]
 	var attached := SqliteSaveLoader.get_report(session)

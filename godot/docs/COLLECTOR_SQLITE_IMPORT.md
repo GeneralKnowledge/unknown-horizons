@@ -34,7 +34,9 @@ flowchart TD
 4. **Collectors** — [`sqlite_extract_units.py`](../../development/godot/sqlite_extract_units.py) rows with `kind: collector`:
    - **Save wins:** one sim collector per save row (`unit_type_id`), via `CollectingComponent.attach_from_save_rows`.
    - Homes with **no** save rows but YAML `Collecting` get YAML spawn in `_attach_deferred_yaml_collecting`.
-5. **Other units** — wild animals spawned; ships/settlers/generic units counted as unsupported.
+5. **Other units** — wild animals spawned; ships/settlers/generic units → `unsupported_unit_rows` (not collector metrics).
+
+Building rows use **`trust_legacy_placement`** so saved coordinates are not rejected by live buildability rules ([`BuildCommand`](../../scripts/sim/commands/build_command.gd)).
 
 ## Import policy
 
@@ -52,9 +54,10 @@ flowchart TD
 - `collectors_restored`, `collectors_save_homes`, `collector_rows_in_save`
 - `collectors_unsupported`, `collectors_unsupported_no_collecting_yaml`
 - `collectors_skipped_yaml_duplicate` (should stay **0** when defer_collecting works)
-- `settlement_storage_rows_applied`
+- `unsupported_unit_rows` (ships, settlers, generic `unit` rows)
+- `settlement_storage_rows_applied`, `legacy_settlement_worldid`, `legacy_island_worldid`
 
-Imports remain **`partial: true`** while non-collector units are unsupported.
+Imports remain **`partial: true`** while `unsupported_unit_rows > 0`, storage/production rows are skipped, or buildings are truncated.
 
 ## Prerequisites for full collector fidelity
 

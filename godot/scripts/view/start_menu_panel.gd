@@ -57,7 +57,7 @@ func _ready() -> void:
 	else:
 		note.text = (
 			"Legacy Unknown Horizons .sqlite / .sqlite.bz2: partial restore "
-			+ "(buildings + inventories only; not full campaign parity). "
+			+ "(buildings, storage, production, collectors; ships/settlers skipped). "
 			+ "Prefer JSON for the settlement demo."
 		)
 	v.add_child(note)
