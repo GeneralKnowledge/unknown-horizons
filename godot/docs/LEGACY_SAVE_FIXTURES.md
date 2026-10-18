@@ -41,6 +41,7 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 - Session header (tick estimate, `next_worldid`) via [`sqlite_extract_session.py`](../../development/godot/sqlite_extract_session.py)
 - Buildings via [`sqlite_extract_buildings.py`](../../development/godot/sqlite_extract_buildings.py) (limit `0` = all rows)
 - Storage via [`sqlite_extract_storage.py`](../../development/godot/sqlite_extract_storage.py)
+- Production state via [`sqlite_extract_production.py`](../../development/godot/sqlite_extract_production.py) (`state`, `remaining_ticks`, `_pause_old_state`, `creation_tick`) — applied after storage, before units
 - Wild animals via [`sqlite_extract_units.py`](../../development/godot/sqlite_extract_units.py) (`kind: wild_animal`)
 - Ground from save `metadata.map_name` when a bundled [`export_maps.py`](../../development/godot/export_maps.py) map exists (`development`, `test_map_tiny`, `quattro`); otherwise test stub
 - `.sqlite.bz2` saves decompressed via [`sqlite_prepare_save.py`](../../development/godot/sqlite_prepare_save.py) (desktop)

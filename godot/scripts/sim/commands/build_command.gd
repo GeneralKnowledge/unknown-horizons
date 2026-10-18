@@ -9,6 +9,8 @@ var settlement: Settlement
 var ownerless: bool = false
 var forced_worldid: int = -1
 var skip_cost: bool = false
+## When true, Producer is not attached until the caller finishes storage/production restore.
+var defer_producer: bool = false
 
 
 func _init(
@@ -46,7 +48,7 @@ func execute(session: GameSession) -> Variant:
 			if not BuildingCosts.try_pay(settlement, building_id):
 				return null
 	var building := BuildingFactory.create_building(
-		session, building_id, origin, island, settlement, forced_worldid
+		session, building_id, origin, island, settlement, forced_worldid, not defer_producer
 	)
 	if building == null:
 		return null

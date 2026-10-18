@@ -25,6 +25,10 @@ var collector_rows_in_save: int = 0
 var collectors_skipped_yaml_duplicate: int = 0
 var collectors_unsupported: int = 0
 
+var production_rows_total: int = 0
+var production_rows_applied: int = 0
+var production_rows_skipped: int = 0
+
 
 func record_rejection(reason: String) -> void:
 	buildings_rejected += 1
@@ -51,6 +55,9 @@ func to_dictionary() -> Dictionary:
 		"collector_rows_in_save": collector_rows_in_save,
 		"collectors_skipped_yaml_duplicate": collectors_skipped_yaml_duplicate,
 		"collectors_unsupported": collectors_unsupported,
+		"production_rows_total": production_rows_total,
+		"production_rows_applied": production_rows_applied,
+		"production_rows_skipped": production_rows_skipped,
 	}
 
 
@@ -74,4 +81,7 @@ static func from_dictionary(data: Dictionary) -> SqliteImportReport:
 	r.collector_rows_in_save = int(data.get("collector_rows_in_save", 0))
 	r.collectors_skipped_yaml_duplicate = int(data.get("collectors_skipped_yaml_duplicate", 0))
 	r.collectors_unsupported = int(data.get("collectors_unsupported", 0))
+	r.production_rows_total = int(data.get("production_rows_total", 0))
+	r.production_rows_applied = int(data.get("production_rows_applied", 0))
+	r.production_rows_skipped = int(data.get("production_rows_skipped", 0))
 	return r

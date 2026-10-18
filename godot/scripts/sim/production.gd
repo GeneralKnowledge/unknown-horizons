@@ -19,7 +19,8 @@ func _init(
 	p_owner_inventory: Inventory,
 	p_prod_id: int,
 	prod_data: Dictionary,
-	start_finished: bool = false
+	start_finished: bool = false,
+	defer_listeners: bool = false
 ) -> void:
 	_scheduler = p_scheduler
 	inventory = p_inventory
@@ -30,7 +31,8 @@ func _init(
 	if start_finished:
 		_give_produced_res()
 	_state = ProductionStates.WAITING_FOR_RES
-	_add_listeners(true)
+	if not defer_listeners:
+		_add_listeners(true)
 
 
 func get_production_line_id() -> int:
@@ -161,3 +163,28 @@ func finish_production_now() -> void:
 	on_production_finished()
 	_state = ProductionStates.WAITING_FOR_RES
 	_add_listeners(true)
+
+
+## Restore mid-game state from legacy SQLite `production` table (after storage rows applied).
+func restore_from_legacy_save(
+	state_index: int,
+	remaining_ticks: int,
+	pause_old_state_index: int,
+	creation_tick: int
+) -> void:
+	_remove_listeners()
+	_scheduler.rem_call(self, _finished_producing)
+	_creation_tick = creation_tick
+	_pause_old_state = pause_old_state_index
+	_state = state_index
+	if _state == ProductionStates.PAUSED:
+		_pause_remaining_ticks = remaining_ticks
+		if _pause_old_state < 0:
+			_pause_old_state = ProductionStates.WAITING_FOR_RES
+	elif _state == ProductionStates.PRODUCING:
+		_scheduler.add_new_object(_finished_producing, self, remaining_ticks)
+	elif _state in [ProductionStates.WAITING_FOR_RES, ProductionStates.INVENTORY_FULL]:
+		_add_listeners(false)
+	elif _state in [ProductionStates.NONE, ProductionStates.DONE]:
+		pass
+	_changed()

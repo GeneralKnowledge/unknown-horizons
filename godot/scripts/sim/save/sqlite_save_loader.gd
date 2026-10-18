@@ -10,6 +10,7 @@ const EXTRACT_STORAGE_SCRIPT := "development/godot/sqlite_extract_storage.py"
 const EXTRACT_METADATA_SCRIPT := "development/godot/sqlite_extract_metadata.py"
 const EXTRACT_SESSION_SCRIPT := "development/godot/sqlite_extract_session.py"
 const EXTRACT_UNITS_SCRIPT := "development/godot/sqlite_extract_units.py"
+const EXTRACT_PRODUCTION_SCRIPT := "development/godot/sqlite_extract_production.py"
 const PREPARE_SAVE_SCRIPT := "development/godot/sqlite_prepare_save.py"
 const DEFAULT_BUILDING_LIMIT := 0
 
@@ -169,6 +170,7 @@ static func load_with_report(path: String) -> Dictionary:
 		)
 		cmd.forced_worldid = int(row["worldid"])
 		cmd.skip_cost = true
+		cmd.defer_producer = true
 		var placed: Variant = cmd.execute(session)
 		if placed == null:
 			report.record_rejection("placement_failed")
@@ -176,6 +178,8 @@ static func load_with_report(path: String) -> Dictionary:
 			report.buildings_placed += 1
 
 	_apply_storage_rows(session, sqlite_path, report)
+	_attach_deferred_producers(session)
+	_apply_production_rows(session, sqlite_path, report)
 	_apply_unit_rows(session, sqlite_path, report)
 
 	report.partial = (
@@ -183,6 +187,7 @@ static func load_with_report(path: String) -> Dictionary:
 		or report.buildings_rejected > 0
 		or report.buildings_placed < report.buildings_extracted
 		or report.storage_rows_skipped > 0
+		or report.production_rows_skipped > 0
 		or report.collectors_unsupported > 0
 		or report.collectors_skipped_yaml_duplicate > 0
 	)
@@ -232,6 +237,16 @@ static func _apply_map_from_save(session: GameSession, sqlite_path: String, repo
 	MapLoader.apply_map_to_session(session, map_id)
 
 
+static func _attach_deferred_producers(session: GameSession) -> void:
+	for building in session.get_buildings_on_island(session.island):
+		if building.producer != null:
+			continue
+		var export := ContentLoader.load_building_export(
+			ContentLoader.stem_for_building_id(building.building_id)
+		)
+		ComponentFactory.attach_to_building(building, session, export, true, false)
+
+
 static func _apply_storage_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:
 	var json_text := _run_python_extract(
 		EXTRACT_STORAGE_SCRIPT,
@@ -268,6 +283,49 @@ static func _apply_storage_rows(session: GameSession, sqlite_path: String, repor
 			continue
 		storage.alter(res_id, amount)
 		report.storage_rows_applied += 1
+
+
+static func _apply_production_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:
+	var json_text := _run_python_extract(
+		EXTRACT_PRODUCTION_SCRIPT,
+		sqlite_path,
+		"user://sqlite_production_extract.json",
+		["10000"],
+	)
+	if json_text.is_empty():
+		return
+	var rows: Variant = JSON.parse_string(json_text)
+	if typeof(rows) != TYPE_ARRAY:
+		return
+	report.production_rows_total = rows.size()
+	var touched_producers: Array = []
+	for row in rows:
+		if typeof(row) != TYPE_DICTIONARY:
+			report.production_rows_skipped += 1
+			continue
+		var owner_wid := int(row.get("owner_worldid", -1))
+		var prod_line_id := int(row.get("prod_line_id", -1))
+		var building: Building = session.get_building(owner_wid)
+		if building == null or building.producer == null:
+			report.production_rows_skipped += 1
+			continue
+		var producer: Producer = building.producer
+		var production := producer.ensure_production_line(prod_line_id)
+		if production == null:
+			report.production_rows_skipped += 1
+			continue
+		var pause_old := int(row.get("pause_old_state", -1))
+		production.restore_from_legacy_save(
+			int(row.get("state", ProductionStates.NONE)),
+			int(row.get("remaining_ticks", 0)),
+			pause_old,
+			int(row.get("creation_tick", 0)),
+		)
+		if producer not in touched_producers:
+			touched_producers.append(producer)
+		report.production_rows_applied += 1
+	for producer in touched_producers:
+		producer.sync_production_buckets()
 
 
 static func _apply_unit_rows(session: GameSession, sqlite_path: String, report: SqliteImportReport) -> void:

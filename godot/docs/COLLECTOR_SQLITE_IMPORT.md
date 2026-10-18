@@ -32,6 +32,6 @@ Imports remain **`partial: true`** when collector rows exist in the save.
 
 ## Prerequisites for full collector fidelity
 
-- Production / scheduler tick restore (`production.remaining_ticks`, etc.)
+- Production / scheduler tick restore (`production.remaining_ticks`, etc.) — **partial:** [`sqlite_extract_production.py`](../../development/godot/sqlite_extract_production.py) + `Production.restore_from_legacy_save` on desktop SQLite import
 - Collector job state machine parity with legacy `BuildingCollector`
 - Settlement ownership and multi-island `location` column handling

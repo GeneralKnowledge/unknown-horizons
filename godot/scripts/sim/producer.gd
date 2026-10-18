@@ -21,7 +21,7 @@ func _init(p_instance: Variant, p_scheduler: GameScheduler, lines: Dictionary, a
 			add_production(create_production(int(prod_line_id)))
 
 
-func create_production(id: int) -> Production:
+func create_production(id: int, defer_listeners: bool = false) -> Production:
 	var key_str := str(id)
 	var data: Dictionary = production_lines[key_str] if production_lines.has(key_str) else production_lines[id]
 	var storage: Inventory = instance.get_storage()
@@ -30,7 +30,9 @@ func create_production(id: int) -> Production:
 		storage,
 		storage,
 		id,
-		data
+		data,
+		false,
+		defer_listeners
 	)
 
 
@@ -66,10 +68,15 @@ func has_production_line(prod_line_id: int) -> bool:
 
 
 func _get_production(prod_line_id: int) -> Production:
+	var key_str := str(prod_line_id)
 	if _productions.has(prod_line_id):
 		return _productions[prod_line_id]
+	if _productions.has(key_str):
+		return _productions[key_str]
 	if _inactive_productions.has(prod_line_id):
 		return _inactive_productions[prod_line_id]
+	if _inactive_productions.has(key_str):
+		return _inactive_productions[key_str]
 	return null
 
 
@@ -112,6 +119,33 @@ func set_all_active(active: bool) -> void:
 func finish_production_now() -> void:
 	for p in get_productions():
 		p.finish_production_now()
+
+
+func ensure_production_line(prod_line_id: int) -> Production:
+	var existing := _get_production(prod_line_id)
+	if existing != null:
+		return existing
+	var key_str := str(prod_line_id)
+	if not production_lines.has(key_str) and not production_lines.has(prod_line_id):
+		return null
+	var production := create_production(prod_line_id, true)
+	add_production(production)
+	return production
+
+
+func sync_production_buckets() -> void:
+	var all := get_productions()
+	_productions.clear()
+	_inactive_productions.clear()
+	for production in all:
+		var line_id: int = production.get_production_line_id()
+		if production.is_paused() or production.get_state() in [
+			ProductionStates.NONE,
+			ProductionStates.DONE,
+		]:
+			_inactive_productions[line_id] = production
+		else:
+			_productions[line_id] = production
 
 
 func _get_current_state() -> int:
