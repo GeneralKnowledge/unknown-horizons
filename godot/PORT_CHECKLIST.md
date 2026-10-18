@@ -298,9 +298,9 @@ Tick items: `[ ]` → `[x]`.
   - **Godot:** `scripts/sim/buildability/connected_area_cache.gd` · **GUT:** `tests/unit/test_connected_area_cache.gd`  
   - **Godot:** `scripts/sim/buildability/connected_area_cache.gd`  
 
-- [ ] **`PartialBinaryCache` + all 5 GUT cases** — ★★★★☆ (L) **3/5**  
+- [x] **`PartialBinaryCache` + all 5 GUT cases** — ★★★★☆ (L) **5/5**  
   - **Godot:** `scripts/sim/buildability/partial_binary_buildability_cache.gd` · **GUT:** `tests/unit/test_partial_binary_cache.gd`  
-  - **Done:** `test_horizontal_row2`, `test_r2x2`, `test_r6x6` · **TODO:** `test_vertical_row2`, `test_convenience_get_coords_list`  
+  - **Done:** full parity with `legacy/.../test_partialbinarycache.py` (horizontal/vertical row2, r2x2, r6x6, coords helper)  
 
 - [ ] **`BinaryCache`** — ★★★☆☆ (M)  
 - [ ] **`TerrainCache`** — ★★★☆☆ (M)  

@@ -30,6 +30,7 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 |------|---------|
 | **T0** | SQLite valid, extract script OK, `SqliteSaveLoader.load` returns a session (GUT) |
 | **T1** | Gap report: unknown `building.type` ids, storage/unit row counts |
+| **T1b** | After load, placed building **storage** matches `sqlite_extract_storage.py` (GUT: `test_sqlite_storage_parity.gd`; goldens: `resources/fixtures/sqlite_storage/*.json` via `sqlite_storage_expectations.py`) |
 | **T2** | Full legacy Python load (needs `fife`) — optional, not in default CI |
 
 ## Current Godot loader scope

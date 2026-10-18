@@ -20,6 +20,17 @@ func _assert_set_eq(actual: CoordSet, expected: Array) -> void:
 	assert_true(actual.equals_set(exp), "coord sets differ")
 
 
+func _assert_coordset_eq(actual: CoordSet, expected: CoordSet) -> void:
+	assert_true(actual.equals_set(expected), "coord sets differ")
+
+
+func _union_coords(a: CoordSet, b: CoordSet) -> CoordSet:
+	var u := a.duplicate_set()
+	for c in b.keys():
+		u.add(c)
+	return u
+
+
 func test_horizontal_row2() -> void:
 	_assert_set_eq(_bc._row2, [])
 	_bc.add_area([Vector2i(2, 1)])
@@ -36,12 +47,52 @@ func test_horizontal_row2() -> void:
 	_assert_set_eq(_bc._row2, [])
 
 
+func test_vertical_row2() -> void:
+	_assert_set_eq(_bc._row2, [])
+	_bc.add_area([Vector2i(1, 1)])
+	_assert_set_eq(_bc._row2, [Vector2i(0, 1), Vector2i(1, 1)])
+	_bc.add_area([Vector2i(2, 2)])
+	_assert_set_eq(
+		_bc._row2,
+		[Vector2i(0, 1), Vector2i(1, 1), Vector2i(1, 2), Vector2i(2, 2)]
+	)
+	_bc.add_area([Vector2i(2, 3)])
+	_assert_set_eq(
+		_bc._row2,
+		[Vector2i(0, 1), Vector2i(1, 1), Vector2i(1, 2), Vector2i(2, 2), Vector2i(1, 3), Vector2i(2, 3)]
+	)
+	_bc.remove_area([Vector2i(2, 3)])
+	_assert_set_eq(_bc._row2, [Vector2i(0, 1), Vector2i(1, 1), Vector2i(1, 2), Vector2i(2, 2)])
+	_bc.remove_area([Vector2i(2, 2)])
+	_assert_set_eq(_bc._row2, [Vector2i(0, 1), Vector2i(1, 1)])
+	_bc.remove_area([Vector2i(1, 1)])
+	_assert_set_eq(_bc._row2, [])
+
+
 func test_r2x2() -> void:
 	var r2x2: CoordSet = _bc.cache[Vector2i(2, 2)]
 	_assert_set_eq(r2x2, [])
 	_bc.add_area([Vector2i(1, 1)])
+	_assert_set_eq(
+		r2x2,
+		[Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, 0), Vector2i(1, 1)]
+	)
 	_bc.add_area([Vector2i(2, 1)])
+	_assert_set_eq(
+		r2x2,
+		[
+			Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, 0), Vector2i(1, 1),
+			Vector2i(2, 0), Vector2i(2, 1),
+		]
+	)
 	_bc.add_area([Vector2i(3, 2)])
+	_assert_set_eq(
+		r2x2,
+		[
+			Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, 0), Vector2i(1, 1),
+			Vector2i(2, 0), Vector2i(2, 1), Vector2i(2, 2), Vector2i(3, 1), Vector2i(3, 2),
+		]
+	)
 	_bc.remove_area([Vector2i(2, 1)])
 	_assert_set_eq(
 		r2x2,
@@ -51,19 +102,9 @@ func test_r2x2() -> void:
 		]
 	)
 	_bc.remove_area([Vector2i(3, 2)])
+	_assert_set_eq(r2x2, [Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, 0), Vector2i(1, 1)])
 	_bc.remove_area([Vector2i(1, 1)])
 	_assert_set_eq(r2x2, [])
-
-
-func test_vertical_row2() -> void:
-	_bc.add_area([Vector2i(1, 1)])
-	_assert_set_eq(_bc._row2, [Vector2i(0, 1), Vector2i(1, 1)])
-	_bc.add_area([Vector2i(2, 2)])
-	_bc.add_area([Vector2i(2, 3)])
-	_bc.remove_area([Vector2i(2, 3)])
-	_bc.remove_area([Vector2i(2, 2)])
-	_bc.remove_area([Vector2i(1, 1)])
-	_assert_set_eq(_bc._row2, [])
 
 
 func _get_coords_set(x: int, y: int, width: int, height: int) -> CoordSet:
@@ -85,8 +126,16 @@ func test_convenience_get_coords_list() -> void:
 
 func test_r6x6() -> void:
 	var r6x6: CoordSet = _bc.cache[Vector2i(6, 6)]
+	_assert_set_eq(r6x6, [])
 	_bc.add_area([Vector2i(7, 7)])
+	_assert_coordset_eq(r6x6, _get_coords_set(7, 7, 6, 6))
 	_bc.add_area([Vector2i(8, 7)])
-	_bc.remove_area([Vector2i(7, 7)])
+	var u := _union_coords(_get_coords_set(7, 7, 6, 6), _get_coords_set(8, 7, 6, 6))
+	_assert_coordset_eq(r6x6, u)
+	_bc.add_area([Vector2i(5, 5)])
+	u = _union_coords(u, _get_coords_set(5, 5, 6, 6))
+	_assert_coordset_eq(r6x6, u)
+	_bc.remove_area([Vector2i(5, 5), Vector2i(7, 7)])
+	_assert_coordset_eq(r6x6, _get_coords_set(8, 7, 6, 6))
 	_bc.remove_area([Vector2i(8, 7)])
 	_assert_set_eq(r6x6, [])
