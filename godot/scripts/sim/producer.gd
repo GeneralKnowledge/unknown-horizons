@@ -121,14 +121,28 @@ func finish_production_now() -> void:
 		p.finish_production_now()
 
 
+func resolve_saved_prod_line_id(saved_id: int) -> int:
+	var key_str := str(saved_id)
+	if production_lines.has(key_str) or production_lines.has(saved_id):
+		return saved_id
+	var configured: Array = []
+	for line_key in production_lines.keys():
+		configured.append(int(line_key))
+	configured.sort()
+	if configured.size() == 1:
+		return int(configured[0])
+	return saved_id
+
+
 func ensure_production_line(prod_line_id: int) -> Production:
-	var existing := _get_production(prod_line_id)
+	var resolved := resolve_saved_prod_line_id(prod_line_id)
+	var existing := _get_production(resolved)
 	if existing != null:
 		return existing
-	var key_str := str(prod_line_id)
-	if not production_lines.has(key_str) and not production_lines.has(prod_line_id):
+	var key_str := str(resolved)
+	if not production_lines.has(key_str) and not production_lines.has(resolved):
 		return null
-	var production := create_production(prod_line_id, true)
+	var production := create_production(resolved, true)
 	add_production(production)
 	return production
 

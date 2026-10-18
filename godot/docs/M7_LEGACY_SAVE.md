@@ -8,8 +8,8 @@ M7 is the **gate** before treating Godot as the primary Unknown Horizons client 
 |---|-----------|--------|----------|
 | 1 | Fixture saves load in Godot without silent loss | **Partial** | SQLite fixture matrix GUT; `SqliteImportReport` + `partial` flag |
 | 2 | Python → Godot → play (campaign slice) | **Partial** | Desktop `.sqlite` / `.extract.json`; PoC sim after load; no full GUI campaign |
-| 3 | Parity on loaded state | **Strong partial** | T1b/T1k tier fixtures; **T1n** production rows on **`fire`** + **`settlement-range`**; **T1p** session tick on 3 fixtures; **T1o** matrix gate |
-| 4 | Parity after N ticks vs golden | **Partial** | T1l tick-128 goldens (**`fire`**, **`settlement-range`**); T1m legacy dual-run when FIFE installed |
+| 3 | Parity on loaded state | **Strong partial** | T1b/T1k tier fixtures; **T1n** production rows on **`fire`**, **`settlement-range`**, **`traderoute`**; **T1p** session tick on 3 fixtures; **T1o** matrix gate |
+| 4 | Parity after N ticks vs golden | **Partial** | T1l tick-128 goldens (**`fire`**, **`settlement-range`**); T1m legacy dual-run when FIFE installed or committed `fire_tick128_legacy_python_totals.json` |
 | 5 | Cross-version session (stretch) | **Not started** | — |
 | 6 | Reverse save path (stretch) | **Not started** | JSON v3 only for Godot-native saves |
 
@@ -33,9 +33,9 @@ M7 is the **gate** before treating Godot as the primary Unknown Horizons client 
 |-----------|----------------------|--------|
 | Buildings + placement | Trust legacy coordinates | Done for fixtures |
 | Storage | Building + settlement rows | **Done** on `fire`, `settlement-range`, `traderoute`; rev-76 totals (T1k) |
-| Production | Restore lines / progress | **M7:** all extract rows on placed buildings match state/ticks (**T1n** on fire + settlement-range) |
+| Production | Restore lines / progress | **M7:** all extract rows on placed buildings match state/ticks (**T1n** on fire, settlement-range, traderoute) |
 | Collectors | Spawn + in-flight jobs | **Done** ([`COLLECTOR_SQLITE_IMPORT.md`](COLLECTOR_SQLITE_IMPORT.md)) |
-| Settlers | Residential restore + minimal sim | **Partial** — `LegacySettlerComponent` (inhabitants, simplified tax); no happiness tiers |
+| Settlers | Residential restore + minimal sim | **Partial** — `LegacySettlerComponent` (tier limits, happiness storage, legacy tax + inhabitant checks); no upgrades / goods consumption |
 | Units | Wild animals; ships placeholder | Partial |
 | Session / multi-island | PoC single settlement | Partial |
 
@@ -61,12 +61,14 @@ Legacy Python dual-run (requires FIFE + legacy deps):
 ```bash
 python3 development/godot/sqlite_m7_legacy_fire_ticks.py \
   legacy/tests/game/fixtures/fire.sqlite /tmp/legacy_fire_128.json --ticks 128
+# Optional CI fallback (no FIFE): commit output as
+# godot/resources/fixtures/sqlite_m7/fire_tick128_legacy_python_totals.json
 ```
 
 ## Suggested order toward full M7
 
 1. **Storage** — T1b per-building on `savegame-rev-76` (large) or accept totals-only; add `blackdeath` / `plain` when stable.
 2. **Post-load tick inventory** — more fixtures + optional Python dual-run on `fire`.
-3. **Happiness / tier settler sim** — beyond inhabitants + tax stub.
+3. **Settler upgrades / goods** — consumption production lines, level-up/down.
 4. **Legacy dual-run** — install FIFE locally and fix drift on `sqlite_m7_legacy_fire_ticks.py` vs Godot.
 5. **Cross-version session** — only after load/tick parity is green on multiple fixtures.

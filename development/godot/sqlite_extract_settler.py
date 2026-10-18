@@ -17,18 +17,27 @@ def extract(path: Path) -> list[dict]:
 		}:
 			return []
 		rows = con.execute(
-			"SELECT rowid, inhabitants, last_tax_payed FROM settler"
+			"""
+			SELECT s.rowid, s.inhabitants, s.last_tax_payed, b.level, r.ticks
+			FROM settler AS s
+			INNER JOIN building AS b ON b.rowid = s.rowid
+			LEFT JOIN remaining_ticks_of_month AS r ON r.rowid = s.rowid
+			"""
 		).fetchall()
 	finally:
 		con.close()
-	return [
-		{
+	out: list[dict] = []
+	for rowid, inhabitants, last_tax, level, remaining in rows:
+		entry: dict = {
 			"building_worldid": int(rowid),
 			"inhabitants": int(inhabitants if inhabitants is not None else 0),
 			"last_tax_payed": int(last_tax if last_tax is not None else 0),
+			"level": int(level if level is not None else 0),
 		}
-		for rowid, inhabitants, last_tax in rows
-	]
+		if remaining is not None:
+			entry["remaining_ticks_of_month"] = int(remaining)
+		out.append(entry)
+	return out
 
 
 def main() -> int:
