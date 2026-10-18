@@ -1,6 +1,6 @@
 # Unknown Horizons Godot Port — Project Roadmap
 
-Last verified: **2026-10-18** — `./godot/run_tests.sh` **243** GUT pass; parity golden **10/10**; **Godot-first** — JSON v3 + demo are the product path; legacy SQLite import **frozen** — [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
+Last verified: **2026-10-18** — `./godot/run_tests.sh` **243** GUT pass; parity golden **12/12**; **Godot-first** — JSON v3 + demo are the product path; legacy SQLite import **frozen** — [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
 
 ## Vision
 
@@ -55,7 +55,7 @@ Reproducible via `./godot/export_web.sh` → `build/web/`. See [WEB_DEPLOYMENT.m
 
 ### Parity confidence
 
-196 GUT tests; 10 parity scenarios vs golden traces (legacy Python optional when `fife` is installed). Demo slices under `resources/demo/` mirror key parity scenarios.
+196+ GUT tests; 12 parity scenarios vs golden traces (legacy Python optional when `fife` is installed). Demo slices under `resources/demo/` mirror key parity scenarios.
 
 ### Architectural risks
 
@@ -84,10 +84,10 @@ Ordered work after the Godot-first policy merge. **Out of scope** until reconsid
 
 | Priority | Work | Anchors |
 |----------|------|---------|
-| **P0** | Playable demo polish — objective clarity, JSON save/load in flow, status/errors | **In progress** — HUD hints, Continue menu refresh, load status with demo step |
-| **P1** | Web parity with desktop demo — `.extract.json` or JSON-only path documented; no new sqlite on web | **In progress** — browser `.extract.json` import + BROWSER/WEB checklists |
-| **P2** | Parity scenarios (Godot-only goldens) — extend stage 3 chains per [`development/godot/parity/README.md`](../../development/godot/parity/README.md) | No FIFE requirement |
-| **P3** | PORT_CHECKLIST refresh — sync checkboxes with GUT/parity truth | Appendix C/D, `report_matrix.py` |
+| **P0** | Playable demo polish — objective clarity, JSON save/load in flow, status/errors | **Done (2026-10):** HUD hints, Continue menu refresh, load status with demo step |
+| **P1** | Web parity with desktop demo — `.extract.json` or JSON-only path documented; no new sqlite on web | **Done (2026-10):** browser `.extract.json` import + BROWSER/WEB checklists |
+| **P2** | Parity scenarios (Godot-only goldens) — extend stage 3 chains per [`development/godot/parity/README.md`](../../development/godot/parity/README.md) | **Done (2026-10):** `weaver`, `salt_ponds` + goldens |
+| **P3** | PORT_CHECKLIST refresh — sync checkboxes with GUT/parity truth | **In progress** — Appendix C/D + wave F4 / demo GUT rows |
 | **P4** | View/content — external port tiers ([`EXTERNAL_GODOT_PORT.md`](EXTERNAL_GODOT_PORT.md)), gfx slice, HUD gaps | |
 
 ## Future ideas (historical — cross-engine)

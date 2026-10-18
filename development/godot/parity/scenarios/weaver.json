@@ -1,0 +1,19 @@
+{
+  "id": "weaver",
+  "map": "test_island_20x20",
+  "steps": [
+    { "op": "settle" },
+    { "op": "build", "building": "WEAVER", "x": 30, "y": 26 },
+    { "op": "alter_storage", "target": "building", "resource": "WOOL", "amount": 4 },
+    { "op": "run_seconds", "seconds": 45 }
+  ],
+  "expect": {
+    "min_building_storage": {
+      "stem": "weaverstent",
+      "x": 30,
+      "y": 26,
+      "resource": "TEXTILE",
+      "min": 1
+    }
+  }
+}

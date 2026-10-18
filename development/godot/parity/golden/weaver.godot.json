@@ -1,0 +1,31 @@
+{
+	"buildings": [
+		{
+			"producer_active": true,
+			"stem": "warehouse",
+			"storage": {
+
+			},
+			"x": 30,
+			"y": 23
+		},
+		{
+			"producer_active": true,
+			"stem": "weaverstent",
+			"storage": {
+				"TEXTILE": 3
+			},
+			"x": 30,
+			"y": 26
+		}
+	],
+	"engine": "godot",
+	"scenario_id": "weaver",
+	"settlement_storage": {
+		"BOARDS": 50,
+		"BRICKS": 50,
+		"GOLD": 5000,
+		"TOOLS": 50
+	},
+	"tick": 719
+}
