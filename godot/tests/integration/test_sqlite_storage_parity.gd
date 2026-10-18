@@ -37,6 +37,56 @@ func _aggregate_storage(rows: Array) -> Dictionary:
 	return by_wid
 
 
+func _nonzero_resources(bucket: Dictionary) -> Dictionary:
+	var out: Dictionary = {}
+	for res_key in bucket.keys():
+		var amount := int(bucket[res_key])
+		if amount != 0:
+			out[int(res_key)] = amount
+	return out
+
+
+func _placed_building_worldids(session: GameSession) -> Dictionary:
+	var out: Dictionary = {}
+	for building in session.get_buildings_on_island(session.island):
+		out[int(building.worldid)] = building
+	return out
+
+
+## Rows Godot applies: placed buildings + legacy settlement rowid (see SqliteSaveLoader).
+func _aggregate_applied_inventory_totals(
+	rows: Array, placed_wids: Dictionary, settlement_rowid: int
+) -> Dictionary:
+	var totals: Dictionary = {}
+	for row in rows:
+		if typeof(row) != TYPE_DICTIONARY:
+			continue
+		var wid := int(row.get("worldid", -1))
+		var res_id := int(row.get("resource_id", -1))
+		var amount := int(row.get("amount", 0))
+		if res_id < 0 or amount == 0:
+			continue
+		if wid == settlement_rowid or placed_wids.has(wid):
+			totals[res_id] = int(totals.get(res_id, 0)) + amount
+	return totals
+
+
+func _godot_inventory_totals(session: GameSession) -> Dictionary:
+	var totals: Dictionary = {}
+	for building in session.get_buildings_on_island(session.island):
+		for res_id in _storage_on_building(building).keys():
+			var amount := int(_storage_on_building(building)[res_id])
+			if amount == 0:
+				continue
+			totals[int(res_id)] = int(totals.get(int(res_id), 0)) + amount
+	for res_id in session.settlement.inventory.get_stored_resources().keys():
+		var amount := session.settlement.inventory.amount(int(res_id))
+		if amount == 0:
+			continue
+		totals[int(res_id)] = int(totals.get(int(res_id), 0)) + amount
+	return totals
+
+
 func _storage_on_building(building: Building) -> Dictionary:
 	var inv := building.get_storage()
 	if inv == null:
@@ -91,16 +141,68 @@ func test_fire_fixture_building_storage_matches_sqlite_extract() -> void:
 	assert_not_null(lumberjack, "lumberjack worldid from fire fixture")
 	assert_eq(5, lumberjack.get_storage().amount(GameConstants.RES["TREES"]))
 
+	var placed := _placed_building_worldids(session)
+	var expected_compared := 0
+	for wid_key in placed.keys():
+		var wid: int = int(wid_key)
+		if not expected_by_wid.has(wid):
+			continue
+		if _nonzero_resources(expected_by_wid[wid]).is_empty():
+			continue
+		expected_compared += 1
 	var compared := 0
 	for building in session.get_buildings_on_island(session.island):
 		if not expected_by_wid.has(building.worldid):
 			continue
-		var exp: Dictionary = expected_by_wid[building.worldid]
+		var exp: Dictionary = _nonzero_resources(expected_by_wid[building.worldid])
 		if exp.is_empty():
 			continue
 		_assert_building_storage_matches(building, exp, "fire")
 		compared += 1
-	assert_gte(compared, 10, "building inventories matching sqlite extract on fire fixture")
+	assert_eq(
+		expected_compared,
+		compared,
+		"every placed fire building with sqlite storage must match extract"
+	)
+	assert_eq(
+		report.storage_rows_applied + report.settlement_storage_rows_applied,
+		69,
+		"fire storage rows applied (non-zero building + settlement rows)"
+	)
+
+
+func test_fire_fixture_m7_inventory_totals_at_load_match_extract() -> void:
+	if OS.has_feature("web"):
+		pending("desktop only")
+		return
+	var path := _repo_root().path_join("legacy/tests/game/fixtures/fire.sqlite")
+	if not FileAccess.file_exists(path):
+		pending("missing fixture")
+		return
+	var rows := _extract_storage_rows(path)
+	var result := SqliteSaveLoader.load_with_report(path)
+	assert_true(result["ok"])
+	var session: GameSession = result["session"]
+	var report: SqliteImportReport = result["report"]
+	assert_gt(report.legacy_settlement_worldid, 0)
+	var placed := _placed_building_worldids(session)
+	var expected := _aggregate_applied_inventory_totals(
+		rows, placed, report.legacy_settlement_worldid
+	)
+	var actual := _godot_inventory_totals(session)
+	for res_id in expected.keys():
+		assert_eq(
+			int(expected[res_id]),
+			int(actual.get(res_id, 0)),
+			"fire total res %s at load (M7 inventory parity)" % res_id
+		)
+	for res_id in actual.keys():
+		if int(actual[res_id]) == 0:
+			continue
+		assert_true(
+			expected.has(res_id),
+			"unexpected fire inventory res %s = %s" % [res_id, actual[res_id]]
+		)
 
 
 func test_fire_fixture_run_ticks_after_load() -> void:

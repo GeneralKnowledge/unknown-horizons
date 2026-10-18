@@ -412,7 +412,7 @@ Tick items: `[ ]` → `[x]`.
 ### 4.1 Save / load
 
 - [x] **Savegame DB schema subset (partial import + PoC UI)** — ★★★★☆ (L)  
-  - **Godot:** `sqlite_save_loader.gd`, production/collector/settlement restore, trust placement, ships/`LegacyUnit`, `.extract.json` bundles, settler meta, in-flight collector jobs (load + sim deposit), T1b–T1j GUT; **collectors partial-import complete** ([`COLLECTOR_SQLITE_IMPORT.md`](docs/COLLECTOR_SQLITE_IMPORT.md)), start menu + HUD FileDialog, fixture matrix CI  
+  - **Godot:** `sqlite_save_loader.gd`, production/collector/settlement restore, trust placement, ships/`LegacyUnit`, `.extract.json` bundles, settler meta, in-flight collector jobs (load + sim deposit), T1b–T1k GUT; **collectors** + **`fire` storage** partial-import complete ([`COLLECTOR_SQLITE_IMPORT.md`](docs/COLLECTOR_SQLITE_IMPORT.md), [`M7_LEGACY_SAVE.md`](docs/M7_LEGACY_SAVE.md)), start menu + HUD FileDialog, fixture matrix CI  
 - [ ] **Savegame DB schema subset (full fidelity)** — ★★★★★ (XL)  
 - [x] **GUT: `test_load_inactive_production`** — `test_session_save.gd`  
 - [x] **GUT: `test_load_producing_lumberjack` (+ mid-production)** — `test_session_save.gd`, `test_sqlite_production_restore.gd`  
@@ -566,7 +566,7 @@ Tick items: `[ ]` → `[x]`.
 | `tests/game/test_load_save.py` (7) | `test_session_save.gd`, `test_session_save_extended.gd` | **7/7** ✓ |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** run `./godot/run_tests.sh` — **220** tests (includes sqlite save-compat T1b–T1j, gameplay loop, demo/tier-1 integration).
+**Current GUT total:** run `./godot/run_tests.sh` — **221** tests (includes sqlite save-compat T1b–T1k / M7 totals, gameplay loop, demo/tier-1 integration).
 
 **DLC scaffolding (pre-parity):** see [`DLC_VISION.md`](DLC_VISION.md) and [`PORT_CHECKLIST_DLC.md`](PORT_CHECKLIST_DLC.md).
 

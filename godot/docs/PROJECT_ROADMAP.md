@@ -84,7 +84,7 @@ These are intentional next horizons—not current milestones—but they should *
 ### Legacy save fidelity (Python → Godot)
 
 - **Goal:** Open real **original-game savegames** (`.sqlite` / legacy format) in Godot and continue playing with the same settlement state that matters for gameplay (map, buildings, inventories, production state, settlers/units as they are ported).
-- **Today:** Subset load only — buildings via `SqliteSaveLoader` + `sqlite_extract_buildings.py` on desktop; not web-safe.
+- **Today:** Partial desktop load — buildings, storage ( **`fire` complete** ), production, collectors, settler meta via `SqliteSaveLoader`; web via `.extract.json`. Tracker: [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md).
 - **Tests to add:** A growing **fixture library** of authentic saves (small → large); for each fixture, assert key invariants after load (building counts, resource totals, tick/time, selected world ids). Failures mean the Godot sim is still missing rules or export mappings.
 - **Smooth transition:** Document a player workflow: *save in Python → copy file → load in Godot* (and later the reverse once Godot can write compatible saves or an documented interchange format exists).
 
