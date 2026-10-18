@@ -32,3 +32,4 @@ content/tilesets.json
 # vscode settings
 .vscode
 .parity-out/
+godot/resources/fixtures/sqlite_storage/_prepare/
