@@ -32,6 +32,7 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 | **T1** | Gap report: unknown `building.type` ids, storage/unit row counts |
 | **T1b** | After load, placed building **storage** matches `sqlite_extract_storage.py` for **≥10** buildings on `fire.sqlite` (GUT: `test_sqlite_storage_parity.gd`; goldens: `resources/fixtures/sqlite_storage/*.json` via `sqlite_storage_expectations.py`) |
 | **T1c** | Collectors restored from save without YAML double-spawn (GUT: `test_sqlite_collector_restore.gd`); settlement `storage` → `settlement.inventory` |
+| **T1d** | Post-load tick stepping: load → N ticks → economy moves without crash (GUT: `test_sqlite_tick_parity.gd`) |
 | **T2** | Full legacy Python load (needs `fife`) — optional, not in default CI |
 
 ## Current Godot loader scope
