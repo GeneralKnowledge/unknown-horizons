@@ -37,6 +37,9 @@ func _godot_totals_after_ticks(sqlite_path: String) -> Dictionary:
 
 
 func test_fire_tick128_godot_inventory_matches_legacy_python_when_available() -> void:
+	if OS.get_environment("RUN_T1M") != "1":
+		pending("set RUN_T1M=1 to run legacy Python dual-run (optional; see LEGACY_IMPORT_FROZEN.md)")
+		return
 	if OS.has_feature("web"):
 		pending("desktop only")
 		return

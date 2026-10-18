@@ -1,6 +1,6 @@
 # Unknown Horizons Godot Port — Project Roadmap
 
-Last verified: **2026-10-18** — `./godot/run_tests.sh` **243** GUT pass (1 pending T1m without FIFE); parity golden **10/10**; M7 PoC gate on legacy SQLite fixtures — [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
+Last verified: **2026-10-18** — `./godot/run_tests.sh` **243** GUT pass; parity golden **10/10**; **Godot-first** — JSON v3 + demo are the product path; legacy SQLite import **frozen** — [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
 
 ## Vision
 
@@ -75,11 +75,24 @@ Reproducible via `./godot/export_web.sh` → `build/web/`. See [WEB_DEPLOYMENT.m
 | **M4** | Data-driven + theme | `validate_content.py` in sync/CI; theme pack demo |
 | **M5** | Save integrity | SAVE_FORMAT.md, migration hook, `snapshot_roundtrip` parity |
 | **M6** | Living world (design) | Sections below — no large implementation |
-| **M7** | Cross-version saves & play | **PoC gate met** (CI fixtures) — tracker [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md); full cutover still needs optional T1m (FIFE) + stretch #5–#6 |
+| **M7** | Legacy save import experiment | **Archived / maintenance-only** — PoC import + fixture regression guards; no new parity scope — [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md), [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md) |
+| **M8** | Godot-native play | Demo loop polished; JSON save/load in demo + browser; extend Godot-only parity scenarios; PORT_CHECKLIST refresh; view/content tiers — see [M8 backlog](#m8--godot-native-play-backlog) |
 
-## Future ideas
+## M8 — Godot-native play (backlog)
 
-These are intentional next horizons—not current milestones—but they should **gate** a full cutover from the Python/FIFE game to Godot. The port is not “complete” until players can move between engines without losing progress, and (ideally) play together across engines.
+Ordered work after the Godot-first policy merge. **Out of scope** until reconsidered: settler upgrade chains for legacy saves, ships/paths sqlite fidelity, rev-76 full T1b, T1m dual-run as a blocker, reverse sqlite export, multiplayer sync.
+
+| Priority | Work | Anchors |
+|----------|------|---------|
+| **P0** | Playable demo polish — objective clarity, JSON save/load in flow, status/errors | [`PLAYABLE_DEMO.md`](PLAYABLE_DEMO.md), `DemoScenarioRunner` |
+| **P1** | Web parity with desktop demo — `.extract.json` or JSON-only path documented; no new sqlite on web | [`WEB_DEPLOYMENT.md`](WEB_DEPLOYMENT.md), [`BROWSER_DEMO.md`](BROWSER_DEMO.md) |
+| **P2** | Parity scenarios (Godot-only goldens) — extend stage 3 chains per [`development/godot/parity/README.md`](../../development/godot/parity/README.md) | No FIFE requirement |
+| **P3** | PORT_CHECKLIST refresh — sync checkboxes with GUT/parity truth | Appendix C/D, `report_matrix.py` |
+| **P4** | View/content — external port tiers ([`EXTERNAL_GODOT_PORT.md`](EXTERNAL_GODOT_PORT.md)), gfx slice, HUD gaps | |
+
+## Future ideas (historical — cross-engine)
+
+These described a **Python/FIFE ↔ Godot** cutover gate. Under Godot-first they are **not blockers**; kept for context and optional one-way legacy import experiments.
 
 ### Legacy save fidelity (Python → Godot)
 
@@ -108,7 +121,7 @@ These are intentional next horizons—not current milestones—but they should *
 | Cross-version session (stretch) | Python + Godot clients stay in sync on a test map |
 | Reverse path (stretch) | Godot save or export readable by Python, or documented migration only |
 
-Stretch rows are **not scheduled** until M7 exit **#4** (tick parity) is green on multiple fixtures. Canonical tracker: [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md).
+Stretch rows are **not scheduled** (see [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md)). Historical tracker: [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md).
 
 See also [MIGRATION_STRATEGY.md](MIGRATION_STRATEGY.md).
 
@@ -190,7 +203,7 @@ Merged browser demo Phase 1, reskin/export pipeline, and tier-1 scenario work (#
 | **Automated browser QA** | CI builds web + **shareable-demo-screenshot** PNG artifact; no in-browser playtest yet. |
 | **Legacy GUI pytest (~30)** | Still deferred; PoC HUD is not full ingame GUI parity. |
 | **Stale git branch** | Delete `origin/cursor/belief-batch-4931` when confirmed obsolete. |
-| **Cross-version saves (M7)** | Documented gate; not implemented beyond JSON v3 + SQLite building subset. |
+| **Legacy sqlite import (M7)** | Frozen experiment; JSON v3 is canonical — [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md). |
 
 Hygiene fixes from this audit: doc test/parity counts, `export_web.sh` → `export_all.sh`, parity README CI blurb, EXPORT_PIPELINE A1 status.
 

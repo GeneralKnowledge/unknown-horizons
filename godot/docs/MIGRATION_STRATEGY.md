@@ -1,40 +1,40 @@
 # Godot migration strategy (draft)
 
-Unknown Horizons keeps the **Python + FIFE** game shippable while the **Godot 4** project matures under `godot/`.
+Unknown Horizons development is **Godot-first**: the playable product is under `godot/` (PoC demo, JSON saves, web export). The **Python + FIFE** tree in `legacy/` remains the **content authoring** source and an **archived reference prototype**—not the shipping client.
 
-## Dual-run (current phase)
+## Dual-run (content only)
 
 - **Source of truth for balance/content:** `legacy/content/` and `legacy/horizons/` (unchanged workflow for contributors editing YAML).
 - **Godot consumes content** via [`development/godot/export_all.sh`](../../development/godot/export_all.sh) / [`EXPORT_PIPELINE.md`](../../development/godot/EXPORT_PIPELINE.md) (constants, buildings JSON, gfx, maps, unit gfx).
-- **Correctness:** port pytest scenarios to GUT under `godot/tests/`; aim for behavioral parity on sim logic before replacing UI.
-- **Release:** no Godot binary in official downloads until a agreed milestone (e.g. settlement loop + save/load + core UI).
+- **Correctness:** port pytest scenarios to GUT under `godot/tests/`; Godot-only parity goldens and integration tests—**no requirement** to keep the legacy client green for every change.
+- **Release:** Godot web/desktop demo and JSON saves; legacy FIFE build is optional for historians.
 
-## Cutover criteria (proposal)
+## Cutover criteria (Godot-first)
 
-1. GUT coverage for all `tests/game/` integration tests (or documented exceptions).
-2. Headless save/load round-trip for a standard map.
-3. Single-player session playable without Python installed (menu → build → produce → save).
-4. Performance equal or better on reference hardware for a large map.
-5. **Legacy save compatibility:** representative **original-game saves** load in Godot; automated fixture tests prove inventories/buildings/state match expectations (see [PROJECT_ROADMAP.md — Future ideas](PROJECT_ROADMAP.md#future-ideas)).
-6. **Cross-version confidence (before moving on):** ability to **transition smoothly** from Python to Godot on the same save; stretch goal — **play across versions** (you on Python, another player on Godot) on a shared world via a common command/sync layer.
+Primary criteria for treating the Godot port as the **main** Unknown Horizons experience:
 
-Until (5) is largely green, treat Godot as a parallel client, not a replacement.
+1. GUT coverage for ported `tests/game/` integration behavior (or documented exceptions).
+2. Headless **JSON v3** save/load round-trip for a standard map ([`SAVE_FORMAT.md`](SAVE_FORMAT.md)).
+3. **Playable demo** loop (menu → build → produce → save) without Python installed.
+4. **Parity goldens** and scenario harness green on Godot (legacy Python optional for local dev).
+5. **Web export** reproducible via `./godot/export_web.sh` with documented browser save workflow.
 
-## Legacy saves and cross-version play (future gate)
+**Not required** for Godot-first cutover (frozen / archived):
 
-| Step | What |
-|------|------|
-| Export path | Keep using `content/` + pytest/GUT parity for *rules*; saves prove *integration* |
-| Load Python saves in Godot | Expand `SqliteSaveLoader` beyond building subset; map + units + session metadata |
-| Test harness | [`LEGACY_SAVE_FIXTURES.md`](LEGACY_SAVE_FIXTURES.md) + `sqlite_fixture_matrix.py`; CI matrix over in-repo `.sqlite` files |
-| Player workflow | Document save-in-Python → load-in-Godot for early adopters |
-| Mixed clients | Shared authoritative sim (server or host); Python and Godot as peers—validates command parity under real latency |
+- Legacy `.sqlite` full fidelity or Python → Godot → Python round-trip ([`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md)).
+- Cross-version session (mixed Python + Godot clients) or reverse sqlite export.
+- Running the parallel FIFE client as a release gate.
 
-**Scheduling:** mixed-client / cross-version session work is **not on the backlog** until M7 exit criterion **#4** (tick parity on multiple fixtures) is green. See [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md) exit **#5–#6**.
+## Legacy import (experimental, not a gate)
 
-This is listed in [PROJECT_ROADMAP.md](PROJECT_ROADMAP.md) as milestone **M7** / future ideas—not implemented in the PoC phase.
+| Topic | Policy |
+|------|--------|
+| Canonical saves | **JSON v3** (+ web upload/download) |
+| Desktop `.sqlite` | Partial import for manual experiments; `partial: true` expected |
+| Tests | Fixture matrix + T1l tick goldens = **regression guards** only |
+| Detail | [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md), historical notes in [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md) |
 
-**Current PoC stepping stones (2026-10):** JSON snapshot v3 with GUT + `snapshot_roundtrip` parity; desktop **partial** legacy `.sqlite` import (buildings, storage, production, collectors, settler meta) with PoC FileDialog UI and CI fixture matrix; **M7 tracker:** [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md). No cross-client sync or full savegamerev fidelity yet.
+**Current PoC (2026-10):** JSON snapshot v3 with GUT + `snapshot_roundtrip` parity; desktop partial legacy import with PoC FileDialog and CI fixture matrix; no cross-client sync.
 
 ## Principles
 
@@ -42,4 +42,4 @@ This is listed in [PROJECT_ROADMAP.md](PROJECT_ROADMAP.md) as milestone **M7** /
 - **Commands:** same conceptual operations as `horizons/command/` for future MP parity.
 - **Do not port PyChan XML literally;** reimplement UX in Godot Control nodes.
 
-See [PORT_CHECKLIST.md](../PORT_CHECKLIST.md) for tickable tasks.
+See [PORT_CHECKLIST.md](../PORT_CHECKLIST.md) for tickable tasks and [PROJECT_ROADMAP.md](PROJECT_ROADMAP.md) for **M8** next work.

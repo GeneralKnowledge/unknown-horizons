@@ -421,13 +421,19 @@ func _on_save_requested() -> void:
 		return
 	file.store_string(JSON.stringify(snap, "\t"))
 	file.close()
-	_hud.show_status("Saved to user://")
+	if OS.has_feature("web"):
+		_hud.show_status("Saved JSON — use Download in HUD to keep a copy")
+	else:
+		_hud.show_status("Saved JSON to user://poc_snapshot.json")
 
 
 func _on_load_requested() -> void:
 	var path := SaveLoadPanel.DEFAULT_SAVE_PATH
 	if not FileAccess.file_exists(path):
-		_hud.show_status("No save in user://", true)
+		if OS.has_feature("web"):
+			_hud.show_status("No save yet — use Load JSON or finish a step and Save", true)
+		else:
+			_hud.show_status("No save at user://poc_snapshot.json — Save JSON first", true)
 		return
 	var text := FileAccess.get_file_as_string(path)
 	_load_snapshot_text(text)
@@ -520,7 +526,7 @@ func _load_snapshot_text(json_text: String) -> bool:
 	_apply_demo_from_snapshot(data)
 	if not _playable_demo:
 		_hud.set_playable_demo_active(false)
-	_hud.show_status("Save loaded")
+	_hud.show_status("JSON save loaded")
 	return true
 
 

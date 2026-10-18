@@ -2,6 +2,10 @@ class_name SqliteSaveLoader
 extends RefCounted
 
 ## Legacy UH savegames (.sqlite). Partial import with diagnostics (desktop).
+##
+## Policy: frozen experiment — extend only for crash fixes or extract-script breakage,
+## not for gameplay parity with Python/FIFE. Canonical saves are JSON v3.
+## See res://docs/LEGACY_IMPORT_FROZEN.md
 
 const MAGIC := "SQLite format 3"
 const META_REPORT := "sqlite_import_report"

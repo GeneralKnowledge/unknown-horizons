@@ -68,7 +68,7 @@ Full controls and saves: [docs/PLAYABLE_DEMO.md](docs/PLAYABLE_DEMO.md)
 - `scripts/sim/` — headless rules (commands, production, saves)
 - `scripts/view/` — map, HUD, input; issues commands only
 
-Legacy Python + FIFE reference: [`../legacy/`](../legacy/). External Godot reference port: [unknown-horizons/godot-port](https://github.com/unknown-horizons/godot-port) (UX/assets inspiration—not a feature checklist).
+**Primary path:** settlement demo + **JSON v3** saves ([`docs/SAVE_FORMAT.md`](docs/SAVE_FORMAT.md), [`docs/PLAYABLE_DEMO.md`](docs/PLAYABLE_DEMO.md)). Legacy Python + FIFE is a **reference prototype** ([`../legacy/`](../legacy/)). **Desktop-only** partial `.sqlite` import is a frozen experiment — one paragraph in [`docs/LEGACY_IMPORT_FROZEN.md`](docs/LEGACY_IMPORT_FROZEN.md); historical detail in [`docs/M7_LEGACY_SAVE.md`](docs/M7_LEGACY_SAVE.md). External Godot reference port: [unknown-horizons/godot-port](https://github.com/unknown-horizons/godot-port) (UX/assets inspiration—not a feature checklist).
 
 ## Verification (maintainers)
 
@@ -93,4 +93,4 @@ Reported: **204** GUT tests, **10** parity goldens, content validators in CI.
 
 ## Not the full original game
 
-Ships, campaign, multiplayer, and full legacy save parity are out of scope for this prototype. Legacy `.sqlite` import is **partial** and **desktop-only** — PoC gate and fixture tests: [`docs/M7_LEGACY_SAVE.md`](docs/M7_LEGACY_SAVE.md). After import, the HUD shows `SqliteImportReport.summarize_for_hud()`.
+Ships, campaign, and multiplayer are out of scope for this prototype. **Canonical saves:** JSON v3. Legacy `.sqlite` import is **partial**, **desktop-only**, and **frozen** — see [`docs/LEGACY_IMPORT_FROZEN.md`](docs/LEGACY_IMPORT_FROZEN.md). After import, the HUD shows `SqliteImportReport.summarize_for_hud()`.
