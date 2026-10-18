@@ -100,10 +100,11 @@ func test_fire_fixture_building_storage_matches_sqlite_extract() -> void:
 			continue
 		_assert_building_storage_matches(building, exp, "fire")
 		compared += 1
-	# Full inventory match for every placed building is the long-term goal (master had >= 10).
-	# After production-aware import, many rows still diverge on secondary resources; keep a
-	# strict spot check above and grow this threshold as placement + settlement storage land.
-	assert_gte(compared, 1, "at least one building inventory matches extract exactly")
+	assert_gte(
+		compared,
+		10,
+		"building inventories matching sqlite extract (fire fixture; needs legacy placement trust)"
+	)
 
 
 func test_fire_fixture_run_ticks_after_load() -> void:

@@ -13,6 +13,8 @@ var skip_cost: bool = false
 var defer_producer: bool = false
 ## When true, CollectingComponent is not attached until collector restore from save.
 var defer_collecting: bool = false
+## When true, skip live buildability checks and place at saved coordinates (SQLite import).
+var trust_legacy_placement: bool = false
 
 
 func _init(
@@ -36,7 +38,7 @@ func execute(session: GameSession) -> Variant:
 		settlement = island.settlements[0]
 	var export := ContentLoader.load_building_export(ContentLoader.stem_for_building_id(building_id))
 	var origin := Vector2i(x, y)
-	if island.terrain_cache != null:
+	if not trust_legacy_placement and island.terrain_cache != null:
 		if ownerless:
 			if not island.can_place_ownerless(building_id, export, origin):
 				return null

@@ -174,6 +174,7 @@ static func load_with_report(path: String) -> Dictionary:
 		cmd.skip_cost = true
 		cmd.defer_producer = true
 		cmd.defer_collecting = true
+		cmd.trust_legacy_placement = true
 		var placed: Variant = cmd.execute(session)
 		if placed == null:
 			report.record_rejection("placement_failed")

@@ -25,6 +25,7 @@ func test_fire_fixture_restores_collectors_from_save() -> void:
 	assert_true(result["ok"])
 	var report: SqliteImportReport = result["report"]
 	assert_eq(FIRE_COLLECTOR_COUNT, report.collector_rows_in_save)
+	assert_eq(FIRE_COLLECTOR_COUNT, report.collectors_restored)
 	assert_gt(report.collectors_save_homes, 0)
 
 	var session: GameSession = result["session"]
@@ -44,14 +45,6 @@ func test_fire_fixture_restores_collectors_from_save() -> void:
 	assert_eq(GameConstants.BUILDINGS["LUMBERJACK"], lumberjack.building_id)
 	assert_not_null(lumberjack.collecting)
 	assert_eq(1, lumberjack.collecting.collectors.size())
-
-	if report.collectors_restored < FIRE_COLLECTOR_COUNT:
-		pending(
-			"full collector restore needs collector homes placed (restored %d/%d)"
-			% [report.collectors_restored, FIRE_COLLECTOR_COUNT]
-		)
-		return
-	assert_eq(FIRE_COLLECTOR_COUNT, report.collectors_restored)
 
 	session.run_ticks(64)
 	assert_gte(session.scheduler.cur_tick, 0)

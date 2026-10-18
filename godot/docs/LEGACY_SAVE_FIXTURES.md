@@ -30,7 +30,7 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 |------|---------|
 | **T0** | SQLite valid, extract script OK, `SqliteSaveLoader.load` returns a session (GUT) |
 | **T1** | Gap report: unknown `building.type` ids, storage/unit row counts |
-| **T1b** | After load, placed building **storage** matches `sqlite_extract_storage.py` (GUT: `test_sqlite_storage_parity.gd`; goldens: `resources/fixtures/sqlite_storage/*.json` via `sqlite_storage_expectations.py`) |
+| **T1b** | After load, placed building **storage** matches `sqlite_extract_storage.py` for **≥10** buildings on `fire.sqlite` (GUT: `test_sqlite_storage_parity.gd`; goldens: `resources/fixtures/sqlite_storage/*.json` via `sqlite_storage_expectations.py`) |
 | **T1c** | Collectors restored from save without YAML double-spawn (GUT: `test_sqlite_collector_restore.gd`); settlement `storage` → `settlement.inventory` |
 | **T2** | Full legacy Python load (needs `fife`) — optional, not in default CI |
 
@@ -41,7 +41,7 @@ Godot desktop list for GUT: [`godot/resources/fixtures/sqlite_save_fixtures.json
 - Rev **76→77** bump via [`sqlite_upgrade_save.py`](../../development/godot/sqlite_upgrade_save.py) (no FIFE) inside [`sqlite_prepare_save.py`](../../development/godot/sqlite_prepare_save.py)
 - Session header (tick estimate, `next_worldid`) via [`sqlite_extract_session.py`](../../development/godot/sqlite_extract_session.py)
 - **Settlement / island worldids** from [`sqlite_extract_settlement.py`](../../development/godot/sqlite_extract_settlement.py): PoC single-settlement loads re-key `session.settlement` and `session.island` to legacy `rowid` / `island` (multi-settlement saves: first player-owned row when island id does not match yet)
-- Buildings via [`sqlite_extract_buildings.py`](../../development/godot/sqlite_extract_buildings.py) (limit `0` = all rows)
+- Buildings via [`sqlite_extract_buildings.py`](../../development/godot/sqlite_extract_buildings.py) (limit `0` = all rows), placed with **`trust_legacy_placement`** (saved coordinates win over live buildability rules)
 - Storage via [`sqlite_extract_storage.py`](../../development/godot/sqlite_extract_storage.py) (building `object` worldids + **settlement** rowids via [`sqlite_extract_settlement.py`](../../development/godot/sqlite_extract_settlement.py))
 - Production state via [`sqlite_extract_production.py`](../../development/godot/sqlite_extract_production.py) — after storage, before collectors
 - Collectors via [`sqlite_extract_units.py`](../../development/godot/sqlite_extract_units.py) (`kind: collector`) — see [`COLLECTOR_SQLITE_IMPORT.md`](COLLECTOR_SQLITE_IMPORT.md)
