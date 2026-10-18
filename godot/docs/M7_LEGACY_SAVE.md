@@ -1,6 +1,8 @@
 # M7 — Cross-version saves & play (progress)
 
-M7 is the **gate** before treating Godot as the primary Unknown Horizons client ([`PROJECT_ROADMAP.md`](PROJECT_ROADMAP.md#future-ideas)). This doc tracks **measurable** progress toward the exit criteria—not a second roadmap.
+M7 is the **gate** before treating Godot as the primary Unknown Horizons client ([`PROJECT_ROADMAP.md`](PROJECT_ROADMAP.md#future-ideas)). This doc tracks progress against **six exit criteria** only—not a second roadmap.
+
+**Progress reporting:** use exit criteria **#1–#4** (percent / status). Labels like T1b, T1n in [`LEGACY_SAVE_FIXTURES.md`](LEGACY_SAVE_FIXTURES.md) are **GUT test tags**, not milestone tiers.
 
 ## Exit criteria (checklist)
 
@@ -8,10 +10,10 @@ M7 is the **gate** before treating Godot as the primary Unknown Horizons client 
 |---|-----------|--------|----------|
 | 1 | Fixture saves load in Godot without silent loss | **Partial** | SQLite fixture matrix GUT; `SqliteImportReport` + `partial` flag |
 | 2 | Python → Godot → play (campaign slice) | **Partial** | Desktop `.sqlite` / `.extract.json`; PoC sim after load; no full GUI campaign |
-| 3 | Parity on loaded state | **Strong partial** | T1b/T1k tier fixtures; **T1n** production rows on **`fire`**, **`settlement-range`**, **`traderoute`**; **T1p** session tick on 3 fixtures; **T1o** matrix gate |
-| 4 | Parity after N ticks vs golden | **Partial** | T1l tick-128 goldens (**`fire`**, **`settlement-range`**); T1m legacy dual-run when FIFE installed or committed `fire_tick128_legacy_python_totals.json` |
-| 5 | Cross-version session (stretch) | **Not started** | — |
-| 6 | Reverse save path (stretch) | **Not started** | JSON v3 only for Godot-native saves |
+| 3 | Parity on loaded state | **Strong partial** | T1b/T1k on main fixtures; T1n production on `fire`, `settlement-range`, `traderoute`; T1p session tick; T1o matrix gate |
+| 4 | Parity after N ticks vs golden | **Partial** | **T1l** Godot tick-128 goldens (`fire`, `settlement-range`); **T1m** legacy Python dual-run when FIFE installed (optional; pending in CI) |
+| 5 | Cross-version session (stretch) | **Not scheduled** | Do not plan until exit **#4** is green on multiple fixtures |
+| 6 | Reverse save path (stretch) | **Not scheduled** | JSON v3 only for Godot-native saves today |
 
 ## Player workflow (today)
 
@@ -33,15 +35,15 @@ M7 is the **gate** before treating Godot as the primary Unknown Horizons client 
 |-----------|----------------------|--------|
 | Buildings + placement | Trust legacy coordinates | Done for fixtures |
 | Storage | Building + settlement rows | **Done** on `fire`, `settlement-range`, `traderoute`; rev-76 totals (T1k) |
-| Production | Restore lines / progress | **M7:** all extract rows on placed buildings match state/ticks (**T1n** on fire, settlement-range, traderoute) |
+| Production | Restore lines / progress | T1n on fire, settlement-range, traderoute |
 | Collectors | Spawn + in-flight jobs | **Done** ([`COLLECTOR_SQLITE_IMPORT.md`](COLLECTOR_SQLITE_IMPORT.md)) |
-| Settlers | Residential restore + minimal sim | **Partial** — `LegacySettlerComponent` (tier limits, happiness storage, legacy tax + inhabitant checks); no upgrades / goods consumption |
+| Settlers | Residential restore + partial sim | Tier limits, happiness storage, legacy tax + inhabitant checks; no upgrades / goods |
 | Units | Wild animals; ships placeholder | Partial |
 | Session / multi-island | PoC single settlement | Partial |
 
-## Automated tiers
+## Automated tests (tags)
 
-See [`LEGACY_SAVE_FIXTURES.md`](LEGACY_SAVE_FIXTURES.md) (T0–T1p). Run:
+See [`LEGACY_SAVE_FIXTURES.md`](LEGACY_SAVE_FIXTURES.md) for T0–T1p tag → test mapping. Run:
 
 ```bash
 ./godot/run_tests.sh
@@ -49,26 +51,24 @@ python3 development/godot/sqlite_fixture_matrix.py
 python3 development/godot/sqlite_storage_expectations.py
 ```
 
-Regenerate tick-128 golden (`fire`):
+Regenerate Godot tick-128 golden (`fire`):
 
 ```bash
 cd godot && WRITE_M7_GOLDEN=1 godot --headless --path . -s addons/gut/gut_cmdln.gd \
   -gconfig=.gutconfig.json -gunit_test_name=tick128_inventory -gexit
 ```
 
-Legacy Python dual-run (requires FIFE + legacy deps):
+Optional local legacy Python dual-run (requires FIFE + legacy deps; not in default CI):
 
 ```bash
 python3 development/godot/sqlite_m7_legacy_fire_ticks.py \
   legacy/tests/game/fixtures/fire.sqlite /tmp/legacy_fire_128.json --ticks 128
-# Optional CI fallback (no FIFE): commit output as
-# godot/resources/fixtures/sqlite_m7/fire_tick128_legacy_python_totals.json
 ```
 
-## Suggested order toward full M7
+## Open work (exit #3 and #4 only)
 
-1. **Storage** — T1b per-building on `savegame-rev-76` (large) or accept totals-only; add `blackdeath` / `plain` when stable.
-2. **Post-load tick inventory** — more fixtures + optional Python dual-run on `fire`.
-3. **Settler upgrades / goods** — consumption production lines, level-up/down.
-4. **Legacy dual-run** — install FIFE locally and fix drift on `sqlite_m7_legacy_fire_ticks.py` vs Godot.
-5. **Cross-version session** — only after load/tick parity is green on multiple fixtures.
+1. **Exit #3 — large / rev-76 storage:** choose **either** per-building T1b on `savegame-rev-76` **or** keep totals-only T1k; do not expand both in parallel.
+2. **Exit #4 — tick parity:** extend T1l to another fixture when stable; run T1m locally with FIFE and fix Godot vs legacy drift on `fire` when found.
+3. **Settler goods / upgrades:** only if tick goldens regress after monthly settler sim; not a separate roadmap phase.
+
+Stretch exit criteria **#5–#6** stay out of the backlog until **#4** is satisfied on multiple fixtures.
