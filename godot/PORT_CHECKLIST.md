@@ -37,6 +37,8 @@ Tick items: `[ ]` → `[x]`.
 
 **Rule:** Port sim logic as plain GDScript (`RefCounted`); view layer only observes sim state and sends commands.
 
+**Audit (2026-10-18, M8 P3):** Section checkboxes below are **narrative**, not CI gates. For counts and pytest↔GUT mapping, run `./development/godot/report_matrix.py`. Authoritative pass/fail: `./godot/run_tests.sh` and CI job **`parity-golden`**. Legacy sqlite/M7 rows are **frozen** ([`docs/LEGACY_IMPORT_FROZEN.md`](docs/LEGACY_IMPORT_FROZEN.md)).
+
 ---
 
 ## Phase 0 — PoC (done)
@@ -96,6 +98,9 @@ Tick items: `[ ]` → `[x]`.
   - **Docs:** `EXPORT_PIPELINE.md`, `resources/dlc/northern_company/`  
 - [x] **Web export CI + parity-golden CI** — ★★☆☆☆ (S)  
   - **Workflow:** `.github/workflows/godot-tests.yml` (`gut`, `parity-golden`, `web-export`)
+- [x] **Playable settlement demo (lumber → bricks)** — ★★★☆☆ (M)  
+  - **Godot:** `DemoObjectiveTracker`, `poc_main.gd`, `resources/demo/playable_lumber_demo.json`  
+  - **GUT:** `tests/integration/test_playable_lumber_delivery.gd` · **Docs:** [`docs/PLAYABLE_DEMO.md`](docs/PLAYABLE_DEMO.md)
 
 ---
 
@@ -360,13 +365,13 @@ Tick items: `[ ]` → `[x]`.
 - [x] `test_build_tear`  
 
 **Tier 2 (chains)** — ★★★★☆ (L) each  
-- [x] `test_brick_production_chain` *(demo scenario + integration waves; full pytest parity partial)*  
-- [ ] `test_tool_production_chain`  
-- [ ] `test_weaver_production_chain`  
-- [ ] `test_pavilion_production`  
-- [ ] `test_farm_crop_production` / `test_farm_animal_production`  
-- [ ] `test_school_production`  
-- [ ] `test_saltpond_production`  
+- [x] `test_brick_production_chain` *(demo scenario + integration waves; parity `brickyard` / `brickyard_development`)*  
+- [x] `test_tool_production_chain` — `test_buildings_wave_f3.gd` · parity `toolmaker`  
+- [x] `test_weaver_production_chain` — `test_buildings_wave_f4.gd` · parity `weaver`  
+- [x] `test_pavilion_production` — `test_buildings_wave_f4.gd`  
+- [x] `test_farm_crop_production` / `test_farm_animal_production` — `test_buildings_wave_f6.gd` · parity `farm_crop`  
+- [x] `test_school_production` — `test_buildings_wave_f5.gd`  
+- [x] `test_saltpond_production` — `test_buildings_wave_f4.gd` · parity `salt_ponds`  
 
 **Tier 3 (late game)** — ★★★★☆ (L) each  
 - [ ] `test_distillery_production_chain` … through `test_barracks_production_chain` *(remaining 15 tests in file)*  
@@ -549,7 +554,7 @@ Tick items: `[ ]` → `[x]`.
 
 | Python test file | GUT file | Status |
 |------------------|----------|--------|
-| `tests/unittests/test_scheduler.py` (18 tests) | `tests/unit/test_scheduler.gd` | **18/18** ✓ |
+| `tests/unittests/test_scheduler.py` | `tests/unit/test_scheduler.gd` | **20** GUT *(run `report_matrix.py`)* ✓ |
 | `tests/unittests/test_timer.py` (13 tests) | `tests/unit/test_game_clock.gd` | **13/13** ✓ |
 | `tests/unittests/world/test_storage.py` (14 tests) | `tests/unit/test_storage.gd` | **14/14** ✓ |
 | `tests/unittests/world/production/test_productionline.py` (3) | `tests/unit/test_production_line.gd` | **3/3** ✓ |
@@ -558,15 +563,17 @@ Tick items: `[ ]` → `[x]`.
 | `tests/unittests/world/buildability/test_partialbinarycache.py` (5) | `tests/unit/test_partial_binary_cache.gd` | **5/5** ✓ |
 | `tests/unittests/world/units/collectors/test_collector.py` (4) | `tests/unit/test_collector_job_list.gd` | **4/4** ✓ |
 | `tests/unittests/util/test_shapes.py` (3) | `tests/unit/test_shapes.gd` | **3/3** ✓ |
-| `tests/unittests/util/test_tile_orientation.py` (9 param) | `tests/unit/test_tile_orientation.gd` | **9/9** ✓ |
+| `tests/unittests/util/test_tile_orientation.py` | `tests/unit/test_tile_orientation.gd` | **10** GUT ✓ |
 | `tests/unittests/world/component/test_healthcomponent.py` (5) | `tests/unit/test_health_component.gd` | **5/5** ✓ |
 | `tests/unittests/world/component/test_namedcomponent.py` (6) | `tests/unit/test_named_component.gd` | **6/6** ✓ |
 | `tests/unittests/world/component/test_tradepostcomponent.py` (2) | `tests/unit/test_trade_post_component.gd` | **2/2** ✓ |
-| `tests/game/test_buildings.py` (28) | `tests/integration/test_buildings_wave_f*.gd`, tier-1 | **28/28** ✓ |
-| `tests/game/test_load_save.py` (7) | `test_session_save.gd`, `test_session_save_extended.gd` | **7/7** ✓ |
+| `tests/game/test_buildings.py` | `tests/integration/test_buildings_wave_f*.gd`, tier-1 scenario | **29** GUT across waves ✓ |
+| `tests/game/test_load_save.py` | `test_session_save.gd`, `test_session_save_extended.gd` | **8** GUT ✓ |
 | `tests/gui/**` (~30 modules) | — | **deferred** |
 
-**Current GUT total:** run `./godot/run_tests.sh` — **239** tests (M7 tiers T1b–T1p, settler component, gameplay loop, demo/tier-1 integration).
+**Current GUT total:** run `./godot/run_tests.sh` — **~246** tests *(1 pending optional T1m without `RUN_T1M=1`)*; includes M7 sqlite regression (frozen scope), playable demo, parity stage-3 GUT, tier-1/2 integration waves.
+
+**GUT-only rows** (no pytest line): see `./development/godot/report_matrix.py` — demo scenarios, playable demo, parity stage-3, sqlite matrix *(maintenance)*.
 
 **DLC scaffolding (pre-parity):** see [`DLC_VISION.md`](DLC_VISION.md) and [`PORT_CHECKLIST_DLC.md`](PORT_CHECKLIST_DLC.md).
 
@@ -586,24 +593,28 @@ Tick items: `[ ]` → `[x]`.
 | `toolmaker.json` | same | ✓ |
 | `snapshot_mid_production.json` | same | ✓ |
 | `brickyard_development.json` | same | ✓ |
+| `weaver.json` | same | ✓ |
+| `salt_ponds.json` | same | ✓ |
 
-Docs: [`development/godot/parity/README.md`](../development/godot/parity/README.md). CI: workflow job **`parity-golden`**. Optional local: `./development/godot/sync.sh --parity`.
+**12** scenarios · Docs: [`development/godot/parity/README.md`](../development/godot/parity/README.md). CI: workflow job **`parity-golden`**. Optional local: `./development/godot/sync.sh --parity`.
 
 ---
 
-## Recommended next 10 tasks (ordered)
+## Recommended next 10 tasks (ordered, Godot-first)
 
 1. **Idle/work gfx swap** from producer state + atlas pipeline beyond stem slice.  
-2. **SQLite save load** — full settlement/inventory mapping beyond building subset (PoC import UI done on desktop).  
+2. **Parity stage 3+** — bakery/pavilion chains (`test_buildings_wave_f4.gd` already partial) + new scenario goldens.  
 3. **Collector pathfinding E3** (roads / walk-home).  
 4. **FieldUtilization** + automated farm fields.  
-5. **Gfx atlas pipeline** — sqlite atlas import beyond 5-building slice.  
+5. **View/content tiers** — [`docs/EXTERNAL_GODOT_PORT.md`](docs/EXTERNAL_GODOT_PORT.md), HUD gaps.  
 6. **SP session loop** (ship → found settlement).  
 7. **GUI pytest port** (batch ingame tabs).  
 8. **Game clock** edge cases (`test_timer.py` remainder).  
 9. **Units YAML export** expansion.  
 10. **MP / scenarios** (XL deferred).
 
+*Not prioritized:* full legacy `.sqlite` fidelity — frozen per [`docs/LEGACY_IMPORT_FROZEN.md`](docs/LEGACY_IMPORT_FROZEN.md).
+
 ---
 
-*Last updated: Next-10 batch — ground map `modify_area`, LAND/COAST terrain, warehouse storage collectors, pathfinder E2, snapshot v3, MessageBus, wave F4 GUT (106 tests).*
+*Last updated: **2026-10-18** M8 P3 — appendix C/D synced with GUT + 12 parity goldens; tier-2 building chains marked ported; playable demo in Phase 0.5.*

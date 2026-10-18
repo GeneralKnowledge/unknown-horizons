@@ -87,7 +87,7 @@ Ordered work after the Godot-first policy merge. **Out of scope** until reconsid
 | **P0** | Playable demo polish — objective clarity, JSON save/load in flow, status/errors | **Done (2026-10):** HUD hints, Continue menu refresh, load status with demo step |
 | **P1** | Web parity with desktop demo — `.extract.json` or JSON-only path documented; no new sqlite on web | **Done (2026-10):** browser `.extract.json` import + BROWSER/WEB checklists |
 | **P2** | Parity scenarios (Godot-only goldens) — extend stage 3 chains per [`development/godot/parity/README.md`](../../development/godot/parity/README.md) | **Done (2026-10):** `weaver`, `salt_ponds` + goldens |
-| **P3** | PORT_CHECKLIST refresh — sync checkboxes with GUT/parity truth | **In progress** — Appendix C/D + wave F4 / demo GUT rows |
+| **P3** | PORT_CHECKLIST refresh — sync checkboxes with GUT/parity truth | **Done (2026-10):** Appendix C/D, tier-2 chain rows, `report_matrix.py` |
 | **P4** | View/content — external port tiers ([`EXTERNAL_GODOT_PORT.md`](EXTERNAL_GODOT_PORT.md)), gfx slice, HUD gaps | |
 
 ## Future ideas (historical — cross-engine)
@@ -197,7 +197,7 @@ Merged browser demo Phase 1, reskin/export pipeline, and tier-1 scenario work (#
 
 | Area | Notes |
 |------|--------|
-| **PORT_CHECKLIST body** | Many section checkboxes still read “not started” while GUT/parity cover the behavior — treat Appendix C/D + `./development/godot/report_matrix.py` as truth until the checklist is refreshed wholesale. |
+| **PORT_CHECKLIST body** | **2026-10 P3 refresh** — Appendix C/D + tier-2 chains + Phase 0.5 demo; XL/deferred rows still `[ ]` by design. Use `./development/godot/report_matrix.py` for counts. |
 | **PoC SQLite import** | Desktop FileDialog import wired; browser remains JSON-only. |
 | **`report_matrix.py`** | Lists GUT-only demo/sqlite files; run after major test additions. |
 | **Automated browser QA** | CI builds web + **shareable-demo-screenshot** PNG artifact; no in-browser playtest yet. |
