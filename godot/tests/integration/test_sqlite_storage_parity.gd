@@ -58,7 +58,14 @@ func _assert_building_storage_matches(
 			exp_amt,
 			"%s worldid %s res %s" % [fixture_name, building.worldid, res_id]
 		)
-	# Legacy saves may omit zero rows; ignore extra zero slots in Godot inventories.
+	for res_id in actual.keys():
+		if int(actual[res_id]) == 0:
+			continue
+		if not expected.has(res_id):
+			fail_test(
+				"%s worldid %s unexpected res %s = %s"
+				% [fixture_name, building.worldid, res_id, actual[res_id]]
+			)
 
 
 func test_fire_fixture_building_storage_matches_sqlite_extract() -> void:
@@ -78,10 +85,10 @@ func test_fire_fixture_building_storage_matches_sqlite_extract() -> void:
 	assert_gt(report.buildings_placed, 0)
 	assert_gt(report.storage_rows_applied, 0)
 
-	assert_gt(report.storage_rows_applied, 0)
 	var lumberjack := session.get_building(1019)
 	assert_not_null(lumberjack, "lumberjack worldid from fire fixture")
 	assert_eq(5, lumberjack.get_storage().amount(GameConstants.RES["TREES"]))
+
 	var compared := 0
 	for building in session.get_buildings_on_island(session.island):
 		if not expected_by_wid.has(building.worldid):
@@ -91,6 +98,9 @@ func test_fire_fixture_building_storage_matches_sqlite_extract() -> void:
 			continue
 		_assert_building_storage_matches(building, exp, "fire")
 		compared += 1
+	# Full inventory match for every placed building is the long-term goal (master had >= 10).
+	# After production-aware import, many rows still diverge on secondary resources; keep a
+	# strict spot check above and grow this threshold as placement + settlement storage land.
 	assert_gte(compared, 1, "at least one building inventory matches extract exactly")
 
 
