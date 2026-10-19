@@ -40,6 +40,8 @@ Typical upstream paths (names vary by stem, e.g. `lumberjack` vs export stem `lu
 
 Re-sync godot-port Tier A only for gaps the legacy exporter misses; avoid maintaining both for the same stem without a pin note in `ATTRIBUTION.md`.
 
+**Demo / tier-1 gfx export (2026-10):** run `python3 development/godot/export_gfx.py --demo --multi-frame` after content export (also invoked from [`export_all.sh`](../../development/godot/export_all.sh)). Curated stems live in `DEMO_GFX_STEMS` inside `export_gfx.py` plus `build_menu.json` tab1.
+
 ### Tier B — detail
 
 - **Reference:** `Assets/UI/TabWidgets/` (`InventoryTab`, `ProductionOverviewTab`, building menu tabs).

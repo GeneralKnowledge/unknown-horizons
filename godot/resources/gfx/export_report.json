@@ -1,15 +1,55 @@
 {
-  "stems_requested": 3,
+  "stems_requested": 14,
   "rows": [
     {
-      "stem": "farm",
+      "stem": "brickyard",
       "ok": true,
-      "actionset": "as_farm0",
-      "actionset_dir": "gfx/buildings/pioneers/farm/as_farm0",
+      "actionset": "as_brickyard0",
+      "actionset_dir": "gfx/buildings/pioneers/brickyard/as_brickyard0",
+      "idle_action": "idle",
+      "working_action": "bricks_01",
+      "idle": "buildings/pioneers/brickyard/as_brickyard0/idle/135/000.png",
+      "working": "buildings/pioneers/brickyard/as_brickyard0/bricks_01/135/000.png"
+    },
+    {
+      "stem": "claypit",
+      "ok": true,
+      "actionset": "as_clay_pit0",
+      "actionset_dir": "gfx/buildings/pioneers/clay_pit/as_clay_pit0",
       "idle_action": "idle",
       "working_action": "idle",
-      "idle": "buildings/pioneers/farm/as_farm0/idle/135/0.png",
-      "working": "buildings/pioneers/farm/as_farm0/idle/135/0.png"
+      "idle": "buildings/pioneers/clay_pit/as_clay_pit0/idle/135/0.png",
+      "working": "buildings/pioneers/clay_pit/as_clay_pit0/idle/135/0.png"
+    },
+    {
+      "stem": "fishermanstent",
+      "ok": true,
+      "actionset": "as_fisherman0",
+      "actionset_dir": "gfx/buildings/sailors/fisherman/as_fisherman0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/fisherman/as_fisherman0/idle/135/0.png",
+      "working": "buildings/sailors/fisherman/as_fisherman0/idle/135/0.png"
+    },
+    {
+      "stem": "hunterstent",
+      "ok": true,
+      "actionset": "as_hunter0",
+      "actionset_dir": "gfx/buildings/sailors/hunter/as_hunter0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/hunter/as_hunter0/idle/135/0.png",
+      "working": "buildings/sailors/hunter/as_hunter0/idle/135/0.png"
+    },
+    {
+      "stem": "lookout",
+      "ok": true,
+      "actionset": "as_lookout0",
+      "actionset_dir": "gfx/buildings/sailors/lookout/as_lookout0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/lookout/as_lookout0/idle/135/0.png",
+      "working": "buildings/sailors/lookout/as_lookout0/idle/135/0.png"
     },
     {
       "stem": "lumberjackcamp",
@@ -22,14 +62,84 @@
       "working": "buildings/sailors/lumberjack/as_lumberjack0/logs_1/135/0.png"
     },
     {
-      "stem": "stonemason",
+      "stem": "mainsquare",
       "ok": true,
-      "actionset": "as_stonemason0",
-      "actionset_dir": "gfx/buildings/citizens/as_stonemason0",
+      "actionset": "as_mainsquare0",
+      "actionset_dir": "gfx/buildings/sailors/mainsquare/as_mainsquare0",
+      "idle_action": "work",
+      "working_action": "work",
+      "idle": "buildings/sailors/mainsquare/as_mainsquare0/work/135/000.png",
+      "working": "buildings/sailors/mainsquare/as_mainsquare0/work/135/000.png"
+    },
+    {
+      "stem": "pavilion",
+      "ok": true,
+      "actionset": "as_sunsail0",
+      "actionset_dir": "gfx/buildings/sailors/sunsail/as_sunsail0",
       "idle_action": "idle",
       "working_action": "idle",
-      "idle": "buildings/citizens/as_stonemason0/idle/135/0.png",
-      "working": "buildings/citizens/as_stonemason0/idle/135/0.png"
+      "idle": "buildings/sailors/sunsail/as_sunsail0/idle/135/0.png",
+      "working": "buildings/sailors/sunsail/as_sunsail0/idle/135/0.png"
+    },
+    {
+      "stem": "signalfire",
+      "ok": true,
+      "actionset": "as_signalfire0",
+      "actionset_dir": "gfx/buildings/sailors/signalfire/as_signalfire0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/signalfire/as_signalfire0/idle/135/0.png",
+      "working": "buildings/sailors/signalfire/as_signalfire0/idle/135/0.png"
+    },
+    {
+      "stem": "storagetent",
+      "ok": true,
+      "actionset": "as_storagetent0",
+      "actionset_dir": "gfx/buildings/sailors/storagetent/as_storagetent0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/storagetent/as_storagetent0/idle/135/0.png",
+      "working": "buildings/sailors/storagetent/as_storagetent0/idle/135/0.png"
+    },
+    {
+      "stem": "tent",
+      "ok": true,
+      "actionset": "as_tent0",
+      "actionset_dir": "gfx/buildings/sailors/residential/as_tent0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/residential/as_tent0/idle/135/0.png",
+      "working": "buildings/sailors/residential/as_tent0/idle/135/0.png"
+    },
+    {
+      "stem": "trail",
+      "ok": true,
+      "actionset": "as_trail",
+      "actionset_dir": "gfx/buildings/sailors/streets/as_trail",
+      "idle_action": "a",
+      "working_action": "a",
+      "idle": "buildings/sailors/streets/as_trail/a/135/0.png",
+      "working": "buildings/sailors/streets/as_trail/a/135/0.png"
+    },
+    {
+      "stem": "tree",
+      "ok": true,
+      "actionset": "as_tupelo2",
+      "actionset_dir": "gfx/terrain/trees/as_tupelo2",
+      "idle_action": "idle_full",
+      "working_action": "work",
+      "idle": "terrain/trees/as_tupelo2/idle_full/135/0.png",
+      "working": "terrain/trees/as_tupelo2/work/135/0.png"
+    },
+    {
+      "stem": "warehouse",
+      "ok": true,
+      "actionset": "as_warehouse0",
+      "actionset_dir": "gfx/buildings/sailors/warehouse/as_warehouse0",
+      "idle_action": "idle",
+      "working_action": "idle",
+      "idle": "buildings/sailors/warehouse/as_warehouse0/idle/135/0.png",
+      "working": "buildings/sailors/warehouse/as_warehouse0/idle/135/0.png"
     }
   ]
 }

@@ -2,7 +2,7 @@
   "building_stem": "tree",
   "building_id": 17,
   "source": "legacy_png",
-  "manifest_version": 1,
+  "manifest_version": 2,
   "atlas_sqlite": null,
   "animations": {
     "idle": {
@@ -10,8 +10,13 @@
       "fps": 1.0
     },
     "working": {
-      "texture": "working.png",
-      "fps": 4.0
+      "fps": 4.0,
+      "frames": [
+        "working_000.png",
+        "working_001.png",
+        "working_002.png",
+        "working_003.png"
+      ]
     }
   }
 }

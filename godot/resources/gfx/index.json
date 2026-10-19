@@ -150,7 +150,7 @@
       "atlas_sqlite": null,
       "building_id": 24,
       "building_stem": "brickyard",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "butchery": {
@@ -252,7 +252,7 @@
       "atlas_sqlite": null,
       "building_id": 25,
       "building_stem": "claypit",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "cocoafield": {
@@ -388,7 +388,7 @@
       "atlas_sqlite": null,
       "building_id": 11,
       "building_stem": "fishermanstent",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "herbary": {
@@ -439,7 +439,7 @@
       "atlas_sqlite": null,
       "building_id": 9,
       "building_stem": "hunterstent",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "lookout": {
@@ -456,7 +456,7 @@
       "atlas_sqlite": null,
       "building_id": 13,
       "building_stem": "lookout",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "lumberjackcamp": {
@@ -480,17 +480,51 @@
       "animations": {
         "idle": {
           "fps": 1.0,
-          "texture": "idle.png"
+          "frames": [
+            "idle_000.png",
+            "idle_001.png",
+            "idle_002.png",
+            "idle_003.png",
+            "idle_004.png",
+            "idle_005.png",
+            "idle_006.png",
+            "idle_007.png",
+            "idle_008.png",
+            "idle_009.png",
+            "idle_010.png",
+            "idle_011.png",
+            "idle_012.png",
+            "idle_013.png",
+            "idle_014.png",
+            "idle_015.png"
+          ]
         },
         "working": {
           "fps": 4.0,
-          "texture": "working.png"
+          "frames": [
+            "working_000.png",
+            "working_001.png",
+            "working_002.png",
+            "working_003.png",
+            "working_004.png",
+            "working_005.png",
+            "working_006.png",
+            "working_007.png",
+            "working_008.png",
+            "working_009.png",
+            "working_010.png",
+            "working_011.png",
+            "working_012.png",
+            "working_013.png",
+            "working_014.png",
+            "working_015.png"
+          ]
         }
       },
       "atlas_sqlite": null,
       "building_id": 4,
       "building_stem": "mainsquare",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "mine": {
@@ -575,7 +609,7 @@
       "atlas_sqlite": null,
       "building_id": 5,
       "building_stem": "pavilion",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "pigsty": {
@@ -684,17 +718,39 @@
       "animations": {
         "idle": {
           "fps": 1.0,
-          "texture": "idle.png"
+          "frames": [
+            "idle_000.png",
+            "idle_001.png",
+            "idle_002.png",
+            "idle_003.png",
+            "idle_004.png",
+            "idle_005.png",
+            "idle_006.png",
+            "idle_007.png",
+            "idle_008.png",
+            "idle_009.png"
+          ]
         },
         "working": {
           "fps": 4.0,
-          "texture": "working.png"
+          "frames": [
+            "working_000.png",
+            "working_001.png",
+            "working_002.png",
+            "working_003.png",
+            "working_004.png",
+            "working_005.png",
+            "working_006.png",
+            "working_007.png",
+            "working_008.png",
+            "working_009.png"
+          ]
         }
       },
       "atlas_sqlite": null,
       "building_id": 6,
       "building_stem": "signalfire",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "smeltery": {
@@ -796,7 +852,7 @@
       "atlas_sqlite": null,
       "building_id": 2,
       "building_stem": "storagetent",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "sugarfield": {
@@ -847,7 +903,7 @@
       "atlas_sqlite": null,
       "building_id": 3,
       "building_stem": "tent",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "tobaccofield": {
@@ -915,7 +971,7 @@
       "atlas_sqlite": null,
       "building_id": 15,
       "building_stem": "trail",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "tree": {
@@ -926,13 +982,18 @@
         },
         "working": {
           "fps": 4.0,
-          "texture": "working.png"
+          "frames": [
+            "working_000.png",
+            "working_001.png",
+            "working_002.png",
+            "working_003.png"
+          ]
         }
       },
       "atlas_sqlite": null,
       "building_id": 17,
       "building_stem": "tree",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "villageschool": {
@@ -983,7 +1044,7 @@
       "atlas_sqlite": null,
       "building_id": 1,
       "building_stem": "warehouse",
-      "manifest_version": 1,
+      "manifest_version": 2,
       "source": "legacy_png"
     },
     "weaponsmith": {

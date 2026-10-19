@@ -41,10 +41,18 @@ func show_inventory(title: String, inventory: Inventory) -> void:
 		for res_name in DISPLAY_RES:
 			_rows[res_name].text = "%s: —" % res_name
 		return
+	var extras: Array[String] = []
+	for res_name in GameConstants.RES.keys():
+		if res_name in DISPLAY_RES:
+			continue
+		var rid := int(GameConstants.RES[res_name])
+		var amt := inventory.amount(rid)
+		if amt > 0:
+			extras.append("%s: %d" % [res_name, amt])
 	for res_name in DISPLAY_RES:
 		var res_id: int = GameConstants.RES[res_name]
 		var amount := inventory.amount(res_id)
-		if amount > 0 or res_name in ["GOLD", "BOARDS", "FOOD"]:
-			_rows[res_name].text = "%s: %d" % [res_name, amount]
-		else:
-			_rows[res_name].text = "%s: 0" % res_name
+		var line := "%s: %d" % [res_name, amount]
+		if not extras.is_empty() and res_name == DISPLAY_RES[DISPLAY_RES.size() - 1]:
+			line += "  |  " + ", ".join(extras)
+		_rows[res_name].text = line

@@ -2,16 +2,38 @@
   "building_stem": "signalfire",
   "building_id": 6,
   "source": "legacy_png",
-  "manifest_version": 1,
+  "manifest_version": 2,
   "atlas_sqlite": null,
   "animations": {
     "idle": {
-      "texture": "idle.png",
-      "fps": 1.0
+      "fps": 1.0,
+      "frames": [
+        "idle_000.png",
+        "idle_001.png",
+        "idle_002.png",
+        "idle_003.png",
+        "idle_004.png",
+        "idle_005.png",
+        "idle_006.png",
+        "idle_007.png",
+        "idle_008.png",
+        "idle_009.png"
+      ]
     },
     "working": {
-      "texture": "working.png",
-      "fps": 4.0
+      "fps": 4.0,
+      "frames": [
+        "working_000.png",
+        "working_001.png",
+        "working_002.png",
+        "working_003.png",
+        "working_004.png",
+        "working_005.png",
+        "working_006.png",
+        "working_007.png",
+        "working_008.png",
+        "working_009.png"
+      ]
     }
   }
 }
