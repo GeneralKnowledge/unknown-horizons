@@ -50,6 +50,9 @@ func register_warehouse(origin: Vector2i, footprint_tiles: Array, warehouse_radi
 			if not ground_map.has(coords):
 				ground_map[coords] = null
 	buildability.modify_area(land_tiles)
+	for tile in footprint_tiles:
+		var c: Vector2i = tile if tile is Vector2i else Vector2i(tile[0], tile[1])
+		island.set_road_tile(c)
 
 
 func can_place_building(origin: Vector2i, size: Vector2i) -> bool:

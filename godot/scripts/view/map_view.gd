@@ -65,11 +65,13 @@ func _draw() -> void:
 	for coords in island.ground_map.keys():
 		var kind: int = int(island.ground_map[coords])
 		var color := _water_color
+		var c: Vector2i = coords if coords is Vector2i else Vector2i(coords[0], coords[1])
 		if kind == SimGround.Kind.LAND:
 			color = _land_color
 		elif kind == SimGround.Kind.SHALLOW_WATER:
 			color = _coast_color
-		var c: Vector2i = coords if coords is Vector2i else Vector2i(coords[0], coords[1])
+		if island.is_road(c):
+			color = color.lerp(Color(0.45, 0.38, 0.28), 0.55)
 		var center := grid_to_screen(c)
 		var half_w := Vector2(TILE_W / 2.0, TILE_H / 2.0)
 		var diamond := PackedVector2Array([

@@ -42,9 +42,17 @@ func _refresh() -> void:
 		return
 	var lines: PackedStringArray = []
 	for production in producer.get_productions():
+		var progress: float = production.producing_progress()
+		var prog_txt := ""
+		if progress >= 0.0:
+			prog_txt = " %.0f%%" % (progress * 100.0)
 		lines.append(
-			"line %d (%s)"
-			% [production.get_production_line_id(), ProductionStates.name_for(production.get_state())]
+			"line %d (%s%s)"
+			% [
+				production.get_production_line_id(),
+				ProductionStates.name_for(production.get_state()),
+				prog_txt,
+			]
 		)
 	var detail := ", ".join(lines) if not lines.is_empty() else "—"
 	_state.text = "State: %s | active: %s\n%s" % [

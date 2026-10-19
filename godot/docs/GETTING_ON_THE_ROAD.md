@@ -12,7 +12,24 @@ chmod +x development/godot/play_demo.sh
 ./development/godot/play_demo.sh
 ```
 
-On the title screen choose **Start settlement demo**. Controls and objectives: [`PLAYABLE_DEMO.md`](PLAYABLE_DEMO.md).
+On the title screen choose one of:
+
+| Menu entry | Purpose |
+|------------|---------|
+| **Start settlement demo (short)** | Two-step lumber → brickyard guided loop |
+| **Northern expedition (full demo)** | Eight delivery milestones + DLC hints |
+| **Living village showcase** | Pre-built settlement + sim warmup (browse / screenshots) |
+
+Controls and objectives: [`PLAYABLE_DEMO.md`](PLAYABLE_DEMO.md).
+
+### Storyboard captures (marketing)
+
+```bash
+chmod +x development/godot/capture_demo_storyboard.sh
+./development/godot/capture_demo_storyboard.sh godot/docs/screenshots/storyboard
+```
+
+Outputs wide village, lumber, food, brickyard, toolmaker, DLC, HUD, and title menu PNGs under `godot/docs/screenshots/storyboard/`.
 
 **Full verify (maintainers):**
 
@@ -44,7 +61,7 @@ Saves in the browser use **JSON** (Save / Download / Import) — see [`SAVE_FORM
 
 | You can… | Notes |
 |----------|--------|
-| Run the **two-step settlement demo** (boards → bricks) | JSON save/load + Continue on menu |
+| Run **short**, **expedition**, or **living village** demos from the title menu | JSON save/load + **Continue JSON save** restores `demo.playable_lumber` or `demo.playable_northern_expedition` |
 | Export and host **WASM** | Single-threaded preset; no backend |
 | Trust **sim rules** via GUT + **14** parity goldens | `./development/godot/parity/run_all.sh` |
 | Edit balance in **`legacy/content/`** | Re-export with `development/godot/export_all.sh` |

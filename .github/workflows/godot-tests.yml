@@ -93,6 +93,35 @@ jobs:
       - name: Verify SOURCE_COMMIT pin file exists
         run: test -f godot/resources/upstream/godot-port/SOURCE_COMMIT.txt
 
+  demo-storyboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Godot 4.3 + xvfb
+        run: |
+          curl -sL "https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip" -o /tmp/godot.zip
+          unzip -q /tmp/godot.zip -d /tmp
+          sudo mv /tmp/Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
+          sudo apt-get update -qq && sudo apt-get install -y -qq xvfb
+
+      - name: Export content for storyboard
+        run: |
+          python3 development/godot/export_content.py
+          python3 development/godot/export_gfx.py --auto
+          python3 development/godot/export_maps.py
+
+      - name: Capture demo storyboard PNGs
+        run: |
+          chmod +x development/godot/capture_demo_storyboard.sh
+          ./development/godot/capture_demo_storyboard.sh godot/build/storyboard
+
+      - name: Upload storyboard artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-storyboard-pngs
+          path: godot/build/storyboard/*.png
+
   shareable-demo-screenshot:
     runs-on: ubuntu-latest
     steps:

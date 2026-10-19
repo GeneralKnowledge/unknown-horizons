@@ -28,6 +28,10 @@ func test_expedition_brickyard_chain_on_development() -> void:
 	assert_not_null(pit)
 	var brickyard: Building = gts.build(GameConstants.BUILDINGS["BRICKYARD"], 33, 25)
 	assert_not_null(brickyard)
+	var lj: Building = gts.build(GameConstants.BUILDINGS["LUMBERJACK"], 28, 32)
+	assert_not_null(lj)
+	var smokery: Building = gts.build(DlcConstants.BUILDINGS["NORTHERN_SMOKERY"], 40, 28)
+	assert_not_null(smokery)
 	PlayableDemoConfig.use_short_demo()
 
 

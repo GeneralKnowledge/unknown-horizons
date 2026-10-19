@@ -116,9 +116,9 @@ func refresh_continue_availability() -> void:
 	var has_save := FileAccess.file_exists(SaveLoadPanel.DEFAULT_SAVE_PATH)
 	_continue_btn.disabled = not has_save
 	_continue_btn.tooltip_text = (
-		"Loads user://poc_snapshot.json (settlement demo progress when saved from the HUD)."
+		"Loads user://poc_snapshot.json — restores short or Northern expedition demo progress from the HUD save."
 		if has_save
-		else "Play the demo and use Save JSON in the HUD, or Import JSON save."
+		else "Start a demo, use Save JSON in the HUD, or Import JSON save — then Continue will restore step progress."
 	)
 
 

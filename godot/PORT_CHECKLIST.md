@@ -604,14 +604,14 @@ Tick items: `[ ]` → `[x]`.
 
 ## Recommended next 10 tasks (ordered, Godot-first)
 
-1. **Collector E3** — road buildability cache, road placement, pathfinder bonuses ([`potential_road_connectivity_cache.gd`](scripts/sim/buildability/potential_road_connectivity_cache.gd) stub landed).  
+1. **Collector E3** — *(partial 2026-10)* trail → `Island.road_tiles`, network adjacency for new trails, tear clears tiles, pathfinder road walk + GUT; follow-up: full legacy `ConnectedAreaCache` parity.  
 2. **FieldUtilization** + automated farm fields.  
 3. **SP session loop** (ship → found settlement).  
 4. **GUI wave C4+** — ships, trade routes (see [`GUI_PORT_STRATEGY.md`](docs/GUI_PORT_STRATEGY.md)).  
 5. **Gfx atlas / stem coverage** beyond M9 demo export set.  
 6. **Game clock** edge cases (`test_timer.py` remainder).  
 7. **Units YAML export** expansion.  
-8. **Browser CI smoke** (WEB_DEPLOYMENT checklist automation).  
+8. **Browser CI smoke** — *(partial 2026-10)* `web_export_smoke.sh` menu string checks + GUT lumber demo; follow-up: headless WASM boot.  
 9. **Production overview / warehouse grid** depth vs legacy `test_warehouse.py`.  
 10. **MP / scenarios** (XL deferred).
 

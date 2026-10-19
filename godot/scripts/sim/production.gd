@@ -43,6 +43,17 @@ func get_state() -> int:
 	return _state
 
 
+## 0.0–1.0 while PRODUCING; -1 when not in a timed production tick.
+func producing_progress() -> float:
+	if _state != ProductionStates.PRODUCING:
+		return -1.0
+	var remaining := int(_scheduler.get_remaining_ticks(self, _finished_producing))
+	var total := int(_scheduler.get_ticks(_prod_line.time))
+	if total <= 0:
+		return 0.0
+	return clampf(1.0 - float(remaining) / float(total), 0.0, 1.0)
+
+
 func get_animating_state() -> int:
 	if _prod_line.changes_animation:
 		return _state

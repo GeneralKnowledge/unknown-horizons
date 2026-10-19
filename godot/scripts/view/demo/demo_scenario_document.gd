@@ -96,7 +96,7 @@ func steps() -> Array:
 func _apply_starting_inventory(session: GameSession) -> void:
 	var inv: Variant = raw.get("starting_inventory", {})
 	if typeof(inv) != TYPE_DICTIONARY:
-		var legacy_gold := raw.get("starting_gold", null)
+		var legacy_gold: Variant = raw.get("starting_gold", null)
 		if legacy_gold != null:
 			session.settlement.inventory.alter(
 				int(GameConstants.RES["GOLD"]),
@@ -107,7 +107,7 @@ func _apply_starting_inventory(session: GameSession) -> void:
 		if not GameConstants.RES.has(str(res_name)):
 			continue
 		var res_id := int(GameConstants.RES[str(res_name)])
-		var want := int(inv[res_name])
+		var want: int = int(inv[res_name])
 		session.settlement.inventory.alter(res_id, want - session.settlement.inventory.amount(res_id))
 
 

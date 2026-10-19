@@ -22,6 +22,19 @@ grep -q "index" "$WEB_DIR/index.html" || {
 
 echo "OK: web export smoke (artifacts present)"
 
+# Title menu strings for three demo modes (embedded in poc_main export).
+for needle in \
+	"Start settlement demo (short)" \
+	"Northern expedition (full demo)" \
+	"Living village showcase" \
+	"Continue JSON save"; do
+	grep -rq "$needle" "$ROOT/godot/scripts/view/start_menu_panel.gd" || {
+		echo "error: missing menu string: $needle" >&2
+		exit 1
+	}
+done
+echo "OK: browser demo menu strings present"
+
 if command -v godot >/dev/null 2>&1; then
 	echo "==> Headless playable demo integration smoke"
 	(cd "$ROOT/godot" && godot --headless --import --path . >/dev/null)

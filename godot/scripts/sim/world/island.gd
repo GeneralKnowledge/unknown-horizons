@@ -8,6 +8,7 @@ var ground_map: Dictionary = {} # Vector2i -> SimGround.Kind
 var terrain_cache: TerrainBuildabilityCache
 var occupied_tiles: Dictionary = {} # Vector2i -> Building
 var road_tiles: Dictionary = {} # Vector2i -> true (E3 subset)
+var road_connectivity: PotentialRoadConnectivityCache = PotentialRoadConnectivityCache.new()
 
 
 func _init(p_worldid: int, p_session: GameSession) -> void:
@@ -41,6 +42,30 @@ func set_road_tile(coords: Vector2i, on: bool = true) -> void:
 		road_tiles[coords] = true
 	elif road_tiles.has(coords):
 		road_tiles.erase(coords)
+	road_connectivity.sync_from_island(self)
+
+
+func trail_connects_to_network(origin: Vector2i, export: Dictionary, _settlement: Settlement) -> bool:
+	var tiles := BuildFootprint.origin_tiles(
+		origin,
+		int(export.get("size_x", 1)),
+		int(export.get("size_y", 1))
+	)
+	for tile in tiles:
+		var at: Vector2i = tile if tile is Vector2i else Vector2i(tile[0], tile[1])
+		for n in _trail_neighbor_coords(at):
+			if is_road(n) or occupied_tiles.has(n):
+				return true
+	return false
+
+
+static func _trail_neighbor_coords(c: Vector2i) -> Array:
+	return [
+		Vector2i(c.x + 1, c.y),
+		Vector2i(c.x - 1, c.y),
+		Vector2i(c.x, c.y + 1),
+		Vector2i(c.x, c.y - 1),
+	]
 
 
 func is_road(coords: Vector2i) -> bool:
