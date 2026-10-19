@@ -21,6 +21,7 @@ xvfb-run -a "$GODOT" --path "$ROOT/godot" --display-driver x11 --rendering-drive
 capture_preset() {
 	local preset="$1"
 	local outfile="$2"
+	outfile="$(realpath -m "$outfile")"
 	local run=("$GODOT" --path "$ROOT/godot")
 	run+=(--display-driver x11 --rendering-driver opengl3 --resolution 1280x720)
 	run+=(res://scenes/poc_main.tscn --)

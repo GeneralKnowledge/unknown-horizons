@@ -114,7 +114,8 @@ jobs:
       - name: Capture demo storyboard PNGs
         run: |
           chmod +x development/godot/capture_demo_storyboard.sh
-          ./development/godot/capture_demo_storyboard.sh godot/build/storyboard
+          mkdir -p godot/build/storyboard
+          ./development/godot/capture_demo_storyboard.sh "$PWD/godot/build/storyboard"
 
       - name: Upload storyboard artifact
         uses: actions/upload-artifact@v4
