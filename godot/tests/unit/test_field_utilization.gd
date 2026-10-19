@@ -28,6 +28,46 @@ func test_farm_capacity_utilization_with_potato_fields() -> void:
 	assert_false(farm.producer.capacity_utilization_below(expected - 0.05))
 
 
+func test_farm_provider_resource_compatibility() -> void:
+	var gts := GameTestSession.start(true)
+	var farm: Building = gts.build(GameConstants.BUILDINGS["FARM"], 30, 30)
+	if farm == null:
+		pending("FARM build failed on test map")
+		return
+	var off: Vector2i = GameTestHelpers.FARM_FIELD_OFFSETS[1]
+	var corn_field: Building = gts.build(
+		GameConstants.BUILDINGS["CORN_FIELD"],
+		farm.position.x + off.x,
+		farm.position.y + off.y
+	)
+	if corn_field == null:
+		pending("CORN_FIELD build failed on test map")
+		return
+	var consumed: Array = farm._consumed_resource_ids()
+	assert_has(consumed, GameConstants.RES["GRAIN"])
+	assert_true(
+		Building.field_provides_any_resource(corn_field, consumed),
+		"corn field produces GRAIN which the farm consumes"
+	)
+	assert_false(
+		Building.field_provides_any_resource(
+			corn_field,
+			[GameConstants.RES["POTATOES"]]
+		),
+		"corn field must not count as potato crop provider"
+	)
+	assert_false(
+		Building.field_provides_any_resource(
+			corn_field,
+			[GameConstants.RES["CORN"]]
+		),
+		"CORN is farm output, not an input matched to field produce"
+	)
+	var providers := farm.get_providers()
+	assert_eq(1, providers.size())
+	assert_eq(corn_field.worldid, (providers[0] as Building).worldid)
+
+
 func test_lumberjack_field_builder_fill_range() -> void:
 	var gts := GameTestSession.start(true)
 	var lj: Building = gts.build(GameConstants.BUILDINGS["LUMBERJACK"], 30, 30)

@@ -58,6 +58,8 @@ func get_providers() -> Array:
 	if island == null or settlement == null:
 		return []
 	var reslist := _consumed_resource_ids()
+	if reslist.is_empty():
+		return []
 	var providers: Array = []
 	for other in island.session.get_buildings_on_island(island):
 		if other == self or other.settlement != settlement:
@@ -66,7 +68,7 @@ func get_providers() -> Array:
 			continue
 		if not _building_in_radius(other, get_radius()):
 			continue
-		if reslist.is_empty() or _field_provides_any(other, reslist):
+		if field_provides_any_resource(other, reslist):
 			providers.append(other)
 	return providers
 
@@ -84,9 +86,28 @@ func _consumed_resource_ids() -> Array:
 	return ids
 
 
-func _field_provides_any(field: Building, reslist: Array) -> bool:
-	# Fields store crop input; any field type is counted when reslist is non-empty (legacy filters Field class only).
-	return true
+## Resources this building provides to collectors (legacy ResourceHandler.provided_resources).
+func get_provided_resource_ids() -> Array:
+	var ids: Array = []
+	if producer == null:
+		return ids
+	for line_key in producer.production_lines.keys():
+		var data: Dictionary = producer.production_lines[line_key]
+		for entry in data.get("produces", []):
+			var res_id := int(entry[0])
+			if res_id not in ids:
+				ids.append(res_id)
+	return ids
+
+
+## Legacy provider_by_resources: field counts only if it produces a farm-consumed resource.
+static func field_provides_any_resource(field: Building, reslist: Array) -> bool:
+	if reslist.is_empty():
+		return false
+	for provided_id in field.get_provided_resource_ids():
+		if provided_id in reslist:
+			return true
+	return false
 
 
 func _building_in_radius(other: Building, radius: int) -> bool:
