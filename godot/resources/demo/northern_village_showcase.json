@@ -1,0 +1,52 @@
+{
+  "description": "Pre-built Northern Company settlement for marketing captures (tier-1/2 + DLC slice).",
+  "map_id": "development",
+  "sim_warmup_seconds": 100,
+  "settlement": { "x": 30, "y": 30 },
+  "starting_inventory": {
+    "GOLD": 1400,
+    "TOOLS": 45,
+    "BOARDS": 24,
+    "BRICKS": 6,
+    "FOOD": 8
+  },
+  "chain": {
+    "lumberjack": { "x": 27, "y": 32 },
+    "hunter": { "x": 29, "y": 34 },
+    "fish_deposits": [
+      { "x": 35, "y": 26 },
+      { "x": 37, "y": 26 }
+    ],
+    "fisher": { "x": 33, "y": 28 },
+    "clay_deposit": { "x": 36, "y": 36 },
+    "clay_pit": { "x": 36, "y": 36 },
+    "brickyard": { "x": 34, "y": 24 }
+  },
+  "placements": [
+    { "building": "TREE", "x": 25, "y": 32 },
+    { "building": "TREE", "x": 26, "y": 30 },
+    { "building": "TREE", "x": 28, "y": 30 },
+    { "building": "TOOLMAKER", "x": 32, "y": 22 },
+    { "building": "WEAVER", "x": 30, "y": 20 },
+    { "building": "PAVILION", "x": 28, "y": 18 }
+  ],
+  "dlc_placements": [
+    { "building": "NORTHERN_OUTPOST", "x": 38, "y": 30 },
+    { "building": "NORTHERN_SMOKERY", "x": 40, "y": 28 },
+    { "building": "NORTHERN_SIGNAL_TOWER", "x": 36, "y": 22 }
+  ],
+  "seed_building_storage": [
+    { "building": "FISHER", "resource": "FOOD", "amount": 4 },
+    { "building": "NORTHERN_SMOKERY", "resource": "FISH", "amount": 8 },
+    { "building": "HUNTER", "resource": "DEER_MEAT", "amount": 3 }
+  ],
+  "camera_spots": {
+    "wide": { "x": 32, "y": 28, "zoom": 1.05 },
+    "lumber": { "x": 27, "y": 32, "zoom": 1.45 },
+    "food": { "x": 33, "y": 28, "zoom": 1.35 },
+    "brickyard": { "x": 34, "y": 24, "zoom": 1.4 },
+    "toolmaker": { "x": 32, "y": 22, "zoom": 1.35 },
+    "dlc": { "x": 39, "y": 29, "zoom": 1.3 },
+    "hud": { "x": 30, "y": 30, "zoom": 1.15 }
+  }
+}

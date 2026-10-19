@@ -22,7 +22,8 @@ func _ready() -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(title)
 	var body := Label.new()
-	body.text = "Lumber and bricks are in the warehouse — the tier‑2 chain works. Keep building or save JSON to continue later."
+	body.name = "SuccessBody"
+	body.text = PlayableDemoConfig.success_message()
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(body)
@@ -36,6 +37,9 @@ func _ready() -> void:
 
 
 func show_success() -> void:
+	var body := get_node_or_null("VBox/SuccessBody") as Label
+	if body != null:
+		body.text = PlayableDemoConfig.success_message()
 	visible = true
 
 

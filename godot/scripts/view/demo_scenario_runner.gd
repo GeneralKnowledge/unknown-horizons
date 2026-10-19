@@ -15,14 +15,14 @@ static func load_dict(path: String) -> Dictionary:
 	return data
 
 
-static func boot_from_resource(scenario_path: String, sim_warmup_seconds: float = 35.0) -> GameSession:
+static func boot_from_resource(scenario_path: String, sim_warmup_seconds: float = -1.0) -> GameSession:
 	var scenario := load_dict(scenario_path)
 	if scenario.is_empty():
 		return null
 	return boot_from_dict(scenario, sim_warmup_seconds)
 
 
-static func boot_from_dict(scenario: Dictionary, sim_warmup_seconds: float = 35.0) -> GameSession:
+static func boot_from_dict(scenario: Dictionary, sim_warmup_seconds: float = -1.0) -> GameSession:
 	var map_id := str(scenario.get("map_id", DemoConfig.default_map_id()))
 	var session := GameSession.new()
 	MapLoader.apply_map_to_session(session, map_id)
@@ -32,10 +32,89 @@ static func boot_from_dict(scenario: Dictionary, sim_warmup_seconds: float = 35.
 		int(settlement_cfg.get("y", DemoConfig.default_settlement_point().y))
 	)
 	GameTestHelpers.new_settlement(session, settle_xy)
+	_apply_starting_inventory(session, scenario)
 	_apply_chain(session, scenario.get("chain", {}))
-	if sim_warmup_seconds > 0.0:
-		session.run_seconds(sim_warmup_seconds)
+	_apply_placements(session, scenario.get("placements", []), false)
+	_apply_placements(session, scenario.get("dlc_placements", []), false)
+	_apply_placements(session, scenario.get("ownerless_placements", []), true)
+	_seed_building_storage(session, scenario.get("seed_building_storage", []))
+	var warmup := sim_warmup_seconds
+	if warmup < 0.0:
+		warmup = float(scenario.get("sim_warmup_seconds", 35.0))
+	if warmup > 0.0:
+		session.run_seconds(warmup)
 	return session
+
+
+static func camera_spot(scenario: Dictionary, spot_id: String) -> Dictionary:
+	var spots: Variant = scenario.get("camera_spots", {})
+	if typeof(spots) != TYPE_DICTIONARY:
+		return {"x": 30, "y": 30, "zoom": 1.1}
+	var spot: Variant = spots.get(spot_id, spots.get("wide", {}))
+	if typeof(spot) != TYPE_DICTIONARY:
+		return {"x": 30, "y": 30, "zoom": 1.1}
+	return spot
+
+
+static func _apply_starting_inventory(session: GameSession, scenario: Dictionary) -> void:
+	var inv: Variant = scenario.get("starting_inventory", {})
+	if typeof(inv) != TYPE_DICTIONARY:
+		return
+	for res_name in inv.keys():
+		if not GameConstants.RES.has(str(res_name)):
+			continue
+		var res_id := int(GameConstants.RES[str(res_name)])
+		var want := int(inv[res_name])
+		session.settlement.inventory.alter(res_id, want - session.settlement.inventory.amount(res_id))
+
+
+static func _apply_placements(session: GameSession, list: Variant, ownerless: bool) -> void:
+	if typeof(list) != TYPE_ARRAY:
+		return
+	var settlement := session.settlement
+	var island := session.island
+	for entry in list:
+		if typeof(entry) != TYPE_DICTIONARY:
+			continue
+		var name := str(entry.get("building", ""))
+		var bid := _building_id_for_name(name)
+		if bid < 0:
+			push_warning("DemoScenarioRunner: unknown building %s" % name)
+			continue
+		var at := Vector2i(int(entry.get("x", 0)), int(entry.get("y", 0)))
+		if ownerless:
+			_build_ownerless_cmd(session, bid, at)
+		else:
+			_build(session, bid, at, settlement, island)
+
+
+static func _seed_building_storage(session: GameSession, list: Variant) -> void:
+	if typeof(list) != TYPE_ARRAY:
+		return
+	for entry in list:
+		if typeof(entry) != TYPE_DICTIONARY:
+			continue
+		var name := str(entry.get("building", ""))
+		var res_name := str(entry.get("resource", ""))
+		if not GameConstants.RES.has(res_name):
+			continue
+		var bid := _building_id_for_name(name)
+		if bid < 0:
+			continue
+		var amount := int(entry.get("amount", 0))
+		for b in session.get_buildings_on_island(session.island):
+			if b.building_id != bid:
+				continue
+			b.get_storage().alter(int(GameConstants.RES[res_name]), amount)
+			break
+
+
+static func _building_id_for_name(name: String) -> int:
+	if GameConstants.BUILDINGS.has(name):
+		return int(GameConstants.BUILDINGS[name])
+	if DlcConstants.BUILDINGS.has(name):
+		return int(DlcConstants.BUILDINGS[name])
+	return -1
 
 
 static func _apply_chain(session: GameSession, chain: Dictionary) -> void:

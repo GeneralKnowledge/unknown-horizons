@@ -4,6 +4,7 @@ extends PanelContainer
 signal new_game_requested
 signal continue_requested
 signal showcase_requested
+signal expedition_requested
 signal import_save_file(path: String)
 
 var _import_json_dialog: FileDialog
@@ -31,14 +32,16 @@ func _ready() -> void:
 		v.add_child(sub)
 	var goal := Label.new()
 	goal.text = (
-		"Prototype goal: establish a lumber camp, deliver boards to the warehouse, "
-		+ "then build a brickyard and deliver bricks."
+		"Short demo: lumber → warehouse → brickyard. "
+		+ "Expedition: full Northern chain (food, tools, weaver, DLC). "
+		+ "Showcase: living pre-built village for browsing."
 	)
 	goal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	goal.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(goal)
-	v.add_child(_btn("Start settlement demo", func(): new_game_requested.emit()))
-	v.add_child(_btn("Economy showcase (pre-built)", func(): showcase_requested.emit()))
+	v.add_child(_btn("Start settlement demo (short)", func(): new_game_requested.emit()))
+	v.add_child(_btn("Northern expedition (full demo)", func(): expedition_requested.emit()))
+	v.add_child(_btn("Living village showcase", func(): showcase_requested.emit()))
 	_continue_btn = _btn("Continue JSON save", func(): continue_requested.emit())
 	v.add_child(_continue_btn)
 	refresh_continue_availability()

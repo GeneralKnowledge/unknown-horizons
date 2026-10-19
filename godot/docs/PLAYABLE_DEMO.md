@@ -1,9 +1,14 @@
 # Playable settlement demo
 
-Two-step vertical slice on the `development` map (warehouse at **30,30** so clay at **33,33** does not overlap the 3×3 footprint):
+Three entry points from the title menu:
 
-1. **Lumber** — lumberjack camp, trees, deliver **boards** to the warehouse.
-2. **Bricks** — clay pit on the bundled deposit, brickyard, deliver **bricks** to the warehouse.
+| Mode | Config | Purpose |
+|------|--------|---------|
+| **Settlement demo (short)** | `playable_lumber_demo.json` | 2 steps: lumber → bricks |
+| **Northern expedition** | `playable_northern_expedition.json` | 8 steps: food, tools, weaver, DLC smokery/faith |
+| **Living village showcase** | `northern_village_showcase.json` | Pre-built village + ~100s sim warmup |
+
+All use the `development` map (warehouse at **30,30**; clay hint at **36,36** on expedition).
 
 Buildings charge **YAML `buildingcosts`** from settlement stock (gold, boards, tools, …). Founding warehouse remains free.
 
@@ -25,7 +30,7 @@ DISPLAY=:0 ./development/godot/record_progress_demo_video.sh godot/build/progres
 
 Records: Godot splash → title menu → automated start of the settlement demo → sim running (requires `ffmpeg`, `xdotool`, and a visible `DISPLAY`).
 
-From the title screen choose **Start settlement demo**.
+Choose **Start settlement demo (short)**, **Northern expedition (full demo)**, or **Living village showcase**.
 
 ## Controls
 
@@ -61,10 +66,10 @@ Configuration: `resources/demo/playable_lumber_demo.json` (steps, clay deposit s
 From repo root:
 
 ```bash
-./development/godot/capture_playable_demo_screenshots.sh
+./development/godot/capture_demo_storyboard.sh
 ```
 
-Writes PNGs under `godot/docs/screenshots/` (title menu, boards step, clay marker, success overlay, shareable island).
+Writes PNGs under `godot/docs/screenshots/storyboard/` (living village wide/lumber/brickyard/DLC/HUD + title menu). Legacy four-beat captures remain in `capture_playable_demo_screenshots.sh`.
 
 ### Slice video (automated)
 

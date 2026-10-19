@@ -70,6 +70,7 @@ func _setup_start_menu() -> void:
 	_start_menu.continue_requested.connect(_on_start_continue)
 	_start_menu.import_save_file.connect(_on_import_save_file)
 	_start_menu.showcase_requested.connect(_on_showcase_requested)
+	_start_menu.expedition_requested.connect(_on_expedition_requested)
 	_start_menu.visible = false
 	layer.visible = false
 	layer.name = "StartMenuLayer"
@@ -93,7 +94,14 @@ func _hide_start_menu() -> void:
 
 
 func _begin_new_game() -> void:
+	PlayableDemoConfig.use_short_demo()
 	_start_playable_settlement_demo()
+
+
+func _on_expedition_requested() -> void:
+	PlayableDemoConfig.use_expedition_demo()
+	_start_playable_settlement_demo()
+	_hud.show_status("Northern expedition — 8 delivery milestones")
 
 
 func _start_playable_settlement_demo() -> void:
@@ -116,7 +124,10 @@ func _start_playable_settlement_demo() -> void:
 	_refresh_demo_world_hints()
 	_hide_start_menu()
 	_camera_ctrl.fit_island()
-	_hud.show_status("Settlement demo — lumber delivery, then brickyard chain")
+	var status := "Settlement demo — lumber delivery, then brickyard chain"
+	if PlayableDemoConfig.snapshot_key() == "playable_northern_expedition":
+		status = "Northern expedition — follow objectives and map markers"
+	_hud.show_status(status)
 	if _success_panel != null:
 		_success_panel.hide_success()
 
@@ -416,6 +427,7 @@ func _apply_demo_from_snapshot(data: Dictionary) -> void:
 	var demo: Variant = data["demo"]
 	if typeof(demo) != TYPE_DICTIONARY:
 		return
+	PlayableDemoConfig.set_profile_from_snapshot(demo)
 	_playable_demo = true
 	if _objective_tracker == null:
 		_objective_tracker = DemoObjectiveTracker.new(_session)
@@ -515,7 +527,8 @@ func _on_showcase_requested() -> void:
 		_hud.show_status("Showcase scenario missing", true)
 		return
 	_map_id = str(scenario.get("map_id", DemoConfig.default_map_id()))
-	_session = DemoScenarioRunner.boot_from_dict(scenario, 30.0)
+	var warmup := float(scenario.get("sim_warmup_seconds", 45.0))
+	_session = DemoScenarioRunner.boot_from_dict(scenario, warmup)
 	if _session == null:
 		_hud.show_status("Showcase failed to start", true)
 		return
@@ -525,7 +538,7 @@ func _on_showcase_requested() -> void:
 		_apply_session(_session)
 	_hide_start_menu()
 	_camera_ctrl.fit_island()
-	_hud.show_status("Showcase demo — tier-1 economy")
+	_hud.show_status("Living village showcase — sim running, explore freely")
 
 
 func _load_snapshot_text(json_text: String) -> bool:
@@ -688,25 +701,61 @@ func _run_video_timeline() -> void:
 
 
 func _bootstrap_screenshot_preset() -> void:
+	if _screenshot_preset.begins_with("showcase_"):
+		_bootstrap_showcase_screenshot(_screenshot_preset.trim_prefix("showcase_"))
+		return
 	match _screenshot_preset:
 		"title":
 			_show_start_menu()
 			$CanvasLayer.visible = false
 		"boards":
+			PlayableDemoConfig.use_short_demo()
 			_start_playable_settlement_demo()
 			_seed_screenshot_boards_step()
 			_compose_screenshot_frame()
 		"clay_hint":
+			PlayableDemoConfig.use_short_demo()
 			_start_playable_settlement_demo()
 			_seed_screenshot_clay_hint_step()
 			_compose_screenshot_frame()
 		"success":
+			PlayableDemoConfig.use_short_demo()
 			_start_playable_settlement_demo()
 			_seed_screenshot_success_state()
 			_compose_screenshot_frame()
 		_:
 			push_error("Unknown screenshot preset: %s" % _screenshot_preset)
 			get_tree().quit(1)
+
+
+func _bootstrap_showcase_screenshot(spot_id: String) -> void:
+	_playable_demo = false
+	_objective_tracker = null
+	_game_active = true
+	var scenario_path := DemoConfig.showcase_scenario_path()
+	var scenario := DemoScenarioRunner.load_dict(scenario_path)
+	if scenario.is_empty():
+		push_error("Showcase scenario missing for screenshot")
+		get_tree().quit(1)
+		return
+	_map_id = str(scenario.get("map_id", DemoConfig.default_map_id()))
+	var warmup := float(scenario.get("sim_warmup_seconds", 90.0))
+	_session = DemoScenarioRunner.boot_from_dict(scenario, warmup)
+	if _session == null:
+		get_tree().quit(1)
+		return
+	_wire_gameplay()
+	_hide_start_menu()
+	_compose_screenshot_frame()
+	var spot := DemoScenarioRunner.camera_spot(scenario, spot_id)
+	var grid := Vector2i(int(spot.get("x", 30)), int(spot.get("y", 30)))
+	var zoom := float(spot.get("zoom", 1.15))
+	_camera_ctrl.focus_world_point(_map_view.grid_to_screen(grid), zoom, 0.01)
+	if spot_id == "hud":
+		$CanvasLayer.visible = true
+		_hud.show_status("Northern Company living settlement")
+	else:
+		$CanvasLayer.visible = false
 
 
 func _seed_screenshot_boards_step() -> void:
