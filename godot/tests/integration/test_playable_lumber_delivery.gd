@@ -55,6 +55,7 @@ func test_invalid_placement_leaves_building_count_unchanged() -> void:
 
 
 func test_step_label_short_reflects_progress() -> void:
+	PlayableDemoConfig.use_short_demo()
 	var session := GameSession.new()
 	var tracker := DemoObjectiveTracker.new(session)
 	assert_eq("step 1/2", tracker.step_label_short())
@@ -65,6 +66,7 @@ func test_step_label_short_reflects_progress() -> void:
 
 
 func test_demo_snapshot_roundtrip_preserves_step_index() -> void:
+	PlayableDemoConfig.use_short_demo()
 	var session := GameSession.new()
 	session.load_test_map()
 	GameTestHelpers.new_settlement(session, Vector2i(30, 30))

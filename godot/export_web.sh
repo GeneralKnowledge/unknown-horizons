@@ -59,4 +59,5 @@ if [[ ! -f "$OUT_DIR/index.wasm" && ! -f "$OUT_DIR/index.pck" ]]; then
 	exit 1
 fi
 
+touch "$OUT_DIR/.nojekyll"
 echo "OK: web build at $OUT_DIR"

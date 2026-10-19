@@ -44,6 +44,9 @@ func execute(session: GameSession) -> Variant:
 				return null
 		elif not island.can_place_building(building_id, export, origin, settlement):
 			return null
+		if building_id == GameConstants.BUILDINGS["TRAIL"] and _island_has_trail_building(island):
+			if not island.trail_connects_to_network(origin, export, settlement):
+				return null
 	if not ownerless and not skip_cost and settlement != null:
 		var founding_warehouse := (
 			building_id == GameConstants.BUILDINGS["WAREHOUSE"] and settlement.buildings.is_empty()
@@ -66,6 +69,8 @@ func execute(session: GameSession) -> Variant:
 	if settlement != null and not ownerless:
 		settlement.add_building(building)
 	island.occupies_tiles(building)
+	if building_id == GameConstants.BUILDINGS["TRAIL"]:
+		_apply_trail_road_tiles(island, origin, export)
 	session.register_building(building)
 	if building_id == GameConstants.BUILDINGS["WAREHOUSE"]:
 		var tiles := BuildFootprint.origin_tiles(
@@ -74,6 +79,25 @@ func execute(session: GameSession) -> Variant:
 			int(export.get("size_y", 1))
 		)
 		settlement.register_warehouse(origin, tiles, int(export.get("radius", 24)))
+		for tile in tiles:
+			island.set_road_tile(tile)
 	MessageBus.building_placed.emit(building)
 	MessageBus.settlement_updated.emit()
 	return building
+
+
+static func _island_has_trail_building(island: Island) -> bool:
+	for building in island.session.get_buildings_on_island(island):
+		if building.building_id == GameConstants.BUILDINGS["TRAIL"]:
+			return true
+	return false
+
+
+static func _apply_trail_road_tiles(island: Island, origin: Vector2i, export: Dictionary) -> void:
+	var tiles := BuildFootprint.origin_tiles(
+		origin,
+		int(export.get("size_x", 1)),
+		int(export.get("size_y", 1))
+	)
+	for tile in tiles:
+		island.set_road_tile(tile)

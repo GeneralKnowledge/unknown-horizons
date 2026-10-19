@@ -34,6 +34,8 @@ static func _neighbors(c: Vector2i) -> Array:
 static func _walkable(island: Island, c: Vector2i) -> bool:
 	if not island.ground_map.has(c):
 		return false
+	if island.is_road(c):
+		return true
 	if not island.is_land(c):
 		return false
 	return true

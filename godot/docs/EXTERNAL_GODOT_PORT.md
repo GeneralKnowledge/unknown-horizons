@@ -40,6 +40,8 @@ Typical upstream paths (names vary by stem, e.g. `lumberjack` vs export stem `lu
 
 Re-sync godot-port Tier A only for gaps the legacy exporter misses; avoid maintaining both for the same stem without a pin note in `ATTRIBUTION.md`.
 
+**Demo / tier-1 gfx export (2026-10):** run `python3 development/godot/export_gfx.py --demo --multi-frame` after content export (also invoked from [`export_all.sh`](../../development/godot/export_all.sh)). Curated stems live in `DEMO_GFX_STEMS` inside `export_gfx.py` plus `build_menu.json` tab1.
+
 ### Tier B — detail
 
 - **Reference:** `Assets/UI/TabWidgets/` (`InventoryTab`, `ProductionOverviewTab`, building menu tabs).
@@ -93,6 +95,7 @@ Same as **Tier C** above:
 |------------|-----------|
 | `GameContextManager` | [`ViewContextManager`](../scripts/view/context/view_context_manager.gd) |
 | `ResourceConfig.resource_to_icon` | [`ResourceIconRegistry`](../scripts/view/resource_icon_registry.gd) |
+| Build menu building pickers | [`BuildPalettePanel`](../scripts/view/build_palette_panel.gd) + [`BuildingVisualRegistry.get_palette_icon_for_building()`](../scripts/view/building_visual_registry.gd) (Tier A gfx / placeholder) |
 | `maps_manifest.json` | [`resources/maps/maps_manifest.json`](../resources/maps/maps_manifest.json) |
 | `InventoryTab` / `ProductionOverviewTab` | [`production_overview_panel.gd`](../scripts/view/production_overview_panel.gd) + inventory panels |
 

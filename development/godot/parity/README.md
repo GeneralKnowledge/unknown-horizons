@@ -8,7 +8,7 @@ Runs the same **scenario JSON** on legacy Horizons (Python sim) and the Godot po
 |-------|--------|-----------|
 | **1** | Core loop | `wood`, `warehouse_collector`, `snapshot_roundtrip` |
 | **2** | Tier-1 + tier-2 economy | `tier1_starter`, `stonemason`, **`brickyard`**, `farm_crop` |
-| **3** | Chains + save fidelity + demo map | **`toolmaker`**, **`snapshot_mid_production`**, **`brickyard_development`**, **`weaver`**, **`salt_ponds`** |
+| **3** | Chains + save fidelity + demo map | **`toolmaker`**, **`snapshot_mid_production`**, **`brickyard_development`**, **`weaver`**, **`salt_ponds`**, **`bakery`**, **`pavilion`** |
 
 Next targets (Godot-only): bakery/pavilion chains, producer state in JSON snapshots, longer **`development`** map scenarios. Legacy Python dual-run requires **`fife`** locally and is **not** a merge gate ([`LEGACY_IMPORT_FROZEN.md`](../../godot/docs/LEGACY_IMPORT_FROZEN.md)).
 

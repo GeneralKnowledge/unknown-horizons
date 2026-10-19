@@ -6,6 +6,8 @@ Tick `[ ]` → `[x]`. These mirror **FIFE + PyChan** tests under `tests/gui/`. G
 
 **Blocked by (typical):** sim commands, map view, ingame HUD shell, selection pipeline.
 
+**Strategy doc:** [`docs/GUI_PORT_STRATEGY.md`](docs/GUI_PORT_STRATEGY.md) (waves GUI-1…4).
+
 ---
 
 ## Ingame (`tests/gui/ingame/`)
@@ -19,8 +21,8 @@ Tick `[ ]` → `[x]`. These mirror **FIFE + PyChan** tests under `tests/gui/`. G
 
 ### `test_hud.py` — ★★★☆☆ (M)
 
-- [ ] **`test_hud`** — Top bar resources, speed controls visible.  
-  - **Godot:** Control HUD bound to `GameSession` + player inventory; no PyChan.
+- [x] **`test_hud`** — Top bar resources, speed controls visible. *(partial)*  
+  - **Godot:** [`game_hud.gd`](scripts/view/game_hud.gd) header + inspection tabs + logbook; speed controls still open.
 
 ### `test_selection.py` — ★★★★☆ (L)
 
@@ -31,9 +33,8 @@ Tick `[ ]` → `[x]`. These mirror **FIFE + PyChan** tests under `tests/gui/`. G
 
 ### `test_warehouse.py` — ★★★★☆ (L)
 
-- [ ] **`test_production_overview`** — Warehouse production overview widget.  
-  - **Widgets:** `productionoverview`, inventory slots.  
-  - **Godot:** Grid of storages; reuse `Inventory` display component.
+- [x] **`test_production_overview`** — Warehouse production overview widget. *(partial)*  
+  - **Godot:** [`production_overview_panel.gd`](scripts/view/production_overview_panel.gd) per-line state + producing **%** progress, [`warehouse_tab.gd`](scripts/view/warehouse_tab.gd) quick + custom transfer row, [`inventory_panel.gd`](scripts/view/inventory_panel.gd) icon grid for primary/extra resources.
 
 ### `test_traderoute.py` — ★★★★★ (XL)
 
@@ -43,9 +44,9 @@ Tick `[ ]` → `[x]`. These mirror **FIFE + PyChan** tests under `tests/gui/`. G
 
 ### `test_logbook.py` — ★★★☆☆ (M)
 
-- [ ] **`test_logbook`** — Message log scroll + entries.  
+- [x] **`test_logbook`** — Message log scroll + entries. *(partial)*  
 - [ ] **`test_logbook_statistics`** — Stats section in logbook.  
-  - **Godot:** `MessageBus` → log model → `ItemList` / rich text.
+  - **Godot:** `MessageBus.logbook_entry` → [`logbook_hud_panel.gd`](scripts/view/logbook_hud_panel.gd).
 
 ### `test_dialogs.py` — ★★★☆☆ (M)
 

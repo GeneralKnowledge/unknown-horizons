@@ -1,9 +1,16 @@
 # Playable settlement demo
 
-Two-step vertical slice on the `development` map (warehouse at **30,30** so clay at **33,33** does not overlap the 3×3 footprint):
+Three entry points from the title menu:
 
-1. **Lumber** — lumberjack camp, trees, deliver **boards** to the warehouse.
-2. **Bricks** — clay pit on the bundled deposit, brickyard, deliver **bricks** to the warehouse.
+| Mode | Config | Purpose |
+|------|--------|---------|
+| **Settlement demo (short)** | `playable_lumber_demo.json` | 2 steps: lumber → bricks |
+| **Northern expedition** | `playable_northern_expedition.json` | 8 steps: food, tools, weaver, DLC smokery/faith |
+| **Living village showcase** | `northern_village_showcase.json` | Pre-built village + ~100s sim warmup |
+
+All use the `development` map (warehouse at **30,30**; expedition clay deposit at **33,33**, aligned with parity `brickyard_development`).
+
+Scenario JSON shape: [`DEMO_SCENARIO_FORMAT.md`](DEMO_SCENARIO_FORMAT.md) (`schema_version`, `kind`, shared `placements` / `steps`).
 
 Buildings charge **YAML `buildingcosts`** from settlement stock (gold, boards, tools, …). Founding warehouse remains free.
 
@@ -25,7 +32,7 @@ DISPLAY=:0 ./development/godot/record_progress_demo_video.sh godot/build/progres
 
 Records: Godot splash → title menu → automated start of the settlement demo → sim running (requires `ffmpeg`, `xdotool`, and a visible `DISPLAY`).
 
-From the title screen choose **Start settlement demo**.
+Choose **Start settlement demo (short)**, **Northern expedition (full demo)**, or **Living village showcase**.
 
 ## Controls
 
@@ -61,10 +68,10 @@ Configuration: `resources/demo/playable_lumber_demo.json` (steps, clay deposit s
 From repo root:
 
 ```bash
-./development/godot/capture_playable_demo_screenshots.sh
+./development/godot/capture_demo_storyboard.sh
 ```
 
-Writes PNGs under `godot/docs/screenshots/` (title menu, boards step, clay marker, success overlay, shareable island).
+Writes PNGs under `godot/docs/screenshots/storyboard/` (living village wide/lumber/brickyard/DLC/HUD + title menu). Legacy four-beat captures remain in `capture_playable_demo_screenshots.sh`.
 
 ### Slice video (automated)
 
@@ -74,6 +81,12 @@ Writes PNGs under `godot/docs/screenshots/` (title menu, boards step, clay marke
 
 Uses `scenes/playable_slice.tscn` with `--video-slice=settlement_demo` (no title menu or mouse input): lumber step → clay deposit marker → success overlay, with camera moves driven in `poc_main.gd`.
 
+Living village pan (showcase JSON camera spots):
+
+```bash
+godot4 --path godot scenes/playable_slice.tscn --video-slice=living_village
+```
+
 ## Browser hosting
 
 CI can publish the WASM build to **GitHub Pages** via `.github/workflows/godot-pages.yml` (after enabling Pages for the repo). Local verify: `./godot/export_web.sh` then `development/godot/web_export_smoke.sh`.
@@ -82,7 +95,12 @@ CI can publish the WASM build to **GitHub Pages** via `.github/workflows/godot-p
 
 **Use JSON for the demo loop** — desktop writes `user://poc_snapshot.json`; browser uses **Save JSON** (download) and **Load JSON** (file picker). Format: [`SAVE_FORMAT.md`](SAVE_FORMAT.md).
 
-JSON snapshots include optional top-level `demo.playable_lumber` (`completed`, targets) so reload restores objective progress.
+JSON snapshots include optional top-level `demo` progress:
+
+- `demo.playable_lumber` — short two-step demo (`profile`: `short`)
+- `demo.playable_northern_expedition` — eight-step expedition (`profile`: `expedition`)
+
+The title menu **Continue JSON save** restores whichever profile was saved.
 
 Legacy `.sqlite` import is **desktop-only**, **partial**, and **frozen** (experiments only) — [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md). Do not rely on sqlite for demo checkpoints.
 

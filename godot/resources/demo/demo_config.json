@@ -4,7 +4,7 @@
   "default_settlement_y": 30,
   "show_start_menu": true,
   "title": "Unknown Horizons",
-  "subtitle": "Settlement prototype — lumber, warehouse delivery, brickyard",
+  "subtitle": "Northern Company settlement — short demo, full expedition, or living showcase",
   "theme_pack_id": "northern_company",
-  "showcase_scenario": "res://resources/demo/starter_tier1_scenario.json"
+  "showcase_scenario": "res://resources/demo/northern_village_showcase.json"
 }

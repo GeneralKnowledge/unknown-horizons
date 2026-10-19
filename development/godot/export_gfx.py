@@ -51,7 +51,26 @@ LEGACY_BUILDING_GFX: dict[str, dict[str, str]] = {
 		"idle": "citizens/as_stonemason0/idle/135/0.png",
 		"working": "citizens/as_stonemason0/idle/135/0.png",
 	},
+	"claypit": {
+		"idle": "pioneers/clay_pit/as_clay_pit0/idle/135/0.png",
+		"working": "pioneers/clay_pit/as_clay_pit0/idle/135/0.png",
+	},
 }
+
+# Settlement demo + tier-1 build menu (see godot/docs/EXTERNAL_GODOT_PORT.md).
+DEMO_GFX_STEMS: tuple[str, ...] = (
+	"lumberjackcamp",
+	"tree",
+	"claypit",
+	"brickyard",
+	"warehouse",
+	"hunterstent",
+	"fishermanstent",
+	"pavilion",
+	"mainsquare",
+	"tent",
+	"storagetent",
+)
 
 
 def _png_chunk(tag: bytes, data: bytes) -> bytes:
@@ -113,6 +132,32 @@ def _exported_building_stems() -> list[str]:
 	return sorted(buildings.keys())
 
 
+def _stems_from_build_menu_tier1() -> list[str]:
+	menu_path = GODOT_ROOT / "resources" / "exported" / "build_menu.json"
+	if not menu_path.is_file():
+		return []
+	data = json.loads(menu_path.read_text(encoding="utf-8"))
+	out: list[str] = []
+	for tab in data.get("tabs", []):
+		if str(tab.get("id", "")) != "tab1":
+			continue
+		for section in tab.get("sections", []):
+			for stem in section.get("stems", []):
+				s = str(stem).strip()
+				if s:
+					out.append(s)
+	return out
+
+
+def _demo_export_stems() -> list[str]:
+	merged: dict[str, None] = {}
+	for stem in DEMO_GFX_STEMS:
+		merged[stem] = None
+	for stem in _stems_from_build_menu_tier1():
+		merged[stem] = None
+	return sorted(merged.keys())
+
+
 def _merge_gfx_maps(manual: dict[str, dict[str, str]], auto: dict[str, dict[str, str]]) -> dict[str, dict[str, str]]:
 	merged = dict(auto)
 	for stem, paths in manual.items():
@@ -167,7 +212,8 @@ def export_building_slice(stem: str, paths: dict[str, str], multi_frame: bool = 
 					target = idle_anim if anim == "idle" else work_anim
 					target["frames"] = frame_names
 					target["fps"] = 4.0 if anim == "working" else 1.0
-					target.erase("texture")
+					if "texture" in target:
+						del target["texture"]
 		else:
 			write_solid_png(dst, 64, 64, (120, 120, 120, 255) if anim == "idle" else (160, 140, 90, 255))
 
@@ -301,10 +347,19 @@ def main() -> int:
 		default=GODOT_ROOT / "resources" / "gfx" / "export_report.json",
 		help="Write discovery report JSON (with --auto).",
 	)
+	parser.add_argument(
+		"--demo",
+		action="store_true",
+		help="Export DEMO_GFX_STEMS + build_menu tier1 (implies --auto for those stems).",
+	)
 	args = parser.parse_args()
 
 	gfx_map: dict[str, dict[str, str]] = dict(LEGACY_BUILDING_GFX)
 	report_rows: list[dict] = []
+
+	if args.demo:
+		args.auto = True
+		args.stems = ",".join(_demo_export_stems())
 
 	if args.auto:
 		stems = _exported_building_stems()

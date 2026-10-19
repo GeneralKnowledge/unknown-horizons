@@ -31,6 +31,20 @@ chmod +x development/godot/capture_playable_demo_screenshots.sh
 | `docs/screenshots/demo_success_overlay.png` | Completion overlay |
 | `docs/screenshots/shareable_island.png` | Compact marketing island |
 
+**Living village storyboard** (D1 showcase presets):
+
+```bash
+chmod +x development/godot/capture_demo_storyboard.sh
+./development/godot/capture_demo_storyboard.sh godot/docs/screenshots/storyboard
+```
+
+| File | What it shows |
+|------|----------------|
+| `docs/screenshots/storyboard/01_village_wide.png` | Pre-built Northern settlement (wide) |
+| `docs/screenshots/storyboard/02_lumber_working.png` | Lumberjack + trees |
+| `docs/screenshots/storyboard/06_dlc_smokery.png` | Northern Company DLC slice |
+| `docs/screenshots/storyboard/08_title_menu.png` | Three demo menu entries |
+
 ### Demo slice video (no manual clicks)
 
 Loads `scenes/playable_slice.tscn` straight into a staged settlement demo with an automated camera timeline (~28s):
@@ -86,6 +100,7 @@ Reported: run `./godot/run_tests.sh`; **12** parity goldens via `./development/g
 
 | Doc | Purpose |
 |-----|---------|
+| [docs/GETTING_ON_THE_ROAD.md](docs/GETTING_ON_THE_ROAD.md) | Play locally, browser, GitHub Pages |
 | [docs/PLAYABLE_DEMO.md](docs/PLAYABLE_DEMO.md) | Demo objective, saves, browser |
 | [docs/WEB_DEPLOYMENT.md](docs/WEB_DEPLOYMENT.md) | WASM export & Pages |
 | [docs/SAVE_FORMAT.md](docs/SAVE_FORMAT.md) | JSON snapshot v3 |

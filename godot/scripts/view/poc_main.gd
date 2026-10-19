@@ -31,6 +31,7 @@ var _video_slice := ""
 var _video_duration := 28.0
 var _video_time := 0.0
 var _video_flags: Dictionary = {}
+var _collector_layer: CollectorViewLayer
 
 const SCREENSHOT_WARMUP_FRAMES := 14
 
@@ -69,6 +70,7 @@ func _setup_start_menu() -> void:
 	_start_menu.continue_requested.connect(_on_start_continue)
 	_start_menu.import_save_file.connect(_on_import_save_file)
 	_start_menu.showcase_requested.connect(_on_showcase_requested)
+	_start_menu.expedition_requested.connect(_on_expedition_requested)
 	_start_menu.visible = false
 	layer.visible = false
 	layer.name = "StartMenuLayer"
@@ -92,7 +94,14 @@ func _hide_start_menu() -> void:
 
 
 func _begin_new_game() -> void:
+	PlayableDemoConfig.use_short_demo()
 	_start_playable_settlement_demo()
+
+
+func _on_expedition_requested() -> void:
+	PlayableDemoConfig.use_expedition_demo()
+	_start_playable_settlement_demo()
+	_hud.show_status("Northern expedition — 8 delivery milestones")
 
 
 func _start_playable_settlement_demo() -> void:
@@ -115,7 +124,10 @@ func _start_playable_settlement_demo() -> void:
 	_refresh_demo_world_hints()
 	_hide_start_menu()
 	_camera_ctrl.fit_island()
-	_hud.show_status("Settlement demo — lumber delivery, then brickyard chain")
+	var status := "Settlement demo — lumber delivery, then brickyard chain"
+	if PlayableDemoConfig.snapshot_key() == "playable_northern_expedition":
+		status = "Northern expedition — follow objectives and map markers"
+	_hud.show_status(status)
 	if _success_panel != null:
 		_success_panel.hide_success()
 
@@ -152,6 +164,14 @@ func _wire_gameplay() -> void:
 		MessageBus.building_placed.connect(_on_bus_building_placed)
 	if not MessageBus.building_selected.is_connected(_on_bus_building_selected):
 		MessageBus.building_selected.connect(_on_bus_building_selected)
+	if not MessageBus.settlement_updated.is_connected(_refresh_all_building_views):
+		MessageBus.settlement_updated.connect(_refresh_all_building_views)
+	if not MessageBus.collector_motion_changed.is_connected(_refresh_all_building_views):
+		MessageBus.collector_motion_changed.connect(_refresh_all_building_views)
+	if not MessageBus.inventory_changed.is_connected(_refresh_all_building_views):
+		MessageBus.inventory_changed.connect(_refresh_all_building_views)
+	_ensure_collector_layer()
+	_hud.ensure_logbook_panel()
 	_hud.refresh()
 	_update_ghost()
 	for child in _building_layer.get_children():
@@ -186,9 +206,6 @@ func _process(delta: float) -> void:
 	if not _sim_paused:
 		_sim_clock.accumulate_and_run(_session, delta, func():
 			MessageBus.settlement_updated.emit()
-			for view in _views.values():
-				if view is BuildingView:
-					(view as BuildingView).refresh_from_sim()
 		)
 	if _playable_demo and _objective_tracker != null:
 		_objective_tracker.tick_after_sim()
@@ -237,6 +254,21 @@ func _on_building_placed(building: Building) -> void:
 func _on_bus_building_placed(building: Building) -> void:
 	if not _views.has(building.worldid):
 		_attach_view(building)
+
+
+func _refresh_all_building_views(_unused: Variant = null) -> void:
+	for view in _views.values():
+		if view is BuildingView:
+			(view as BuildingView).refresh_from_sim()
+
+
+func _ensure_collector_layer() -> void:
+	if _collector_layer != null or _session == null:
+		return
+	_collector_layer = CollectorViewLayer.new()
+	_collector_layer.name = "CollectorViewLayer"
+	add_child(_collector_layer)
+	_collector_layer.setup(_session, _map_view)
 
 
 func _attach_view(building: Building) -> void:
@@ -395,6 +427,7 @@ func _apply_demo_from_snapshot(data: Dictionary) -> void:
 	var demo: Variant = data["demo"]
 	if typeof(demo) != TYPE_DICTIONARY:
 		return
+	PlayableDemoConfig.set_profile_from_snapshot(demo)
 	_playable_demo = true
 	if _objective_tracker == null:
 		_objective_tracker = DemoObjectiveTracker.new(_session)
@@ -494,7 +527,8 @@ func _on_showcase_requested() -> void:
 		_hud.show_status("Showcase scenario missing", true)
 		return
 	_map_id = str(scenario.get("map_id", DemoConfig.default_map_id()))
-	_session = DemoScenarioRunner.boot_from_dict(scenario, 30.0)
+	var warmup := float(scenario.get("sim_warmup_seconds", 45.0))
+	_session = DemoScenarioRunner.boot_from_dict(scenario, warmup)
 	if _session == null:
 		_hud.show_status("Showcase failed to start", true)
 		return
@@ -504,7 +538,7 @@ func _on_showcase_requested() -> void:
 		_apply_session(_session)
 	_hide_start_menu()
 	_camera_ctrl.fit_island()
-	_hud.show_status("Showcase demo — tier-1 economy")
+	_hud.show_status("Living village showcase — sim running, explore freely")
 
 
 func _load_snapshot_text(json_text: String) -> bool:
@@ -628,14 +662,44 @@ func _bootstrap_video_slice() -> void:
 			_video_time = 0.0
 			_video_flags.clear()
 			_hud.show_status("Settlement demo — lumber, then clay deposit for brickyard")
+		"living_village":
+			_bootstrap_living_village_video()
 		_:
 			push_error("Unknown video slice: %s" % _video_slice)
 			get_tree().quit(1)
 
 
+func _bootstrap_living_village_video() -> void:
+	_playable_demo = false
+	_objective_tracker = null
+	_game_active = true
+	_video_duration = 34.0
+	var scenario_path := DemoConfig.showcase_scenario_path()
+	var scenario := DemoScenarioRunner.load_dict(scenario_path)
+	if scenario.is_empty():
+		push_error("Showcase scenario missing for living_village video")
+		get_tree().quit(1)
+		return
+	_map_id = str(scenario.get("map_id", DemoConfig.default_map_id()))
+	_session = DemoScenarioRunner.boot_from_dict(scenario, 24.0)
+	if _session == null:
+		get_tree().quit(1)
+		return
+	_wire_gameplay()
+	_hide_start_menu()
+	_compose_screenshot_frame()
+	_video_time = 0.0
+	_video_flags = {"scenario": scenario, "spots": ["wide", "lumber", "food", "brickyard", "dlc", "hud"], "spot_i": -1}
+	_hud.show_status("Northern Company living settlement")
+	$CanvasLayer.visible = false
+
+
 func _run_video_timeline() -> void:
 	if _video_time >= _video_duration:
 		get_tree().quit()
+		return
+	if _video_slice == "living_village":
+		_run_living_village_video_timeline()
 		return
 	if _video_time >= 2.0 and not bool(_video_flags.get("focus_camp")):
 		_video_flags["focus_camp"] = true
@@ -666,26 +730,84 @@ func _run_video_timeline() -> void:
 		_camera_ctrl.focus_world_point(_map_view.grid_to_screen(Vector2i(30, 30)), 1.2, 1.05)
 
 
+func _run_living_village_video_timeline() -> void:
+	var scenario: Dictionary = _video_flags.get("scenario", {})
+	var spots: Array = _video_flags.get("spots", [])
+	var spot_i := int(_video_flags.get("spot_i", -1))
+	var interval := 5.5
+	var next_i := int(floor(_video_time / interval))
+	if next_i >= spots.size():
+		next_i = spots.size() - 1
+	if next_i <= spot_i:
+		return
+	_video_flags["spot_i"] = next_i
+	var spot_id := str(spots[next_i])
+	var spot := DemoScenarioRunner.camera_spot(scenario, spot_id)
+	var grid := Vector2i(int(spot.get("x", 30)), int(spot.get("y", 30)))
+	var zoom := float(spot.get("zoom", 1.15))
+	_camera_ctrl.focus_world_point(_map_view.grid_to_screen(grid), zoom, 1.1)
+	if spot_id == "hud":
+		$CanvasLayer.visible = true
+	else:
+		$CanvasLayer.visible = false
+
+
 func _bootstrap_screenshot_preset() -> void:
+	if _screenshot_preset.begins_with("showcase_"):
+		_bootstrap_showcase_screenshot(_screenshot_preset.trim_prefix("showcase_"))
+		return
 	match _screenshot_preset:
 		"title":
 			_show_start_menu()
 			$CanvasLayer.visible = false
 		"boards":
+			PlayableDemoConfig.use_short_demo()
 			_start_playable_settlement_demo()
 			_seed_screenshot_boards_step()
 			_compose_screenshot_frame()
 		"clay_hint":
+			PlayableDemoConfig.use_short_demo()
 			_start_playable_settlement_demo()
 			_seed_screenshot_clay_hint_step()
 			_compose_screenshot_frame()
 		"success":
+			PlayableDemoConfig.use_short_demo()
 			_start_playable_settlement_demo()
 			_seed_screenshot_success_state()
 			_compose_screenshot_frame()
 		_:
 			push_error("Unknown screenshot preset: %s" % _screenshot_preset)
 			get_tree().quit(1)
+
+
+func _bootstrap_showcase_screenshot(spot_id: String) -> void:
+	_playable_demo = false
+	_objective_tracker = null
+	_game_active = true
+	var scenario_path := DemoConfig.showcase_scenario_path()
+	var scenario := DemoScenarioRunner.load_dict(scenario_path)
+	if scenario.is_empty():
+		push_error("Showcase scenario missing for screenshot")
+		get_tree().quit(1)
+		return
+	_map_id = str(scenario.get("map_id", DemoConfig.default_map_id()))
+	var warmup := float(scenario.get("sim_warmup_seconds", 90.0))
+	_session = DemoScenarioRunner.boot_from_dict(scenario, warmup)
+	if _session == null:
+		get_tree().quit(1)
+		return
+	_wire_gameplay()
+	_hide_start_menu()
+	_compose_screenshot_frame()
+	var spot := DemoScenarioRunner.camera_spot(scenario, spot_id)
+	var grid := Vector2i(int(spot.get("x", 30)), int(spot.get("y", 30)))
+	var zoom := float(spot.get("zoom", 1.15))
+	_camera_ctrl.focus_world_point(_map_view.grid_to_screen(grid), zoom, 0.01)
+	if spot_id == "hud":
+		$CanvasLayer.visible = true
+		_hud.show_status("Northern Company living settlement")
+	else:
+		$CanvasLayer.visible = false
 
 
 func _seed_screenshot_boards_step() -> void:

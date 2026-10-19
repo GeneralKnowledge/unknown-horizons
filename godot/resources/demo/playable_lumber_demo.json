@@ -1,4 +1,8 @@
 {
+  "schema_version": 1,
+  "kind": "playable",
+  "demo_id": "playable_lumber",
+  "id": "playable_lumber",
   "map_id": "development",
   "settlement": { "x": 30, "y": 30 },
   "clay_deposit": {

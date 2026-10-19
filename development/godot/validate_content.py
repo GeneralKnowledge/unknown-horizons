@@ -15,6 +15,10 @@ GFX_MANIFEST_STEMS = {
 	"fishermanstent",
 	"brickyard",
 	"warehouse",
+	"claypit",
+	"tree",
+	"pavilion",
+	"mainsquare",
 }
 
 
