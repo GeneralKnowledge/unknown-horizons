@@ -110,6 +110,22 @@ func spawn_wild_animal(p_island: Island, x: int, y: int, forced_worldid: int = -
 	return unit as WildAnimal
 
 
+## Legacy TradeShip — used for sim-first settlement founding (no movement sim yet).
+func spawn_trade_ship(x: int, y: int, owner: int = 0, forced_worldid: int = -1) -> LegacyUnit:
+	var unit_id := int(GameConstants.UNITS["TRADER_SHIP"])
+	var export := ContentLoader.load_unit_export("trader")
+	# Export omits per-res slot sizes; use a generous hold for founding costs + cargo.
+	var inventory := PositiveSizedSpecializedInventory.new({
+		GameConstants.RES["GOLD"]: 999999,
+		GameConstants.RES["BOARDS"]: 500,
+		GameConstants.RES["TOOLS"]: 500,
+		GameConstants.RES["BRICKS"]: 500,
+		GameConstants.RES["FOOD"]: 500,
+	})
+	var radius := int(export.get("radius", 8))
+	return spawn_legacy_unit(island, unit_id, "trader", x, y, owner, forced_worldid, inventory, radius)
+
+
 func register_legacy_unit(unit: LegacyUnit) -> void:
 	_legacy_units[unit.worldid] = unit
 	registry.register(unit)
@@ -134,13 +150,15 @@ func spawn_legacy_unit(
 	x: int,
 	y: int,
 	owner: int,
-	forced_worldid: int = -1
+	forced_worldid: int = -1,
+	p_inventory: Inventory = null,
+	p_radius: int = 8
 ) -> LegacyUnit:
 	var wid := forced_worldid if forced_worldid > 0 else allocate_worldid()
 	if forced_worldid > 0 and forced_worldid >= _next_worldid:
 		_next_worldid = forced_worldid + 1
 	var unit := LegacyUnit.new(
-		wid, unit_type_id, kind, p_island, Vector2i(x, y), owner
+		wid, unit_type_id, kind, p_island, Vector2i(x, y), owner, p_inventory, p_radius
 	)
 	register_legacy_unit(unit)
 	return unit

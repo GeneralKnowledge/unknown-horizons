@@ -1,6 +1,8 @@
 class_name GameTestHelpers
 extends RefCounted
 
+const FoundSettlementCommand = preload("res://scripts/sim/commands/found_settlement_command.gd")
+
 const FARM_FIELD_OFFSETS: Array[Vector2i] = [
 	Vector2i(-3, -3),
 	Vector2i(-3, 0),
@@ -27,6 +29,17 @@ static func new_settlement(session: GameSession, pos: Vector2i = TestMapFactory.
 		push_error("Could not build warehouse at %s" % pos)
 		return {"settlement": session.settlement, "island": session.island}
 	return {"settlement": warehouse.settlement, "island": session.island}
+
+
+static func found_settlement_from_ship(
+	session: GameSession,
+	ship: LegacyUnit,
+	warehouse_x: int,
+	warehouse_y: int
+) -> Building:
+	return session.manager.execute(
+		FoundSettlementCommand.new(ship, warehouse_x, warehouse_y)
+	) as Building
 
 
 static func settle(session: GameSession) -> Dictionary:
