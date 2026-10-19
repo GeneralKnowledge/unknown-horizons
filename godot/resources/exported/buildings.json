@@ -1026,7 +1026,8 @@
               ]
             ]
           }
-        }
+        },
+        "utilization": "FieldUtilization"
       },
       "Storage": {
         "config": {
@@ -2558,7 +2559,8 @@
             ],
             "time": 90
           }
-        }
+        },
+        "utilization": "FullUtilization"
       },
       "Storage": {
         "config": {
