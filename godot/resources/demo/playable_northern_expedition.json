@@ -1,16 +1,19 @@
 {
+  "schema_version": 1,
+  "kind": "playable",
   "demo_id": "playable_northern_expedition",
+  "id": "playable_northern_expedition",
   "profile": "expedition",
   "map_id": "development",
   "settlement": { "x": 30, "y": 30 },
   "clay_deposit": {
-    "x": 36,
-    "y": 36,
+    "x": 33,
+    "y": 33,
     "spawn_at_start": true,
     "seed_raw_clay": 16
   },
   "world_hints": {
-    "clay_deposit": { "x": 36, "y": 36, "label": "Clay deposit" },
+    "clay_deposit": { "x": 33, "y": 33, "label": "Clay deposit" },
     "food": { "x": 29, "y": 34, "label": "Hunter camp" },
     "tools": { "x": 32, "y": 22, "label": "Toolmaker" },
     "textile": { "x": 30, "y": 20, "label": "Weaver" },

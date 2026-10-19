@@ -8,6 +8,29 @@ func test_expedition_has_eight_steps() -> void:
 	PlayableDemoConfig.use_short_demo()
 
 
+func test_expedition_brickyard_chain_on_development() -> void:
+	PlayableDemoConfig.use_expedition_demo()
+	var at := PlayableDemoConfig.clay_deposit_point()
+	assert_eq(Vector2i(33, 33), at)
+	var gts := GameTestSession.new()
+	gts.session = GameSession.new()
+	MapLoader.apply_map_to_session(gts.session, PlayableDemoConfig.map_id())
+	GameTestHelpers.new_settlement(gts.session, PlayableDemoConfig.settlement_point())
+	PlayableDemoConfig.apply_starting_resources(gts.session.settlement)
+	gts.session.settlement.inventory.alter(GameConstants.RES["BOARDS"], 40)
+	gts.session.settlement.inventory.alter(GameConstants.RES["GOLD"], 5000)
+	gts.player = SimPlayer.new(gts.session.allocate_worldid(), gts.session.settlement)
+	var deposit: Building = gts.build_ownerless(GameConstants.BUILDINGS["CLAY_DEPOSIT"], at.x, at.y)
+	assert_not_null(deposit)
+	var cfg := PlayableDemoConfig.clay_deposit_cfg()
+	deposit.get_storage().alter(GameConstants.RES["RAW_CLAY"], int(cfg.get("seed_raw_clay", 10)))
+	var pit: Building = gts.build(GameConstants.BUILDINGS["CLAY_PIT"], at.x, at.y)
+	assert_not_null(pit)
+	var brickyard: Building = gts.build(GameConstants.BUILDINGS["BRICKYARD"], 33, 25)
+	assert_not_null(brickyard)
+	PlayableDemoConfig.use_short_demo()
+
+
 func test_expedition_snapshot_roundtrip() -> void:
 	PlayableDemoConfig.use_expedition_demo()
 	var session := GameSession.new()

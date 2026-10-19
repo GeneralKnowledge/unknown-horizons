@@ -101,6 +101,7 @@ Post-M8 tracks (demo-first). Sim truth stays in `scripts/sim/`; view observes on
 | **A — Gfx / idle-work** | `export_gfx.py --demo`, tier-1 stems with idle+working manifests; `BuildingVisualRegistry` treats collector haul + `PRODUCING` as working; event-driven `BuildingView` refresh | More stems beyond demo set; atlas perf |
 | **B — Collectors** | E2 path travel + return-home ticks; `CollectorViewLayer` markers; road tiles on `Island`; GUT pathfinder cases | **B3:** full `PotentialRoadConnectivityCache` + road build rules (PORT_CHECKLIST E3) |
 | **C — GUI** | Tabbed HUD (Settlement / Selected / Actions), warehouse transfers, logbook, build cost tooltips | C4 ships/trade GUI blocked on sim |
+| **D — Demo modes** | Short lumber demo, **Northern expedition** (8 steps), **living village showcase**; shared [`DEMO_SCENARIO_FORMAT.md`](DEMO_SCENARIO_FORMAT.md) schema v1 | Storyboard PNGs in CI; pavilion/signal on `development` map when buildability allows |
 
 GUI wave mapping: [`GUI_PORT_STRATEGY.md`](GUI_PORT_STRATEGY.md). Checklist: [`PORT_CHECKLIST_GUI.md`](../PORT_CHECKLIST_GUI.md).
 

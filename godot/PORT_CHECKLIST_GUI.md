@@ -34,7 +34,7 @@ Tick `[ ]` → `[x]`. These mirror **FIFE + PyChan** tests under `tests/gui/`. G
 ### `test_warehouse.py` — ★★★★☆ (L)
 
 - [x] **`test_production_overview`** — Warehouse production overview widget. *(partial)*  
-  - **Godot:** [`production_overview_panel.gd`](scripts/view/production_overview_panel.gd), [`warehouse_tab.gd`](scripts/view/warehouse_tab.gd) transfer commands.
+  - **Godot:** [`production_overview_panel.gd`](scripts/view/production_overview_panel.gd), [`warehouse_tab.gd`](scripts/view/warehouse_tab.gd) quick + custom transfer row, [`inventory_panel.gd`](scripts/view/inventory_panel.gd) icon grid for primary/extra resources.
 
 ### `test_traderoute.py` — ★★★★★ (XL)
 
