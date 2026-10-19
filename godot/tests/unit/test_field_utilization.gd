@@ -1,5 +1,7 @@
 extends GutTest
 
+const _FarmFieldPlacement = preload("res://scripts/sim/world/farm_field_placement.gd")
+
 ## Legacy tests/game/test_bugs.py test_ticket_1523 (FieldUtilization on farms).
 
 
@@ -30,11 +32,11 @@ func test_farm_capacity_utilization_with_potato_fields() -> void:
 
 func test_farm_provider_resource_compatibility() -> void:
 	var gts := GameTestSession.start(true)
-	var farm: Building = gts.build(GameConstants.BUILDINGS["FARM"], 30, 30)
+	var farm: Building = gts.build(GameConstants.BUILDINGS["FARM"], 30, 30, false)
 	if farm == null:
 		pending("FARM build failed on test map")
 		return
-	var off: Vector2i = GameTestHelpers.FARM_FIELD_OFFSETS[1]
+	var off: Vector2i = _FarmFieldPlacement.FIELD_OFFSETS[1]
 	var corn_field: Building = gts.build(
 		GameConstants.BUILDINGS["CORN_FIELD"],
 		farm.position.x + off.x,
@@ -43,7 +45,7 @@ func test_farm_provider_resource_compatibility() -> void:
 	if corn_field == null:
 		pending("CORN_FIELD build failed on test map")
 		return
-	var consumed: Array = farm._consumed_resource_ids()
+	var consumed: Array = farm.get_consumed_resource_ids()
 	assert_has(consumed, GameConstants.RES["GRAIN"])
 	assert_true(
 		Building.field_provides_any_resource(corn_field, consumed),

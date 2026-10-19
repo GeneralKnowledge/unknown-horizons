@@ -25,10 +25,10 @@ func run_seconds(seconds: float) -> void:
 	session.run_seconds(seconds)
 
 
-func build(building_id: int, x: int, y: int) -> Building:
-	return session.manager.execute(
-		BuildCommand.new(building_id, x, y, session.island, session.settlement)
-	) as Building
+func build(building_id: int, x: int, y: int, auto_place_farm_fields: bool = true) -> Building:
+	var cmd := BuildCommand.new(building_id, x, y, session.island, session.settlement)
+	cmd.auto_place_farm_fields = auto_place_farm_fields
+	return session.manager.execute(cmd) as Building
 
 
 func build_ownerless(building_id: int, x: int, y: int) -> Building:
