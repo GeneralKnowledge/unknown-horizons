@@ -6,6 +6,9 @@ var selected: Building
 
 var _info: Label
 var _transfer_row: HBoxContainer
+var _custom_row: HBoxContainer
+var _amount_spin: SpinBox
+var _custom_res: OptionButton
 
 
 const TRANSFER_OPTIONS: Array = [
@@ -13,6 +16,8 @@ const TRANSFER_OPTIONS: Array = [
 	{"res": "BRICKS", "amount": 2},
 	{"res": "TOOLS", "amount": 1},
 ]
+
+const CUSTOM_RES: Array = ["BOARDS", "BRICKS", "TOOLS", "FOOD", "TEXTILE"]
 
 
 func _ready() -> void:
@@ -28,6 +33,21 @@ func _ready() -> void:
 		btn.text = "→ settlement %d %s" % [amount, res_name.to_lower()]
 		btn.pressed.connect(func(): _transfer(res_name, amount))
 		_transfer_row.add_child(btn)
+	_custom_row = HBoxContainer.new()
+	add_child(_custom_row)
+	_custom_res = OptionButton.new()
+	for res_name in CUSTOM_RES:
+		_custom_res.add_item(res_name)
+	_custom_row.add_child(_custom_res)
+	_amount_spin = SpinBox.new()
+	_amount_spin.min_value = 1
+	_amount_spin.max_value = 999
+	_amount_spin.value = 5
+	_custom_row.add_child(_amount_spin)
+	var custom_btn := Button.new()
+	custom_btn.text = "Transfer amount → settlement"
+	custom_btn.pressed.connect(_on_custom_transfer)
+	_custom_row.add_child(custom_btn)
 
 
 func bind(p_session: GameSession) -> void:
@@ -45,13 +65,21 @@ func _refresh() -> void:
 		for btn in _transfer_row.get_children():
 			if btn is Button:
 				(btn as Button).disabled = true
+		_custom_row.visible = false
 		return
 	var stem := ContentLoader.stem_for_building_id(selected.building_id)
-	var boards := selected.get_storage().amount(GameConstants.RES["BOARDS"])
-	_info.text = "%s — use buttons to move goods to settlement warehouse" % stem
+	_info.text = "%s — move goods to settlement warehouse" % stem
 	for btn in _transfer_row.get_children():
 		if btn is Button:
 			(btn as Button).disabled = false
+	_custom_row.visible = true
+
+
+func _on_custom_transfer() -> void:
+	var idx := _custom_res.selected
+	if idx < 0 or idx >= CUSTOM_RES.size():
+		return
+	_transfer(CUSTOM_RES[idx], int(_amount_spin.value))
 
 
 func _transfer(res_name: String, amount: int) -> void:

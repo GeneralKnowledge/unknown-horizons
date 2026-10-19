@@ -662,14 +662,44 @@ func _bootstrap_video_slice() -> void:
 			_video_time = 0.0
 			_video_flags.clear()
 			_hud.show_status("Settlement demo — lumber, then clay deposit for brickyard")
+		"living_village":
+			_bootstrap_living_village_video()
 		_:
 			push_error("Unknown video slice: %s" % _video_slice)
 			get_tree().quit(1)
 
 
+func _bootstrap_living_village_video() -> void:
+	_playable_demo = false
+	_objective_tracker = null
+	_game_active = true
+	_video_duration = 34.0
+	var scenario_path := DemoConfig.showcase_scenario_path()
+	var scenario := DemoScenarioRunner.load_dict(scenario_path)
+	if scenario.is_empty():
+		push_error("Showcase scenario missing for living_village video")
+		get_tree().quit(1)
+		return
+	_map_id = str(scenario.get("map_id", DemoConfig.default_map_id()))
+	_session = DemoScenarioRunner.boot_from_dict(scenario, 24.0)
+	if _session == null:
+		get_tree().quit(1)
+		return
+	_wire_gameplay()
+	_hide_start_menu()
+	_compose_screenshot_frame()
+	_video_time = 0.0
+	_video_flags = {"scenario": scenario, "spots": ["wide", "lumber", "food", "brickyard", "dlc", "hud"], "spot_i": -1}
+	_hud.show_status("Northern Company living settlement")
+	$CanvasLayer.visible = false
+
+
 func _run_video_timeline() -> void:
 	if _video_time >= _video_duration:
 		get_tree().quit()
+		return
+	if _video_slice == "living_village":
+		_run_living_village_video_timeline()
 		return
 	if _video_time >= 2.0 and not bool(_video_flags.get("focus_camp")):
 		_video_flags["focus_camp"] = true
@@ -698,6 +728,28 @@ func _run_video_timeline() -> void:
 	if _video_time >= 23.0 and not bool(_video_flags.get("fit_end")):
 		_video_flags["fit_end"] = true
 		_camera_ctrl.focus_world_point(_map_view.grid_to_screen(Vector2i(30, 30)), 1.2, 1.05)
+
+
+func _run_living_village_video_timeline() -> void:
+	var scenario: Dictionary = _video_flags.get("scenario", {})
+	var spots: Array = _video_flags.get("spots", [])
+	var spot_i := int(_video_flags.get("spot_i", -1))
+	var interval := 5.5
+	var next_i := int(floor(_video_time / interval))
+	if next_i >= spots.size():
+		next_i = spots.size() - 1
+	if next_i <= spot_i:
+		return
+	_video_flags["spot_i"] = next_i
+	var spot_id := str(spots[next_i])
+	var spot := DemoScenarioRunner.camera_spot(scenario, spot_id)
+	var grid := Vector2i(int(spot.get("x", 30)), int(spot.get("y", 30)))
+	var zoom := float(spot.get("zoom", 1.15))
+	_camera_ctrl.focus_world_point(_map_view.grid_to_screen(grid), zoom, 1.1)
+	if spot_id == "hud":
+		$CanvasLayer.visible = true
+	else:
+		$CanvasLayer.visible = false
 
 
 func _bootstrap_screenshot_preset() -> void:

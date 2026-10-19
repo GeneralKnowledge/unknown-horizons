@@ -51,6 +51,9 @@ static func load_config() -> Dictionary:
 		_cached = _defaults()
 	else:
 		_cached = data
+		var doc := DemoScenarioDocument.from_dict(_cached)
+		for err in doc.validate():
+			push_warning("PlayableDemoConfig: %s" % err)
 	return _cached
 
 

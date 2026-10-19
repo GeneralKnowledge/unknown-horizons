@@ -11,7 +11,7 @@ What the **Web** export of `scenes/poc_main.tscn` is meant to demonstrate, and w
 | Camera | Middle-drag pan, mouse wheel zoom, fit-to-island on load |
 | Build palette | Tier tabs from exported `build_menu.json`; ghost valid/invalid tint |
 | Production HUD | Settlement + selected building inventories; production strip when a building is selected |
-| JSON saves | Same as desktop: Save/Load in `user://`, **Download save**, Import save; settlement demo stores `demo.playable_lumber` step progress in JSON |
+| JSON saves | Same as desktop: Save/Load in `user://`, **Download save**, Import save; stores `demo.playable_lumber` or `demo.playable_northern_expedition` step progress |
 | Audio | First user interaction may play a sample sound (autoplay policy) |
 
 ## Does not work (by design)
@@ -25,7 +25,7 @@ What the **Web** export of `scenes/poc_main.tscn` is meant to demonstrate, and w
 
 ## Settlement demo parity (desktop vs browser)
 
-1. **Start settlement demo** — objective panel shows step 1 (boards).
+1. **Start settlement demo** or **Northern expedition** — objective panel shows step 1 for the chosen profile.
 2. Place lumberjack + trees; **Save JSON** in the HUD.
 3. **Return to menu** → **Continue JSON save** must be enabled; continue restores step/progress.
 4. On web, also **Download save** and re-import via **Import JSON save** after a refresh (IndexedDB `user://` is per-origin).
