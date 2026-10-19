@@ -20,10 +20,12 @@ static func attach_to_building(
 ) -> void:
 	var components: Dictionary = export.get("components", {})
 	if attach_producer and components.has("Producer"):
+		var producer_cfg: Dictionary = components["Producer"]
 		var lines := create_producer_lines(export)
 		if not lines.is_empty():
+			var util_kind := str(producer_cfg.get("utilization", "FullUtilization"))
 			building.producer = Producer.new(
-				building, session.scheduler, lines, producer_auto_init
+				building, session.scheduler, lines, producer_auto_init, util_kind
 			)
 	if not defer_collecting:
 		var collecting := ContentLoader.create_collecting_from_export(export)

@@ -9,6 +9,8 @@ var kind: String
 var island: Island
 var position: Vector2i
 var owner: int = 0
+var inventory: Inventory
+var radius: int = 8
 
 
 func _init(
@@ -17,7 +19,9 @@ func _init(
 	p_kind: String,
 	p_island: Island,
 	p_position: Vector2i,
-	p_owner: int = 0
+	p_owner: int = 0,
+	p_inventory: Inventory = null,
+	p_radius: int = 8
 ) -> void:
 	worldid = p_worldid
 	unit_type_id = p_unit_type_id
@@ -25,3 +29,5 @@ func _init(
 	island = p_island
 	position = p_position
 	owner = p_owner
+	inventory = p_inventory
+	radius = p_radius

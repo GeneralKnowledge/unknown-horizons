@@ -122,7 +122,14 @@ def export_unit(yaml_path: Path, res_map: dict[str, int]) -> dict:
 					if "consumes" in fixed:
 						fixed["consumes"] = fix_res_list(fixed["consumes"])
 					lines[str(prod_line_id(lk))] = fixed
-				out["components"]["Producer"] = {"productionlines": lines}
+				prod_out: dict = {"productionlines": lines}
+				util = value.get("utilization")
+				if util:
+					if isinstance(util, list):
+						util = util[0] if util else None
+					if util:
+						prod_out["utilization"] = str(util)
+				out["components"]["Producer"] = prod_out
 			elif key == "StorageComponent":
 				for storage_type, cfg in value.items():
 					slot_sizes = {}
@@ -198,7 +205,14 @@ def export_building(
 					if "consumes" in fixed:
 						fixed["consumes"] = fix_res_list(fixed["consumes"])
 					lines[str(prod_line_id(lk))] = fixed
-				out["components"]["Producer"] = {"productionlines": lines}
+				prod_out: dict = {"productionlines": lines}
+				util = value.get("utilization")
+				if util:
+					if isinstance(util, list):
+						util = util[0] if util else None
+					if util:
+						prod_out["utilization"] = str(util)
+				out["components"]["Producer"] = prod_out
 			elif key == "StorageComponent":
 				for storage_type, cfg in value.items():
 					slot_sizes = {}

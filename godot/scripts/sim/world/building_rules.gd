@@ -16,6 +16,18 @@ static func is_buildable_upon(building_id: int) -> bool:
 	return is_buildable_upon_building_id(building_id)
 
 
+static func is_nature_field_building_id(building_id: int) -> bool:
+	var stem := ContentLoader.stem_for_building_id(building_id)
+	var export := ContentLoader.load_building_export(stem)
+	return str(export.get("baseclass", "")) == "nature.Field"
+
+
+static func is_farm_building_id(building_id: int) -> bool:
+	var stem := ContentLoader.stem_for_building_id(building_id)
+	var export := ContentLoader.load_building_export(stem)
+	return str(export.get("baseclass", "")).ends_with(".Farm")
+
+
 static func terrain_requirement(building_id: int) -> int:
 	var stem := ContentLoader.stem_for_building_id(building_id)
 	var export := ContentLoader.load_building_export(stem)

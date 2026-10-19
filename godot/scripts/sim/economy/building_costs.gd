@@ -21,6 +21,32 @@ static func can_afford(settlement: Settlement, building_id: int) -> bool:
 	return missing_resources(settlement, building_id).is_empty()
 
 
+static func can_afford_costs(settlement: Settlement, costs: Dictionary) -> bool:
+	return missing_for_costs(settlement, costs).is_empty()
+
+
+static func missing_for_costs(settlement: Settlement, costs: Dictionary) -> Dictionary:
+	var missing: Dictionary = {}
+	if settlement == null:
+		return {GameConstants.RES["GOLD"]: 1}
+	for res_id in costs.keys():
+		var need: int = int(costs[res_id])
+		var have: int = settlement.inventory.amount(int(res_id))
+		if have < need:
+			missing[int(res_id)] = need - have
+	return missing
+
+
+static func try_pay_costs(settlement: Settlement, costs: Dictionary) -> bool:
+	if settlement == null:
+		return false
+	if not can_afford_costs(settlement, costs):
+		return false
+	for res_id in costs.keys():
+		settlement.inventory.alter(int(res_id), -int(costs[res_id]))
+	return true
+
+
 static func missing_resources(settlement: Settlement, building_id: int) -> Dictionary:
 	var missing: Dictionary = {}
 	if settlement == null:

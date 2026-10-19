@@ -25,6 +25,7 @@ func execute(session: GameSession) -> Variant:
 			int(export.get("size_y", 1))
 		):
 			building.island.set_road_tile(tile, false)
+	building.island.unregister_resource_provider(building)
 	building.island.release_tiles(building)
 	if building.settlement != null:
 		building.settlement.remove_building(building)
