@@ -1,5 +1,7 @@
 extends GutTest
 
+const _FarmFieldPlacement = preload("res://scripts/sim/world/farm_field_placement.gd")
+
 ## Legacy provider_buildings / get_providers_in_range for collectors and farms.
 
 
@@ -41,8 +43,8 @@ func test_lumberjack_collector_ignores_non_tree_providers() -> void:
 
 func test_farm_get_providers_uses_same_index() -> void:
 	var gts := GameTestSession.start(true)
-	var farm: Building = gts.build(GameConstants.BUILDINGS["FARM"], 30, 30)
-	var off: Vector2i = GameTestHelpers.FARM_FIELD_OFFSETS[1]
+	var farm: Building = gts.build(GameConstants.BUILDINGS["FARM"], 30, 30, false)
+	var off: Vector2i = _FarmFieldPlacement.FIELD_OFFSETS[1]
 	var corn: Building = gts.build(
 		GameConstants.BUILDINGS["CORN_FIELD"],
 		farm.position.x + off.x,
@@ -58,7 +60,7 @@ func test_farm_get_providers_uses_same_index() -> void:
 	var from_index: Array = gts.session.island.get_providers_in_range(
 		farm,
 		farm.get_radius(),
-		farm._consumed_resource_ids(),
+		farm.get_consumed_resource_ids(),
 		farm.settlement
 	)
 	assert_true(corn in from_farm)

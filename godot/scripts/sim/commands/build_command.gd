@@ -1,6 +1,8 @@
 class_name BuildCommand
 extends SimCommand
 
+const _FarmFields = preload("res://scripts/sim/world/farm_field_placement.gd")
+
 var building_id: int
 var x: int
 var y: int
@@ -15,6 +17,8 @@ var defer_producer: bool = false
 var defer_collecting: bool = false
 ## When true, skip live buildability checks and place at saved coordinates (SQLite import).
 var trust_legacy_placement: bool = false
+## When true (default for farms), ring-placed crop fields are built after the farm.
+var auto_place_farm_fields: bool = true
 
 
 func _init(
@@ -82,6 +86,12 @@ func execute(session: GameSession) -> Variant:
 		for tile in tiles:
 			island.set_road_tile(tile)
 	MessageBus.building_placed.emit(building)
+	if (
+		auto_place_farm_fields
+		and building_id == GameConstants.BUILDINGS["FARM"]
+		and building is Building
+	):
+		_FarmFields.place_surrounding_fields(session, building as Building)
 	MessageBus.settlement_updated.emit()
 	return building
 

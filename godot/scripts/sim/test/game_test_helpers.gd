@@ -2,17 +2,7 @@ class_name GameTestHelpers
 extends RefCounted
 
 const FoundSettlementCommand = preload("res://scripts/sim/commands/found_settlement_command.gd")
-
-const FARM_FIELD_OFFSETS: Array[Vector2i] = [
-	Vector2i(-3, -3),
-	Vector2i(-3, 0),
-	Vector2i(-3, 3),
-	Vector2i(0, 3),
-	Vector2i(3, 3),
-	Vector2i(3, 0),
-	Vector2i(3, -3),
-	Vector2i(0, -3),
-]
+const _FarmFieldPlacement = preload("res://scripts/sim/world/farm_field_placement.gd")
 
 
 static func new_settlement(session: GameSession, pos: Vector2i = TestMapFactory.default_settlement_point()) -> Dictionary:
@@ -53,11 +43,15 @@ static func settle(session: GameSession) -> Dictionary:
 
 
 static func build_farm(gts: GameTestSession, x: int, y: int, field_ids: Array = []) -> Building:
-	var farm: Building = gts.build(GameConstants.BUILDINGS["FARM"], x, y)
+	var farm: Building = gts.build(GameConstants.BUILDINGS["FARM"], x, y, false)
 	if farm == null:
 		return null
-	var limit := mini(field_ids.size(), FARM_FIELD_OFFSETS.size())
+	if field_ids.is_empty():
+		_FarmFieldPlacement.place_surrounding_fields(gts.session, farm)
+		return farm
+	var offsets: Array = _FarmFieldPlacement.FIELD_OFFSETS
+	var limit := mini(field_ids.size(), offsets.size())
 	for i in range(limit):
-		var off: Vector2i = FARM_FIELD_OFFSETS[i]
+		var off: Vector2i = offsets[i]
 		gts.build(int(field_ids[i]), x + off.x, y + off.y)
 	return farm

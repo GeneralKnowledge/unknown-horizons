@@ -57,7 +57,7 @@ func get_providers() -> Array:
 		return []
 	if island == null or settlement == null:
 		return []
-	var reslist := _consumed_resource_ids()
+	var reslist := get_consumed_resource_ids()
 	if reslist.is_empty():
 		return []
 	var providers: Array = []
@@ -73,7 +73,7 @@ func get_providers() -> Array:
 	return providers
 
 
-func _consumed_resource_ids() -> Array:
+func get_consumed_resource_ids() -> Array:
 	var ids: Array = []
 	if producer == null:
 		return ids
