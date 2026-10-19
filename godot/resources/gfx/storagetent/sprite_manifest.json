@@ -2,7 +2,7 @@
   "building_stem": "storagetent",
   "building_id": 2,
   "source": "legacy_png",
-  "manifest_version": 1,
+  "manifest_version": 2,
   "atlas_sqlite": null,
   "animations": {
     "idle": {

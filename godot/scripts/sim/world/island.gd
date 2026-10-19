@@ -7,6 +7,7 @@ var settlements: Array[Settlement] = []
 var ground_map: Dictionary = {} # Vector2i -> SimGround.Kind
 var terrain_cache: TerrainBuildabilityCache
 var occupied_tiles: Dictionary = {} # Vector2i -> Building
+var road_tiles: Dictionary = {} # Vector2i -> true (E3 subset)
 
 
 func _init(p_worldid: int, p_session: GameSession) -> void:
@@ -33,6 +34,17 @@ func get_ground(coords: Vector2i) -> int:
 
 func is_land(coords: Vector2i) -> bool:
 	return get_ground(coords) == SimGround.Kind.LAND
+
+
+func set_road_tile(coords: Vector2i, on: bool = true) -> void:
+	if on:
+		road_tiles[coords] = true
+	elif road_tiles.has(coords):
+		road_tiles.erase(coords)
+
+
+func is_road(coords: Vector2i) -> bool:
+	return road_tiles.has(coords)
 
 
 func get_island_at(point: Vector2i) -> Island:

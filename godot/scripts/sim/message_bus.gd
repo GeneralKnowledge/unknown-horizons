@@ -8,3 +8,5 @@ signal building_selected(building: Building)
 signal settlement_updated
 signal inventory_changed(inventory: Inventory)
 signal build_feedback(message: String, is_error: bool)
+signal logbook_entry(message: String)
+signal collector_motion_changed

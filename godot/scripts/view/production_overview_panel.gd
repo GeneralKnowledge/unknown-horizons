@@ -40,9 +40,17 @@ func _refresh() -> void:
 		_state.text = "No producer on this building"
 		_toggle_btn.disabled = true
 		return
-	_state.text = "State: %s | active: %s" % [
+	var lines: PackedStringArray = []
+	for production in producer.get_productions():
+		lines.append(
+			"line %d (%s)"
+			% [production.get_production_line_id(), ProductionStates.name_for(production.get_state())]
+		)
+	var detail := ", ".join(lines) if not lines.is_empty() else "—"
+	_state.text = "State: %s | active: %s\n%s" % [
 		ProductionStates.name_for(producer._get_current_state()),
 		str(producer.is_active()),
+		detail,
 	]
 	_toggle_btn.disabled = false
 

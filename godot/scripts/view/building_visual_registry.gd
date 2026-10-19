@@ -51,6 +51,8 @@ func _pack_sprite_manifest_path() -> String:
 
 
 func animation_for_building(building: Building) -> StringName:
+	if _building_has_active_collector_haul(building):
+		return &"working"
 	var producer := building.get_producer()
 	if producer == null:
 		return &"idle"
@@ -58,6 +60,17 @@ func animation_for_building(building: Building) -> StringName:
 	if state == ProductionStates.PRODUCING:
 		return &"working"
 	return &"idle"
+
+
+static func _building_has_active_collector_haul(building: Building) -> bool:
+	if building.collecting == null:
+		return false
+	for collector in building.collecting.collectors:
+		if collector is BuildingCollector:
+			var bc := collector as BuildingCollector
+			if bc.state == "moving" or bc.state == "working":
+				return true
+	return false
 
 
 func _load_manifest_for_stem(stem: String, manifest_path: String) -> void:

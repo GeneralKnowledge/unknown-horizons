@@ -4,6 +4,7 @@ extends RefCounted
 const WORK_DURATION_TICKS := 16
 const USE_PATHFINDING_E2 := true
 const TICKS_PER_PATH_STEP := 2
+const RETURN_HOME_AFTER_JOB := true
 
 var home_building: Building
 var session: GameSession
@@ -11,6 +12,15 @@ var unit_type_id: int
 var legacy_unit_worldid: int = -1
 var _state := "idle"
 var _active_job: CollectorJob
+var view_path: Array = []
+var view_travel_ticks: int = 0
+var view_travel_start_tick: int = 0
+var view_target_grid: Vector2i = Vector2i.ZERO
+
+
+var state: String:
+	get:
+		return _state
 
 
 func _init(p_home: Building, p_session: GameSession, p_unit_type: int) -> void:
@@ -40,7 +50,8 @@ func search_job() -> void:
 	job_list.sort_jobs()
 	var job: CollectorJob = job_list.jobs[0]
 	_active_job = job
-	var travel_ticks := _travel_ticks_to_job(job)
+	view_target_grid = job.target.position
+	var travel_ticks := _start_travel(home_building.position, job.target.position)
 	if travel_ticks > 0:
 		_state = "moving"
 		session.scheduler.add_new_object(_begin_work_after_travel, self, travel_ticks)
@@ -51,17 +62,43 @@ func search_job() -> void:
 
 func _begin_work_after_travel() -> void:
 	_state = "working"
+	_clear_view_motion()
 	session.scheduler.add_new_object(_finish_active_job, self, WORK_DURATION_TICKS)
 
 
-func _travel_ticks_to_job(job: CollectorJob) -> int:
+func _start_travel(from: Vector2i, to: Vector2i) -> int:
 	if not USE_PATHFINDING_E2:
 		return 0
-	var target: Vector2i = job.target.position
-	var path := IslandPathfinder.find_path(home_building.island, home_building.position, target)
+	var path := IslandPathfinder.find_path(home_building.island, from, to)
+	view_path = path
 	if path.is_empty():
+		view_travel_ticks = 0
 		return 0
-	return maxi(0, (path.size() - 1) * TICKS_PER_PATH_STEP)
+	view_travel_ticks = maxi(0, (path.size() - 1) * TICKS_PER_PATH_STEP)
+	view_travel_start_tick = session.scheduler.cur_tick
+	if view_travel_ticks > 0:
+		MessageBus.collector_motion_changed.emit()
+	return view_travel_ticks
+
+
+func get_view_grid_position() -> Vector2i:
+	if view_path.is_empty() or view_travel_ticks <= 0:
+		return home_building.position
+	var elapsed := session.scheduler.cur_tick - view_travel_start_tick
+	var t := clampf(float(elapsed) / float(view_travel_ticks), 0.0, 1.0)
+	var idx := int(round(t * float(view_path.size() - 1)))
+	idx = clampi(idx, 0, view_path.size() - 1)
+	return view_path[idx]
+
+
+func _clear_view_motion() -> void:
+	view_path = []
+	view_travel_ticks = 0
+	MessageBus.collector_motion_changed.emit()
+
+
+func _travel_ticks_to_job(job: CollectorJob) -> int:
+	return _start_travel(home_building.position, job.target.position)
 
 
 func _resources_to_collect() -> Array:
@@ -110,8 +147,21 @@ func _finish_active_job() -> void:
 		push_warning("BuildingCollector._finish_active_job without active job")
 		_state = "idle"
 		return
+	var job_target := _active_job.target.position
 	_finish_job(_active_job)
 	_active_job = null
+	if RETURN_HOME_AFTER_JOB and job_target != home_building.position:
+		var back_ticks := _start_travel(job_target, home_building.position)
+		if back_ticks > 0:
+			_state = "moving"
+			session.scheduler.add_new_object(_on_returned_home, self, back_ticks)
+			return
+	_on_returned_home()
+
+
+func _on_returned_home() -> void:
+	_state = "idle"
+	_clear_view_motion()
 
 
 func _finish_job(job: CollectorJob) -> void:
@@ -123,7 +173,14 @@ func _finish_job(job: CollectorJob) -> void:
 	if amount > 0:
 		job.target.get_storage().alter(res_id, -amount)
 		get_home_inventory().alter(res_id, amount)
-	_state = "idle"
+		MessageBus.logbook_entry.emit(
+			"Collector delivered %d of res %d to %s"
+			% [
+				amount,
+				res_id,
+				ContentLoader.stem_for_building_id(home_building.building_id),
+			]
+		)
 
 
 ## Apply in-flight goods from legacy `collector_job` at load (no path replay).

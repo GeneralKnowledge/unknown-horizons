@@ -32,6 +32,8 @@ var _status_timer: float = 0.0
 var _objective_panel: ObjectiveHudPanel
 var _playable_demo_active := false
 var _snapshot_extra: Callable = Callable()
+var _logbook: LogbookHudPanel
+var _inspection_tabs: TabContainer
 
 
 func _ready() -> void:
@@ -99,6 +101,49 @@ func get_objective_panel() -> ObjectiveHudPanel:
 	return _objective_panel
 
 
+func ensure_logbook_panel() -> void:
+	if _logbook != null:
+		return
+	_logbook = LogbookHudPanel.new()
+	$VBox.add_child(_logbook)
+	var hint_idx := _hint.get_index() if _hint != null else $VBox.get_child_count()
+	$VBox.move_child(_logbook, hint_idx)
+
+
+func ensure_inspection_tabs() -> void:
+	if _inspection_tabs != null:
+		return
+	_inspection_tabs = TabContainer.new()
+	_inspection_tabs.custom_minimum_size = Vector2(0, 140)
+	var vbox := $VBox
+	var header_idx := _header.get_index()
+	vbox.add_child(_inspection_tabs)
+	vbox.move_child(_inspection_tabs, header_idx + 1)
+	var settlement_page := VBoxContainer.new()
+	settlement_page.name = "SettlementTab"
+	_inspection_tabs.add_child(settlement_page)
+	_inspection_tabs.set_tab_title(0, "Settlement")
+	vbox.remove_child(_settlement_panel)
+	settlement_page.add_child(_settlement_panel)
+	var building_page := VBoxContainer.new()
+	building_page.name = "BuildingTab"
+	_inspection_tabs.add_child(building_page)
+	_inspection_tabs.set_tab_title(1, "Selected")
+	vbox.remove_child(_building_panel)
+	vbox.remove_child(_producer_label)
+	building_page.add_child(_building_panel)
+	building_page.add_child(_producer_label)
+	var actions_page := VBoxContainer.new()
+	actions_page.name = "ActionsTab"
+	_inspection_tabs.add_child(actions_page)
+	_inspection_tabs.set_tab_title(2, "Actions")
+	vbox.remove_child(_warehouse)
+	actions_page.add_child(_warehouse)
+	if _production != null and _production.get_parent() == vbox:
+		vbox.remove_child(_production)
+		actions_page.add_child(_production)
+
+
 func _on_build_feedback(message: String, is_error: bool) -> void:
 	show_status(message, is_error)
 
@@ -157,6 +202,7 @@ func bind(p_session: GameSession, build_tool: BuildTool = null) -> void:
 		_production = ProductionOverviewPanel.new()
 		$VBox.add_child(_production)
 		$VBox.move_child(_production, _palette.get_index() + 1)
+	ensure_inspection_tabs()
 func bind_context(context_manager: ViewContextManager) -> void:
 	if _context_panel != null:
 		_context_panel.highlight(context_manager.get_context_name())

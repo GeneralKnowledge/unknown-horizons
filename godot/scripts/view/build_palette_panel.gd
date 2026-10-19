@@ -89,6 +89,8 @@ func _add_poc_tab() -> void:
 func _stem_button(label: String, cb: Callable = Callable()) -> Button:
 	var btn := Button.new()
 	btn.text = ContentTheme.label_for_build_stem(label) if label != "Tear" else "Tear"
+	if label != "Tear":
+		btn.tooltip_text = _build_cost_tooltip(label)
 	if cb.is_valid():
 		btn.pressed.connect(cb)
 	else:
@@ -125,6 +127,26 @@ func _apply_stem(stem: String) -> void:
 	mode_selected.emit(StringName(stem))
 	_refresh_status()
 	_try_first_click_audio()
+
+
+func _build_cost_tooltip(stem: String) -> String:
+	var building_id := _building_id_for_stem(stem)
+	var costs := BuildingCosts.costs_for_building_id(building_id)
+	if costs.is_empty():
+		return "No settlement cost"
+	var parts: PackedStringArray = []
+	for res_id in costs.keys():
+		var need: int = int(costs[res_id])
+		var label := _resource_label(int(res_id))
+		parts.append("%s: %d" % [label, need])
+	return "Cost: %s" % ", ".join(parts)
+
+
+func _resource_label(res_id: int) -> String:
+	for name in GameConstants.RES:
+		if int(GameConstants.RES[name]) == res_id:
+			return name.to_lower().replace("_", " ")
+	return "res_%d" % res_id
 
 
 func _building_id_for_stem(stem: String) -> int:

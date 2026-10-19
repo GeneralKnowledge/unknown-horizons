@@ -602,19 +602,19 @@ Tick items: `[ ]` → `[x]`.
 
 ## Recommended next 10 tasks (ordered, Godot-first)
 
-1. **Idle/work gfx swap** from producer state + atlas pipeline beyond stem slice.  
-2. **Parity stage 3+** — bakery/pavilion chains (`test_buildings_wave_f4.gd` already partial) + new scenario goldens.  
-3. **Collector pathfinding E3** (roads / walk-home).  
-4. **FieldUtilization** + automated farm fields.  
-5. **View/content tiers** — [`docs/EXTERNAL_GODOT_PORT.md`](docs/EXTERNAL_GODOT_PORT.md), HUD gaps.  
-6. **SP session loop** (ship → found settlement).  
-7. **GUI pytest port** (batch ingame tabs).  
-8. **Game clock** edge cases (`test_timer.py` remainder).  
-9. **Units YAML export** expansion.  
+1. **Collector E3** — road buildability cache, road placement, pathfinder bonuses ([`potential_road_connectivity_cache.gd`](scripts/sim/buildability/potential_road_connectivity_cache.gd) stub landed).  
+2. **FieldUtilization** + automated farm fields.  
+3. **SP session loop** (ship → found settlement).  
+4. **GUI wave C4+** — ships, trade routes (see [`GUI_PORT_STRATEGY.md`](docs/GUI_PORT_STRATEGY.md)).  
+5. **Gfx atlas / stem coverage** beyond M9 demo export set.  
+6. **Game clock** edge cases (`test_timer.py` remainder).  
+7. **Units YAML export** expansion.  
+8. **Browser CI smoke** (WEB_DEPLOYMENT checklist automation).  
+9. **Production overview / warehouse grid** depth vs legacy `test_warehouse.py`.  
 10. **MP / scenarios** (XL deferred).
 
 *Not prioritized:* full legacy `.sqlite` fidelity — frozen per [`docs/LEGACY_IMPORT_FROZEN.md`](docs/LEGACY_IMPORT_FROZEN.md).
 
 ---
 
-*Last updated: **2026-10-18** M8 P3 — appendix C/D synced with GUT + 12 parity goldens; tier-2 building chains marked ported; playable demo in Phase 0.5.*
+*Last updated: **2026-10-19** M9 polish — demo gfx export, collector view, HUD tabs/logbook; M8 P4/P5 launch items merged; next-10 refreshed.*

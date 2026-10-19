@@ -1,6 +1,6 @@
 # Unknown Horizons Godot Port — Project Roadmap
 
-Last verified: **2026-10-18** — `./godot/run_tests.sh` **243** GUT pass; parity golden **12/12**; **Godot-first** — JSON v3 + demo are the product path; legacy SQLite import **frozen** — [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
+Last verified: **2026-10-19** — `./godot/run_tests.sh` **249+** GUT pass; parity golden **14+**; **Godot-first** — JSON v3 + demo are the product path; legacy SQLite import **frozen** — [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md); browser demo on `poc_main.tscn` (see [BROWSER_DEMO.md](BROWSER_DEMO.md)).
 
 ## Vision
 
@@ -77,6 +77,7 @@ Reproducible via `./godot/export_web.sh` → `build/web/`. See [WEB_DEPLOYMENT.m
 | **M6** | Living world (design) | Sections below — no large implementation |
 | **M7** | Legacy save import experiment | **Archived / maintenance-only** — PoC import + fixture regression guards; no new parity scope — [`M7_LEGACY_SAVE.md`](M7_LEGACY_SAVE.md), [`LEGACY_IMPORT_FROZEN.md`](LEGACY_IMPORT_FROZEN.md) |
 | **M8** | Godot-native play | Demo loop polished; JSON save/load in demo + browser; extend Godot-only parity scenarios; PORT_CHECKLIST refresh; view/content tiers — see [M8 backlog](#m8--godot-native-play-backlog) |
+| **M9** | Polish & presentation | Demo-visible idle/work gfx, collector motion, HUD shell — see [M9 backlog](#m9--polish--presentation) |
 
 ## M8 — Godot-native play (backlog)
 
@@ -88,7 +89,20 @@ Ordered work after the Godot-first policy merge. **Out of scope** until reconsid
 | **P1** | Web parity with desktop demo — `.extract.json` or JSON-only path documented; no new sqlite on web | **Done (2026-10):** browser `.extract.json` import + BROWSER/WEB checklists |
 | **P2** | Parity scenarios (Godot-only goldens) — extend stage 3 chains per [`development/godot/parity/README.md`](../../development/godot/parity/README.md) | **Done (2026-10):** `weaver`, `salt_ponds` + goldens |
 | **P3** | PORT_CHECKLIST refresh — sync checkboxes with GUT/parity truth | **Done (2026-10):** Appendix C/D, tier-2 chain rows, `report_matrix.py` |
-| **P4** | View/content — external port tiers ([`EXTERNAL_GODOT_PORT.md`](EXTERNAL_GODOT_PORT.md)), gfx slice, HUD gaps | |
+| **P4** | View/content — external port tiers ([`EXTERNAL_GODOT_PORT.md`](EXTERNAL_GODOT_PORT.md)), gfx slice, HUD gaps | **Done (2026-10):** palette icons, `play_demo.sh`, launch doc |
+| **P5** | Launch path — README, bakery/pavilion parity, `.nojekyll` | **Done (2026-10):** [`GETTING_ON_THE_ROAD.md`](GETTING_ON_THE_ROAD.md) |
+
+## M9 — Polish & presentation
+
+Post-M8 tracks (demo-first). Sim truth stays in `scripts/sim/`; view observes only.
+
+| Track | Delivered (2026-10) | Follow-ups |
+|-------|---------------------|------------|
+| **A — Gfx / idle-work** | `export_gfx.py --demo`, tier-1 stems with idle+working manifests; `BuildingVisualRegistry` treats collector haul + `PRODUCING` as working; event-driven `BuildingView` refresh | More stems beyond demo set; atlas perf |
+| **B — Collectors** | E2 path travel + return-home ticks; `CollectorViewLayer` markers; road tiles on `Island`; GUT pathfinder cases | **B3:** full `PotentialRoadConnectivityCache` + road build rules (PORT_CHECKLIST E3) |
+| **C — GUI** | Tabbed HUD (Settlement / Selected / Actions), warehouse transfers, logbook, build cost tooltips | C4 ships/trade GUI blocked on sim |
+
+GUI wave mapping: [`GUI_PORT_STRATEGY.md`](GUI_PORT_STRATEGY.md). Checklist: [`PORT_CHECKLIST_GUI.md`](../PORT_CHECKLIST_GUI.md).
 
 ## Future ideas (historical — cross-engine)
 
