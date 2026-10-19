@@ -123,20 +123,25 @@ func _source_buildings() -> Array:
 	return session.get_buildings_on_island(home_building.island)
 
 
-func _build_job_list(radius: int, home_size: Vector2i) -> CollectorJobList:
-	var job_list := CollectorJobList.new(self, CollectorJobList.OrderBy.FEWEST_AVAILABLE_AND_DISTANCE)
+func _job_list_order() -> int:
+	return CollectorJobList.OrderBy.FEWEST_AVAILABLE_AND_DISTANCE
+
+
+func _build_job_list(radius: int, _home_size: Vector2i) -> CollectorJobList:
+	var job_list := CollectorJobList.new(self, _job_list_order())
 	var collect_res: Array = _resources_to_collect()
 	if collect_res.is_empty():
 		return job_list
-	for building in _source_buildings():
-		if building == home_building:
-			continue
+	var sources: Array = home_building.island.get_providers_in_range(
+		home_building,
+		radius,
+		collect_res,
+		home_building.settlement
+	)
+	for building in sources:
 		for res_id in collect_res:
 			var available: int = building.get_storage().amount(int(res_id))
 			if available <= 0:
-				continue
-			var dist := _distance_rect_to_point(home_building.position, home_size, building.position)
-			if dist > float(radius):
 				continue
 			job_list.append_job(CollectorJob.new(building, [int(res_id)], available))
 	return job_list

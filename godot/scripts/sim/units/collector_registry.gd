@@ -1,6 +1,8 @@
 class_name CollectorRegistry
 extends RefCounted
 
+const FieldCollectorScript = preload("res://scripts/sim/units/field_collector.gd")
+
 ## Maps exported unit baseclass → collector implementation.
 
 
@@ -21,6 +23,8 @@ static func create_collector(
 			collector = AnimalCollector.new(home_building, session, unit_type_id)
 		elif baseclass.ends_with("StorageCollector"):
 			collector = StorageCollector.new(home_building, session, unit_type_id)
+		elif baseclass.ends_with("FieldCollector"):
+			collector = FieldCollectorScript.new(home_building, session, unit_type_id)
 		else:
 			collector = BuildingCollector.new(home_building, session, unit_type_id)
 	if collector is BuildingCollector and legacy_unit_worldid > 0:
