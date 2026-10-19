@@ -29,34 +29,59 @@ func _on_tracker_state_changed() -> void:
 
 
 func _process(delta: float) -> void:
-	if not _should_show_clay_marker():
+	if _active_marker().is_empty():
 		return
 	_pulse += delta
 	queue_redraw()
 
 
 func clay_marker_center() -> Vector2:
+	return marker_center_for_step("clay_deposit")
+
+
+func marker_center_for_step(step_key: String) -> Vector2:
 	if _map_view == null:
 		return Vector2.ZERO
-	var at := PlayableDemoConfig.clay_deposit_point()
+	var at := PlayableDemoConfig.hint_point_for_step(step_key)
+	if at == Vector2i.ZERO:
+		at = PlayableDemoConfig.clay_deposit_point()
 	return _map_view.grid_to_screen(at)
 
 
-func _should_show_clay_marker() -> bool:
-	if _tracker == null or _map_view == null:
-		return false
-	if _tracker.completed:
-		return false
+func _active_marker() -> Dictionary:
+	if _tracker == null or _tracker.completed:
+		return {}
 	var step := _tracker.current_step()
-	if str(step.get("id", "")) != "bricks":
-		return false
-	return _tracker.clay_pit_count() < 1
+	var step_id := str(step.get("id", ""))
+	if step_id == "bricks" and _tracker.clay_pit_count() < 1:
+		return _marker_cfg("clay_deposit", "Clay deposit")
+	if step_id == "food" and _tracker.hunter_count() < 1 and _tracker.fisher_count() < 1:
+		return _marker_cfg("food", "Hunter / fisher")
+	if step_id == "tools" and _tracker.toolmaker_count() < 1:
+		return _marker_cfg("tools", "Toolmaker")
+	if step_id == "textile" and _tracker.weaver_count() < 1:
+		return _marker_cfg("textile", "Weaver")
+	if step_id == "dlc_smokery" and _tracker.dlc_count("NORTHERN_SMOKERY") < 1:
+		return _marker_cfg("dlc_smokery", "Northern smokery")
+	if step_id == "dlc_faith" and _tracker.dlc_count("NORTHERN_SIGNAL_TOWER") < 1:
+		return _marker_cfg("dlc_tower", "Signal tower")
+	return {}
+
+
+func _marker_cfg(key: String, default_label: String) -> Dictionary:
+	var hints := PlayableDemoConfig.world_hints()
+	var node: Variant = hints.get(key, {})
+	var label := default_label
+	if typeof(node) == TYPE_DICTIONARY and node.has("label"):
+		label = str(node.get("label"))
+	return {"key": key, "label": label}
 
 
 func _draw() -> void:
-	if not _should_show_clay_marker():
+	var marker := _active_marker()
+	if marker.is_empty() or _map_view == null:
 		return
-	var center := clay_marker_center()
+	var center := marker_center_for_step(str(marker.get("key", "clay_deposit")))
 	var pulse := 0.5 + 0.5 * sin(_pulse * 3.2)
 	var outer := 22.0 + pulse * 6.0
 	var inner := 14.0 + pulse * 3.0
@@ -67,7 +92,7 @@ func _draw() -> void:
 	draw_circle(center + Vector2(0, -28), 4.0, ring)
 	draw_line(center + Vector2(0, -24), center + Vector2(0, -14), ring, 2.0)
 	var font := ThemeDB.fallback_font
-	var label := "Clay deposit"
+	var label := str(marker.get("label", "Build here"))
 	var fs := 13
 	var tw := font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, fs)
 	draw_string(

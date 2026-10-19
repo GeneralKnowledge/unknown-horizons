@@ -1,4 +1,5 @@
 {
+  "demo_id": "playable_lumber",
   "map_id": "development",
   "settlement": { "x": 30, "y": 30 },
   "clay_deposit": {

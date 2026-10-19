@@ -1,0 +1,83 @@
+{
+  "demo_id": "playable_northern_expedition",
+  "profile": "expedition",
+  "map_id": "development",
+  "settlement": { "x": 30, "y": 30 },
+  "clay_deposit": {
+    "x": 36,
+    "y": 36,
+    "spawn_at_start": true,
+    "seed_raw_clay": 16
+  },
+  "world_hints": {
+    "clay_deposit": { "x": 36, "y": 36, "label": "Clay deposit" },
+    "food": { "x": 29, "y": 34, "label": "Hunter camp" },
+    "tools": { "x": 32, "y": 22, "label": "Toolmaker" },
+    "textile": { "x": 30, "y": 20, "label": "Weaver" },
+    "dlc_smokery": { "x": 40, "y": 28, "label": "Northern smokery" },
+    "dlc_tower": { "x": 36, "y": 22, "label": "Signal tower" }
+  },
+  "starting_gold": 1100,
+  "starting_tools": 35,
+  "starting_boards": 8,
+  "success_message": "Northern expedition complete — lumber, food, bricks, tools, textiles, and DLC faith delivered. Save JSON to continue expanding.",
+  "steps": [
+    {
+      "id": "boards",
+      "title": "Timber for the warehouse",
+      "resource": "BOARDS",
+      "warehouse_amount": 10,
+      "min_trees": 3,
+      "require_lumberjack": true
+    },
+    {
+      "id": "food",
+      "title": "Feed the settlement",
+      "resource": "FOOD",
+      "warehouse_amount": 8,
+      "require_any_buildings": ["HUNTER", "FISHER"],
+      "hint": "Build a hunter or fisher; hunters need deer meat in range to smoke food."
+    },
+    {
+      "id": "bricks",
+      "title": "Brickyard chain",
+      "resource": "BRICKS",
+      "warehouse_amount": 6,
+      "require_buildings": ["CLAY_PIT", "BRICKYARD"]
+    },
+    {
+      "id": "tools",
+      "title": "Workshop tools",
+      "resource": "TOOLS",
+      "warehouse_amount": 6,
+      "require_buildings": ["TOOLMAKER"]
+    },
+    {
+      "id": "textile",
+      "title": "Weaver output",
+      "resource": "TEXTILE",
+      "warehouse_amount": 4,
+      "require_buildings": ["WEAVER"]
+    },
+    {
+      "id": "boards_reserve",
+      "title": "Expand stockpiles",
+      "resource": "BOARDS",
+      "warehouse_amount": 16
+    },
+    {
+      "id": "dlc_smokery",
+      "title": "Northern smokery",
+      "resource": "FOOD",
+      "warehouse_amount": 12,
+      "require_buildings": ["NORTHERN_SMOKERY"]
+    },
+    {
+      "id": "dlc_faith",
+      "title": "Signal tower faith",
+      "resource": "FAITH",
+      "warehouse_amount": 2,
+      "require_buildings": ["NORTHERN_SIGNAL_TOWER"]
+    }
+  ]
+}
