@@ -76,6 +76,8 @@ func reassign_worldid(obj: Variant, new_worldid: int) -> bool:
 func register_building(building: Building) -> void:
 	_buildings[building.worldid] = building
 	registry.register(building)
+	if building.island != null:
+		building.island.register_resource_provider(building)
 
 
 func get_building(worldid: int) -> Building:

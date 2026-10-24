@@ -1,6 +1,8 @@
 class_name Island
 extends RefCounted
 
+const _ProviderHandlerScript = preload("res://scripts/sim/world/provider_handler.gd")
+
 var worldid: int
 var session: GameSession
 var settlements: Array[Settlement] = []
@@ -9,6 +11,7 @@ var terrain_cache: TerrainBuildabilityCache
 var occupied_tiles: Dictionary = {} # Vector2i -> Building
 var road_tiles: Dictionary = {} # Vector2i -> true (E3 subset)
 var road_connectivity: PotentialRoadConnectivityCache = PotentialRoadConnectivityCache.new()
+var provider_handler: RefCounted = _ProviderHandlerScript.new()
 
 
 func _init(p_worldid: int, p_session: GameSession) -> void:
@@ -157,3 +160,55 @@ func explain_placement_failure(
 		if not settlement.can_place_building(origin, size):
 			return "Outside settlement build area"
 	return ""
+
+
+func register_resource_provider(building: Building) -> void:
+	var provided := building.get_provided_resource_ids()
+	if provided.is_empty():
+		return
+	provider_handler.register(building, provided)
+
+
+func unregister_resource_provider(building: Building) -> void:
+	provider_handler.unregister(building)
+
+
+## Legacy BuildingOwner.get_providers_in_range (RadiusRect + reslist + settlement owner).
+func get_providers_in_range(
+	origin_building: Building,
+	radius: int,
+	reslist: Array,
+	settlement: Settlement = null
+) -> Array:
+	if reslist.is_empty():
+		return []
+	var candidates: Array = provider_handler.buildings_for_resources(reslist)
+	var out: Array = []
+	var self_export := origin_building.get_building_export()
+	var self_borders := BuildFootprint.rect_borders(
+		origin_building.position,
+		int(self_export.get("size_x", 1)),
+		int(self_export.get("size_y", 1))
+	)
+	for building in candidates:
+		if building == origin_building:
+			continue
+		if settlement != null and building.settlement != settlement:
+			continue
+		if _provider_in_radius(building, self_borders, radius):
+			out.append(building)
+	return out
+
+
+func _provider_in_radius(building: Building, center_borders: Dictionary, radius: int) -> bool:
+	var export := building.get_building_export()
+	var tiles := BuildFootprint.origin_tiles(
+		building.position,
+		int(export.get("size_x", 1)),
+		int(export.get("size_y", 1))
+	)
+	for tile in tiles:
+		var pt: Vector2i = tile as Vector2i
+		if BuildFootprint._distance_point_to_rect_squared(pt, center_borders) <= radius * radius:
+			return true
+	return false
