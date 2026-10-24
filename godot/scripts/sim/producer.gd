@@ -7,12 +7,22 @@ var _inactive_productions: Dictionary = {}
 var _scheduler: GameScheduler
 var instance: Variant
 var _active_flag: bool = true
+var _utilization: ProductionUtilization = ProductionUtilization.create("FullUtilization")
+var _utilization_kind: String = "FullUtilization"
 
 
-func _init(p_instance: Variant, p_scheduler: GameScheduler, lines: Dictionary, auto_init: bool = true) -> void:
+func _init(
+	p_instance: Variant,
+	p_scheduler: GameScheduler,
+	lines: Dictionary,
+	auto_init: bool = true,
+	utilization_kind: String = "FullUtilization"
+) -> void:
 	instance = p_instance
 	_scheduler = p_scheduler
 	production_lines = lines
+	_utilization_kind = utilization_kind
+	_utilization = ProductionUtilization.create(utilization_kind)
 	if auto_init:
 		for prod_line_id in production_lines.keys():
 			var attrs: Dictionary = production_lines[prod_line_id]
@@ -169,3 +179,15 @@ func _get_current_state() -> int:
 		if state >= 0 and current_state < state:
 			current_state = state
 	return current_state
+
+
+func capacity_utilization() -> float:
+	return _utilization.capacity_utilization(self)
+
+
+func capacity_utilization_below(limit: float) -> bool:
+	return _utilization.capacity_utilization_below(limit, self, _scheduler)
+
+
+func get_utilization_kind() -> String:
+	return _utilization_kind
